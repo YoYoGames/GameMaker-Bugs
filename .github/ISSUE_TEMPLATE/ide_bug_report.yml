@@ -3,7 +3,7 @@ description: Bug with the IDE (not licensing!)
 title: "[Bug]: "
 labels: ["ide-bug", "triage"]
 body:
-- type: markdown
+  - type: markdown
     attributes:
       value: File a bug report for anything to do with general usage of the GameMaker IDE (except for account access and licencing issues - please send the Helpdesk a contact-us ticket for these). Please do ensure you have followed our Required SDKs FAQ guidance for how your specific version of GameMaker needs to be set up and that you do not have a firewall blocking GameMaker and that any Windows/Mac/Ubuntu user account permissions or any antivirus clients have been configured per our permissions guide.
   - type: markdown
