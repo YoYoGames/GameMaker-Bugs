@@ -26,11 +26,11 @@ body:
       label: Steps To Reproduce
       description: Add the detailed, ordered steps for someone else to reproduce the issue into the gaps below (add as many steps into the middle as you require)
       value: |
-      1. Start GameMaker
-      2. 
-      3. 
-      4. 
-      5. See the issue
+        1. Start GameMaker
+        2. 
+        3. 
+        4. 
+        5. See the issue
     validations:
       required: true
   - type: dropdown
