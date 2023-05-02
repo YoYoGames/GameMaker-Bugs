@@ -68,7 +68,7 @@ body:
   - type: checkboxes
     id: steam
     attributes:
-      label: Are you running GameMaker from inside your Steam library? (If you're not using Steam, just leave the box unticked)
+      label: Are you running GameMaker from inside your Steam library? (If you are not using Steam, just leave the box unticked)
       options:
         - label: I am using Steam
           required: false
@@ -94,7 +94,7 @@ body:
     id: ui-log
     attributes:
       label: ui.log File
-      description: Please find your ui.log file (see the "Open Log in Explorer/Finder" command in the GameMaker Help menu) and ensure you have dropped that file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all bug reports.
+      description: Please find your ui.log file (see the Open Log in Explorer/Finder command in the GameMaker Help menu) and ensure you have dropped that file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all bug reports.
       options:
         - label: I have attached my ui.log file
           required: true
