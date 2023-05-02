@@ -2,7 +2,7 @@ name: IDE Bug Report
 description: File a bug report for anything to do with general usage of the GameMaker IDE (except for account access and licencing issues - please send the Helpdesk a contact-us ticket for these). Please do ensure you have followed our Required SDKs FAQ guidance for how your specific version of GameMaker needs to be set up and that you do not have a firewall blocking GameMaker and that any Windows/Mac/Ubuntu user account permissions or any antivirus clients have been configured per our permissions guide.
 title: "[Bug]: "
 labels: ["ide-bug", "triage"]
-assignees: ''
+assignees: ""
 body:
   - type: markdown
     attributes:
@@ -55,7 +55,6 @@ body:
     id: os
     attributes:
       label: Which operating system(s) are you seeing the problem on?
-      multiple: true
       options:
         - Windows 11
         - Windows 10
@@ -77,7 +76,6 @@ body:
     id: platforms
     attributes:
       label: Which platform(s) are you seeing the problem on?
-      multiple: true
       options:
         - Android
         - GX.games
@@ -108,7 +106,7 @@ body:
         - label: I have attached my compiler log in a text file
           required: true
   - type: checkboxes
-    id: compile-log
+    id: samplw
     attributes:
       label: Sample .yyz File
       description: If the issue is anything to do with compiling your project or in-game bugs, then please Export as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so. This file is often extremely important for in-game bug reports and we will ask for a sample if the issue does not easily reproduce for us.
