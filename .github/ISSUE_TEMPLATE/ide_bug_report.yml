@@ -38,8 +38,7 @@ body:
         1. Start GameMaker
         2. 
         3. 
-        4. 
-        5. See the issue
+        4. See the issue
     validations:
       required: true
   - type: dropdown
@@ -86,7 +85,8 @@ body:
       label: Are you running GameMaker from inside your Steam library? (If you are not using Steam, just leave the box unticked)
       options:
         - label: I am using Steam
-          required: false
+    validations:
+      required: false
   - type: dropdown
     id: platforms
     attributes:
@@ -112,7 +112,8 @@ body:
       description: Please find your ui.log file (see the Open Log in Explorer/Finder command in the GameMaker Help menu) and ensure you have dropped that file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all bug reports.
       options:
         - label: I have attached my ui.log file
-          required: true
+    validations:
+      required: true
   - type: checkboxes
     id: compile-log
     attributes:
@@ -120,7 +121,8 @@ body:
       description: If the issue is anything to do with compiling your project or in-game, then please copy/paste your entire Output Window contents from GameMaker into a new .txt file and ensure you have dropped that .txt file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all compilation and in-game bug reports.
       options:
         - label: I have attached my compiler log in a text file
-          required: true
+    validations:
+      required: true
   - type: checkboxes
     id: sample
     attributes:
@@ -128,7 +130,8 @@ body:
       description: If the issue is anything to do with compiling your project or in-game bugs, then please Export as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so. This file is often extremely important for in-game bug reports and we will ask for a sample if the issue does not easily reproduce for us.
       options:
         - label: I have attached a small sample project
-          required: false
+    validations:
+      required: false
   - type: markdown
     attributes:
       value: Thanks for taking the time to fill out this bug report!
