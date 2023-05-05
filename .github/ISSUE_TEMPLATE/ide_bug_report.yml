@@ -5,9 +5,6 @@ labels: ["ide-bug"]
 body:
   - type: markdown
     attributes:
-      value: Please ensure that you have read and followed these guides before submitting a bug report:  [Required SDKs FAQ](https://help.yoyogames.com/hc/en-us/articles/227860547)  [Permissions Guide](https://help.yoyogames.com/hc/en-us/articles/360022953052)
-  - type: markdown
-    attributes:
       value: For any GameMaker Account or licencing issues please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account).
   - type: markdown
     attributes:
