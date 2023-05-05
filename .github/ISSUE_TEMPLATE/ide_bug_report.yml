@@ -58,20 +58,21 @@ body:
         - Other Release (Please put the exact version number in your Description)
     validations:
       required: true
-  - type: checkboxes
+  - type: dropdown
     id: os
     attributes:
       label: Which operating system(s) are you seeing the problem on?
+      multiple: true
       options: 
-        - label: Windows 11
-        - label: Windows 10
-        - label: Windows 7/8
-        - label: macOS Ventura
-        - label: macOS Monterey
-        - label: macOS Big Sur
-        - label: Ubuntu 22 LTS
-        - label: Ubuntu 20 LTS
-        - label: ChromeOS
+        - Windows 11
+        - Windows 10
+        - Windows 7/8
+        - macOS Ventura
+        - macOS Monterey
+        - macOS Big Sur
+        - Ubuntu 22 LTS
+        - Ubuntu 20 LTS
+        - ChromeOS
   - type: checkboxes
     id: steam
     attributes:
