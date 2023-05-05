@@ -11,10 +11,10 @@ body:
       value: Please do ensure you have followed our [Required SDKs FAQ](https://help.yoyogames.com/hc/en-us/articles/227860547) guidance for how your specific version of GameMaker needs to be set up, that you do not have a firewall blocking GameMaker, and that any Windows/Mac/Ubuntu user account permissions or any antivirus clients have been configured per our [Permissions Guide](https://help.yoyogames.com/hc/en-us/articles/360022953052).
   - type: markdown
     attributes:
-      value: Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up, etc., rather than knowingly filing a duplicate report, as duplicates just slow things down.  - type: markdown
+      value: Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up, etc., rather than knowingly filing a duplicate report, as duplicates just slow things down.
   - type: markdown
     attributes:
-      value: Note also that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
+      value: Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
   - type: textarea
     id: description
     attributes:
