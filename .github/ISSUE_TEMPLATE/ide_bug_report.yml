@@ -80,23 +80,24 @@ body:
       options:
         - label: I am using Steam
           required: false
-  - type: checkboxes
+  - type: dropdown
     id: platforms
     attributes:
       label: Which platform(s) are you seeing the problem on?
+      multiple: true
       options: 
-        - label: Android
-        - label: GX.games
-        - label: HTML5
-        - label: iOS
-        - label: macOS
-        - label: PlayStation 4
-        - label: PlayStation 5
-        - label: Switch
-        - label: tvOS
-        - label: Ubuntu
-        - label: Windows
-        - label: Xbox (GDK)
+        - Android
+        - GX.games
+        - HTML5
+        - iOS
+        - macOS
+        - PlayStation 4
+        - PlayStation 5
+        - Switch
+        - tvOS
+        - Ubuntu
+        - Windows
+        - Xbox (GDK)
   - type: checkboxes
     id: ui-log
     attributes:
