@@ -1,5 +1,5 @@
 name: IDE Bug Report
-description: File a bug report for anything to do with general usage of the GameMaker IDE (except for account access and licencing issues - please send the Helpdesk a ticket (https://contact.gamemaker.io/contact-us#account) for these).
+description: File a bug report for anything to do with general usage of the GameMaker IDE (except for account access and licencing issues - please send the Helpdesk a ticket for these).
 title: "[Bug]: "
 labels: ["ide-bug"]
 body:
