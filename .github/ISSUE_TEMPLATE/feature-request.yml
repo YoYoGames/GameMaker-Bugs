@@ -1,5 +1,5 @@
 name: Feature Request
-about: Suggest an improvement for GameMaker!
+description: Suggest an improvement for GameMaker!
 title: "[FR]: "
 labels: ["feature request"]
 body:
