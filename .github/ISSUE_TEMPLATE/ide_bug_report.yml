@@ -79,12 +79,13 @@ body:
         - Ubuntu 22 LTS
         - Ubuntu 20 LTS
         - ChromeOS
-  - type: checkboxes
+  - type: dropdown
     id: steam
     attributes:
       label: Are you running GameMaker from inside your Steam library? (If you are not using Steam, just leave the box unticked)
       options:
-        - label: I am using Steam
+        - Yes
+        - No
     validations:
       required: false
   - type: dropdown
