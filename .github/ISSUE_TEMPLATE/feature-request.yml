@@ -2,7 +2,7 @@ name: Feature Request
 about: Suggest an improvement for GameMaker!
 title: "[FR]: "
 labels: ["feature request"]
-
+body:
  - type: textarea
     id: description
     attributes:
