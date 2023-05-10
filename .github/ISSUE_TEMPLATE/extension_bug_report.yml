@@ -5,7 +5,7 @@ labels: ["extension-bug"]
 body:
   - type: markdown
     attributes:
-      value: |
+      value: | something here
         Thanks for taking the time to fill out this bug! If you need real-time help, join us on Discord.
   - type: markdown
     attributes:
