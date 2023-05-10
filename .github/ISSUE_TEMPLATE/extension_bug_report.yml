@@ -5,8 +5,9 @@ labels: ["extension-bug"]
 body:
   - type: markdown
     attributes:
-      value: something here |
+      value: |
         Thanks for taking the time to fill out this bug! If you need real-time help, join us on Discord.
+        maybe something else here?
   - type: markdown
     attributes:
       value: For any GameMaker Account or licencing issues please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account). |
