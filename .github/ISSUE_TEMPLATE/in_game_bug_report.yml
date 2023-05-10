@@ -1,16 +1,14 @@
-name: In Game Bug Report
-description: File a bug report for issues that happen when your game is running.
+name: In-Game Bug Report
+description: File a bug report for issues which happen whilst your game is running.
 title: "[Bug]: "
 labels: ["runner-bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        For any GameMaker Account or licencing issues please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account).
+        For any GameMaker Account or licencing issues (including "I can't see all my platforms in Target Manager") please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account) instead of using this form.
         
-        For any GameMaker IDE issues please submit an [IDE Bug](https://github.com/YoYoGames/GameMaker-Bugs/issues/new?assignees=&labels=ide-bug&projects=&template=ide_bug_report.yml&title=%5BBug%5D%3A+).
-        
-        Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up, etc., rather than knowingly filing a duplicate report, as duplicates just slow things down.
+        Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
        
         Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
   - type: textarea
@@ -81,10 +79,19 @@ body:
         - Switch
         - Xbox (GDK)
   - type: checkboxes
+    id: compile-log
+    attributes:
+      label: Compiler Log File
+      description: Please copy/paste your entire _Output Window_ contents from GameMaker into a new .txt file and ensure you have dropped that .txt file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all compilation and in-game bug reports.
+      options:
+        - label: I have attached my compiler log in a text file
+    validations:
+      required: true
+  - type: checkboxes
     id: sample
     attributes:
       label: Sample .yyz File
-      description: If the issue is anything to do with compiling your project or in-game bugs, then please Export as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so. This file is often extremely important for in-game bug reports and we will ask for a sample if the issue does not easily reproduce for us.
+      description: Please _Export_ as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so. This file is often extremely important for in-game bug reports and we will ask for a sample if the issue does not easily reproduce for us.
       options:
         - label: I have attached a small sample project
     validations:
