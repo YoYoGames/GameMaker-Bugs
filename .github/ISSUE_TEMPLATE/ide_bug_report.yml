@@ -86,24 +86,6 @@ body:
         - "No"
     validations:
       required: false
-  - type: dropdown
-    id: platforms
-    attributes:
-      label: Which platform(s) are you seeing the problem on?
-      multiple: true
-      options: 
-        - Windows
-        - macOS
-        - Ubuntu
-        - Android
-        - iOS
-        - tvOS
-        - HTML5
-        - GX.games
-        - PlayStation 4
-        - PlayStation 5
-        - Switch
-        - Xbox (GDK)
   - type: checkboxes
     id: ui-log
     attributes:
