@@ -6,6 +6,7 @@ body:
   - type: markdown
     attributes:
       value: For any GameMaker Account or licencing issues please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account).
+      value: For any GameMaker IDE issues please submit an [IDE Bug](https://github.com/YoYoGames/GameMaker-Bugs/issues/new?assignees=&labels=ide-bug&projects=&template=ide_bug_report.yml&title=%5BBug%5D%3A+).
   - type: markdown
     attributes:
       value: For any GameMaker IDE issues please submit an [IDE Bug](https://github.com/YoYoGames/GameMaker-Bugs/issues/new?assignees=&labels=ide-bug&projects=&template=ide_bug_report.yml&title=%5BBug%5D%3A+).
@@ -20,7 +21,7 @@ body:
     attributes:
       label: Which Extension are you reporting this issue for?
       description: Select the extension 
-      multiple: true
+      multiple: false
       options:
         - Steamworks
         - Epic Online Services
