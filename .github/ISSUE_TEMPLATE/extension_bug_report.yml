@@ -1,7 +1,7 @@
-name: In Game Bug Report
-description: File a bug report for issues that happen when your game is running.
+name: Extension Bug Report
+description: File a bug report for issues that happen with any of our Official Extensions.
 title: "[Bug]: "
-labels: ["runner-bug"]
+labels: ["extension-bug"]
 body:
   - type: markdown
     attributes:
