@@ -114,7 +114,7 @@ body:
         - label: I have attached my compiler log in a text file
     validations:
       required: true
-- type: checkboxes
+  - type: checkboxes
     id: sample
     attributes:
       label: Sample .yyz File
