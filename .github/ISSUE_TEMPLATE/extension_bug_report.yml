@@ -15,6 +15,33 @@ body:
   - type: markdown
     attributes:
       value: Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
+  - type: dropdown
+    id: extension
+    attributes:
+      label: Which Extension are you reporting this issue for?
+      description: Select the extension 
+      multiple: true
+      options:
+        - Steamworks
+        - Epic Online Services
+        - GoG
+        - Firebase
+        - GameJolt
+        - Google Play Billing
+        - GX.games
+        - Apple IAP
+        - Game Center
+        - Google Play Services
+        - Mobile Utils
+        - App Tracking Transparency
+        - H5 Game Ads
+        - Google Play Licencing
+        - Google Sign In
+        - Apple Sign In
+        - Discord
+        - Facebook Instant Games
+    validations:
+      required: true
   - type: textarea
     id: description
     attributes:
