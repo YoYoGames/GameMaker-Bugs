@@ -11,6 +11,7 @@ body:
         Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
        
         Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
+
   - type: textarea
     id: description
     attributes:
@@ -18,6 +19,7 @@ body:
       description: Write a concise yet detailed description of the issue and do include any relevant screenshots at suitable locations in the body of your text. Please do not type/paste lots of code in this field - attach a sample project instead, as requested below. (Also, do not add a web link as your entire bug report and assume we will read the external thread to work it out ourselves, as we will most likely simply close the report!)
     validations:
       required: true
+      
   - type: input
     id: expected
     attributes:
@@ -25,6 +27,7 @@ body:
       description: If it is not obvious from your Description text, what difference would you expect to see once this is fixed?
     validations:
       required: false
+      
   - type: textarea
     id: steps
     attributes:
@@ -37,6 +40,7 @@ body:
         4. See the issue
     validations:
       required: true
+      
   - type: dropdown
     id: repro-rate
     attributes:
@@ -47,6 +51,7 @@ body:
         - Only Sometimes
         - Rarely
         - Only Ever Happened Once 
+        
   - type: dropdown
     id: version
     attributes:
@@ -60,6 +65,7 @@ body:
         - Other Release (Please put the exact version number in your Description)
     validations:
       required: true
+      
   - type: dropdown
     id: os
     attributes:
@@ -75,6 +81,7 @@ body:
         - Ubuntu 22 LTS
         - Ubuntu 20 LTS
         - ChromeOS
+        
   - type: dropdown
     id: platforms
     attributes:
@@ -93,6 +100,7 @@ body:
         - PlayStation 5
         - Switch
         - Xbox (GDK)
+        
   - type: dropdown
     id: steam
     attributes:
@@ -102,6 +110,7 @@ body:
         - "No"
     validations:
       required: false
+      
   - type: checkboxes
     id: ui-log
     attributes:
@@ -109,8 +118,8 @@ body:
       description: Please find your ui.log file (see the _Open Log in Explorer/Finder_ command in the GameMaker _Help_ menu) and ensure you have dropped that file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all IDE bug reports.
       options:
         - label: I have attached my ui.log file
-    validations:
-      required: true
+          required: true
+      
   - type: checkboxes
     id: compile-log
     attributes:
@@ -118,8 +127,8 @@ body:
       description: Please copy/paste your entire _Output Window_ contents from GameMaker into a new .txt file and ensure you have dropped that .txt file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all compilation and in-game bug reports.
       options:
         - label: I have attached my compiler log in a text file
-    validations:
-      required: false
+          required: false
+      
   - type: checkboxes
     id: sample
     attributes:
@@ -127,8 +136,8 @@ body:
       description: Please _Export_ as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so. This file is often extremely important for in-game bug reports and we will ask for a sample if the issue does not easily reproduce for us.
       options:
         - label: I have attached a small sample project
-    validations:
-      required: false
+          required: false
+
   - type: markdown
     attributes:
       value: Thanks for taking the time to fill out this bug report!
