@@ -1,7 +1,7 @@
-name: IDE Bug Report
-description: File a bug report for anything to do with general usage of the GameMaker IDE (although, not licensing issues, as these should be sent as a Helpdesk ticket).
+name: Build Failure Bug Report
+description: File a bug report for anything to do with building your projects inside the GameMaker IDE.
 title: "[Bug]: "
-labels: ["ide-bug"]
+labels: ["build-bug"]
 body:
   - type: markdown
     attributes:
@@ -75,6 +75,24 @@ body:
         - Ubuntu 22 LTS
         - Ubuntu 20 LTS
         - ChromeOS
+  - type: dropdown
+    id: platforms
+    attributes:
+      label: Which platform(s) are you having trouble building this project for?
+      multiple: true
+      options: 
+        - Windows
+        - macOS
+        - Ubuntu
+        - Android
+        - iOS
+        - tvOS
+        - HTML5
+        - GX.games
+        - PlayStation 4
+        - PlayStation 5
+        - Switch
+        - Xbox (GDK)
   - type: dropdown
     id: steam
     attributes:
