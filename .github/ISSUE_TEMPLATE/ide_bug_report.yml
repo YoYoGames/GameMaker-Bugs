@@ -94,19 +94,10 @@ body:
     validations:
       required: true
   - type: checkboxes
-    id: compile-log
-    attributes:
-      label: Compiler Log File
-      description: Please copy/paste your entire _Output Window_ contents from GameMaker into a new .txt file and ensure you have dropped that .txt file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all compilation and in-game bug reports.
-      options:
-        - label: I have attached my compiler log in a text file
-    validations:
-      required: false
-  - type: checkboxes
     id: sample
     attributes:
       label: Sample .yyz File
-      description: Please _Export_ as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so. This file is often extremely important for in-game bug reports and we will ask for a sample if the issue does not easily reproduce for us.
+      description: If you only have this issue when editing a specific sprite/sound/object/script, etc., please _Export_ as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so.
       options:
         - label: I have attached a small sample project
     validations:
