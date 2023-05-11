@@ -1,0 +1,116 @@
+name: IDE Bug Report
+description: File a bug report for anything to do with general usage of the GameMaker IDE (although, not licensing issues, as these should be sent as a Helpdesk ticket).
+title: "[Bug]: "
+labels: ["ide-bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For any GameMaker Account or licencing issues (including "I can't see all my platforms in Target Manager") please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account) instead of using this form.
+        
+        Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
+       
+        Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Write a concise yet detailed description of the issue and do include any relevant screenshots at suitable locations in the body of your text. Please do not type/paste lots of code in this field - attach a sample project instead, as requested below. (Also, do not add a web link as your entire bug report and assume we will read the external thread to work it out ourselves, as we will most likely simply close the report!)
+    validations:
+      required: true
+  - type: input
+    id: expected
+    attributes:
+      label: Expected Change
+      description: If it is not obvious from your Description text, what difference would you expect to see once this is fixed?
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      description: Add the detailed, ordered steps for someone else to reproduce the issue into the gaps below (add as many steps into the middle as you require)
+      value: |
+        1. Start GameMaker
+        2. 
+        3. 
+        4. See the issue
+    validations:
+      required: true
+  - type: dropdown
+    id: repro-rate
+    attributes:
+      label: How reliably can you recreate this issue using your steps above?
+      options:
+        - Always
+        - Most Times
+        - Only Sometimes
+        - Rarely
+        - Only Ever Happened Once 
+  - type: dropdown
+    id: version
+    attributes:
+      label: Which version of GameMaker are you reporting this issue for?
+      description: (If your version is older and therefore not in this list, please update and confirm your issue is not already fixed before you send any report!)
+      multiple: true
+      options:
+        - 2023.4 (Monthly)
+        - 2022.0.1 (LTS)
+        - Beta (Please put the exact version number in your Description)
+        - Other Release (Please put the exact version number in your Description)
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Which operating system(s) are you seeing the problem on?
+      multiple: true
+      options: 
+        - Windows 11
+        - Windows 10
+        - Windows 7/8
+        - macOS Ventura
+        - macOS Monterey
+        - macOS Big Sur
+        - Ubuntu 22 LTS
+        - Ubuntu 20 LTS
+        - ChromeOS
+  - type: dropdown
+    id: steam
+    attributes:
+      label: Are you running GameMaker from inside your Steam library?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: false
+  - type: checkboxes
+    id: ui-log
+    attributes:
+      label: ui.log File
+      description: Please find your ui.log file (see the _Open Log in Explorer/Finder_ command in the GameMaker _Help_ menu) and ensure you have dropped that file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all IDE bug reports.
+      options:
+        - label: I have attached my ui.log file
+    validations:
+      required: true
+  - type: checkboxes
+    id: compile-log
+    attributes:
+      label: Compiler Log File
+      description: Please copy/paste your entire _Output Window_ contents from GameMaker into a new .txt file and ensure you have dropped that .txt file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all compilation and in-game bug reports.
+      options:
+        - label: I have attached my compiler log in a text file
+    validations:
+      required: false
+  - type: checkboxes
+    id: sample
+    attributes:
+      label: Sample .yyz File
+      description: Please _Export_ as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so. This file is often extremely important for in-game bug reports and we will ask for a sample if the issue does not easily reproduce for us.
+      options:
+        - label: I have attached a small sample project
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to fill out this bug report!
