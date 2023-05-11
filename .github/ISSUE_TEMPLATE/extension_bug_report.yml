@@ -78,7 +78,9 @@ body:
         - Only Sometimes
         - Rarely
         - Only Ever Happened Once 
-        
+    validations:
+      required: true
+      
   - type: dropdown
     id: version
     attributes:
@@ -111,7 +113,9 @@ body:
         - PlayStation 5
         - Switch
         - Xbox (GDK)
-        
+    validations:
+      required: false
+      
   - type: checkboxes
     id: compile-log
     attributes:

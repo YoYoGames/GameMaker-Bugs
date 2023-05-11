@@ -50,6 +50,8 @@ body:
         - Only Sometimes
         - Rarely
         - Only Ever Happened Once 
+    validations:
+      required: true
         
   - type: dropdown
     id: version
@@ -80,7 +82,9 @@ body:
         - Ubuntu 22 LTS
         - Ubuntu 20 LTS
         - ChromeOS
-        
+    validations:
+      required: false
+      
   - type: dropdown
     id: platforms
     attributes:
