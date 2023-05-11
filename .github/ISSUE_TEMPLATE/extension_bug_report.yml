@@ -112,8 +112,7 @@ body:
       description: Please copy/paste your entire _Output Window_ contents from GameMaker into a new .txt file and ensure you have dropped that .txt file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all compilation and in-game bug reports.
       options:
         - label: I have attached my compiler log in a text file
-    validations:
-      required: true
+          required: true
   - type: checkboxes
     id: sample
     attributes:
@@ -121,8 +120,7 @@ body:
       description: Please _Export_ as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so. This file is often extremely important for in-game bug reports and we will ask for a sample if the issue does not easily reproduce for us.
       options:
         - label: I have attached a small sample project
-    validations:
-      required: false
+          required: false
   - type: markdown
     attributes:
       value: Thanks for taking the time to fill out this bug report!
