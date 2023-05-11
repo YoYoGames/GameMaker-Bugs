@@ -111,7 +111,7 @@ body:
       label: Compiler Log File
       description: Please copy/paste your entire _Output Window_ contents from GameMaker into a new .txt file and ensure you have dropped that .txt file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all compilation and in-game bug reports.
       options:
-        - label: I have attached my compiler log in a text file
+          label: I have attached my compiler log in a text file
           required: true
   - type: checkboxes
     id: sample
