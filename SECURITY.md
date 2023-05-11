@@ -4,7 +4,7 @@ YoYo Games takes the security of our software products and services seriously.
 
 ## Reporting Security Issues
 
-If you believe you have found a security vulnerability in any GameMaker product, service, or GitHub repository, please report it to us!
+If you believe you have found a security vulnerability in any GameMaker product, service, or repository, please report it to us!
 
 **Please do not report security vulnerabilities through public GitHub issues, discussions, or pull requests.**
 
