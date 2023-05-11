@@ -1,6 +1,5 @@
 name: IDE Bug Report
 description: File a bug report for anything to do with general usage of the GameMaker IDE (although, not licensing issues, as these should be sent as a Helpdesk ticket).
-title: "[Bug]: "
 labels: ["ide-bug"]
 body:
   - type: markdown
