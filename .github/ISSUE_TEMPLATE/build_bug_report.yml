@@ -60,7 +60,7 @@ body:
       description: (If your version is older and therefore not in this list, please update and confirm your issue is not already fixed before you send any report!)
       multiple: true
       options:
-        - 2023.4 (Monthly)
+        - 2023.8 (Monthly)
         - 2022.0.1 (LTS)
         - Beta (Please put the exact version number in your Description)
         - Other Release (Please put the exact version number in your Description)
