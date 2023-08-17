@@ -31,4 +31,4 @@ Please note that you may not have advanced notification of your issue being work
 
 We thank you for your feedback!
 
-[Submit a Bug](https://github.com/YoYoGames/GameMaker-Bug/issues/new/choose)
+[Submit a Bug](https://github.com/YoYoGames/GameMaker-Bugs/issues/new/choose)
