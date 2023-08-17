@@ -7,7 +7,7 @@ body:
       value: |
         For any GameMaker Account or licencing issues (including "I can't see all my platforms in Target Manager") please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account) instead of using this form.
         
-        Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
+        Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up and/or a comment on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
        
         Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
 
@@ -60,7 +60,7 @@ body:
       description: (If your version is older and therefore not in this list, please update and confirm your issue is not already fixed before you send any report!)
       multiple: true
       options:
-        - 2023.4 (Monthly)
+        - 2023.8 (Monthly)
         - 2022.0.1 (LTS)
         - Beta (Please put the exact version number in your Description)
         - Other Release (Please put the exact version number in your Description)
