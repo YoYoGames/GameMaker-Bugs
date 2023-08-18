@@ -1,5 +1,5 @@
 name: IDE Bug Report
-description: File a bug report for anything to do with general usage of the GameMaker IDE (although, not licensing issues, as these should be sent as a Helpdesk ticket).
+description: File a bug report for anything to do with general usage of the GameMaker IDE (although, no login or "missing targets" issues, as these should be sent as a Helpdesk ticket!)
 labels: ["ide-bug"]
 body:
   - type: markdown
@@ -31,7 +31,7 @@ body:
     id: steps
     attributes:
       label: Steps To Reproduce
-      description: Add the detailed, ordered steps for someone else to reproduce the issue into the gaps below (add as many steps into the middle as you require)
+      description: Add detailed, ordered steps for someone else to recreate the issue into the gaps below (add as many steps into the middle as you require)
       value: |
         1. Start GameMaker
         2. 
@@ -96,21 +96,21 @@ body:
       required: false
       
   - type: checkboxes
-    id: ui-log
+    id: zip-file
     attributes:
-      label: ui.log File
-      description: Please find your ui.log file (see the _Open Log in Explorer/Finder_ command in the GameMaker _Help_ menu) and ensure you have dropped that file onto this bug report form, then tick the checkbox to confirm you have done so. This file is essential for all IDE bug reports.
+      label: Contact Us Package Attached?
+      description: This .zip file is essential for all bug reports. Open the Help menu inside GameMaker and run the "Create Your Contact Us Package" tool (if your problem only happens when working with your own project, then please load the project before you open the Help menu). Attach the .zip file GameMaker makes for you to this report (or upload it somewhere you trust and put the download link into your Description text - make sure the file is shared!).
       options:
-        - label: I have attached my ui.log file
+        - label: I have attached my Contact Us Package
           required: true
       
   - type: checkboxes
     id: sample
     attributes:
-      label: Sample .yyz File
-      description: If you only have this issue when editing a specific sprite/sound/object/script, etc., please _Export_ as small a sample project as you can make to recreate the issue and drop the .yyz file GameMaker made for you onto this bug report form, then tick the checkbox to confirm you have done so.
+      label: Sample Project Added?
+      description: When you created your Contact Us Package, did you tick to include the current project? Or have you attached a project .yyz directly onto this report? (The project is often essential for bug reports to do with failed builds or assets which show problems inside editors, and so we will ask for a sample if the issue does not easily reproduce for us.)
       options:
-        - label: I have attached a small sample project
+        - label: I have included a small sample project
           required: false
  
   - type: markdown
