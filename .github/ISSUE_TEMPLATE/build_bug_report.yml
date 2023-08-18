@@ -129,7 +129,7 @@ body:
     id: sample
     attributes:
       label: Sample Project Added?
-      description: When you created your Contact Us Package, did you tick to include the current project? Or have you atatched a project .yyz directly onto this report? (The project is often essential for bug reports to do with failed builds and we will ask for a sample if the issue does not easily reproduce for us.)
+      description: When you created your Contact Us Package, did you tick to include the current project? Or have you attached a project .yyz directly onto this report? (The project is often essential for bug reports to do with failed builds and we will ask for a sample if the issue does not easily reproduce for us.)
       options:
         - label: I have included a small sample project
           required: false
