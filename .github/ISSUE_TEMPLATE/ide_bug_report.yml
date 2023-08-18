@@ -1,11 +1,11 @@
 name: IDE Bug Report
-description: File a bug report for anything to do with general usage of the GameMaker IDE (although, no login or "missing targets" issues, as these should be sent as a Helpdesk ticket!)
+description: File a bug report for anything to do with general usage of the GameMaker IDE (although, no sign-in or "missing targets" issues, as these should be sent using the GameMaker Account Support option below!)
 labels: ["ide-bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        For any GameMaker Account or licencing issues (including "I can't see all my platforms in Target Manager") please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account) instead of using this form.
+        For any GameMaker Account sign-in or licencing issues (including "I can't see all my platforms in Target Manager") please submit a [Helpdesk Ticket](https://contact.gamemaker.io/contact-us#account) instead of using this form.
         
         Please also ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up and/or a comment on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
        
