@@ -6,10 +6,12 @@ body:
     attributes:
       value: |
         Please ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up and/or a comment on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
-
-        Also ensure you are using the latest versions of all extensions in your project and that you have reviewed the documentation within each to ensure they are all set up correctly.
        
         Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
+
+        Also ensure you are using the latest versions of all extensions in your project and that you have reviewed the documentation within each to ensure they are all set up correctly.
+        
+        Be aware that we do not offer coding advice/support on this bug-reporting service and so we are very unlikely to fix any issues with your code and send the project back - if you want to ask a coding question, please ask [the GameMaker Community](https://forum.gamemaker.io/index.php?forums/tech-support.24/) instead of using this form.
 
   - type: dropdown
     id: extension
@@ -129,7 +131,7 @@ body:
     id: sample
     attributes:
       label: Sample Project Added?
-      description: When you created your Contact Us Package, did you tick to include the current project? Or have you attached a project .yyz directly onto this report? (The project is often essential for bug reports to do with failed builds and we will ask for a sample if the issue does not easily reproduce for us.)
+      description: When you created your Contact Us Package, did you tick to include the current project? Or have you attached a project .yyz directly onto this report? (The project is often essential for bug reports to do with failed builds and for confirming your code is correct, and so we will ask for a sample if the issue does not easily reproduce for us.)
       options:
         - label: I have included a small sample project
           required: false
