@@ -1,5 +1,5 @@
 name: IDE Bug Report
-description: File a bug report for anything to do with general usage of the GameMaker IDE (although, no sign-in or "missing targets" issues, as these should be sent using the GameMaker Account Support option below!)
+description: File a bug report relating to general usage of the GameMaker IDE (no sign-in or "missing platforms in Target Manager" issues - for these, use the GameMaker Account Support option below!)
 labels: ["ide-bug"]
 body:
   - type: markdown
