@@ -22,6 +22,10 @@ Always search [the list of existing issues](https://github.com/YoYoGames/GameMak
 
 If it is, feel free to add a thumbs-up to indicate you have this issue or a comment/log/sample project if you have extra information you can share to help us fix the problem sooner.
 
+You can type your search terms into the query box at the top of the page:
+
+![searching in the Issues list](https://github.com/YoYoGames/GameMaker-Bugs/assets/15669932/4a86d410-b432-45fc-8b67-d9aecc6895a0)
+
 *Please do not knowingly make a duplicate, as responding to duplicates will not help us fix problems sooner!*
 
 <br />
