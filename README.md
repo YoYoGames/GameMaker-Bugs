@@ -44,6 +44,10 @@ You can also submit issues directly from GameMaker's Help menu (2023.8 onwards).
 
 It's up to you which method you use, as all reports/files go to the same places and follow the same processes; however, you may prefer to use the IDE tool if your sample project needs to be private and visible only to GameMaker staff.
 
+### Submitting a Bug Report - What Does It Contain?
+
+For more info on this, please see [our FAQ about what's in a report .zip file and what we do with it](https://help.yoyogames.com/hc/en-us/articles/13150754375453).
+
 <br />
 
 ## The Bug Submission Process 
