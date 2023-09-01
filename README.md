@@ -6,6 +6,8 @@ We value user-feedback and strive to make GameMaker the best it can be, so by su
 
 However, before submitting any issues, please read the below information carefully.
 
+*Note: if your problem is to do with licensing (e.g., not seeing your correct platforms in Target Manager even after signing-out and in again), our setup guides or the manual, or anything to do with console support, then please continue to contact our customer services team in the usual manner. Similarly, our Marketplace extensions already have their own GitHub Issues databases where you should report all bugs/requests, rather than using this new tool - please see the extension's documentation or its Marketplace page for the exact link you need.*
+
 <br />
 
 ## 1. Review your logs and see our FAQs
@@ -43,6 +45,10 @@ Please strongly consider sending a *small sample* project if your bug is in-game
 You can also submit issues directly from GameMaker's Help menu (2023.8 onwards). The tool will automatically gather all the files that we need to determine the issue you have encountered and will offer to include your current project.
 
 It's up to you which method you use, as all reports/files go to the same places and follow the same processes; however, you may prefer to use the IDE tool if your sample project needs to be private and visible only to GameMaker staff.
+
+Be aware that all attachments on IDE bug reports are always hidden (even on public reports), so you won't see your files on the GitHub page, and if you marked the report as Private then it will go to a different database entirely and you will not be able to see the bug link and it will not be associated with your GitHub account, so you won't get feedback later on as to when the bug is fixed, etc. - therefore, please only mark bugs as private when you absolutely *have* to send us sensitive information in the Description or Steps for your bug.
+
+<br />
 
 ### Submitting a Bug Report - What Does It Contain?
 
