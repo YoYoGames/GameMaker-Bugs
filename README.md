@@ -32,6 +32,16 @@ You can type your search terms into the query box at the top of the page:
 
 <br />
 
+### 2b. Adding your own files onto any existing report
+
+Again, please do not knowingly make a duplicate report, as no need to do this - instead, use the "Create Your Contact Us Package" tool on the Help menu inside GameMaker (ideally, saying "yes" to including your project in the package) and send us the .zip file that GameMaker makes for you.
+
+You are able to add your own files onto any report simply by adding a new comment on the existing report and then dragging your file(s) onto your comment box before you submit the comment.
+
+If you have to send us a full game, and therefore you need it to be private, please upload that .zip to a reputable file-sharing service and ensure qa@yoyogames.com has been given access. Then you can put the download link in your comment rather than dragging the .zip file on.
+
+<br />
+
 ## 3. Choose the correct form and fill it in as directed
 
 When [submitting a bug](https://github.com/YoYoGames/GameMaker-Bugs/issues/new/choose), fill in each field with all pertinent information you can provide.
