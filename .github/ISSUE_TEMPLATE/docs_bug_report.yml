@@ -1,0 +1,30 @@
+name: Documentation Bug Report
+description: File a bug report relating to the GameMaker Manual
+labels: ["docs-bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up and/or a comment on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
+       
+        Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Write a concise yet detailed description of the issue and do include any relevant screenshots at suitable locations in the body of your text.
+    validations:
+      required: true
+      
+  - type: input
+    id: link
+    attributes:
+      label: Manual Link
+      description: Please add a link to the relevant manual page here
+    validations:
+      required: false
+ 
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to fill out this bug report!
