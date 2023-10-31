@@ -275,7 +275,7 @@ def outputMDStructs( func ):
         params+=" : "+p["text"] 
         count+=1
     params += "\n}\n"
-    return "```" + func["name"] + params + "```"
+    return "```\n" + func["name"] + params + "```"
 
 def outputMDStructsChanged( func ):
     params = " {\n"
@@ -299,7 +299,7 @@ def outputMDStructsChanged( func ):
         params+=" : "+p["text"] 
         count+=1
     params += "\n}\n"
-    return "```" + func["name"] + params + "```"
+    return "```\n" + func["name"] + params + "```"
 
 
 def outputMDEnums( func ):
@@ -312,7 +312,7 @@ def outputMDEnums( func ):
         params+="="+p["value"]
         count+=1
     params += "\n}\n"
-    return "```" + func["name"] + params + "```"
+    return "```\n" + func["name"] + params + "```"
 
 def outputMDEnumsChanged( func ):
     params = " {\n"
@@ -336,7 +336,7 @@ def outputMDEnumsChanged( func ):
         params+="="+p["value"]
         count+=1
     params += "\n}\n"
-    return "```" + func["name"] + params + "```"
+    return "```\n" + func["name"] + params + "```"
 
 # -------------------------------------------------------------------------------------------------------
 # load the new and old gmlSpec
