@@ -266,19 +266,19 @@ def outputMDConstants( func ):
     return "- `" + func["name"] + "` - " + func["text"]
 
 def outputMDStructs( func ):
-    params = " {\r\n"
+    params = " {\n"
     count = 0
     for p in func[ "fields" ]:
         if (count > 0):
-            params += ",\r\n"
+            params += ",\n"
         params+=p[ "name" ]
         params+=" : "+p["text"] 
         count+=1
-    params += "\r\n}\r\n"
-    return "`" + func["name"] + params + "` "
+    params += "\n}\n"
+    return "```" + func["name"] + params + "```"
 
 def outputMDStructsChanged( func ):
-    params = " {\r\n"
+    params = " {\n"
     count = 0
     original = func["previous"]
     for p in func[ "fields" ]:
@@ -290,7 +290,7 @@ def outputMDStructsChanged( func ):
                 break
 
         if (count > 0):
-            params += ",\r\n"
+            params += ",\n"
         if not found:
             params+="/* new */ "
         else:
@@ -298,24 +298,24 @@ def outputMDStructsChanged( func ):
         params+=p[ "name" ]
         params+=" : "+p["text"] 
         count+=1
-    params += "\r\n}\r\n"
+    params += "\n}\n"
     return "```" + func["name"] + params + "```"
 
 
 def outputMDEnums( func ):
-    params = "{\r\n"
+    params = "{\n"
     count = 0
     for p in func[ "members" ]:
         if (count > 0):
-            params += ",\r\n"
+            params += ",\n"
         params+=p[ "name" ]
         params+="="+p["value"]
         count+=1
-    params += "\r\n}\r\n"
+    params += "\n}\n"
     return "```" + func["name"] + params + "```"
 
 def outputMDEnumsChanged( func ):
-    params = " {\r\n"
+    params = " {\n"
     count = 0
     original = func["previous"]
     for p in func[ "members" ]:
@@ -327,7 +327,7 @@ def outputMDEnumsChanged( func ):
                 break
 
         if (count > 0):
-            params += ",\r\n"
+            params += ",\n"
         if not found:
             params+="/* new */ "
         else:
@@ -335,7 +335,7 @@ def outputMDEnumsChanged( func ):
         params+=p[ "name" ]
         params+="="+p["value"]
         count+=1
-    params += "\r\n}\r\n"
+    params += "\n}\n"
     return "```" + func["name"] + params + "```"
 
 # -------------------------------------------------------------------------------------------------------
