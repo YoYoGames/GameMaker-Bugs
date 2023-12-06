@@ -1,81 +1,43 @@
 # GameMaker Bugs
  
-Submit bugs here and find the issues already known about in the GameMaker IDE and Runtimes.
+Please do report bugs here for problems you have found inside GameMaker and its manual; however, before submitting anything, it is essential that you carefully read the rest of this page, so that you can be sure the issue is something you need to tell us about and is not reported already.
 
-We value user-feedback and strive to make GameMaker the best it can be, so by submitting an issue when you find an unknown problem you can help us make Gamemaker even better.
-
-However, before submitting any issues, please read the below information carefully.
-
-*Note: if your problem is to do with licensing (e.g., not seeing your correct platforms in Target Manager even after signing-out and in again), our setup guides or the manual, or anything to do with console support, then please continue to contact our customer services team in the usual manner. Similarly, our Marketplace extensions already have their own GitHub Issues databases where you should report all bugs/requests, rather than using this new tool - please see the extension's documentation or its Marketplace page for the exact link you need.*
+*Note: if your problem is to do with signing-in or not seeing your correct platforms in Target Manager (even after signing-out and in again), our setup guides, or anything to do with console support, then please continue to contact our customer services team in the usual manner. Similarly, our Marketplace extensions already have their own bug databases, so do not report things here - please see the extension's documentation or its Marketplace page for the exact link you need.*
 
 <br />
 
-## 1. Review your logs and see our FAQs
+## 1. Update GmameMaker first to ensure this isn't fixed already, then review your logs and see our FAQs to confirm it's not a problem with your setup
 
-Antivirus clients/firewalls/proxy servers/OS account permissions can all deliberately block GameMaker from starting up, downloading your runtimes, and make project fail to build because files cannot be accessed - for these, you *likely* do not need to report it to us, as it's just your protection software doing its job. Always check your ui.log for GameMaker and see if the error tells you roughly what/where the error is and then see [our guide on how to fix permissions issues](https://help.yoyogames.com/hc/en-us/articles/360022953052).
+If you're not on the current monthly release (at least - remember Betas are available also), then do not report something until you have confirmed the current release still shows the problem. This includes LTS users!
 
-External tools like console SDKs, Android Studio, Xcode, Spine, etc. must also match what [your version of GameMaker actually requires](https://help.yoyogames.com/hc/en-us/articles/227860547) otherwise your builds will often fail - you do not need to report this to us, as it's a tools issue on your machine. Check the whole of your Output window inside GameMaker (not just the final few lines!) for what/where the error is.
+Always check your ui.log for GameMaker and your compiler log to see if they tell you this s a machine setup issue. [More info on this on our guide](https://help.gamemaker.io/hc/en-us/articles/13150754375453#h_01HGG0W8C5P8YTKBM7J8C86CFA).
 
 <br />
 
-## 2. Search for an existing report
+## 2. Search for any existing report before you send one - do not file a duplicate
 
-Always search [the list of existing issues](https://github.com/YoYoGames/GameMaker-Bugs/issues) and ensure your problem is not already known.
-
-If it is, feel free to add a thumbs-up to indicate you have this issue or a comment/log/sample project if you have extra information you can share to help us fix the problem sooner.
-
-You can type your search terms into the query box at the top of the page:
+Always search [the list of existing issues](https://github.com/YoYoGames/GameMaker-Bugs/issues) and ensure your problem is not already reported, as responding to duplicates only slows us down. You can type your search terms into the query box at the top of the page:
 
 ![searching in the Issues list](https://github.com/YoYoGames/GameMaker-Bugs/assets/15669932/4a86d410-b432-45fc-8b67-d9aecc6895a0)
 
-*Please do not knowingly make a duplicate, as responding to duplicates will not help us fix problems sooner!*
+If your issue is already reported you are welcome to add a comment/log/sample project onto that existing report - you can also leave a thumbs up to say you have this issue as well.
 
 <br />
 
-### 2b. Adding your own files onto any existing report
-
-Again, please do not knowingly make a duplicate report, as no need to do this - instead, use the "Create Your Contact Us Package" tool on the Help menu inside GameMaker (ideally, saying "yes" to including your project in the package) and send us the .zip file that GameMaker makes for you.
-
-You are able to add your own files onto any report simply by adding a new comment on the existing report and then dragging your file(s) onto your comment box before you submit the comment.
-
-If you have to send us a full game, and therefore you need it to be private, please upload that .zip to a reputable file-sharing service and ensure qa@yoyogames.com has been given access. Then you can put the download link in your comment rather than dragging the .zip file on.
-
-<br />
-
-## 3. Choose the correct form and fill it in as directed
+## 3. Choose the correct form and fill it all in
 
 When [submitting a bug](https://github.com/YoYoGames/GameMaker-Bugs/issues/new/choose), fill in each field with all pertinent information you can provide.
 
-Send all requested information, otherwise there will be a delay while we request what's missing. (If a form says a field is required, then this is deliberate and not something we will relax.)
-
-Please strongly consider sending a *small sample* project if your bug is in-game or when building specific assets in your projects.
-
-### "Report A Bug" tool inside GameMaker
-
-You can also submit issues directly from GameMaker's Help menu (2023.8 onwards). The tool will automatically gather all the files that we need to determine the issue you have encountered and will offer to include your current project.
-
-It's up to you which method you use, as all reports/files go to the same places and follow the same processes; however, you may prefer to use the IDE tool if your sample project needs to be private and visible only to GameMaker staff.
-
-Be aware that all attachments on IDE bug reports are always hidden (even on public reports), so you won't see your files on the GitHub page, and if you marked the report as Private then it will go to a different database entirely and you will not be able to see the bug link and it will not be associated with your GitHub account, so you won't get feedback later on as to when the bug is fixed, etc. - therefore, please only mark bugs as private when you absolutely *have* to send us sensitive information in the Description or Steps for your bug.
+Send all requested information, otherwise there will be a delay while we request what's missing. Please strongly consider sending a *small sample* project if your bug is in-game or when building specific assets in your projects.
 
 <br />
 
-### Submitting a Bug Report - What Does It Contain?
+## "Report A GameMaker Bug" tool inside GameMaker itself
 
-For more info on this, please see [our FAQ about what's in a report .zip file and what we do with it](https://help.yoyogames.com/hc/en-us/articles/13150754375453).
-
-<br />
-
-## The Bug Submission Process 
-
-All new bug issues are reviewed by a multidisciplinary team here at GameMaker.
-
-As long as it has enough information for us to work with, an issue will either be closed with a comment saying why, added to an upcoming Monthly release's list of issues to be fixed, or added to the backlog for revisiting sometime in future.
-
-Backlogged reports which gain lots of votes will be periodically reviewed and may be scheduled for an upcoming release.
-
-Please note issues may not get detailed updates before/while being worked on, but you will see it is Closed once the change has been made *in our internal codebase*. GameMaker's release notes will confirm when a version with that change in it becomes available to you.
+You can also [submit issues directly from GameMaker's Help menu](https://help.gamemaker.io/hc/en-us/articles/13150754375453#h_01HGE35CZ9EJW3NEK24T3TF139) (2023.8 onwards). If your sample project needs to be visible only to GameMaker staff, then the IDE tool makes this quicker/easier for you, so we would recommend that route.
 
 <br />
 
-We thank you for your feedback!
+## Further Reading
+
+For more detailed info on all of this bug-reporting process, plus for information about what we do with your files and your bug reports, please see [our FAQ about what's in a report .zip file and what we do with it](https://help.yoyogames.com/hc/en-us/articles/13150754375453).
