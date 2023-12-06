@@ -6,7 +6,7 @@ Please do report bugs here for problems you have found inside GameMaker and its 
 
 <br />
 
-## 1. Update GmameMaker first to ensure this isn't fixed already, then review your logs and see our FAQs to confirm it's not a problem with your setup
+## 1. Update GameMaker first to ensure this isn't fixed already, then review your logs and see our FAQs to confirm it's not a problem with your setup
 
 If you're not on the current monthly release (at least - remember Betas are available also), then do not report something until you have confirmed the current release still shows the problem. This includes LTS users!
 
@@ -32,9 +32,9 @@ Send all requested information, otherwise there will be a delay while we request
 
 <br />
 
-## "Report A GameMaker Bug" tool inside GameMaker itself
+## "Report A GameMaker Bug" tool on GameMaker's "Help" menu
 
-You can also [submit issues directly from GameMaker's Help menu](https://help.gamemaker.io/hc/en-us/articles/13150754375453#h_01HGE35CZ9EJW3NEK24T3TF139) (2023.8 onwards). If your sample project needs to be visible only to GameMaker staff, then the IDE tool makes this quicker/easier for you, so we would recommend that route.
+You can also [submit issues directly from GameMaker](https://help.gamemaker.io/hc/en-us/articles/13150754375453#h_01HGE35CZ9EJW3NEK24T3TF139) (2023.8 onwards). If your sample project needs to be visible only to GameMaker staff, then the IDE tool makes this quicker/easier for you, so we would recommend that route.
 
 <br />
 
