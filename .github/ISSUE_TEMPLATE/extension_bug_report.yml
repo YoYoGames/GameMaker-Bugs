@@ -94,13 +94,12 @@ body:
     id: version
     attributes:
       label: Which version of GameMaker are you reporting this issue for?
-      description: (If your version is older and therefore not in this list, please update and confirm your issue is not already fixed before you send any report!)
+      description: If you are on an older version, update and confirm your issue stil exists! And if you are using a Beta, please add the full version number into your Description text.
       multiple: true
       options:
-        - 2023.11.0 (Monthly)
+        - 2023.11.1 (Monthly)
         - 2022.0.2 (LTS)
-        - Beta (Please put the exact version number in your Description)
-        - Other Release (Please put the exact version number in your Description)
+        - 2023.1100 (Betas)
     validations:
       required: true
       
