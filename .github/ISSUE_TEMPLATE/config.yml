@@ -1,8 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: GameMaker Feature Requests
-    url: https://github.com/YoYoGames/GameMaker-Feature-Requests/issues/new?assignees=&labels=feature+request&projects=&template=feature-request.yml
-    about: Suggest an improvement for GameMaker!
   - name: GameMaker Account Support
     url: https://contact.gamemaker.io/contact-us
     about: Contact the Helpdesk for questions about your account, any errors when signing-in to GameMaker, or because you cannot see all the platforms you expected inside Target Manager
