@@ -99,7 +99,7 @@ body:
       options:
         - 2023.11.1 (Monthly)
         - 2022.0.2 (LTS)
-        - 2023.1100 (Betas)
+        - 2024.200 (Betas)
     validations:
       required: true
       
