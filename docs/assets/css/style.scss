@@ -1,0 +1,19 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+
+body { background-color: #121212; color: #969696; }
+
+h1, h2, h3, h4, h5, h6 { color: #F6F6F6; }
+
+th { color: #BECACA; }
+
+code, pre { color: #DFDFDF; }
+
+.wrapper { width: 80%; }
+header { width: 20%; }
+section { width: 70%; }
+
+a { color: #4E99D9;}

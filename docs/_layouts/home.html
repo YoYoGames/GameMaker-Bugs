@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% seo %}
+    <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+    {% include head-custom.html %}
+  </head>
+  <body>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WDW63M4"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+    <div class="wrapper">
+      <header>
+		<p><a href="https://gamemaker.io" target="_blank"><img src="/assets/images/GM_Primary.svg" alt="GameMaker" /></a></p>
+		
+        <p>{{ site.description | default: site.github.project_tagline }}</p>
+
+        <h3><a href="/">Release Notes</a></h3>
+        <h3><a href="https://help.yoyogames.com/hc/en-us/articles/227860547" target="_blank">Required SDKs</a></h3>
+        <h3><a href="https://help.gamemaker.io/hc/en-us/articles/360022953052" target="_blank">Required Permissions</a></h3>
+        <h3><a href="https://help.yoyogames.com/hc/en-us/articles/13150754375453" target="_blank">How to report bugs</a></h3>
+        <h3><a href="https://github.com/YoYoGames/GameMaker-Bugs/issues" target="_blank">Bug Tracker</a></h3>
+      </header>
+      <section>
+
+      {{ content }}
+
+      </section>
+      <footer>
+        {% if site.github.is_project_page %}
+        <p>This page is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+        {% endif %}
+      </footer>
+    </div>
+    <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
+  </body>
+</html>
