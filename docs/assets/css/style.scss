@@ -3,14 +3,14 @@
 
 @import "{{ site.theme }}";
 
-
+.highlight { background-color: #202020; }
 body { background-color: #121212; color: #969696; }
 
 h1, h2, h3, h4, h5, h6 { color: #F6F6F6; }
 
 th { color: #BECACA; }
 
-code, pre { color: #DFDFDF; }
+code, pre { color: #DFDFDF; background-color: #202020; }
 
 .wrapper { width: 80%; }
 header { width: 20%; }
