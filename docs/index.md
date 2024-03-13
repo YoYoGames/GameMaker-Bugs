@@ -2,7 +2,7 @@
 layout: home
 ---
 
-#GameMaker Release Notes
+# GameMaker Release Notes
 
 ## Monthly
 Released ~every other month, fairly stable, may have the odd lower severity issue
