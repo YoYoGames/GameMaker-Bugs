@@ -13,7 +13,15 @@ th { color: #BECACA; }
 code, pre { color: #DFDFDF; background-color: #202020; }
 
 .wrapper { width: 80%; }
-header { width: 20%; }
-section { width: 70%; }
+section { width: 70%;
+
+	@media screen and (max-width: 961px) {
+		width: 100%;
+	}
+
+  @media screen and (min-width: 961px) and (max-width: 1260px) {
+    width: 60%;
+  }
+} 
 
 a { color: #4E99D9;}
