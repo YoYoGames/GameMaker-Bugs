@@ -9,7 +9,7 @@ layout: home
 
 Released _roughly_ every other month. Fairly stable, but may have the odd lower-severity issue.
 
-### [2024.4.0.137 - April](\release-notes\2024\4)
+### [2024.4.1.152 - April](\release-notes\2024\4)
 ### [2024.2.0.132 - February](\release-notes\2024\2)
 ### [2023.11.1.129 - November](\release-notes\2023\11)
 ### [2023.8.2.108 - August](\release-notes\2023\8)
@@ -28,4 +28,6 @@ Long Term Stable means very few new features are ever added and it only gets cri
 
 Most up-to-date version and released frequently, so you can get the newest features and fixes ASAP - but accordingly these releases _will_ contain bugs, so please do report any you find!
 
-### [2024.400 - April](\release-notes\2024\400)
+We only recommend using the latest series of Betas (shown below) - if you need to stay on older Betas for some reason, then we would suggest just using the appropriate Monthly instead.
+
+### [2024.600 - June](\release-notes\2024\600)
