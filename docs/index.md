@@ -9,10 +9,10 @@ layout: home
 
 Released _roughly_ every other month. Fairly stable, but may have the odd lower-severity issue.
 
-### [2024.4.1.152 - April](\release-notes\2024\4)
-### [2024.2.0.132 - February](\release-notes\2024\2)
-### [2023.11.1.129 - November](\release-notes\2023\11)
-### [2023.8.2.108 - August](\release-notes\2023\8)
+### [2024.4.1 - April](\release-notes\2024\4)
+### [2024.2.0 - February](\release-notes\2024\2)
+### [2023.11.1 - November](\release-notes\2023\11)
+### [2023.8.2 - August](\release-notes\2023\8)
 
 <br/>
 
@@ -20,7 +20,7 @@ Released _roughly_ every other month. Fairly stable, but may have the odd lower-
 
 Long Term Stable means very few new features are ever added and it only gets critical bug fixes each time there is an (infrequent) update.
 
-### [2022.0.2.51 - LTS](\release-notes\2022\0)
+### [2022.0.2 - LTS](\release-notes\2022\0)
 
 <br/>
 
