@@ -1,0 +1,41 @@
+// Evento Create
+// Inicializar variáveis
+global.player_choice = -1;
+global.computer_choice = -1;
+global.result = "";
+
+// Função para determinar a escolha do computador
+function get_computer_choice() {
+    return irandom_range(0, 2);
+}
+
+// Função para determinar o resultado
+function determine_winner(player, computer) {
+    if (player == computer) {
+        return "Empate!";
+    }
+    else if ((player == 0 && computer == 2) || 
+             (player == 1 && computer == 0) || 
+             (player == 2 && computer == 1)) {
+        return "Você venceu!";
+    }
+    else {
+        return "Computador venceu!";
+    }
+}
+
+// Evento Draw
+draw_self();
+var choices = ["Pedra", "Papel", "Tesoura"];
+
+if (global.player_choice != -1) {
+    draw_text(10, 10, "Sua escolha: " + choices[global.player_choice]);
+}
+
+if (global.computer_choice != -1) {
+    draw_text(10, 30, "Escolha do computador: " + choices[global.computer_choice]);
+}
+
+if (global.result != "") {
+    draw_text(10, 50, global.result);
+}
