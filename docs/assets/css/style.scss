@@ -139,3 +139,7 @@ li .alert {
 	padding: 5px;
 	display: inline-block;
 }
+
+li:has(> .alert) {
+	list-style: none;
+}
