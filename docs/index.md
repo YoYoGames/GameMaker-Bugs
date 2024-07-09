@@ -9,7 +9,7 @@ layout: home
 
 Released _roughly_ every other month. Fairly stable, but may have the odd lower-severity issue.
 
-### [2024.6.0 - June](\release-notes\2024\6)
+### [2024.6.1 - June](\release-notes\2024\6)
 ### [2024.4.1 - April](\release-notes\2024\4)
 ### [2024.2.0 - February](\release-notes\2024\2)
 ### [2023.11.1 - November](\release-notes\2023\11)
