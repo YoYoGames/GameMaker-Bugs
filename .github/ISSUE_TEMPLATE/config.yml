@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: GMRT Bug Report
+    url: https://github.com/YoYoGames/GMRT-Beta/issues/new/choose
+    about: File a bug report for anything to do with GMRT.
   - name: GameMaker Account Support
     url: https://contact.gamemaker.io/contact-us
     about: Contact the Helpdesk for questions about your account, any errors when signing-in to GameMaker, or because you cannot see all the platforms you expected inside Target Manager
