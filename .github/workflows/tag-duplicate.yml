@@ -1,0 +1,20 @@
+name: Tag As Duplicate
+
+on:
+  issue_comment:
+    types: created
+
+jobs:
+  add_label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: add label
+        uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/duplicate') }}
+        with:
+          labels: duplicate
