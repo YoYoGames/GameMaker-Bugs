@@ -97,7 +97,7 @@ body:
       description: If you are on an older version, update and confirm your issue stil exists! And if you are using a Beta, please add the full version number into your Description text.
       multiple: true
       options:
-        - 2024.6.2 (Monthly)
+        - 2024.8.0 (Monthly)
         - 2022.0.2 (LTS)
         - 2024.800 (Betas)
     validations:
@@ -127,17 +127,17 @@ body:
   - type: checkboxes
     id: zip-file
     attributes:
-      label: Contact Us Package Attached?
-      description: This .zip file is essential for all bug reports. Please build your project, so that you have a compiler log inside GameMaker, then open the Help menu inside GameMaker and run the "Create Your Contact Us Package" tool. Attach the .zip file GameMaker makes for you to this report (or upload it somewhere you trust and put the download link into your Description text - make sure the file is shared!).
+      label: Sample Package Attached?
+      description: This .zip file is essential for all bug reports. Please build your project, so that you have a compiler log showing inside GameMaker, then open the Help menu inside GameMaker and run the "Upload a Bug/Ticket Sample" tool. Paste the download link GameMaker makes for you into the Description of your report.
       options:
-        - label: I have attached my Contact Us Package
+        - label: I have attached my bug package
           required: true
       
   - type: checkboxes
     id: sample
     attributes:
       label: Sample Project Added?
-      description: When you created your Contact Us Package, did you tick to include the current project? Or have you attached a project .yyz directly onto this report? (The project is often essential for bug reports to do with failed builds and for confirming your code is correct, and so we will ask for a sample if the issue does not easily reproduce for us.)
+      description: When you created your Bug Package did you say yes to including your project, or have you manually attached a project .yyz directly onto this report? (A project is often essential for bug reports to do with extensions and we will ask for a sample if the issue does not easily reproduce for us when following your steps.)
       options:
         - label: I have included a small sample project
           required: false
