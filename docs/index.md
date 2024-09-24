@@ -32,4 +32,4 @@ Most up-to-date version and released frequently, so you can get the newest featu
 
 We only recommend using the latest series of Betas (shown below) - if you need to stay on older Betas for some reason, then we would suggest just using the applicable Monthly instead.
 
-### [2024.800 - August](\release-notes\2024\800)
+### [2024.1100 - November](\release-notes\2024\1100)
