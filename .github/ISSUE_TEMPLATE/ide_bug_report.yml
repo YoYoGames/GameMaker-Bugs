@@ -80,6 +80,7 @@ body:
         - macOS Ventura
         - macOS Monterey
         - macOS Big Sur
+        - Ubuntu 24 LTS
         - Ubuntu 22 LTS
         - Ubuntu 20 LTS
         - ChromeOS
