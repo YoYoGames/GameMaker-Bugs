@@ -1,5 +1,6 @@
 name: GMRT Bug Report
 description: File a bug report for issues which happen whilst using GMRT
+type: 'GMRT Bug'
 labels: ["gmrt-bug"]
 body:
   - type: markdown
