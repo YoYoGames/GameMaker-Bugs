@@ -11,7 +11,7 @@ body:
         Note that all fields are required to be filled-in before you can submit this report.
 
   - type: input
-    id: expected
+    id: artefact
     attributes:
       label: Workflow Artefact URL
       description: Paste the URL for the results file which alerted you to this failure
@@ -21,7 +21,7 @@ body:
   - type: textarea
     id: code
     attributes:
-      label: Test Contents
+      label: Test Code
       description: Paste the code for this test here, so we have a record of its current contents
     validations:
       required: true
@@ -35,7 +35,7 @@ body:
       required: true
 
   - type: input
-    id: expected
+    id: sourcelocation
     attributes:
       label: Location Of The Test
       description: Paste the URL for the line of code where the test can currently be found
