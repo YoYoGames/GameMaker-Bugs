@@ -1,0 +1,68 @@
+name: TestFramework Failure Report
+description: Report bugs which were found by TestFramework saying a test has failed due to new changes in the runtimes
+type: 'In-Game Bug'
+labels: ["runner-bug", "TestFramework"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please ensure you are confident that the test is correct and you have searched for any existing reports of this issue before you begin (remember that they may be an In-Game report also, not just a TestFramework one) - if one exists, comment on that one and state the runtime version number which is still showing the error.
+
+        Note that all fields are required to be filled-in before you can submit this report.
+
+  - type: input
+    id: expected
+    attributes:
+      label: Workflow Artefact URL
+      description: Paste the URL for the results file which alerted you to this failure
+    validations:
+      required: true
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Test Contents
+      description: Paste the code for this test here, so we have a record of its current contents
+    validations:
+      required: true
+
+  - type: input
+    id: runtime
+    attributes:
+      label: Runtime Version
+      description: What was the runtime version which was tested and failed?
+    validations:
+      required: true
+
+  - type: input
+    id: expected
+    attributes:
+      label: Location Of The Test
+      description: Paste the URL for the line of code where the test can currently be found
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: platforms
+    attributes:
+      label: Which platform(s) are you seeing the problem on?
+      multiple: true
+      options: 
+        - Windows
+        - macOS
+        - Ubuntu
+        - Android
+        - GX.games
+        - HTML5
+        - iOS
+        - PlayStation 4
+        - PlayStation 5
+        - Switch
+        - tvOS
+        - Xbox (GDK)
+    validations:
+      required: true
+      
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to fill out this bug report!
