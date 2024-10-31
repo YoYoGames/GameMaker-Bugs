@@ -26,6 +26,14 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: result
+    attributes:
+      label: Output From The Test
+      description: Paste the information logged for this fail here
+    validations:
+      required: true
+
   - type: input
     id: runtime
     attributes:
