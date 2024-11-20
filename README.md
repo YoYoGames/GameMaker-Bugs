@@ -13,7 +13,7 @@ Here you can also suggest, request, and vote on new features for the GameMaker I
 
 If you're not on the current monthly release (at least - remember Betas are available also), then do not report something until you have confirmed the current release still shows the problem. This includes LTS users!
 
-Always check your ui.log for GameMaker and your compiler log to see if they tell you this s a machine setup issue. [More info on this on our guide](https://help.gamemaker.io/hc/en-us/articles/13150754375453#h_01HGG0W8C5P8YTKBM7J8C86CFA).
+Always check your ui.log for GameMaker and your compiler log to see if they tell you this is a machine setup issue. [More info on this on our guide](https://help.gamemaker.io/hc/en-us/articles/13150754375453#h_01HGG0W8C5P8YTKBM7J8C86CFA).
 
 <br />
 
@@ -31,13 +31,17 @@ If your issue is already reported you are welcome to add a comment/log/sample pr
 
 When [submitting a bug](https://github.com/YoYoGames/GameMaker-Bugs/issues/new/choose), fill in each field with all pertinent information you can provide.
 
-Send all requested information, otherwise there will be a delay while we request what's missing. Please strongly consider sending a *small sample* project if your bug is in-game or when building specific assets in your projects.
+Send all requested information, otherwise there will be a delay while we request what's missing. Please strongly consider always sending a *small sample* project if your bug is in-game or when building specific assets in your projects.
 
 <br />
 
 ## "Report A GameMaker Bug" tool on GameMaker's "Help" menu
 
-You can also [submit issues directly from GameMaker](https://help.gamemaker.io/hc/en-us/articles/13150754375453#h_01HGE35CZ9EJW3NEK24T3TF139) (2023.8 onwards). If your sample project needs to be visible only to GameMaker staff, then the IDE tool makes this quicker/easier for you, so we would recommend that route.
+You can also [submit issues directly from GameMaker](https://help.gamemaker.io/hc/en-us/articles/13150754375453#h_01HGE35CZ9EJW3NEK24T3TF139) (2023.8/LTS22.03 onwards) and the IDE tools do all of this automatically for you, so in most cases we actually recommend this rather than the forms on this website.
+
+Also, if you just want to send a sample project or logs to attach to any existing bug report (even as a comment on someone else's bug report), then you can use the "Upload a Bug/Ticket Sample" tool. Copy the link GameMaker gives you after it has uploaded the files to us, then paste the link into the GitHub issue.
+
+**All files you submit via the IDE tools are always private and only viewable by GM staff - you can't even download them yourself.**
 
 <br />
 
