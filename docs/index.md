@@ -22,7 +22,7 @@ Released _roughly_ every other month. Fairly stable, but may have the odd lower-
 
 Long Term Stable means very few new features are ever added and it only gets critical bug fixes each time there is an (infrequent) update.
 
-### [2022.0.2 - LTS](\release-notes\2022\0)
+### [2022.0.3 - LTS](\release-notes\2022\0)
 
 <br/>
 
