@@ -62,7 +62,7 @@ body:
       multiple: true
       options:
         - 2024.8.1 (Monthly)
-        - 2022.0.2 (LTS)
+        - 2022.0.3 (LTS)
         - 2024.1100 (Betas)
     validations:
       required: true
