@@ -1,6 +1,5 @@
 name: Extension Bug Report
 description: File a bug report for issues that happen with any of our official extensions
-type: 'Extension Bug'
 labels: ["extension-bug"]
 body:
   - type: markdown
