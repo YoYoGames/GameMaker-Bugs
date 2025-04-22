@@ -1,6 +1,5 @@
 name: In-Game Bug Report
 description: File a bug report for issues which happen whilst your game is running
-type: 'In-Game Bug'
 labels: ["runner-bug"]
 body:
   - type: markdown
