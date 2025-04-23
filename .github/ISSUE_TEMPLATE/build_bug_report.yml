@@ -1,5 +1,6 @@
 name: Build Failure Bug Report
 description: File a bug report for anything to do with building your projects inside the GameMaker IDE.
+type: 'Build Bug'
 labels: ["build-bug"]
 body:
   - type: markdown
