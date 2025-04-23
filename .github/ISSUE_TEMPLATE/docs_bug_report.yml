@@ -1,5 +1,6 @@
 name: Documentation Bug Report
 description: File a bug report relating to the GameMaker Manual
+type: 'Docs Bug'
 labels: ["docs-bug"]
 body:
   - type: markdown
