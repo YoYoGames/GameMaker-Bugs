@@ -1,5 +1,6 @@
-name: TestFramework Failure Report
-description: Report bugs which were found by TestFramework saying a test has failed due to new changes in the runtimes
+name: TestFramework Fail Report
+description: Report when TestFramework says a test has started failing due to new changes in the runtimes
+type: 'TestFramework Bug'
 labels: ["runner-bug", "TestFramework"]
 body:
   - type: markdown
