@@ -1,7 +1,7 @@
-name: GMRT Bug Report
-description: File a bug report for build/in-game issues which only happen whilst using a GMRT target
+name: GMRT In-Game Bug Report
+description: File a bug report for in-game issues found on a GMRT target
 type: 'GMRT Bug'
-labels: ["gmrt"]
+labels: ["gmrt-bug"]
 body:
   - type: markdown
     attributes:
