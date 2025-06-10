@@ -1,22 +1,20 @@
-name: In-Game Bug Report
-description: File a bug report for problems in your game while it is running on a device
+name: GMS2 In-Game Bug Report
+description: File a bug report for in-game issues found on a GMS2 target
 type: 'In-Game Bug'
-labels: ["runner-bug"]
+labels: ["gms2-bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        Please ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up and/or a comment on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
+        Search for existing reports of this bug first! If one exists, DO NOT send your own report, instead leave a thumbs-up/comment on the existing one.
        
-        Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
-
-        Be aware that we do not offer coding advice/support on this bug-reporting service and so we are very unlikely to fix any issues with your code and send the project back - if you want to ask a coding question, please ask [the GameMaker Community](https://forum.gamemaker.io/index.php?forums/tech-support.24/) instead of using this form.
+        Most fields need to be filled-in before you can submit this report, as it's required information so we can confirm and fix this bug.
 
   - type: textarea
     id: description
     attributes:
-      label: Description
-      description: Write a concise yet detailed description of the issue and do include any relevant screenshots at suitable locations in the body of your text. Please do not copy/paste lots of code in this field - attach a sample project instead, as requested below. (Also, do not add a web link as your entire bug report and assume we will read the external thread to work it out ourselves, as we will most likely simply close the report!)
+      label: What Is The Bug?
+      description:  Write a thorough description of the issue. You may paste screenshots and links at suitable locations in your text. (However, DO NOT add a web link and assume we will read and guess at the bug ourselves - we will simply close the report.)
     validations:
       required: true
       
@@ -32,7 +30,7 @@ body:
     id: steps
     attributes:
       label: Steps To Reproduce
-      description: Add detailed, ordered steps for someone else to recreate the issue into the gaps below (add as many steps into the middle as you require)
+      description: Add detailed, ordered steps for someone else to recreate the issue (add as many steps into the gaps below as you require)
       value: |
         1. Start GameMaker
         2. 
@@ -88,23 +86,13 @@ body:
     validations:
       required: true
       
-  - type: checkboxes
-    id: zip-file
-    attributes:
-      label: Sample Package Attached?
-      description: This .zip file is essential for all bug reports. Please build your project, so that you have a compiler log showing inside GameMaker, then open the Help menu inside GameMaker and run the "Upload a Bug/Ticket Sample" tool. Paste the download link GameMaker makes for you into the Description of your report.
-      options:
-        - label: I have attached my bug package
-          required: true
-      
-  - type: checkboxes
+  - type: input
     id: sample
     attributes:
-      label: Sample Project Added?
-      description: When you created your Bug Package did you say yes to including your project, or have you manually attached a project .yyz directly onto this report? (A project is often essential for bug reports to do with in-game problems and we will ask for a sample if the issue does not easily reproduce for us when following your steps.)
-      options:
-        - label: I have included a small sample project
-          required: false
+      label: Sample Package
+      description: A bug package file is essential for all In-Game reports. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. If possible, say yes to including your sample project! Then paste the download URL into the box below.
+    validations:
+      required: true
       
   - type: markdown
     attributes:
