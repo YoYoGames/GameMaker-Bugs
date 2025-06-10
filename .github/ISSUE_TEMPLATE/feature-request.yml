@@ -1,7 +1,7 @@
 name: Feature Request
 description: Suggest an improvement or new functionality for GameMaker
 type: 'Feature'
-labels: ["feature request"]
+labels: ["documentation"]
 body:
  - type: textarea
    id: problem
