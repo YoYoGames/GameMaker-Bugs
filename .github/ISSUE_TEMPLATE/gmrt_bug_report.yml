@@ -1,16 +1,14 @@
 name: GMRT Bug Report
-description: File a bug report for issues which only happen whilst using GMRT targets
+description: File a bug report for build/in-game issues which only happen whilst using a GMRT target
 type: 'GMRT Bug'
 labels: ["gmrt"]
 body:
   - type: markdown
     attributes:
       value: |
-        Please ensure you have searched for any existing reports of this issue before you begin - if one exists, please leave a thumbs-up and/or a comment on that one, rather than knowingly filing a duplicate report, as duplicates just slow things down.
+        Search for existing reports of this bug first! If one exists, DO NOT send your own report, instead leave a thumbs-up/comment on the existing one.
        
-        Note that most fields are required to be filled-in before you can submit this report, as it is all essential information which we will require in order to confirm and fix your issue.
-
-        Be aware that we do not offer coding advice/support on this bug-reporting service and so we are very unlikely to fix any issues with your code and send the project back - if you want to ask a coding question, please ask [the GameMaker Community](https://forum.gamemaker.io/index.php?forums/tech-support.24/) instead of using this form.
+        Most fields need to be filled-in before you can submit this report, as it's required information so we can confirm and fix this bug.
 
   - type: textarea
     id: description
