@@ -107,7 +107,7 @@ body:
       label: Sample Package
       description: A bug package file is essential for all build reports. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. If possible, say yes to including your sample project! Then paste the download URL into the box below.
     validations:
-      required: false
+      required: true
 
   - type: markdown
     attributes:
