@@ -64,7 +64,7 @@ body:
     id: sample
     attributes:
       label: Sample Package
-      description: A bug package file is essential for all GMRT reports. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. If possible, say yes to including your sample project! Then paste the download URL into the box below.
+      description: A bug package file is essential for all In-Game reports. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. If possible, say yes to including your sample project! Then paste the download URL into the box below.
     validations:
       required: true
       
