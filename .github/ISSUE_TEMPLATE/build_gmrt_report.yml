@@ -1,0 +1,110 @@
+name: GMRT Build Failure Bug Report
+description: File a bug report for any fails/errors when building your projects for GMRT targets.
+type: 'Build Bug'
+labels: ["gmrt"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search for existing reports of this bug first! If one exists, DO NOT send your own report, instead leave a thumbs-up/comment on the existing one.
+       
+        Most fields need to be filled-in before you can submit this report, as it's required information so we can confirm and fix this bug.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What is the bug?
+      description: Write a thorough description of the issue. You may paste screenshots and links at suitable locations in your text. (However, DO NOT add a web link and assume we will read and guess at the bug ourselves - we will simply close the report.)
+    validations:
+      required: true
+      
+  - type: input
+    id: expected
+    attributes:
+      label: Expected Change
+      description: If it is not obvious from your Description text, what difference would you expect to see once this is fixed?
+    validations:
+      required: false
+      
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      description: Add detailed, ordered steps for someone else to recreate the issue (add as many steps into the gaps below as you require)
+      value: |
+        1. Start GameMaker
+        2. 
+        3. 
+        4. See the issue
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: repro-rate
+    attributes:
+      label: How reliably can you recreate this issue using your steps above?
+      options:
+        - Always
+        - Most Times
+        - Only Sometimes
+        - Rarely
+        - Only Ever Happened Once 
+    validations:
+      required: true
+        
+  - type: input
+    id: version
+    attributes:
+      label: Which version of GMRT are you reporting this issue for?
+      description: If you are on an older version, update first of all and confirm your issue stil exists before you send this bug report!
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: os
+    attributes:
+      label: Which operating system(s) are you seeing the problem on?
+      multiple: true
+      options: 
+        - Windows 11
+        - Windows 10
+        - macOS Sequoia
+        - macOS Sonoma
+        - macOS Ventura
+        - Ubuntu 24 LTS
+        - ChromeOS
+    validations:
+      required: false
+      
+  - type: dropdown
+    id: platforms
+    attributes:
+      label: Which platform(s) are you having trouble building this project for?
+      multiple: true
+      options: 
+        - Windows
+        - macOS
+        - Ubuntu
+        - Android
+        - GX.games
+        - HTML5
+        - iOS
+        - PlayStation 4
+        - PlayStation 5
+        - Switch
+        - tvOS
+        - Xbox (GDK)
+    validations:
+      required: true   
+
+  - type: input
+    id: sample
+    attributes:
+      label: Sample Package
+      description: A bug package file is essential for all build reports. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. If possible, say yes to including your sample project! Then paste the download URL into the box below.
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to fill out this bug report!
