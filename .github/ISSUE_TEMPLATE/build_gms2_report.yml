@@ -1,6 +1,7 @@
-name: Build Failure Bug Report
-description: File a bug report for anything to do with building your projects inside the GameMaker IDE.
+name: GMS2 Build Failure Bug Report
+description: File a bug report for any fails/errors when building your projects for GMS2 targets.
 type: 'Build Bug'
+labels: ["gms2"]
 body:
   - type: markdown
     attributes:
