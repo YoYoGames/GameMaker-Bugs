@@ -1,6 +1,6 @@
 name: GMRT In-Game Bug Report
 description: File a bug report for in-game issues found on a GMRT target
-type: 'GMRT Bug'
+type: 'In-Game Bug'
 labels: ["gmrt-bug"]
 body:
   - type: markdown
