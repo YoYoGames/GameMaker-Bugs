@@ -1,6 +1,7 @@
 name: Extension Bug Report
 description: File a bug report for issues that happen with any of our official extensions (note that it is best to do this in the dedicated repo for the extension, but you can also report it here) 
 type: 'Extension Bug'
+labels: ["extension"]
 body:
   - type: markdown
     attributes:
