@@ -2,6 +2,7 @@ name: ProjectTool Bug Report
 description: File a bug report for issues when ProjectTool says it failed importing/exporting .yyz projects, Marketplace/Local .yymps packages, Prefab Collections, or Start Page templates
 type: 'Plugin Bug'
 labels: ["plugin", "ProjectTool"]
+projects: ["YoYoGames/17"]
 body:
   - type: markdown
     attributes:
