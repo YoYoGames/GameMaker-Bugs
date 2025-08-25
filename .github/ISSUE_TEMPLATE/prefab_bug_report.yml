@@ -2,6 +2,7 @@ name: Prefab Bug Report
 description: File a bug report for issues that happen with any of our official Prefab Collections (before they have been modified by you)
 type: 'Prefab Bug'
 labels: ["prefab"]
+projects: ["YoYoGames/17"]
 body:
   - type: markdown
     attributes:
