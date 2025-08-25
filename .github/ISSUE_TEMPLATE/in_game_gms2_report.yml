@@ -2,6 +2,7 @@ name: GMS2 In-Game Bug Report
 description: File a bug report for in-game issues found on a GMS2 target
 type: 'In-Game Bug'
 labels: ["gms2-bug"]
+projects: ["YoYoGames/17"]
 body:
   - type: markdown
     attributes:
