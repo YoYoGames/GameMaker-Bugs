@@ -2,6 +2,7 @@ name: Extension Bug Report
 description: File a bug report for issues that happen with any of our official extensions (note that it is best to do this in the dedicated repo for the extension, but you can also report it here) 
 type: 'Extension Bug'
 labels: ["extension"]
+projects: ["YoYoGames/17","YoYoGames/20"]
 body:
   - type: markdown
     attributes:
