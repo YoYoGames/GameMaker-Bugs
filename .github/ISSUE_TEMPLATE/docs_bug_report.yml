@@ -2,6 +2,7 @@ name: Documentation Bug Report
 description: File a bug report relating to the GameMaker Manual or a support FAQ
 type: 'Docs Bug'
 labels: ["documentation"]
+projects: ["YoYoGames/17"]
 body:
   - type: markdown
     attributes:
