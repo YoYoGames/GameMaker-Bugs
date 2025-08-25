@@ -2,6 +2,7 @@ name: Template Bug Report
 description: File a bug report for issues in any of our official project Templates downloaded via the Start Page inside GameMaker or via one of our websites (before they have been modified by you)
 type: 'In-Game Bug'
 labels: ["template"]
+projects: ["YoYoGames/17"]
 body:
   - type: markdown
     attributes:
