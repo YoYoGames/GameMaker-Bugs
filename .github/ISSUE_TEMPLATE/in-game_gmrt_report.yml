@@ -2,6 +2,7 @@ name: GMRT In-Game Bug Report
 description: File a bug report for in-game issues found on a GMRT target
 type: 'In-Game Bug'
 labels: ["gmrt-bug"]
+projects: ["YoYoGames/17","YoYoGames/7"]
 body:
   - type: markdown
     attributes:
