@@ -2,6 +2,7 @@ name: TestFramework Fail Report (GMS2)
 description: Report when TestFramework says a test has started failing due to new changes in the GMS2 runtimes
 type: 'In-Game Bug'
 labels: ["gms2-bug", "TestFramework"]
+projects: ["YoYoGames/17"]
 body:
   - type: markdown
     attributes:
