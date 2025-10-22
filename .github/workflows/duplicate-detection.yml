@@ -1,0 +1,225 @@
+name: Enhanced Duplicate Issue Detection
+
+on:
+  issues:
+    types: [opened, reopened, edited]
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: duplicate-check-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  check-duplicates:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.issue.labels.*.name, 'duplicate') }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install PyGithub sentence-transformers scikit-learn
+
+      - name: Check for duplicate issues
+        id: check_duplicates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          python - <<'EOF'
+          import os
+          import json
+          import re
+          from github import Github
+          from sentence_transformers import SentenceTransformer
+          from sklearn.metrics.pairwise import cosine_similarity
+          import numpy as np
+
+          # Initialize GitHub API
+          g = Github(os.environ['GITHUB_TOKEN'])
+          repo = g.get_repo(os.environ['REPOSITORY'])
+          current_issue_number = int(os.environ['ISSUE_NUMBER'])
+          current_issue = repo.get_issue(current_issue_number)
+
+          # Skip if issue is already marked as duplicate
+          if any(label.name == 'duplicate' for label in current_issue.labels):
+              print("Issue already marked as duplicate, skipping")
+              exit(0)
+
+          # Get current issue details
+          current_title = current_issue.title.lower()
+          current_body = (current_issue.body or "").lower()
+          current_text = f"{current_title} {current_body}"
+          current_labels = [label.name for label in current_issue.labels]
+
+          # Keywords that often indicate duplicates
+          def extract_keywords(text):
+              # Extract error messages, function names, and key terms
+              error_pattern = r'error[:\s]+([^\n]+)'
+              func_pattern = r'\b([a-z_]+\([^)]*\))'
+              code_pattern = r'`([^`]+)`'
+
+              errors = re.findall(error_pattern, text, re.IGNORECASE)
+              functions = re.findall(func_pattern, text)
+              code_snippets = re.findall(code_pattern, text)
+
+              return set(errors + functions + code_snippets)
+
+          current_keywords = extract_keywords(current_text)
+
+          # Initialize semantic similarity model (lightweight)
+          print("Loading similarity model...")
+          model = SentenceTransformer('all-MiniLM-L6-v2')
+          current_embedding = model.encode([current_text])[0]
+
+          # Search for similar issues
+          print(f"Searching for duplicates of issue #{current_issue_number}...")
+
+          # Get recent issues (last 500 closed/open issues, excluding current)
+          all_issues = repo.get_issues(state='all', sort='updated', direction='desc')
+
+          duplicates = []
+          checked_count = 0
+          max_to_check = 500
+
+          for issue in all_issues:
+              if checked_count >= max_to_check:
+                  break
+
+              # Skip current issue, pull requests, and very old issues
+              if issue.number == current_issue_number or issue.pull_request:
+                  continue
+
+              checked_count += 1
+
+              # Calculate similarity
+              issue_title = issue.title.lower()
+              issue_body = (issue.body or "").lower()
+              issue_text = f"{issue_title} {issue_body}"
+              issue_keywords = extract_keywords(issue_text)
+
+              # Keyword overlap score
+              keyword_overlap = len(current_keywords & issue_keywords)
+              keyword_score = keyword_overlap / max(len(current_keywords), 1) if current_keywords else 0
+
+              # Semantic similarity score
+              issue_embedding = model.encode([issue_text])[0]
+              semantic_score = cosine_similarity([current_embedding], [issue_embedding])[0][0]
+
+              # Label similarity boost
+              issue_labels = [label.name for label in issue.labels]
+              label_overlap = len(set(current_labels) & set(issue_labels))
+              label_boost = 0.1 * min(label_overlap, 3)  # Up to 0.3 boost
+
+              # Combined score
+              combined_score = (semantic_score * 0.6) + (keyword_score * 0.4) + label_boost
+
+              # High threshold for potential duplicates
+              if combined_score > 0.75:
+                  duplicates.append({
+                      'number': issue.number,
+                      'title': issue.title,
+                      'state': issue.state,
+                      'url': issue.html_url,
+                      'score': float(combined_score),
+                      'semantic_score': float(semantic_score),
+                      'keyword_score': float(keyword_score),
+                      'common_keywords': list(current_keywords & issue_keywords)[:5]
+                  })
+
+              # Stop after finding 10 potential duplicates
+              if len(duplicates) >= 10:
+                  break
+
+          # Sort by score
+          duplicates.sort(key=lambda x: x['score'], reverse=True)
+
+          # Output results
+          print(f"Found {len(duplicates)} potential duplicate(s)")
+
+          if duplicates:
+              # Save to output
+              with open('duplicates.json', 'w') as f:
+                  json.dump(duplicates[:5], f, indent=2)  # Keep top 5
+
+              # Set output for next step
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write(f"has_duplicates=true\n")
+                  f.write(f"duplicate_count={len(duplicates[:5])}\n")
+          else:
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write(f"has_duplicates=false\n")
+                  f.write(f"duplicate_count=0\n")
+          EOF
+
+      - name: Comment with duplicate findings
+        if: steps.check_duplicates.outputs.has_duplicates == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const duplicates = JSON.parse(fs.readFileSync('duplicates.json', 'utf8'));
+
+            let comment = '## 🔍 Potential Duplicate Issues Detected\n\n';
+            comment += 'This issue may be a duplicate of one or more existing issues. ';
+            comment += 'Please review the following before proceeding:\n\n';
+
+            duplicates.forEach((dup, index) => {
+              const stateEmoji = dup.state === 'open' ? '🟢' : '🔴';
+              const confidencePercent = Math.round(dup.score * 100);
+
+              comment += `### ${index + 1}. ${stateEmoji} #${dup.number} - ${dup.title}\n`;
+              comment += `- **Similarity:** ${confidencePercent}% match\n`;
+              comment += `- **Status:** ${dup.state}\n`;
+              comment += `- **Link:** ${dup.url}\n`;
+
+              if (dup.common_keywords && dup.common_keywords.length > 0) {
+                comment += `- **Common terms:** ${dup.common_keywords.join(', ')}\n`;
+              }
+
+              comment += '\n';
+            });
+
+            comment += '---\n';
+            comment += '**Note:** This is an automated check. If this is not a duplicate, you can safely ignore this comment. ';
+            comment += 'If this **is** a duplicate, please close this issue and add your information to the existing issue instead.\n\n';
+            comment += '_To mark as duplicate: Comment `/duplicate` or add the `duplicate` label_';
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+
+      - name: Add warning label for high-confidence duplicates
+        if: steps.check_duplicates.outputs.has_duplicates == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const duplicates = JSON.parse(fs.readFileSync('duplicates.json', 'utf8'));
+
+            // If top match is >85% similar, add "possible duplicate" label
+            if (duplicates.length > 0 && duplicates[0].score > 0.85) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['possible duplicate']
+              });
+            }
