@@ -40,13 +40,14 @@ jobs:
           import os
           import json
           import re
-          from github import Github
+          from github import Github, Auth
           from sentence_transformers import SentenceTransformer
           from sklearn.metrics.pairwise import cosine_similarity
           import numpy as np
 
           # Initialize GitHub API
-          g = Github(os.environ['GITHUB_TOKEN'])
+          auth = Auth.Token(os.environ['GITHUB_TOKEN'])
+          g = Github(auth=auth)
           repo = g.get_repo(os.environ['REPOSITORY'])
           current_issue_number = int(os.environ['ISSUE_NUMBER'])
           current_issue = repo.get_issue(current_issue_number)
@@ -71,13 +72,18 @@ jobs:
               for section in sections:
                   section_lower = section.lower()
                   # Include content from description and reproduction steps
-                  if any(keyword in section_lower[:100] for keyword in [
+                  if any(keyword in section_lower[:200] for keyword in [
                       'what is the bug', 'description', 'steps to reproduce',
-                      'how to reproduce', 'reproduce'
+                      'how to reproduce', 'reproduce', 'bug', 'issue'
                   ]):
                       # Remove the heading line itself, keep the content
-                      content = '\n'.join(section.split('\n')[1:])
+                      lines = section.split('\n')
+                      content = '\n'.join(lines[1:]) if len(lines) > 1 else section
                       relevant_text += content + " "
+
+              # If no sections matched, use the whole body (might not be using template)
+              if not relevant_text.strip():
+                  relevant_text = body
 
               return relevant_text.strip()
 
@@ -87,6 +93,9 @@ jobs:
           current_relevant_content = extract_relevant_content(current_body)
           current_text = f"{current_title} {current_relevant_content}"
           current_labels = [label.name for label in current_issue.labels]
+
+          print(f"Current issue text length: {len(current_text)} chars")
+          print(f"First 200 chars: {current_text[:200]}")
 
           # Keywords that often indicate duplicates
           def extract_keywords(text):
@@ -151,8 +160,12 @@ jobs:
               # Combined score
               combined_score = (semantic_score * 0.6) + (keyword_score * 0.4) + label_boost
 
-              # High threshold for potential duplicates
-              if combined_score > 0.75:
+              # Log top scores for debugging
+              if checked_count <= 10 and combined_score > 0.5:
+                  print(f"  Issue #{issue.number}: {combined_score:.2f} (semantic: {semantic_score:.2f}, keywords: {keyword_score:.2f})")
+
+              # Threshold for potential duplicates
+              if combined_score > 0.65:
                   duplicates.append({
                       'number': issue.number,
                       'title': issue.title,
