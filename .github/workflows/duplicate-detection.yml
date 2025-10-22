@@ -27,8 +27,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install PyGithub sentence-transformers scikit-learn
+        run: pip install --upgrade pip PyGithub sentence-transformers scikit-learn
 
       - name: Check for duplicate issues
         id: check_duplicates
