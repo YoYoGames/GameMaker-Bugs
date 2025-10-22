@@ -56,10 +56,36 @@ jobs:
               print("Issue already marked as duplicate, skipping")
               exit(0)
 
+          # Extract only relevant sections from issue body
+          def extract_relevant_content(body):
+              if not body:
+                  return ""
+
+              # Look for the main content sections in the issue template
+              # "What Is The Bug?" / "Description" and "Steps To Reproduce"
+              relevant_text = ""
+
+              # Split by common headings
+              sections = re.split(r'###?\s+', body)
+
+              for section in sections:
+                  section_lower = section.lower()
+                  # Include content from description and reproduction steps
+                  if any(keyword in section_lower[:100] for keyword in [
+                      'what is the bug', 'description', 'steps to reproduce',
+                      'how to reproduce', 'reproduce'
+                  ]):
+                      # Remove the heading line itself, keep the content
+                      content = '\n'.join(section.split('\n')[1:])
+                      relevant_text += content + " "
+
+              return relevant_text.strip()
+
           # Get current issue details
           current_title = current_issue.title.lower()
           current_body = (current_issue.body or "").lower()
-          current_text = f"{current_title} {current_body}"
+          current_relevant_content = extract_relevant_content(current_body)
+          current_text = f"{current_title} {current_relevant_content}"
           current_labels = [label.name for label in current_issue.labels]
 
           # Keywords that often indicate duplicates
@@ -105,7 +131,8 @@ jobs:
               # Calculate similarity
               issue_title = issue.title.lower()
               issue_body = (issue.body or "").lower()
-              issue_text = f"{issue_title} {issue_body}"
+              issue_relevant_content = extract_relevant_content(issue_body)
+              issue_text = f"{issue_title} {issue_relevant_content}"
               issue_keywords = extract_keywords(issue_text)
 
               # Keyword overlap score
