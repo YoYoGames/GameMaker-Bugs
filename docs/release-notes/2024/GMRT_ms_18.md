@@ -47,37 +47,37 @@ Projects containing these features or functions will not run or will cause a run
 ##Added functions:
 
 
--dbg_* functions - while most functions are implemented the views for Textures, Texturegroups, Flexpanels, Log and Memory are not yet implemented
+-`dbg_*` functions - while most functions are implemented the views for Textures, Texturegroups, Flexpanels, Log and Memory are not yet implemented
 
--gc_* functions - gc_get_stats is displayed in the game window. Note that the 'Collection time' stat will only ever be 0us as it measures the time taken by the separate collection thread, which is temporarily disabled in GMRT (where collection is, for now, performed on the main thread).
-
+-`gc_*` functions - gc_get_stats is displayed in the game window. Note that the 'Collection time' stat will only ever be 0us as it measures the time taken by the separate collection thread, which is temporarily disabled in GMRT (where collection is, for now, performed on the main thread).
+ 
 -Open and save filename functions 
-
--file_* functions, game_save/game_load will NOT be implemented in GMRT 
-
--Added newer physics_* functions - physics_debug and physics_raycast
-
--Added remaining struct_* functions struct_exists_from_hash and struct_remove_from_hash
-
+ 
+-`file_*` functions, game_save/game_load will NOT be implemented in GMRT 
+ 
+-Added newer `physics_*` functions - physics_debug and physics_raycast
+ 
+-Added remaining `struct_*` functions struct_exists_from_hash and struct_remove_from_hash
+ 
 -SDF font rendering and associated functions 
-
--scheduler_resolution_* functions 
-
--external_* functions 
-
--skeleton_* functions 
-
--sprite_add_* functions 
-
--handle_* functions 
-
--layer_text_* functions 
-
--zip_* functions 
-
--gif_* functions 
-
--screen_save_* functions 
+ 
+-`scheduler_resolution_*` functions 
+ 
+-`external_*` functions 
+ 
+-`skeleton_*` functions 
+ 
+-`sprite_add_*` functions 
+ 
+-`handle_*` functions 
+ 
+-`layer_text_*` functions 
+ 
+-`zip_*` functions 
+ 
+-`gif_*` functions 
+ 
+-`screen_save_*` functions 
 
 -sprite_get_convex_hull()
 
