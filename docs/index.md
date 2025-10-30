@@ -9,7 +9,7 @@ layout: home
 
 Released _roughly_ every other month up until the end of 2024, much slower since then. Always intended to be stable, but may have the odd lower-severity issue.
 
-#### [2024.13.1](\release-notes\2024\14) - October 2025
+#### [2024.14](\release-notes\2024\14) - October 2025
 #### [2024.13.1](\release-notes\2024\13) - April 2025
 #### [2024.11.0](\release-notes\2024\11) - November 2024
 #### [2024.8.1](\release-notes\2024\8) - August 2024
