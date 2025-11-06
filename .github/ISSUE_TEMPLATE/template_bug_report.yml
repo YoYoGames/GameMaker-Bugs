@@ -72,9 +72,9 @@ body:
       description: If you are on an older version, update and confirm your issue stil exists! And if you are using a Beta, please add the full version number into your Description text.
       multiple: true
       options:
-        - 2024.14 (Monthly)
-        - 2022.0.3 (LTS)
-        - 2024.1400 (Betas)
+        - 2024.14.0 Monthly
+        - 2022.0.3 LTS
+        - 2024.1400.1 Betas
     validations:
       required: true
       
@@ -94,8 +94,9 @@ body:
         - PlayStation 4
         - PlayStation 5
         - Switch
+        - Switch 2
         - tvOS
-        - Xbox (GDK)
+        - Xbox
     validations:
       required: true
       
