@@ -35,13 +35,6 @@ jobs:
 
             
             Thanks!
-
-      - name: debug
-        run: echo "$EVENT"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          EVENT: ${{ github.event.issue.event }}
       
       - name: Add to backlog
         run: gh project item-edit --id "$ID" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
@@ -49,7 +42,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
-          ID: ${{ github.event.issue.id }}
+          ID: ${{ github.event.issue.node_id }}
           
 
 
