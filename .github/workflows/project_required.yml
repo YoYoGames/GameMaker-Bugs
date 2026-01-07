@@ -43,6 +43,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
           ID: ${{ github.event.issue.node_id }}
+          EVENT: ${{ github.event }}
           
 
 
