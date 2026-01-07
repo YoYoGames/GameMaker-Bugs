@@ -36,6 +36,13 @@ jobs:
             
             Thanks!
 
+      - name: Add to backlog
+        run: gh project item-edit --project-id "17" --id "$ID" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --single-select-option-id="5f143608"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          ID: ${{ github.event.issue.node_id }}
 
 
 
