@@ -69,9 +69,16 @@ jobs:
           # If no project item, add it
           if [ -z "$item_id" ]; then
             echo "Issue not in project — adding now" >&2
-            new_item=$(gh project item-add --project-id PVT_kwDOAFV58c4AUHyf --content-id "$ISSUE_NODE_ID" || true)
+            new_item=$(gh api graphql -f query='
+              mutation($project:ID!, $contentId:ID!) {
+                addProjectV2ItemById(input: {projectId: $project, contentId: $contentId}) {
+                  item {
+                    id
+                  }
+                }
+              }' -f project='PVT_kwDOAFV58c4AUHyf' -f contentId="$ISSUE_NODE_ID" || true)
 
-            item_id=$(echo "$new_item" | jq -r '.id // empty')
+            item_id=$(echo "$new_item" | jq -r '.data.addProjectV2ItemById.item.id // empty')
 
             if [ -z "$item_id" ]; then
               echo "Failed to add issue to project — skipping backlog step" >&2
@@ -79,8 +86,6 @@ jobs:
               exit 0
             fi
           fi
-
-          echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
       
       - name: Add to backlog
         run: gh project item-edit --id "${{ steps.get_item.outputs.item_id }}" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
