@@ -32,30 +32,44 @@ jobs:
             
             
             [Why Have You Asked Me For A Sample?](https://github.com/YoYoGames/GameMaker-Bugs/wiki/Why-Send-Sample-Projects)
-
             
             Thanks!
-      
-      - name: Add to backlog
-        run: gh project item-edit --id "$ID" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
+      - name: Get project item id for this issue
+        id: get_item
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.issue.number }}
-          ID: ${{ github.event.issue.node_id }}
-          EVENT: ${{ github.event }}
-          
+        run: |
+            ISSUE_NODE_ID='${{ github.event.issue.node_id }}'
+            echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
+            resp=$(gh api graphql -f query='
+              query($id: ID!){  
+                node(id:$id){
+                  ... on Issue {
+                    projectItems(first:100){
+                      nodes {
+                        id
+                        project {
+                          ... on ProjectV2 {
+                            id
+                            title
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }' -f id="$ISSUE_NODE_ID")
+            echo "$resp" >&2
+            item_id=$(echo "$resp" | jq -r '.data.node.projectItems.nodes[0].id // empty')
+  
+            if [ -z "$item_id" ]; then
+              echo "No project item found for this issue (not in a Project V2), exiting." >&2
+              exit 1
+            fi
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
+      
+      - name: Add to backlog
+        run: gh project item-edit --id "${{ steps.get_item.outputs.item_id }}" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
