@@ -41,38 +41,46 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-            ISSUE_NODE_ID='${{ github.event.issue.node_id }}'
-            echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
+          ISSUE_NODE_ID='${{ github.event.issue.node_id }}'
+          echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
 
-            resp=$(gh api graphql -f query='
-              query($id: ID!){  
-                node(id:$id){
-                  ... on Issue {
-                    projectItems(first:100){
-                      nodes {
-                        id
-                        project {
-                          ... on ProjectV2 {
-                            id
-                            title
-                          }
+          resp=$(gh api graphql -f query='
+            query($id: ID!){
+              node(id:$id){
+                ... on Issue {
+                  projectItems(first:100){
+                    nodes {
+                      id
+                      project {
+                        ... on ProjectV2 {
+                          id
+                          title
                         }
                       }
                     }
                   }
                 }
-              }' -f id="$ISSUE_NODE_ID")
+              }
+            }' -f id="$ISSUE_NODE_ID")
 
-            echo "$resp" >&2
-            item_id=$(echo "$resp" | jq -r '.data.node.projectItems.nodes[0].id // empty')
-  
+          echo "$resp" >&2
+          item_id=$(echo "$resp" | jq -r '.data.node.projectItems.nodes[0].id // empty')
+
+          # If no project item, add it
+          if [ -z "$item_id" ]; then
+            echo "Issue not in project — adding now" >&2
+            new_item=$(gh project item-add --project-id PVT_kwDOAFV58c4AUHyf --content-id "$ISSUE_NODE_ID" || true)
+
+            item_id=$(echo "$new_item" | jq -r '.id // empty')
+
             if [ -z "$item_id" ]; then
-              echo "Issue not in project — adding now" >&2
-              new_item=$(gh project item-add --project-id PVT_kwDOAFV58c4AUHyf --content-id "$ISSUE_NODE_ID")
-              item_id=$(echo "$new_item" | jq -r '.id')
+              echo "Failed to add issue to project — skipping backlog step" >&2
+              echo "item_id=" >> "$GITHUB_OUTPUT"
+              exit 0
             fi
+          fi
 
-            echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
+          echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
       
       - name: Add to backlog
         run: gh project item-edit --id "${{ steps.get_item.outputs.item_id }}" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
