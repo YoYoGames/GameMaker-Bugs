@@ -67,8 +67,9 @@ jobs:
             item_id=$(echo "$resp" | jq -r '.data.node.projectItems.nodes[0].id // empty')
   
             if [ -z "$item_id" ]; then
-              echo "No project item found for this issue (not in a Project V2), exiting." >&2
-              exit 1
+              echo "Issue not in project — adding now" >&2
+              new_item=$(gh project item-add --project-id PVT_kwDOAFV58c4AUHyf --content-id "$ISSUE_NODE_ID")
+              item_id=$(echo "$new_item" | jq -r '.id')
             fi
 
             echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
