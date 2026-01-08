@@ -64,8 +64,8 @@ jobs:
             const owner = context.repo.owner;
 
             const projectQuery = `
-              query ($owner: String!, $number: Int!) {
-                organization(login: $owner) {
+              query ($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
                   projectV2(number: $number) {
                     id
                     fields(first: 50) {
@@ -86,7 +86,8 @@ jobs:
             `;
 
             const projectRes = await github.graphql(projectQuery, {
-              owner,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               number: projectNumber
             });
 
