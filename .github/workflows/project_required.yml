@@ -46,7 +46,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-            python .github/actions/get_node_id.py ${{ github.event.issue.number }} PVT_kwDOAFV58c4AUHyf
+            python .github/workflows/actions/get_node_id.py ${{ github.event.issue.number }} PVT_kwDOAFV58c4AUHyf
 
       - name: Add to backlog
         if: steps.get_item.outputs.item_id != ''
