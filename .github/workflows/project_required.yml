@@ -13,7 +13,7 @@ jobs:
       - name: Remove label
         run: gh issue edit "$NUMBER" --remove-label "$LABELS"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
           LABELS: project
@@ -21,7 +21,7 @@ jobs:
       - name: Add comment
         run: gh issue comment "$NUMBER" --body "$BODY"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
           BODY: >
@@ -37,7 +37,7 @@ jobs:
       - name: Get project item id for this issue
         id: get_item
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
             ISSUE_NODE_ID='${{ github.event.issue.node_id }}'
             echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
