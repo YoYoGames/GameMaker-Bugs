@@ -70,6 +70,7 @@ jobs:
             echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
       
       - name: Add to backlog
+        if: steps.get_item.outputs.item_id != ''
         run: gh project item-edit --id "${{ steps.get_item.outputs.item_id }}" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
