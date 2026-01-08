@@ -46,34 +46,42 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
             ISSUE_NODE_ID='${{ github.event.issue.node_id }}'
+            PROJECT_ID='PVT_kwDOAFV58c4AUHyf'
+  
             echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
+
             resp=$(gh api graphql -f query='
-              query($id: ID!){  
-                node(id:$id){
-                  ... on Issue {
-                    projectItems(first:100){
-                      nodes {
-                        id
-                        project {
-                          ... on ProjectV2 {
-                            id
-                            title
-                          }
+            query($project: ID!, $issue: ID!) {
+              node(id: $project) {
+                ... on ProjectV2 {
+                  items(first: 100) {
+                    nodes {
+                      id
+                      content {
+                        ... on Issue {
+                          id
                         }
                       }
                     }
                   }
                 }
-              }' -f id="$ISSUE_NODE_ID")
+              }
+            }' -f project="$PROJECT_ID" -f issue="$ISSUE_NODE_ID")
+
             echo "$resp" >&2
-            item_id=$(echo "$resp" | jq -r '.data.node.projectItems.nodes[0].id // empty')
-  
+
+            item_id=$(echo "$resp" | jq -r \
+              --arg ISSUE "$ISSUE_NODE_ID" \
+              '.data.node.items.nodes[]
+              | select(.content.id == $ISSUE)
+              | .id')
+
             if [ -z "$item_id" ]; then
-              echo "No project item found for this issue (not in a Project V2), exiting." >&2
-              exit 0
+                echo "Issue is not in the project — skipping." >&2
+                exit 0
             fi
 
-            echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
+            echo "item_id=$item_id" >> "$GITHUB_OUTPU
       
       - name: Add to backlog
         if: steps.get_item.outputs.item_id != ''
