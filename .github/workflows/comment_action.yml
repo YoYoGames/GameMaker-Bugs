@@ -61,21 +61,37 @@ jobs:
                 const projectId = 17;
                 const columnName = "Triage";
 
-                const { data: columns } =
-                    await github.rest.projects.listColumns({
-                    project_id: projectId
-                    });
+                const request = github.request;
 
-                const triageColumn = columns.find(
-                c => c.name.toLowerCase() === columnName.toLowerCase()
+                const columns = await request(
+                    "GET /projects/{project_id}/columns",
+                    {
+                        project_id: projectId,
+                        headers: {
+                            Accept: "application/vnd.github.inertia-preview+json"
+                            }
+                        }
+                );
+
+                const triageColumn = columns.data.find(
+                    c => c.name.toLowerCase() === columnName.toLowerCase()
                 );
 
                 if (!triageColumn) {
                     throw new Error(`Column "${columnName}" not found`);
                 }
 
-                await github.rest.projects.createProjectCard({
-                    column_id: triageColumn.id,
-                    content_id: context.payload.issue.id,
-                    content_type: "Issue"
-                });
+
+                await request(
+                    "POST /projects/columns/{column_id}/cards",
+                    {
+                        column_id: triageColumn.id,
+                        content_id: context.payload.issue.id,
+                        content_type: "Issue",
+                        headers: {
+                            Accept: "application/vnd.github.inertia-preview+json"
+                            }
+                        }
+                );
+
+                console.log("Moved issue to Triage");
