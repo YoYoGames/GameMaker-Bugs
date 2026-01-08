@@ -1,0 +1,164 @@
+name: Issue Comment Action
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Check for GameMaker link
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.comment.body || "";
+            return body.includes(
+              "https://api.gamemaker.io/api/github/downloads/"
+            );
+
+      - name: Update labels
+        if: steps.check.outputs.result == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue_number = context.payload.issue.number;
+            const { owner, repo } = context.repo;
+
+            const { data: labels } =
+              await github.rest.issues.listLabelsOnIssue({
+                owner,
+                repo,
+                issue_number
+              });
+
+            const newLabels = labels
+              .map(l => l.name)
+              .filter(l => l !== "project_required");
+
+            if (!newLabels.includes("project")) {
+              newLabels.push("project");
+            }
+
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number,
+              labels: newLabels
+            });
+
+      - name: Set Project Status to Triage
+        if: steps.check.outputs.result == 'true'
+        uses: actions/github-script@v7
+        env:
+          PROJECT_NUMBER: 7
+        with:
+          script: |
+            const projectNumber = Number(process.env.PROJECT_NUMBER);
+            const issueNodeId = context.payload.issue.node_id;
+            const owner = context.repo.owner;
+
+            const projectQuery = `
+              query ($owner: String!, $number: Int!) {
+                organization(login: $owner) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 50) {
+                      nodes {
+                        ... on ProjectV2SingleSelectField {
+                          id
+                          name
+                          options {
+                            id
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const projectRes = await github.graphql(projectQuery, {
+              owner,
+              number: projectNumber
+            });
+
+            const project = projectRes.organization.projectV2;
+            const statusField = project.fields.nodes.find(
+              f => f.name === "Status"
+            );
+
+            if (!statusField) {
+              throw new Error("Status field not found in project");
+            }
+
+            const triageOption = statusField.options.find(
+              o => o.name.toLowerCase() === "triage"
+            );
+
+            if (!triageOption) {
+              throw new Error("Triage option not found in Status field");
+            }
+
+            // 2. Add issue to project
+            const addItemMutation = `
+              mutation ($projectId: ID!, $contentId: ID!) {
+                addProjectV2ItemById(
+                  input: {
+                    projectId: $projectId
+                    contentId: $contentId
+                  }
+                ) {
+                  item {
+                    id
+                  }
+                }
+              }
+            `;
+
+            const addItemRes = await github.graphql(addItemMutation, {
+              projectId: project.id,
+              contentId: issueNodeId
+            });
+
+            const itemId = addItemRes.addProjectV2ItemById.item.id;
+
+            const setStatusMutation = `
+              mutation (
+                $projectId: ID!
+                $itemId: ID!
+                $fieldId: ID!
+                $optionId: ID!
+              ) {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: $projectId
+                    itemId: $itemId
+                    fieldId: $fieldId
+                    value: {
+                      singleSelectOptionId: $optionId
+                    }
+                  }
+                ) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }
+            `;
+
+            await github.graphql(setStatusMutation, {
+              projectId: project.id,
+              itemId,
+              fieldId: statusField.id,
+              optionId: triageOption.id
+            });
+
+            console.log("Issue labelled and moved to Triage");
