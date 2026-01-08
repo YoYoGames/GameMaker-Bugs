@@ -77,7 +77,7 @@ jobs:
                     }
                   }' -f project="$PROJECT_ID")
                else
-                  resp=${gh api graphql -f query='
+                  resp=$(gh api graphql -f query='
                   query($project: ID!, $cursor: String!) {
                     node(id: $project) {
                       ... on ProjectV2 {
@@ -90,13 +90,14 @@ jobs:
                             id
                             content {
                               ... on Issue {
+                                id
                               }
                             }
                           }
                         }
                       }
                     }
-                  }' -f project="$PROJET_ID" -f cursor=$cursor")
+                  }' -f project="$PROJECT_ID" -f cursor=$cursor")
                 fi                        
                             
                 item_id=$(echo "$resp" | jq -r \
@@ -130,4 +131,4 @@ jobs:
         if: steps.get_item.outputs.item_id != ''
         run: gh project item-edit --id "${{ steps.get_item.outputs.item_id }}" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
