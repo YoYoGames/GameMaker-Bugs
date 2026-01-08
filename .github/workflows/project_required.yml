@@ -54,52 +54,52 @@ jobs:
           while :; do
             if [ -z "$cursor" ]; then
               resp=$(gh api graphql -f project="$PROJECT_ID" <<'EOF'
-query($project: ID!) {
-  node(id: $project) {
-    ... on ProjectV2 {
-      items(first: 100) {
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-        nodes {
-          id
-          content {
-            ... on Issue {
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-}
-EOF
-)
+              query($project: ID!) {
+                node(id: $project) {
+                  ... on ProjectV2 {
+                    items(first: 100) {
+                      pageInfo {
+                        hasNextPage
+                        endCursor
+                        }
+                      nodes {
+                        id
+                        content {
+                          ... on Issue {
+                              id
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              EOF
+              )
             else
               resp=$(gh api graphql -f project="$PROJECT_ID" -f cursor="$cursor" <<'EOF'
-query($project: ID!, $cursor: String!) {
-  node(id: $project) {
-    ... on ProjectV2 {
-      items(first: 100, after: $cursor) {
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-        nodes {
-          id
-          content {
-            ... on Issue {
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-}
-EOF
-)
+              query($project: ID!, $cursor: String!) {
+                node(id: $project) {
+                  ... on ProjectV2 {
+                    items(first: 100, after: $cursor) {
+                      pageInfo {
+                        hasNextPage
+                        endCursor  
+                      }
+                      nodes {
+                        id
+                        content {
+                          ... on Issue {
+                            id
+                           }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              EOF
+              )
             fi
 
             item_id=$(echo "$resp" | jq -r \
