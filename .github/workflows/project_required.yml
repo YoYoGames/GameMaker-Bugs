@@ -51,7 +51,7 @@ jobs:
             echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
 
             resp=$(gh api graphql -f query='
-            query($project: ID!, $issue: ID!) {
+            query($project: ID!) {
               node(id: $project) {
                 ... on ProjectV2 {
                   items(first: 100) {
@@ -66,7 +66,7 @@ jobs:
                   }
                 }
               }
-            }' -f project="$PROJECT_ID" -f issue="$ISSUE_NODE_ID")
+            }' -f project="$PROJECT_ID")
 
             echo "$resp" >&2
 
