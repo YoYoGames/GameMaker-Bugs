@@ -3,6 +3,12 @@ on:
   issues:
     types:
       - labeled
+
+permissions:
+  contents: read
+  issues: write
+
+  
 jobs:
   add-comment:
     if: github.event.label.name == 'project_required'
