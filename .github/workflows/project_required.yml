@@ -64,7 +64,7 @@ jobs:
   
             if [ -z "$item_id" ]; then
               echo "No project item found for this issue (not in a Project V2), exiting." >&2
-              exit 1
+              exit 0
             fi
 
             echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
