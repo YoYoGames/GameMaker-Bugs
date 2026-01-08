@@ -56,7 +56,7 @@ jobs:
         if: steps.check.outputs.result == 'true'
         uses: actions/github-script@v7
         env:
-          PROJECT_NUMBER: 7
+          PROJECT_NUMBER: 17
         with:
           script: |
             const projectNumber = Number(process.env.PROJECT_NUMBER);
