@@ -32,14 +32,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
-          BODY: >
-            Thanks for reporting this, but in order to confirm the problem and then investigate a fix we need you to send us small project which already shows this issue - to ensure we see exactly what you see and then learn why this problem is caused.
+          BODY: |
+              Thanks for reporting this, but in order to confirm the problem and then investigate a fix we need you to send us small project which already shows this issue - to ensure we see exactly what you see and then learn why this problem is caused.
 
-            Open the project inside GameMaker (and ideally recreate the problem), then use the Help menu's "Upload a Bug/Ticket Sample" tool and say yes to GameMaker privately sending us your project. Copy the download link GameMaker gives you and then paste that link here as a new comment, please.
+              Open the project inside GameMaker (and ideally recreate the problem), then use the Help menu's "Upload a Bug/Ticket Sample" tool and say yes to GameMaker privately sending us your project. Copy the download link GameMaker gives you and then paste that link here as a new comment, please.
 
-            [Why Have You Asked Me For A Sample?](https://github.com/YoYoGames/GameMaker-Bugs/wiki/Why-Send-Sample-Projects)
+              [Why Have You Asked Me For A Sample?](https://github.com/YoYoGames/GameMaker-Bugs/wiki/Why-Send-Sample-Projects)
 
-            Thanks!
+              Thanks!
 
       - name: Get project item id for this issue
         id: get_item
