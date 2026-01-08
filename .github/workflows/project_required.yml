@@ -76,13 +76,13 @@ jobs:
                       }
                     }
                   }' -f project="$PROJECT_ID")
-                else
+               else
                   resp=${gh api graphql -f query='
                   query($project: ID!, $cursor: String!) {
                     node(id: $project) {
                       ... on ProjectV2 {
                         items(first: 100, after: $cursor) {
-                          pageInfor {
+                          pageInfo {
                             hasNextPage
                             endCursor
                           }
