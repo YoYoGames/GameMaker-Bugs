@@ -56,7 +56,7 @@ jobs:
         if: steps.check.outputs.result == 'true'
         uses: actions/github-script@v7
         with:
-            github-token: ${{ secrets.ORG_PROJECT_TOKEN }}
+            github-token: ${{ secrets.GH_TOKEN }}
             script: |
                 const projectId = 17;
                 const columnName = "Triage";
