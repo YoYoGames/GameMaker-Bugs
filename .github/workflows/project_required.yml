@@ -54,7 +54,7 @@ jobs:
             item_id=""
 
             while :; do
-               if [ -z "$cursor" ]; then
+              if [ -z "$cursor" ]; then
                   resp=$(gh api graphql -f query='
                   query($project: ID!) {
                     node(id: $project) {
@@ -76,7 +76,7 @@ jobs:
                       }
                     }
                   }' -f project="$PROJECT_ID")
-               else
+              else
                   resp=$(gh api graphql -f query='
                   query($project: ID!, $cursor: String!) {
                     node(id: $project) {
@@ -98,24 +98,24 @@ jobs:
                       }
                     }
                   }' -f project="$PROJECT_ID" -f cursor=$cursor")
-                fi                        
+              fi                        
                             
-                item_id=$(echo "$resp" | jq -r \
+              item_id=$(echo "$resp" | jq -r \
                    --arg ISSUE "$ISSUE_NODE_ID" \
                    '.data.node.items.nodes[]
                     | select(.content.id == $ISSUE)
                     | .id' | head -n1)
 
-                if [ -n "$item_id" ]; then
-                   break
+              if [ -n "$item_id" ]; then
+                  break
+              fi
+
+              has_next=$(echo "$resp" | jq -r '.data.node.items.pageInfo.hasNextPage')
+                if [ "$has_next" != "true" ]; then
+                  break
                 fi
 
-                has_next=$(echo "$resp" | jq -r '.data.node.items.pageInfo.hasNextPage')
-                 if [ "$has_next" != "true" ]; then
-                   break
-                 fi
-
-                 cursor=$(echo "$resp" | jq -r '.data.node.items.pageInfo.endCursor')
+              cursor=$(echo "$resp" | jq -r '.data.node.items.pageInfo.endCursor')
             done
 
             if [ -z "$item_id" ]; then
