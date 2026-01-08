@@ -4,7 +4,7 @@ import sys
 import requests
 
 GH_TOKEN = os.environ.get("GH_TOKEN")
-REPO = "YoYoGames/GameMaker-Bugs"  # format: owner/repo
+REPO = "YoYoGames/GameMaker-Bugs"  
 
 if not GH_TOKEN or not REPO:
     print("Please set GH_TOKEN and GH_REPO environment variables.", file=sys.stderr)
@@ -22,7 +22,6 @@ headers = {
     "Accept": "application/vnd.github+json",
 }
 
-# Step 1: Get the issue node ID
 print(f"[DEBUG] Getting node ID for issue #{issue_number}...")
 resp = requests.get(
     f"https://api.github.com/repos/{REPO}/issues/{issue_number}",
@@ -38,7 +37,6 @@ if not issue_node_id:
     sys.exit(1)
 print(f"[DEBUG] Issue node ID: {issue_node_id}")
 
-# Step 2: Iterate Project V2 items (paginated)
 cursor = None
 item_id = None
 page_count = 0
@@ -106,8 +104,11 @@ while True:
     cursor = page_info["endCursor"]
 
 if item_id:
-    print(f"[DEBUG] Writing project item ID to GitHub output: {item_id}")
-    with open(os.environ.get("GITHUB_OUTPUT", "/dev/null"), "a") as f:
-        f.write(f"item_id={item_id}\n")
+    output_file = os.environ.get("GITHUB_OUTPUT")
+    if output_file:
+        with open(output_file, "a") as f:
+            f.write(f"item_id={item_id}\n")
+    print(f"[DEBUG] item_id={item_id}")
 else:
-    print("Issue not found in project — skipping.")
+    print("Issue not found in project — skipping.", file=sys.stderr)
+    sys.exit(0)
