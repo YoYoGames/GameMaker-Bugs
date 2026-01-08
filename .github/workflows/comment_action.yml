@@ -52,40 +52,30 @@ jobs:
               labels: newLabels
             });
 
-      - name: Move issue to Triage 
+      - name: Move issue to Triage column (classic project)
         if: steps.check.outputs.result == 'true'
         uses: actions/github-script@v7
         with:
-          script: |
-            const projectId = 17; 
-            const columnName = "triage"; 
+            github-token: ${{ secrets.ORG_PROJECT_TOKEN }}
+            script: |
+                const projectId = 17;
+                const columnName = "Triage";
 
-            const { data: columns } =
-              await github.rest.projects.listColumns({
-                project_id: projectId
-              });
+                const { data: columns } =
+                    await github.rest.projects.listColumns({
+                    project_id: projectId
+                    });
 
-            const triageColumn = columns.find(
-              c => c.name.toLowerCase() === columnName.toLowerCase()
-            );
+                const triageColumn = columns.find(
+                c => c.name.toLowerCase() === columnName.toLowerCase()
+                );
 
-            if (!triageColumn) {
-              throw new Error(`Column "${columnName}" not found`);
-            }
+                if (!triageColumn) {
+                    throw new Error(`Column "${columnName}" not found`);
+                }
 
-            const issue_node_id = context.payload.issue.node_id; 
-
-            const { data: cards } =
-              await github.rest.projects.listProjectCards({
-                column_id: triageColumn.id
-              });
-
-            await github.rest.projects.createProjectCard({
-              column_id: triageColumn.id,
-              content_id: context.payload.issue.id,
-              content_type: "Issue"
-            });
-
-            console.log(
-              `Moved issue #${context.payload.issue.number} to ${columnName}`
-            );
+                await github.rest.projects.createProjectCard({
+                    column_id: triageColumn.id,
+                    content_id: context.payload.issue.id,
+                    content_type: "Issue"
+                });
