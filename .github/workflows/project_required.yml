@@ -8,7 +8,6 @@ permissions:
   contents: read
   issues: write
 
-  
 jobs:
   add-comment:
     if: github.event.label.name == 'project_required'
@@ -32,107 +31,109 @@ jobs:
           NUMBER: ${{ github.event.issue.number }}
           BODY: >
             Thanks for reporting this, but in order to confirm the problem and then investigate a fix we need you to send us small project which already shows this issue - to ensure we see exactly what you see and then learn why this problem is caused.
-            
-            
+
             Open the project inside GameMaker (and ideally recreate the problem), then use the Help menu's "Upload a Bug/Ticket Sample" tool and say yes to GameMaker privately sending us your project. Copy the download link GameMaker gives you and then paste that link here as a new comment, please.
-            
-            
+
             [Why Have You Asked Me For A Sample?](https://github.com/YoYoGames/GameMaker-Bugs/wiki/Why-Send-Sample-Projects)
-            
+
             Thanks!
+
       - name: Get project item id for this issue
         id: get_item
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-            ISSUE_NODE_ID='${{ github.event.issue.node_id }}'
-            PROJECT_ID='PVT_kwDOAFV58c4AUHyf'
+          ISSUE_NODE_ID='${{ github.event.issue.node_id }}'
+          PROJECT_ID='PVT_kwDOAFV58c4AUHyf'
 
-            echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
+          echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
 
-            cursor=""
-            item_id=""
+          cursor=""
+          item_id=""
 
-            while :; do
-              if [ -z "$cursor" ]; then
-                  resp=$(gh api graphql -f project="$PROJECT_ID" << 'EOF'
-                  query($project: ID!) {
-                    node(id: $project) {
-                      ... on ProjectV2 {
-                        items(first: 100) {
-                          pageInfo {
-                            hasNextPage
-                            endCursor
-                          }
-                          nodes {
-                            id  
-                            content {
-                              ... on Issue {
-                                id
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  EOF
-                  )
-              else
-                  resp=$(gh api graphql -f project="$PROJECT_ID" -f cursor=$cursor" <<'EOF'
-                  query($project: ID!, $cursor: String!) {
-                    node(id: $project) {
-                      ... on ProjectV2 {
-                        items(first: 100, after: $cursor) {
-                          pageInfo {
-                            hasNextPage
-                            endCursor
-                          }
-                          nodes {
-                            id
-                            content {
-                              ... on Issue {
-                                id
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                  EOF
-                  )
-              fi                        
-                            
-              item_id=$(echo "$resp" | jq -r \
-                   --arg ISSUE "$ISSUE_NODE_ID" \
-                   '.data.node.items.nodes[]
-                    | select(.content.id == $ISSUE)
-                    | .id' | head -n1)
-
-              if [ -n "$item_id" ]; then
-                  break
-              fi
-
-              has_next=$(echo "$resp" | jq -r '.data.node.items.pageInfo.hasNextPage')
-                if [ "$has_next" != "true" ]; then
-                  break
-                fi
-
-              cursor=$(echo "$resp" | jq -r '.data.node.items.pageInfo.endCursor')
-            done
-
-            if [ -z "$item_id" ]; then
-               echo "Issue is not in the project — skipping." >&2
-               exit 0
+          while :; do
+            if [ -z "$cursor" ]; then
+              resp=$(gh api graphql -f project="$PROJECT_ID" <<'EOF'
+query($project: ID!) {
+  node(id: $project) {
+    ... on ProjectV2 {
+      items(first: 100) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          id
+          content {
+            ... on Issue {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+EOF
+)
+            else
+              resp=$(gh api graphql -f project="$PROJECT_ID" -f cursor="$cursor" <<'EOF'
+query($project: ID!, $cursor: String!) {
+  node(id: $project) {
+    ... on ProjectV2 {
+      items(first: 100, after: $cursor) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          id
+          content {
+            ... on Issue {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+EOF
+)
             fi
 
-            echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
-            echo "Found project item: $item_id" >&2
-            
-      
+            item_id=$(echo "$resp" | jq -r \
+              --arg ISSUE "$ISSUE_NODE_ID" \
+              '.data.node.items.nodes[] 
+               | select(.content.id == $ISSUE) 
+               | .id' | head -n1)
+
+            if [ -n "$item_id" ]; then
+              break
+            fi
+
+            has_next=$(echo "$resp" | jq -r '.data.node.items.pageInfo.hasNextPage')
+            if [ "$has_next" != "true" ]; then
+              break
+            fi
+
+            cursor=$(echo "$resp" | jq -r '.data.node.items.pageInfo.endCursor')
+          done
+
+          if [ -z "$item_id" ]; then
+            echo "Issue is not in the project — skipping." >&2
+            exit 0
+          fi
+
+          echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
+          echo "Found project item: $item_id" >&2
+
       - name: Add to backlog
         if: steps.get_item.outputs.item_id != ''
-        run: gh project item-edit --id "${{ steps.get_item.outputs.item_id }}" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
+        run: gh project item-edit \
+          --id "${{ steps.get_item.outputs.item_id }}" \
+          --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" \
+          --project-id "PVT_kwDOAFV58c4AUHyf" \
+          --single-select-option-id="5f143608"
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
