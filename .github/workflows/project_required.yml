@@ -55,7 +55,7 @@ jobs:
 
             while :; do
               if [ -z "$cursor" ]; then
-                  resp=$(gh api graphql -f query='
+                  resp=$(gh api graphql -f project="$PROJECT_ID" << 'EOF'
                   query($project: ID!) {
                     node(id: $project) {
                       ... on ProjectV2 {
@@ -75,9 +75,11 @@ jobs:
                         }
                       }
                     }
-                  }' -f project="$PROJECT_ID")
+                  }
+                  EOF
+                  )
               else
-                  resp=$(gh api graphql -f query='
+                  resp=$(gh api graphql -f project="$PROJECT_ID" -f cursor=$cursor" <<'EOF'
                   query($project: ID!, $cursor: String!) {
                     node(id: $project) {
                       ... on ProjectV2 {
@@ -97,7 +99,9 @@ jobs:
                         }
                       }
                     }
-                  }' -f project="$PROJECT_ID" -f cursor=$cursor")
+                  }
+                  EOF
+                  )
               fi                        
                             
               item_id=$(echo "$resp" | jq -r \
