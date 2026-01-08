@@ -50,53 +50,76 @@ jobs:
 
             echo "Looking up project item for issue node id: $ISSUE_NODE_ID" >&2
 
-            cursor=null
+            cursor=""
             item_id=""
 
             while :; do
-              resp=$(gh api graphql -f query='
-              query($project: ID!, $cursor: String) {
-                node(id: $project) {
-                  ... on ProjectV2 {
-                    items(first: 100, after: $cursor) {
-                      pageInfo {
-                        hasNextPage
-                        endCursor
-                      }
-                      nodes {
-                        id
-                        content {
-                          ... on Issue {
-                            id
+               if [ -z "$cursor" ]; then
+                  resp=$(gh api graphql -f query='
+                  query($project: ID!) {
+                    node(id: $project) {
+                      ... on ProjectV2 {
+                        items(first: 100) {
+                          pageInfo {
+                            hasNextPage
+                            endCursor
+                          }
+                          nodes {
+                            id  
+                            content {
+                              ... on Issue {
+                                id
+                              }
+                            }
                           }
                         }
                       }
                     }
-                  }
-                }
-              }' -f project="$PROJECT_ID" -f cursor="$cursor")
+                  }' -f project="$PROJECT_ID")
+                else
+                  resp=${gh api graphql -f query='
+                  query($project: ID!, $cursor: String!) {
+                    node(id: $project) {
+                      ... on ProjectV2 {
+                        items(first: 100, after: $cursor) {
+                          pageInfor {
+                            hasNextPage
+                            endCursor
+                          }
+                          nodes {
+                            id
+                            content {
+                              ... on Issue {
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }' -f project="$PROJET_ID" -f cursor=$cursor")
+                fi                        
+                            
+                item_id=$(echo "$resp" | jq -r \
+                   --arg ISSUE "$ISSUE_NODE_ID" \
+                   '.data.node.items.nodes[]
+                    | select(.content.id == $ISSUE)
+                    | .id' | head -n1)
 
-              item_id=$(echo "$resp" | jq -r \
-                --arg ISSUE "$ISSUE_NODE_ID" \
-                '.data.node.items.nodes[]
-                 | select(.content.id == $ISSUE)
-                 | .id' | head -n1)
+                if [ -n "$item_id" ]; then
+                   break
+                fi
 
-              if [ -n "$item_id" ]; then
-                break
-              fi
+                has_next=$(echo "$resp" | jq -r '.data.node.items.pageInfo.hasNextPage')
+                 if [ "$has_next" != "true" ]; then
+                   break
+                 fi
 
-              has_next=$(echo "$resp" | jq -r '.data.node.items.pageInfo.hasNextPage')
-              if [ "$has_next" != "true" ]; then
-                break
-              fi
-
-              cursor=$(echo "$resp" | jq -r '.data.node.items.pageInfo.endCursor')
+                 cursor=$(echo "$resp" | jq -r '.data.node.items.pageInfo.endCursor')
             done
 
             if [ -z "$item_id" ]; then
-              echo "Issue is not in the project — skipping." >&2
-              exit 0
+               echo "Issue is not in the project — skipping." >&2
+               exit 0
             fi
 
             echo "item_id=$item_id" >> "$GITHUB_OUTPUT"
