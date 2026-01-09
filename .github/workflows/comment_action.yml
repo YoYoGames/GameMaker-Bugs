@@ -52,114 +52,91 @@ jobs:
               labels: newLabels
             });
 
-      - name: Add issue to project and set Status = Triage
+      - name: Add issue to Project v2 and set Status = Triage
         if: steps.check.outputs.result == 'true'
         uses: actions/github-script@v7
         env:
-          PROJECT_NUMBER: 17
+            PROJECT_NUMBER: 17
         with:
-          script: |
-            const projectNumber = Number(process.env.PROJECT_NUMBER);
-            const issueNodeId = context.payload.issue.node_id;
-            const owner = context.repo.owner;
+            script: |
+                const projectNumber = Number(process.env.PROJECT_NUMBER);
+                const issueNodeId = context.payload.issue.node_id;
+                const org = context.repo.owner;
 
-            const projectQuery = `
-              query ($owner: String!, $number: Int!) {
-                organization(login: $owner) {
-                  projectV2(number: $number) {
-                    id
-                    fields(first: 50) {
-                      nodes {
-                        ... on ProjectV2SingleSelectField {
-                          id
-                          name
-                          options {
-                            id
-                            name
-                          }
+                const query = `
+                    query ($org: String!, $number: Int!) {
+                    organization(login: $org) {
+                        projectV2(number: $number) {
+                        id
+                        fields(first: 50) {
+                            nodes {
+                            ... on ProjectV2SingleSelectField {
+                                id
+                                name
+                                options {
+                                id
+                                name
+                                }
+                            }
+                            }
                         }
-                      }
+                        }
                     }
-                  }
-                }
-              }
-            `;
-
-            const projectRes = await github.graphql(projectQuery, {
-              owner,
-              number: projectNumber
-            });
-
-            const project = projectRes.organization.projectV2;
-            if (!project) {
-              throw new Error("Project v2 not found");
-            }
-
-            const statusField = project.fields.nodes.find(
-              f => f.name === "Status"
-            );
-            if (!statusField) {
-              throw new Error("Status field not found");
-            }
-
-            const triageOption = statusField.options.find(
-              o => o.name.toLowerCase() === "triage"
-            );
-            if (!triageOption) {
-              throw new Error("Triage option not found in Status field");
-            }
-
-            const addItemMutation = `
-              mutation ($projectId: ID!, $contentId: ID!) {
-                addProjectV2ItemById(
-                  input: {
-                    projectId: $projectId
-                    contentId: $contentId
-                  }
-                ) {
-                  item {
-                    id
-                  }
-                }
-              }
-            `;
-
-            const addItemRes = await github.graphql(addItemMutation, {
-              projectId: project.id,
-              contentId: issueNodeId
-            });
-
-            const itemId = addItemRes.addProjectV2ItemById.item.id;
-
-            const setStatusMutation = `
-              mutation (
-                $projectId: ID!
-                $itemId: ID!
-                $fieldId: ID!
-                $optionId: ID!
-              ) {
-                updateProjectV2ItemFieldValue(
-                  input: {
-                    projectId: $projectId
-                    itemId: $itemId
-                    fieldId: $fieldId
-                    value: {
-                      singleSelectOptionId: $optionId
                     }
-                  }
-                ) {
-                  projectV2Item {
-                    id
-                  }
-                }
-              }
-            `;
+                `;
 
-            await github.graphql(setStatusMutation, {
-              projectId: project.id,
-              itemId,
-              fieldId: statusField.id,
-              optionId: triageOption.id
-            });
+                const res = await github.graphql(query, {
+                    org,
+                    number: projectNumber
+                });
 
-            console.log("Issue moved to Triage");
+                const project = res.organization.projectV2;
+                if (!project) throw new Error("Project v2 not found");
+
+                const statusField = project.fields.nodes.find(f => f.name === "Status");
+                if (!statusField) throw new Error("Status field missing");
+
+                const triage = statusField.options.find(
+                    o => o.name.toLowerCase() === "triage"
+                );
+                if (!triage) throw new Error("Triage option missing");
+
+                const addItem = await github.graphql(`
+                    mutation ($projectId: ID!, $contentId: ID!) {
+                    addProjectV2ItemById(
+                        input: { projectId: $projectId, contentId: $contentId }
+                    ) {
+                        item { id }
+                    }
+                    }
+                `, {
+                    projectId: project.id,      
+                    contentId: issueNodeId
+                });
+
+                const itemId = addItem.addProjectV2ItemById.item.id;
+
+                await github.graphql(`
+                    mutation (
+                    $projectId: ID!
+                    $itemId: ID!
+                    $fieldId: ID!
+                    $optionId: ID!
+                    ) {
+                    updateProjectV2ItemFieldValue(
+                        input: {
+                        projectId: $projectId
+                        itemId: $itemId
+                        fieldId: $fieldId
+                        value: { singleSelectOptionId: $optionId }
+                        }
+                    ) {
+                        projectV2Item { id }
+                    }
+                    }
+                `, {
+                    projectId: project.id,
+                    itemId,
+                    fieldId: statusField.id,
+                    optionId: triage.id
+                });
