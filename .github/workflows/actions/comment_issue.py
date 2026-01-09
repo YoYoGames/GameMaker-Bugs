@@ -12,7 +12,9 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 ORG = "YoYoGames"
 REPO = "GameMaker-Bugs"
 COMMENT_BODY = "https://api.gamemaker.io/api/github/downloads/"
-ISSUE_NUMBER = os
+ISSUE_NUMBER = os.getenv("ISSUE_NUMBER")
+if ISSUE_NUMBER:
+    ISSUE_NUMBER = int(ISSUE_NUMBER)
 PROJECT_NUMBER = int(os.getenv("PROJECT_NUMBER", 17)) 
 STATUS_FIELD_NAME = "Status"
 TARGET_URL = "https://api.gamemaker.io/api/github/downloads/"
