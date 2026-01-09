@@ -26,7 +26,7 @@ if not all([GITHUB_TOKEN, ORG, REPO, COMMENT_BODY, ISSUE_NUMBER]):
     sys.exit("❌ Missing required environment variables")
 
 if TARGET_URL.lower() not in COMMENT_BODY.lower():
-    print("ℹ️ Comment does not contain sample link. Exiting.")
+    print("ℹ️ Comment does not contain GameMaker io download link. Exiting.")
     sys.exit(0)
 
 def gql(query: str, variables: dict):
