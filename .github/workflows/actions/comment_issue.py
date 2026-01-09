@@ -54,21 +54,39 @@ labels_query = gql(
     {"owner": ORG, "repo": REPO, "number": ISSUE_NUMBER}
 )
 
-issue_labels = [l["name"] for l in labels_query["repository"]["issue"]["labels"]["nodes"]]
-
-new_labels = [l for l in issue_labels if l != "project_required"]
-if "project" not in new_labels:
-    new_labels.append("project")
-
-update_labels_resp = requests.post(
-    f"https://api.github.com/repos/{ORG}/{REPO}/issues/{ISSUE_NUMBER}/labels",
-    headers={"Authorization": f"token {GITHUB_TOKEN}"},
-    json={"labels": new_labels}
+issue_labels = gql(
+    """
+    query ($org: String!, $repo: String!, $number: Int!) {
+      repository(owner: $org, name: $repo) {
+        issue(number: $number) {
+          id
+          labels(first: 50) {
+            nodes { name }
+          }
+        }
+      }
+    }
+    """,
+    {"org": ORG, "repo": REPO, "number": ISSUE_NUMBER},
 )
-if update_labels_resp.status_code not in [200, 201]:
-    print("❌ Failed to update labels")
-else:
-    print(f"✅ Updated labels for issue #{ISSUE_NUMBER}: {new_labels}")
+
+
+current_labels = [l["name"] for l in labels_query["repository"]["issue"]["labels"]["nodes"]]
+
+new_labels = ["project"]
+
+update_labels_mutation = gql(
+    """
+    mutation ($owner: String!, $repo: String!, $issue_number: Int!, $labels: [String!]!) {
+      updateIssue(input: {repositoryId: $owner, number: $issue_number, labelIds: $labels}) {
+        issue { number }
+      }
+    }
+    """,
+    {"owner": ORG, "repo": REPO, "issue_number": ISSUE_NUMBER, "labels": new_labels},
+)
+
+print(f"✅ Updated labels for issue #{ISSUE_NUMBER}: {new_labels}")
 
 print("🔎 Loading project metadata...")
 project_data = gql(
