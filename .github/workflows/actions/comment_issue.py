@@ -11,7 +11,7 @@ import requests
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 ORG = "YoYoGames"
 REPO = "GameMaker-Bugs"
-COMMENT_BODY = "https://api.gamemaker.io/api/github/downloads/"
+COMMENT_BODY = os.getenv("COMMENT_BODY", "")
 ISSUE_NUMBER = os.getenv("ISSUE_NUMBER")
 if ISSUE_NUMBER:
     ISSUE_NUMBER = int(ISSUE_NUMBER)

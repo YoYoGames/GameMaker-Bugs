@@ -17,6 +17,7 @@ jobs:
       
       - name: Run the Script
         env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
