@@ -37,58 +37,51 @@ def gql(query: str, variables: dict):
         raise RuntimeError(data["errors"])
     return data["data"]
 
-print("🔎 Updating issue labels...")
-labels_query = gql(
-    """
-    query ($owner: String!, $repo: String!, $number: Int!) {
-      repository(owner: $owner, name: $repo) {
-        issue(number: $number) {
-          id
-          labels(first: 50) {
-            nodes { name }
-          }
-        }
-      }
-    }
-    """,
-    {"owner": ORG, "repo": REPO, "number": ISSUE_NUMBER}
-)
-
-issue_labels = gql(
+issue_data = gql(
     """
     query ($org: String!, $repo: String!, $number: Int!) {
       repository(owner: $org, name: $repo) {
         issue(number: $number) {
           id
-          labels(first: 50) {
-            nodes { name }
-          }
+          labels(first: 50) { nodes { id name } }
         }
       }
     }
     """,
     {"org": ORG, "repo": REPO, "number": ISSUE_NUMBER},
 )
+issue_node_id = issue_data["repository"]["issue"]["id"]
+current_labels = issue_data["repository"]["issue"]["labels"]["nodes"]
 
-
-current_labels = [l["name"] for l in labels_query["repository"]["issue"]["labels"]["nodes"]]
-
-new_labels = ["project"]
-
-update_labels_mutation = gql(
+labels_query = gql(
     """
-    mutation ($owner: String!, $repo: String!, $issue_number: Int!, $labels: [String!]!) {
-      updateIssue(input: {repositoryId: $owner, number: $issue_number, labelIds: $labels}) {
-        issue { number }
+    query ($org: String!, $repo: String!) {
+      repository(owner: $org, name: $repo) {
+        labels(first: 50) {
+          nodes { id name }
+        }
       }
     }
     """,
-    {"owner": ORG, "repo": REPO, "issue_number": ISSUE_NUMBER, "labels": new_labels},
+    {"org": ORG, "repo": REPO},
 )
+all_labels = labels_query["repository"]["labels"]["nodes"]
+project_label_id = next((l["id"] for l in all_labels if l["name"] == "project"), None)
+if not project_label_id:
+    sys.exit("❌ 'project' label not found in repository")
 
-print(f"✅ Updated labels for issue #{ISSUE_NUMBER}: {new_labels}")
+update_labels_mutation = gql(
+    """
+    mutation ($issueId: ID!, $labelIds: [ID!]!) {
+      updateIssue(input: {id: $issueId, labelIds: $labelIds}) {
+        issue { id }
+      }
+    }
+    """,
+    {"issueId": issue_node_id, "labelIds": [project_label_id]},
+)
+print(f"✅ Updated labels for issue #{ISSUE_NUMBER}: ['project']")
 
-print("🔎 Loading project metadata...")
 project_data = gql(
     """
     query ($org: String!, $number: Int!) {
@@ -101,10 +94,7 @@ project_data = gql(
               ... on ProjectV2SingleSelectField {
                 id
                 name
-                options {
-                  id
-                  name
-                }
+                options { id name }
               }
             }
           }
@@ -114,15 +104,13 @@ project_data = gql(
     """,
     {"org": ORG, "number": PROJECT_NUMBER},
 )
-
 project = project_data["organization"]["projectV2"]
 if not project:
     sys.exit("❌ ProjectV2 not found")
 
 status_field = next(
     (f for f in project["fields"]["nodes"]
-     if f.get("__typename") == "ProjectV2SingleSelectField"
-     and f.get("name") == STATUS_FIELD_NAME),
+     if f.get("__typename") == "ProjectV2SingleSelectField" and f.get("name") == STATUS_FIELD_NAME),
     None
 )
 if not status_field:
@@ -135,22 +123,6 @@ triage_option = next(
 if not triage_option:
     sys.exit("❌ Triage option not found in Status field")
 
-issue_data = gql(
-    """
-    query ($owner: String!, $repo: String!, $number: Int!) {
-      repository(owner: $owner, name: $repo) {
-        issue(number: $number) {
-          id
-          number
-          title
-        }
-      }
-    }
-    """,
-    {"owner": ORG, "repo": REPO, "number": ISSUE_NUMBER},
-)
-issue_node_id = issue_data["repository"]["issue"]["id"]
-
 project_items = gql(
     """
     query ($projectId: ID!) {
@@ -161,10 +133,7 @@ project_items = gql(
               id
               content {
                 __typename
-                ... on Issue {
-                  id
-                  number
-                }
+                ... on Issue { id number }
               }
             }
           }
@@ -174,7 +143,6 @@ project_items = gql(
     """,
     {"projectId": project["id"]}
 )
-
 items = project_items["node"]["items"]["nodes"]
 existing_item = next(
     (i for i in items
@@ -201,7 +169,6 @@ else:
     item_id = add_item["addProjectV2ItemById"]["item"]["id"]
     print(f"✅ Added issue to ProjectV2, item ID: {item_id}")
 
-print(f"🔎 Updating Status field to 'Triage'...")
 mutation_status = """
 mutation ($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
   updateProjectV2ItemFieldValue(
