@@ -73,7 +73,7 @@ body:
       multiple: true
       options:
         - 2024.14.2 Monthly
-        - 2024.1400.2 Betas
+        - 2024.1400.3 Betas
     validations:
       required: true
       
