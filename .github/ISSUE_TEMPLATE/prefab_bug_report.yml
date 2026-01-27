@@ -72,7 +72,7 @@ body:
       description: If you are on an older version, update and confirm your issue stil exists! And if you are using a Beta, please add the full version number into your Description text.
       multiple: true
       options:
-        - 2024.14.2 Monthly
+        - 2024.14.3 Monthly
         - 2024.1400.3 Betas
     validations:
       required: true
