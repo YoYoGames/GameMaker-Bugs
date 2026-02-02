@@ -7,13 +7,11 @@ body:
   - type: markdown
     attributes:
       value: |
-        Always ensure you are using the latest versions of all prefabs in your project and that you have reviewed the documentation within each to ensure they are all set up correctly.
+        Always ensure you are using the latest versions of all prefab collections in your project and that you have reviewed the documentation for each prefab to ensure they are all set up correctly, as no coding advice/support is offered here - if you want to ask a coding question, please ask [the GameMaker Community](https://forum.gamemaker.io/index.php?forums/tech-support.24/) instead of using this form.
         
-        Search for existing reports of this bug first! If one exists, DO NOT send your own report, instead leave a thumbs-up/comment on the existing one.
-
-        Most fields need to be filled-in before you can submit this report, as it's required information so we can confirm and fix this bug.
-        
-        No coding advice/support is offered here - if you want to ask a coding question, please ask [the GameMaker Community](https://forum.gamemaker.io/index.php?forums/tech-support.24/) instead of using this form.
+        Search for existing reports for this bug first! If a report already exists, DO NOT send another report now - just leave a thumbs-up/comment on the other report instead.
+       
+        Most fields need to be filled-in before you can click Submit, as everything is required information for us to confirm and fix this bug.
 
   - type: input
     id: collectionname
@@ -27,7 +25,7 @@ body:
     id: description
     attributes:
       label: What Is The Bug?
-      description: Write a thorough description of the issue and ensure you make it clear which specific individual Prefab(s) within the colllection are at fault. You may paste screenshots and links at suitable locations in your text. (However, DO NOT add a web link and assume we will read the external page and guess at the bug ourselves - we will simply close the report.)
+      description: Write a thorough description of the issue and ensure you make it clear which specific individual Prefab(s) within the colllection are at fault. You may paste screenshots and links at suitable locations in your text. (However, DO NOT add a web link and assume we will read an external discussion and guess at the bug ourselves - we will simply close the report.)
     validations:
       required: true
       
@@ -45,7 +43,7 @@ body:
       label: Steps To Reproduce
       description: Add detailed, ordered steps for someone else to recreate the issue (add as many steps into the gaps below as you require)
       value: |
-        1. Start GameMaker
+        1. Start GameMaker and open my attached project
         2. 
         3. 
         4. See the issue
@@ -68,8 +66,8 @@ body:
   - type: dropdown
     id: version
     attributes:
-      label: Which version of GameMaker are you reporting this issue for?
-      description: If you are on an older version, update and confirm your issue stil exists! And if you are using a Beta, please add the full version number into your Description text.
+      label: Which version(s) of GameMaker are you reporting this issue for?
+      description: If you are on an older version than the Monthly shown below, install this Monthly version and confirm your issue still exists before you report anything! If you are using a Beta newer than the Monthly, please also add the full version number into your Description text above.
       multiple: true
       options:
         - 2024.14.3 Monthly
@@ -103,7 +101,7 @@ body:
     id: sample
     attributes:
       label: Sample Package
-      description: A bug package file is essential for all prefab reports. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. If possible, say yes to including your sample project! Then paste the download URL into the box below.
+      description: A bug package file is essential for all prefab reports, as we need to know if the problem is in our code or yours. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. Say yes to including your sample project! Then paste the download URL into the box below.
     validations:
       required: true
           
