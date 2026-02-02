@@ -57,18 +57,20 @@ body:
       label: Which platform(s) are you seeing the problem on?
       multiple: true
       options: 
-        - Windows
-        - macOS
-        - Ubuntu
         - Android
         - GX.games
         - HTML5
         - iOS
+        - macOS
         - PlayStation 4
         - PlayStation 5
+        - Reddit
         - Switch
+        - Switch 2
         - tvOS
-        - Xbox (GDK)
+        - Ubuntu
+        - Windows
+        - Xbox
     validations:
       required: true
       
