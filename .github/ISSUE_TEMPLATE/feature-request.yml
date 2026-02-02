@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest an improvement or new functionality for GameMaker
+description: Suggest an improvement or some new functionality for GameMaker
 type: 'Feature'
 labels: ["documentation"]
 projects: ["YoYoGames/17"]
@@ -7,31 +7,23 @@ body:
  - type: textarea
    id: problem
    attributes:
-     label: Is your feature request related to a problem?
-     description: A clear and concise description of what the problem is. Ex. I am always frustrated when [...]
+     label: What is the problem this request aims to solve?
+     description: A clear and concise description of what the situation is like in the current version of GameMaker and why this is a problem for you.  You may paste screenshots and links at suitable locations in your text. (However, DO NOT add a web link and assume we will read an external discussion and guess at the feature you want - we will simply close the report.)
    validations:
      required: true
      
  - type: textarea
    id: solution
    attributes:
-     label: Describe the solution you would like to see
-     description: A clear and concise description of what you want to happen.
+     label: How do you suggest we solve this problem?
+     description: A clear and concise description of what you want to happen differently in future versions of GameMaker
    validations:
      required: true
      
  - type: textarea
    id: alternatives
    attributes:
-     label: Describe alternatives you have considered
+     label: Are there any alternative ways to solve this problem you want to suggest?
      description: A clear and concise description of any alternative solutions or features you have considered.
-   validations:
-     required: false
-     
- - type: textarea
-   id: additional
-   attributes:
-     label: Additional context
-     description: Add any other context or screenshots about the feature request here.
    validations:
      required: false
