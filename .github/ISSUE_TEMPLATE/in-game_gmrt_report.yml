@@ -7,15 +7,15 @@ body:
   - type: markdown
     attributes:
       value: |
-        Search for existing reports of this bug first! If one exists, DO NOT send your own report, instead leave a thumbs-up/comment on the existing one.
+        Search for existing reports for this bug first! If a report already exists, DO NOT send another report now - just leave a thumbs-up/comment on the other report instead.
        
-        Most fields need to be filled-in before you can submit this report, as it's required information so we can confirm and fix this bug.
+        Most fields need to be filled-in before you can click Submit, as everything is required information for us to confirm and fix this bug.
 
   - type: textarea
     id: description
     attributes:
       label: What Is The Bug?
-      description: Write a thorough description of the issue. You may paste screenshots and links at suitable locations in your text. (However, DO NOT add a web link and assume we will read and guess at the bug ourselves - we will simply close the report.)
+      description: Write a thorough description of the issue. You may paste screenshots and links at suitable locations in your text. (However, DO NOT add a web link and assume we will read an external discussion and guess at the bug ourselves - we will simply close the report.)
     validations:
       required: true
       
@@ -57,7 +57,7 @@ body:
     id: version
     attributes:
       label: Which version of GMRT are you reporting this issue for?
-      description: If you are on an older version, update first of all and confirm your issue stil exists before you send this bug report!
+      description: If you are not using the latest version available inside Package Manager, update first of all and confirm your issue stil exists before you report anything!
     validations:
       required: true
       
@@ -65,7 +65,7 @@ body:
     id: sample
     attributes:
       label: Sample Package
-      description: A bug package file is essential for all In-Game reports. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. If possible, say yes to including your sample project! Then paste the download URL into the box below.
+      description: A bug package file is essential for all in-game reports. Please recreate the problem and then use the Help > Upload a Bug Sample tool inside GameMaker. We recommend you say yes to including your project. Then paste the download URL into the box below.
     validations:
       required: true
       
