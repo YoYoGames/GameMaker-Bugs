@@ -9,7 +9,7 @@ layout: home
 
 Released _roughly_ every other month up until the end of 2024, much slower since then. Always intended to be stable, but may have the odd lower-severity issue.
 
-#### [2024.14.3](\release-notes\2024\14_3) - October 2025 Onwards
+#### [2024.14.3](\release-notes\2024\14_3) - 2024.14 releases are October 2025 onwards
 #### [2024.13.1](\release-notes\2024\13) - April 2025
 #### [2024.11.0](\release-notes\2024\11) - November 2024
 #### [2024.8.1](\release-notes\2024\8) - August 2024
@@ -35,7 +35,7 @@ Most up-to-date version and released very frequently, so you can get the newest 
 
 We only recommend using the latest series of Betas (shown below) - if you need to stay on older Betas for some reason, then we would suggest just using the applicable Monthly instead of your Beta install.
 
-#### [2024.1400.3](\release-notes\2024\1400_3) - Jan 2026 onwards
+#### [2024.1400.4](\release-notes\2024\1400_4) - Feb 2026 onwards
 
 <br/>
 
