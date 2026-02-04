@@ -71,7 +71,7 @@ body:
       multiple: true
       options:
         - 2024.14.3 Monthly
-        - 2024.1400.3 Betas
+        - 2024.1400.4 Betas
     validations:
       required: true
       
@@ -90,6 +90,7 @@ body:
         - iOS
         - PlayStation 4
         - PlayStation 5
+        - Reddit
         - Switch
         - Switch 2
         - tvOS
