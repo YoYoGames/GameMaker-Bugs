@@ -14,11 +14,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Generate App token to publish CI check
+        uses: actions/create-github-app-token@v2
+        id: generate-token
+        with:
+            app-id: ${{ secrets.AUTOMATON_APP_ID }}
+            private-key: ${{ secrets.AUTOMATON_PRIVATE_KEY }}    
       
       - name: Run the Script
         env:
           COMMENT_BODY: ${{ github.event.comment.body }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           python .github/workflows/actions/comment_issue.py
