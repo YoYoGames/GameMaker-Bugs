@@ -1,6 +1,7 @@
 name: Issue Comment → Project Triage 
 
 on:
+  push:
   issue_comment:
     types: [created]
 
