@@ -1,4 +1,5 @@
 name: Ask for project
+
 on:
   issues:
     types:
@@ -7,49 +8,66 @@ on:
 permissions:
   contents: read
   issues: write
+  projects: write
 
 jobs:
   add-comment:
     if: github.event.label.name == 'project_required'
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Remove label
-        run: gh issue edit "$NUMBER" --remove-label "$LABELS"
+      # 🔹 Optional: Prevent duplicate comment
+      - name: Check if comment already exists
+        id: check_comment
+        run: |
+          EXISTING=$(gh issue view "$NUMBER" --json comments --jq '.comments[].body' | grep -c "Upload a Bug/Ticket Sample" || true)
+          echo "exists=$EXISTING" >> $GITHUB_OUTPUT
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUMBER: ${{ github.event.issue.number }}
-          LABELS: project
-          
+
       - name: Add comment
+        if: steps.check_comment.outputs.exists == '0'
         run: gh issue comment "$NUMBER" --body "$BODY"
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUMBER: ${{ github.event.issue.number }}
           BODY: |
-              Thanks for reporting this, but in order to confirm the problem and then investigate a fix we need you to send us small project which already shows this issue - to ensure we see exactly what you see and then learn why this problem is caused.
+            Thanks for reporting this, but in order to confirm the problem and then investigate a fix we need you to send us small project which already shows this issue - to ensure we see exactly what you see and then learn why this problem is caused.
 
-              Open the project inside GameMaker (and ideally recreate the problem), then use the Help menu's "Upload a Bug/Ticket Sample" tool and say yes to GameMaker privately sending us your project. Copy the download link GameMaker gives you and then paste that link here as a new comment, please.
+            Open the project inside GameMaker (and ideally recreate the problem), then use the Help menu's "Upload a Bug/Ticket Sample" tool and say yes to GameMaker privately sending us your project. Copy the download link GameMaker gives you and then paste that link here as a new comment, please.
 
-              [Why Have You Asked Me For A Sample?](https://github.com/YoYoGames/GameMaker-Bugs/wiki/Why-Send-Sample-Projects)
+            [Why Have You Asked Me For A Sample?](https://github.com/YoYoGames/GameMaker-Bugs/wiki/Why-Send-Sample-Projects)
 
-              Thanks!
+            Thanks!
+
+      # 🔹 Remove ONLY the triggering label (safe fix)
+      - name: Remove project_required label
+        run: gh issue edit "$NUMBER" --remove-label "$LABEL"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUMBER: ${{ github.event.issue.number }}
+          LABEL: ${{ github.event.label.name }}
 
       - name: Get project item id for this issue
         id: get_item
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-            python .github/workflows/actions/get_node_id.py ${{ github.event.issue.number }} PVT_kwDOAFV58c4AUHyf
+          python .github/workflows/actions/get_node_id.py \
+            ${{ github.event.issue.number }} \
+            PVT_kwDOAFV58c4AUHyf
 
       - name: Add to backlog
         if: steps.get_item.outputs.item_id != ''
-        run: gh project item-edit --id "${{ steps.get_item.outputs.item_id }}" --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" --project-id "PVT_kwDOAFV58c4AUHyf" --single-select-option-id="5f143608"
+        run: |
+          gh project item-edit \
+            --id "${{ steps.get_item.outputs.item_id }}" \
+            --field-id "PVTSSF_lADOAFV58c4AUHyfzgM2sQU" \
+            --project-id "PVT_kwDOAFV58c4AUHyf" \
+            --single-select-option-id "5f143608"
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
