@@ -1,0 +1,4250 @@
+### Features Added Or Changed
+
+- **"Audio Playback Ended" Event**
+    - A new asynchronous event has been added to detect when a sound instance ends - this can be added to an Object just like any other event type
+    - In-game, this “Audio Playback Ended” event will receive a DS map containing the following keys:
+    - sound_id - the index of the sound instance that just finished playing
+    - asset_id - the index of the sound asset that was being played and just stopped
+    - was_stopped - this is set to “false” if the sound finished playing naturally and “true” if the sound was stopped abruptly (e.g. explicitly stopped by you or if the voice was stolen by the operating system)
+
+- **"Build" Folder Added To Seed .gitignore Files [#6976](https://github.com/YoYoGames/GameMaker-Bugs/issues/6976)**
+    - Added a new entry into the auto-generated .gitignore file that GameMaker makes when you create new projects, so that the GMRT build folder is ignored by your git client
+    - For users with existing projects, if you want to see how to make this same change retroactively, see the issue link above
+
+- **"GM_runtime_type" added**
+    - Added a new constant for determining if a game was built with the GMS2 runtimes or GMRT
+    - For more, see [#9055](https://github.com/YoYoGames/GameMaker-Bugs/issues/9055)
+
+- **"Project Health" Checks For Missing Sprites In Your Project**
+    - Added a dialog to warn when GameMaker finds a Sprite's source images have been removed on disk, but the Sprite is still in the Asset Browser and part of your project
+    - This has always appeared as a red X image inside GameMaker, but this quiet warning could lead to confusion where in-game you might not easily realise why a sprite is not being drawn - now, you will be much more clearly advised when opening the project exactly which files are missing
+    - Note that it's only Sprites which are checked in this way
+    - For more, see [#6749](https://github.com/YoYoGames/GameMaker-Bugs/issues/6749)
+
+- **"Readme" Windows On Project Load [#11638](https://github.com/YoYoGames/GameMaker-Bugs/issues/11638)**
+    - Notes in your project can now be set to open their formatted markdown window automatically the first time someone opens a copy of your project
+    - For example, if you're developing a tutorial series and you ship .yyz files for your users to follow you could include an offline copy of the tutorial text and images inside the project and know that it would open automatically when the person created their local project
+    - If the Note is called "Readme" and is placed in the root of your Asset Browser, then GameMaker will always show it the first time someone opens the project
+    - However, you can call your file something else and still click the checkbox to toggle that you would like that Note to show on that first project load
+    - Several of our Start Page templates have Readmes that you will see open automatically if you create new projects using them in this IDE, which then helps explain what the template covers and how to work with it
+
+- **"Report A GameMaker Bug" Tool**
+    - Continuing on from the "Create Your Contact Us Package" introduced in the last LTS release, you can now use this new Help menu command to send us a bug report directly from within GameMaker and in most cases have it associated with your GitHub account so that you will get updates on its progress thereafter
+    - Note: Educational "seat" users cannot see the new tool to report issues with - the education admin account needs to continue to report all issues themselves
+    - For more information on how and when to use the new reporter (and when not to!), or what your report will contain and what we will use it for, please see the link at the top of the bug-reporter dialog
+    - Always search the public known issues page to see if someone else has already reported the bug before you send anything (you can then comment on the existing report to add any extra info you wish, rather than sending us a duplicate)
+
+- **"Test" As The Default Target Again**
+    - The default target when creating a new project is now "Test" again, rather than "GX.Games"
+    - Note that if you're a subscriber and you have already modified the Preferences setting for controlling your own preferred default target, your setting will not be modified by this change (However, if you have not previously set your Preference manually, then you will see this change)
+
+- **"Windblown Particle" Effect Layer Type**
+    - As we will showcase in our forthcoming new "Windy Woods" platformer Template, you can now choose a sprite and control the settings to be used for a wind-blown rain/snow/leaves type Effect in the Room Editor
+    - Add a new Filter/Effect layer into the Layers panel and then you will find the new effect type at the bottom of the drop-down list
+    - Note that as it says in the Effect dropdown list, "Effects" differ from "Filters" in that you currently cannot preview an Effect in the Room Editor and you will have to run your game to see it - although, this will be changed in a future release
+
+- **.NET 6 Core Support and New Build Pipeline**
+    - We have changed pretty much everything on our end as to how we make GameMaker installers and also the runtimes you use, and in the process we have in almost all instances done away with things like the 260-character file path limit on Windows and the use of the subst tool is now pretty much limited to when building for Android
+    - We have also moved to a different build system in order to get even more rapid turnaround on our new versions and confirming bug fixes, etc.
+
+- **A Significant Manual Update**
+    - All GML Code function pages now mention the exact type of data that is returned and the type of data that is expected for each argument (e.g. Real, DS List ID, Buffer Data Type Constant, etc.)
+    - These data types are clickable and show the relevant page as a popup for more information
+
+- **Ability To Add All Sprite Types To Texture Groups**
+    - Spine, SWF, and those with "Separate Texture Page" selected now appear in the Texture Groups Editor inside the IDE and can be added as part of your other groups
+    - Whilst these images are not merged into the larger texture page and do still have their own separate texture pages created during the build process and used in-game, you can now load/unload these extra pages at the same time as the rest of the group using the existing in-game functions
+
+- **Ability To Detect An Extension Exists**
+    - extension_exists() has been added, so you can now query if an extension is available in-game before acting accordingly
+    - This will return a real to say whether the extension is currently loaded at that point in the game - so if it’s an empty extension or if its been selected in the IDE to not load on the current target platform, this will return false
+
+- **Ability To Retrieve Skeleton Attachment Data At Runtime**
+    - sprite_get_info() now includes a full list of all the available attachments for each slot on the skeleton if the sprite you have requested is a Spine sprite
+    - Each element under "slots" now has an "attachments" array, which is a list of attachment names for that slot
+
+- **Add Sprites via URL**
+    - You can now use data URLs in `sprite_add()` and `sprite_replace()` to add and replace your sprites in game
+    - For more, see [#9344](https://github.com/YoYoGames/GameMaker-Bugs/issues/9344)
+
+- **Added A Game Option For Compatibility Collision Calculations**
+    - See the runtime notes and [its page in the manual](https://manual.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FMovement_And_Collisions%2FCollisions%2FCollision_Compatibility_Mode.htm) for more information, but bounding boxes have changed as of this release to be floats rather than ints, so that we could fix a number of longstanding bugs with testing collisions against rotated/scaled sprites
+    - Accordingly, there is a new setting in Game Options > Main which tells the runner to maintain the old calculations, so that existing projects which show problems with the new collision calculations going forward can maintain the old way and not require refactoring
+    - Note that we would recommend going forward that you use the newer float bounding box calculations system and generate your sprites and code accordingly, rather than always ticking this option in new projects
+
+- **Added A Toggle For If Arrays Should Copy-On-Write**
+    - There is a new game option for whether your games should continue to copy arrays when writing to them or not, which may give performance/memory improvements in your games
+    - Note that when opening/importing existing projects this will default to being enabled (maintaining the old behaviour of doing the copy) and for new projects this will default to off (the new behaviour of not copying)
+
+- **[GX.games] Added Camera Support**
+    - You can now capture the feed from a camera and open it with `video_open()` in your games
+    - Same as the change above, be aware this is a permission you must request from the player
+    - For more (including a sample project showing this functionality), see [#9229](https://github.com/YoYoGames/GameMaker-Bugs/issues/9229)
+
+- **Added Clipboard Functionality Support Into HTML5 And OperaGX Targets**
+    - Both of these platforms now support the clipboard_has_text() and clipboard_get_text() functions
+    - However, it is worth noting that Firefox does not allow pages to access the clipboard via JavaScript, so that browser will not work by default (you need to install browser extensions), and IE is too old to support the standard used and will not work at all
+
+- **Added Functions For Automating Debug Inputs**
+    - Added `debug_input_record()`, `debug_input_save()`, and `debug_input_playback()` functions to allow for developer test-automation
+    - Note that these are only intended for use when testing your own games - not as part of released games
+    - For more, see [#8409](https://github.com/YoYoGames/GameMaker-Bugs/issues/8409)
+
+- **Added Functions For Toggling Filters In-Game**
+    - Added new functions to enable\disable the existing fx values on layers (without having to remove the filter from the layers) and also to toggle whether a filter on that layer applies to only the one layer or to all below it also - these functions are:
+    - layer_enable_fx(layer_name_or_id, bool) enables\disables the filter on the specified layer
+    - layer_fx_is_enabled(layer_name_or_id) returns whether any filter is enabled on the specified layer
+    - fx_get_single_layer("filterName") returns the value of the above function again later on
+
+- **Added HTML5 obfuscation settings in Preferences**
+    - As the HTML5 runner has now been open-sourced, you can use these new settings to help track down issues in your games more easily:
+    - Obfuscate (or not), Pretty Print, Remove Unused Functions, and Verbose (or not)
+    - These can be found in the Platform Settings section for HTML5
+
+- **Added More Filter Layer Types**
+    - Old Film, Hue, Ripples, Blocks Background, Panorama Background and Parallax Background have all now been added for you to use in your games
+    - Also fixed an issue with the existing Boxes filter which meant it didn't work on HTML5
+
+- **Added More Functions For Searching/Manipulating Arrays**
+    - Because there are a lot of them, we will just quickly list the basics here, but of course more on all of these can be found in the manual (along with all the other existing array functions)
+    - array_all(array, function, offset = 0, length = infinity) → Bool
+    - array_any(array, function, offset = 0, length = infinity) → Bool
+    - array_copy_while(array, function, offset = 0, length = infinity) → Array
+    - array_create_ext(size, function) → Array
+    - array_filter(array, function, offset = 0, length = infinity) → Array
+    - array_find_index(array, function, offset = 0, length = infinity) → Any
+    - array_first(array) → Real
+    - array_foreach(array, function, offset = 0, length = infinity) → Undefined
+    - array_intersection(array1, array2, ...) → Array
+    - array_join(array1, array2, ...) → Array
+    - array_last(array) → Real
+    - array_map(array, function, offset = 0, length = infinity) → Array
+    - array_reduce(array, function, init = array[offset], offset = 0, length = infinity) → Any
+    - array_union(array1, array2, ...) → Array
+    - array_unique(array, output, offset = 0, length = infinity) → Array
+    - All of the above functions will leave the original array(s) untouched and return you a new array of the end results of the operation; however, there are also some new …_ext() functions for if you do want to modify the original array:
+    - array_filter_ext(array, function, offset = 0, length = infinity)
+    - array_map_ext(array, function, offset = 0, length = infinity)
+    - array_unique_ext(array, offset = 0, length = infinity)
+    - array_reverse_ext(array, offset = 0, length = infinity)
+    - The return value from all of these …_ext() functions is just a real to give you the new size of the modified array
+
+- **Added More Functions For Spine**
+    - skeleton_attachment_exists() can be used to check if an attachment with the given name has already been created
+    - skeleton_attachment_replace() and skeleton_attachment_destroy() can now be used to modify the attachments on your skeletons
+    - And the existing function skeleton_attachment_create() will now return an error if you try to reuse an attachment name without destroying it first
+
+- **Added Opera GX Game Options SSO Account Label**
+    - In previous releases there was no indication/error given if a game registration failed because you were actually logged-in as a different SSO account in your browser to the one you had logged-into GM with
+    - Now, Game Options always tells you which account GameMaker will use to register/upload your games to (or if you're not actually logged-in yet), so you can more easily see when there is an upload fail due to a simple account mismatch
+    - Note: if you do happen to use multiple Opera accounts, then you should continue to make sure your web browser is signed-in to the one you need before doing any uploads
+
+- **Added Secure WebSockets Support**
+    - network_create_socket() now supports a new "network_socket_wss" type which you can then use with network_connect() to connect to a secure socket
+    - Similarly, network_connect()'s second argument now supports providing a wss:// URL for use with _ws or _wss sockets
+    - Secure sockets are now supported on almost all platforms (everything except for UWP, Xbox One builds which used the XDK, and OperaGX)
+    - Note also that this change also added some basic parsing to support paths on the end of the socket "URL" (e.g. "foo.com/path")
+
+- **Added Support For "text" WebSocket messages**
+    - network_send_raw() now has an optional "options" parameter which can be set to "network_send_binary" or "network_send_text"
+    - This will force that mode when sending messages on a WebSocket socket (Binary remains the default if the parameter is not specified)
+    - Similarly, the matching async_load map has a new "message_type" field for all received WebSocket messages, which will also be set to network_send_binary or network_send_text
+
+- **Added support for `script_execute()`/`script_execute_ext()` to call constructors**
+    - For more, see [#7995](https://github.com/YoYoGames/GameMaker-Bugs/issues/7995)
+
+- **Added Support For Defining In-Game Colours Using CSS Values**
+    - You can now insert [CSS colours](https://www.w3schools.com/cssref/css_colors.asp) into your GML code by using a '#' symbol followed by 6 digit hex code - e.g., var col = #F0F8FF; // AliceBlue
+    - Be aware, though, that this actually sets `col` using the correct format for GMS2 runtimes (which is `$AABBGGRR`, while CSS colours are in the form `#RRGGBB`), so the debugger and elsewhere in GM will show `col` as $00FFF8F0 (or 16775408 in decimal) rather than the #F0F8FF you might have expected
+    - Note that this format is usable any place where a number can be used, as GML colours are just numbers, so these hex values can be used in more places than just defining a colour
+
+- **Added Support For Opera GX Builds Using YYC**
+    - We have added the ability for everyone to run games on Opera GX using YYC, improving the in-game performance compared to the VM output type
+    - Your build machine will require some extra tools to support this, so please see [the new setup guide](https://help.yoyogames.com/hc/en-us/articles/4625548722193) before attempting any builds
+    - Be aware that using YYC to build your game will automatically disable `subst` during that build (it simply ignores whatever your Preference is currently set to), as this would otherwise cause an error with the Emscripten SDK
+
+- **Added support for reading PS4 save files in a PS5 game**
+    - Your PS5 games can now see and read PS4 saves for the same title (note that this is not supported PS5-to-PS4)
+
+- **Added support for struct "shorthand"**
+    - Inside the code editor you can now use "shorthand" to declare a struct and say that you want it to contain a member with the same name as an existing variable, saving you needing to add the ": repeat the variable name" bit each time
+    - So, for example, if we have these three lines in our code: `var apples = 10; var oranges = 15; var all_fruits = {apples: apples, oranges: oranges, lemons: 7}` we could now shorten that third line and write it as `var all_fruits = {apples, oranges, lemons: 7}` instead
+    - The compiler will expand your code back into the old format for you and so everything will work as before in-game
+
+- **Added support for targeting iOS and tvOS simulators on M1 CPU Macs**
+    - Updated the Xcode project to allow VM and YYC builds to run on simulators launched on an M1 architecture Mac
+    - (Intel Macs worked fine already)
+
+- **Added Support For Text Tracks In Sequences**
+    - You can now add text tracks/instances into your sequences by clicking the "T" text tool in the canvas toolbox, edit the text via the new text layer inspector (which will open automatically when creating a new text item in your sequence) and animate it via the dope sheet,  then draw it in-game later on
+    - Note that at this time there is no ability to later override the contents of the text in-game
+
+- **Added Support For Ubuntu AppImage Packages**
+    - Further to the above Ubuntu change, we have added a new option to build AppImage packages when building for Ubuntu (you can still build a .zip also)
+    - An AppImage is a distribution-agnostic means of distributing software on Linux and your Appimage will automatically contain all the libraries and binaries to run your game on the system, so players just need to run the one file you give them (akin to a macOS .app bundle package)
+    - The AppImage type has become the default choice when clicking Run/Create Exe; however, ARM is not currently supported and so the runtime will fall back to old build system and a .zip
+    - Your Ubuntu build machine will require some extra tools to support this, so please see [the setup guide](https://help.yoyogames.com/hc/en-us/articles/235186168) before attempting any builds
+
+- **Added Support For Video Playback**
+    - You can now play video on all platforms apart from UWP and Xbox One using XDK (using GDK is fine) - you can also pause, resume, seek to a specific moment, get the duration/current position, and modify the volume, amongst other things
+    - Note that before including any videos in your games you must ensure that you have valid licensing rights to distribute videos in that file/codec format!
+    - Please see the manual for the full information, as there are a number of new functions and constants which have been added, plus you will now get async events for when videos start/stop playing
+    - Also be aware that not all platforms render the colours of videos in the same way, so you need to check which format is correct for the current platform in-game and draw the video accordingly, otherwise your picture will probably be coloured red - again, see the manual page for video_get_format() for the full info
+
+- **Added the Inspector**
+
+- **[GX.games] Added Tilt Support**
+    - Device gyro functionality is now supported on Android and iOS mobile devices
+    - Be aware this is a permission you must request from the player, and so the previously Android-only `os_request_permission()` has now been extended to work on more platforms
+    - For more (including a sample project showing this functionality), see [#9267](https://github.com/YoYoGames/GameMaker-Bugs/issues/9267)
+
+- **Additional `dbg_...()` controls now available**
+    - `dbg_slider_int(dbgref,[minimum],[maximum],[label])` - Creates a slider for an integer value within the current debug section, minimum and maximum values can be specified. NOTE: if no section is declared a "Default" section will be created automatically.
+    - `dbg_add_font_glyphs(filename,[size],[fontRange])` - Adds TTF font to be used in the debug rendering. The font should be added to your Included Files. The size of the font can be specified in pixels and a font range can be selected (glyphs must be present in the given TTF font) * -1 - Default Latin range, * 0 - Greek, * 1 - Korean, * 2 - Japanese, * 3 - Chinese Full, * 4 - Chinese Simplified Common, * 5 - Cyrillic, * 6 - Thai, * 7 - Vietnamese
+
+- **Additional Control For Extensions**
+    - Added a new system called Extension Options, which allows you to declare new fields in a dedicated new “Options” window in the Extension Editor
+    - These new fields then appear to everyone using your extension on the main window of the Extension Editor, so they can be filled in very much like Instance Variables in the Object Editor
+    - In this way, people using your extension can set their in-game values inside the Extension Editor and their values are then saved per-Configuration, etc., by GameMaker
+    - Added the ability to exclude extension functions from appearing in the Code Editor auto-complete pop-up
+    - [Android] Implemented the ability to inject into gradle.properties
+    - And all code injection values are now saved independently per-Configuration also
+
+- **Additional Extension Options Functionality**
+    - Added combobox gadget support into the extension options editor and also the ability to mark settings as hidden to the “user-facing” options panel on the main Extension Editor window
+    - Added support for native-language Android and iOS extensions to access extension options values
+    - Added a button for reverting each “user value” on the main Extension Editor window to the default values provided on the Extension Options window
+
+- **Additional Rollback Multiplayer Functionality And Visual Editor Fixes**
+    - New functions and a new Rollback event have been added for providing chat functionality to your players
+    - New Visual nodes have been added for the above, plus we added an optional “layer” field onto the Rollback Define Player node
+    - Toolbox icons have been also updated to the proper images for all the existing rollback nodes
+
+- **Additional Spine Functionality**
+    - Added support for Spine's "Mixed-Skin" functionality
+    - Added new functions skeleton_animation_get/set_position(track), which will return/set the position as a percentage, not as a specific frame
+    - Added new functions skeleton_animation_is_looping() and skeleton_animation_is_finished()
+    - Added new optional "looping" and "position" arguments to skeleton_animation_set() and skeleton_animation_set_ext()
+
+- **Additions For Go To (Ctrl+T)**
+    - Added a new option to search all of Preferences, but ignoring all Redefine Keys matches, so that the matches you are shown are only the ones you wanted
+
+- **Additions To Feather**
+    - Feather now supports basic type narrowing using "object_index", "typeof", "instanceof", and the built-in "is_" functions. E.g. if (is_string(a) && typeof(b) == "number")
+    - Changed Feather's tooltips to combine different tooltips into the one, so overlapping tooltips no longer occur for autocomplete, JSDoc content, and rules
+    - Also changed Feather's tooltips to limit the number of struct fields if there are too many to show at once (and added a Preference for saying how many is "too many" for you)
+    - Implemented that autocomplete highlights/prioritises in-scope variables at the top of the suggestion list
+    - Fixed some performance issues also - in particular, significant improvements to "Analysing Project..." times when opening projects
+    - The following types have been renamed: “Resource” is now “Asset”, “Mixed” is now “Any”, and  “ArgumentIdentity” is now “Any*”. Element Types are also now shown inside trailing angle brackets
+    - Please see the full changelist lower down, as there are a lot more to be aware of!
+
+- **Alternate DNS Server Support When Checking The Runtimes Feed**
+    - Some users have had issues for a while where for whatever reason their system DNS would either not give them the runtime feed properly or it might use a cached copy for a lot longer than expected
+    - If this applies to you, then you can now set an alternative DNS server IP address in Preferences > Runtime Feeds and this will then be used instead of your system's default
+    - You can then go onto the “Master” feed’s own page and click the refresh button to hopefully see the list update immediately
+
+- **Android**
+    - Google Play requires all submissions as of Nov 2025 to use 16kb-aligned page sizes - this release adds that support [#10894](https://github.com/YoYoGames/GameMaker-Bugs/issues/10894)
+    - Support has been added for slightly older APIs (pre-35) to support edge-to-edge displays when there are cut-outs (`windowLayoutInDisplayCutoutMode`) [#8186](https://github.com/YoYoGames/GameMaker-Bugs/issues/8186)
+    - API 35+ this is always enabled in the Android tools, so this setting only affects older versions
+    - Fixed that vector graphics could become "scrambled" in some cases, such as when the app loses focus [#12099](https://github.com/YoYoGames/GameMaker-Bugs/issues/12099)
+    - Fixed runner reporting incorrect version number in output log [#11643](https://github.com/YoYoGames/GameMaker-Bugs/issues/11643)
+    - Fixed crashes/ANRs for `DecodingBuffer::FormatFromAttributes` [#10660](https://github.com/YoYoGames/GameMaker-Bugs/issues/10660) and `CDS_Map::Find(RValue*)` [#10471](https://github.com/YoYoGames/GameMaker-Bugs/issues/10471)
+    - Dynamic texture groups now load in AAB builds if that group has a "Dynamic Group/Page Path" [#9936](https://github.com/YoYoGames/GameMaker-Bugs/issues/9936)
+    - Fixed Font-related startup crash reports on ARM v7 Devices when built using 2024.11 RT 226 or newer [#9753](https://github.com/YoYoGames/GameMaker-Bugs/issues/9753)
+
+- **Android & iOS - New Async Event When Layout Changes**
+    - A new Async System message is sent when the display layout changes
+    - This event is of type "DisplayLayoutInfo" and contains "safeinsettop", "safeinsetbottom", "safeinsetleft" and "safeinsetright" - which return the distance from that edge that it is safe to display in (i.e. where no system UI will cover it)
+    - On Android only, the event also returns a "boundrects" entry that contains information on rectangles within those areas that are non-functional (Display Cutout)
+    - If the display layout has a waterfall display, then this is also returned as "waterfallinsetbottom"/"waterfallinsettop"/"waterfallinsetleft"/"waterfallinsetright"
+    - For more (including a sample project showing this functionality), see the same [#8186](https://github.com/YoYoGames/GameMaker-Bugs/issues/8186) mentioned in the section above
+
+- **Android - Support For Controlling Gradle Versions And New Graphics Settings**
+    - The Gradle Version and Gradle Plugin Version required during a build are now editable by you and can be set per-project - there are new text fields in Game Options-> Android-> General for this
+    - You can now enable Edge-to-Edge display and also allow control of the display layout via new settings in Game Options-> Android-> Graphics
+    - For more (including a sample project showing this functionality), see [#8186](https://github.com/YoYoGames/GameMaker-Bugs/issues/8186)
+
+- **Android Changes To Reduce Google Play ANRs**
+    - Added support for ProGuard minifying and shrinking - you can now enable these in Game Options if you wish (defaults to off) and the corresponding steps will then be performed during your builds
+    - Also added $YYAndroidProguard as a tag so that your extensions can inject into the proguard.pro file
+    - Removed a call to deprecated AbsoluteLayout and another for an unnecessary FrameLayout
+    - Simplified the logic around Pause\Resume events and also made a couple of fixes for resume being called when the game isn't actually paused yet (including one specific instance of double-resume in RunnerJNILib)
+    - Now deactivates the Bluetooth Broadcast Receiver when pausing (and reactivates it automatically when resuming)
+    - Now detects the actual number of recording devices available on that device, rather than polling a fixed range of possible indexes
+    - Made fixes for websockets memory-handling to stop a source of ANRs on old Android devices
+    - Also removed some redundant "setting vis flags" debug output, so that logs are a bit clearer
+
+- **Android Games - Inject Your Own ADB Logging Tags**
+    - Added support for extensions to specify their own ADB logging tags in the injection field of the extension editor, which will then get picked up in the console window
+    - In this way, you can filter the output from your game to make your extension's own information much clearer to read in the logs
+    - Also removed the redundant old tags for the ad/analytics providers which used to be built into the runner
+
+- **Apple "ProMotion" Support**
+    - Added support for adaptive display refresh rates on the specific macOS/iOS devices which support this "ProMotion" feature (note, this is only a handful of newer device models at this time)
+    - The game will detect and handle this with the device for you - there are no new functions for this feature
+
+- **Asset Browser "Open in External Editor" Context Menu Option**
+    - Included Files, Sprites (SWF, Spine, and regular bitmaps), and Sounds can now be directly opened in their OS default application outside GameMaker
+    - If you wish to use a specific alternative application, then you can set the one to be used via the new controls in Preferences (if the field is blank, then the OS default will be used)
+    - GameMaker will alert you each time it cannot launch the external application and will ask you to investigate/fix
+    - This change also means the Image Editor’s "Edit Image" button will now be enabled for Spine/SWF image types if a matching external editor has been set in Preferences
+    - However, be aware if you are using a trial version of Spine, then that application does not allow you to use command line actions and so cannot be opened in this way (as mentioned above, GameMaker will advise you of this)
+    - Note: you should not open any sprites in the GameMaker Image Editor at the same time as editing them in an external application - doing this will very likely cause saving issues!
+
+- **Asset Browser UI/UX Tweaks**
+    - Restored the ability to have multiple AB windows at once (like the old Resource Tree allowed) via clicking the Window > Asset Browser menubar command each time you want a new window to open
+    - Removed the independent dialog to customise a group's colour when right-clicking on its icon area - you could always edit the colour on the item’s main right mouse button menu anyway, so now right-clicking anywhere on the whole row will always open the full menu
+
+- **Asset Browser: Updated drag-and-drop flow for Prefab creation [#13585](https://github.com/YoYoGames/GameMaker-Bugs/issues/13585)**
+    - You can now drag prefabs from the Prefab Library directly to the Asset Browser in order to add them as custom prefabs
+    - More info on how this works/what it means thereafter can be found on the issue (linked above)
+
+- **Audio Error Suppression Now Expanded To Account For Coding Problems Also [#10198](https://github.com/YoYoGames/GameMaker-Bugs/issues/10198)**
+    - Audio errors have always been shown when the game legitimately fails to find a source file (such as having newlines in the string used as the filename and passing this string to `audio_create_stream()`)
+    - Now, these can be suppressed by the two existing methods for "hiding" audio errors in the output log only
+
+- **Audio Filters/Effects Support**
+    - We have now added support for calling a number of new audio filters in your games and modifying their values in real time
+    - audio_bus_create(), audio_effect_create(), audio_emitter_bus(), and audio_emitter_get_bus() are all new and allow you to call your choice of the following effects:
+    - Bitcrusher (which is a form of distortion), Delay, Gain, HPF2 (a high-pass filter), LPF2 (a low-pass filter), and Reverb1
+
+- **Audio Functions Now Have Strict Error-Checking And Catch Coding Issues**
+    - This release will now more reliably catch when there are errors with audio playback due to invalid assets or arguments, etc., in your code
+    - In general, you will want to review these in-game errors and refactor your code to correct the problem, as the error message is there to advise you have _always_ had a problem with your project and that previous runtimes would not have been doing what you were expecting
+    - However, `audio_throw_on_error()` has been added also for disabling these stricter checks if you do need to
+    - For more info, see [#7285](https://github.com/YoYoGames/GameMaker-Bugs/issues/7285)
+
+- **Automatic Detection Of Filter/Effects Being Used By fx_create()**
+    - fx_create() calls are now detected at compile time and your filters are added to the game automatically, so you no longer have to create a "placeholder" Room Editor layer which uses that effect just so it can be used in-game by this function
+
+- **Better DPI Support In The IDE [#3196](https://github.com/YoYoGames/GameMaker-Bugs/issues/3196)**
+    - There are a large number of improvements to DPI-handling throughout the IDE, including when moving GameMaker between monitors
+    - Also improves handling of monitors that have different resolutions and DPI settings
+
+- **buffer_get_used_size() Added**
+    - Returns the actual usage size of the specified buffer, so you can see how much space is left in your buffer, etc.
+    - For more, see [#9298](https://github.com/YoYoGames/GameMaker-Bugs/issues/9298)
+
+- **Buffers, Vertex Buffers, Vertex Formats, and Surfaces now have typed handles**
+
+- **Building Projects: [macOS, iOS, tvOS] XCode Projects Now Add Support For C++/ObjC++ And Swift Interop [#12719](https://github.com/YoYoGames/GameMaker-Bugs/issues/12719)**
+    - Extensions which require this interop between multiple languages are now better supported
+
+- **Building Projects: Add support for calling batch files during a Clean operation**
+    - You can now create your own batch and shell scripts for pre_clean_step.bat (or pre_clean_step.sh) AND post_clean_step.bat (or post_clean_step.sh)
+    - These pre-post scripts can also be added to your extensions to add similar functionality there
+    - For more, see [#8695](https://github.com/YoYoGames/GameMaker-Bugs/issues/8695)
+
+- **Building Projects: Alerts When Attempting A GMRT target, But GMRT Not Installed [#11017](https://github.com/YoYoGames/GameMaker-Bugs/issues/11017)**
+    - Prior to this release, there was no guidance given at the start of the build process if you do not actually have GMRT installed and set up - the build simply failed because a file could not be found
+    - Now, your build will be safely aborted and instead you will get a new dialog advising that you do not have GMRT installed and how to fix this
+
+- **Building Projects: Extensions Now Support More Batch/Shell Scripts [#11017](https://github.com/YoYoGames/GameMaker-Bugs/issues/14088)**
+    - Up until this release, you could not use either of `pre_project_step.bat` or `post_project_step.bat` (or their .sh shell equivalents) in your extensions
+    - Now, when your project is being built, all extensions are scanned to see if they contain these files and they will be performed if found
+    - NOTE: This system cannot take into account whether an extension is actually enabled/disabled for the current build target, as the project is not loaded at this point, so if any of these files are present they will always be executed. Use responsibly!
+
+- **Building Projects: More AssetCompiler And Igor Errors Are Highlighted During Builds [#10654](https://github.com/YoYoGames/GameMaker-Bugs/issues/10654)**
+    - A number of errors and warnings that these two tools wrote to your Output window log were not using the correct formatting to make the IDE also show the lines in the Compiler Errors panel for ease of finding them later
+    - Now, these logging messages have all been standardised and will now show up correctly
+    - This may of course mean that an error you never knew you had is suddenly showing - this is correct and something for you to rectify in your project or tools setup
+    - Additionally, if you are using any form of build automation you may need to account for seeing these errors / change any code you had that detected the old error messages
+
+- **Changed Audio Output For Opera GX Target**
+    - Opera GX now uses the same audio output system used on most other native platforms, so you should find better performance
+    - Let us know if you do have any major issues -  but be aware by default it uses quite small buffers, so please do file a bug with a small sample project attached if you hear "crackling" in your sounds
+    - This affects all sound playback, including video support
+
+- **Changed Bounding Box Values To Be Floats And Added A Compatibility Collisions Mode**
+    - There is quite a substantial change to collisions, as bounding box values are now floats rather than ints - this increases accuracy and fixes a number of long-standing bugs (see below for some of the bugs fixed), but you should test your games carefully, as you may need to make changes to your code in response to this fix.
+    - See [the manual page for this change](https://manual.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FMovement_And_Collisions%2FCollisions%2FCollision_Compatibility_Mode.htm) for more information
+    - However, for existing projects where you do not wish to make the change or it’s not practical to refactor, there is a new Game Option (so you need to enable this in the IDE to get the fix) which tells the runner to treat bounding boxes as inclusive and round() them to .000 so they act as if integers, which is how collisions worked in previous GMS2 releases
+    - Note that we would recommend going forward that you use the newer float bounding box calculations system and generate your sprites and code accordingly, rather than always ticking this option in new projects
+
+- **Changed In-Game Sprites To Use QOI Image Format**
+    - Games now use the QOI image format with BZ2 compression, which is smaller than PNG (we saw in our testing that game packages are now around 80% of the size they would be in 2.3.7) and quicker to decompress
+    - You should also see your project build times are quite a bit shorter in this release (again, we saw potentially around 50% quicker, but quite how much depends on the size of your project and the number of sprites, obviously)
+    - If for some reason your game now fails to build or takes noticeably longer than 2.3.7 requires, please let us know via a bug report ticket and remember to attach a download of your project so we can check why it has an issue
+
+- **Changed The Application Oven To Also Support M1 Architecture**
+    - You shouldn't see any difference when building projects, etc., but this means the app with now run natively on these Macs
+
+- **Changed Ubuntu Builds To Use The Steam Runtime**
+    - Building any non-ARM projects for the Ubuntu target now uses the Steam Runtime as part of this process
+    - This removes a lot of the library/dependency issues that come from different Linux distributions and updates
+    - You will be required to install the Steam SDK on your Ubuntu build machine, so please see [the Required SDKs FAQ](httpshttps://help.yoyogames.com/hc/en-us/articles/227860547-GMS2-Required-SDKs) and the Ubuntu setup guide that page links to before trying to do any builds
+
+- **Changes For Calculating An Audio Instance's Final Pitch**
+    - Games now calculate an audio instance's final (or "source") pitch value in the same way as its gain has been done for a long time - the product of all three of the voice, asset and emitter pitches
+    - Up until now, calling audio_sound_pitch() with a sound instance or any of audio_play_sound/at/on() with an optional pitch argument meant the source pitch was completely overridden by whatever value was passed in and any relevant asset/emitter pitches were not taken into account thereafter - meaning that future changes to those asset/emitter pitches would not affect that "overridden" instance
+    - As mentioned above, the final pitch is now calculated in the same way as the final gain, which would always be the product of all three of the voice, asset and emitter pitches - this way, all three components play an equal role in calculating the final pitch and a subsequent change to any component will have a consistent and proportional effect (any sounds which are not played on an emitter will have an implied emitter pitch of 1.0)
+    - Please be aware that this change will affect your projects if you have previously changed the values of the voice pitch for a given sound (any of the functions mentioned two lines up) and either of its asset pitch (audio_sound_pitch() with an asset index) or its emitter pitch (by calling audio_emitter_pitch()) and so you should change your code accordingly if sounds now suddenly play at an unexpected pitch
+
+- **Changes For Nintendo Switch**
+    - Implemented Nintendo's native crash-reporting system - now in-game errors will trigger the console’s own error system, rather than GM’s own, and so will also create a crash dump which can be submitted for your analysis
+    - Be aware that the above may require changes to your metadata next time you submit
+    - Also implemented new functions to create blocking/non-blocking network requests as required
+
+- **Changes To Behaviours Of Statics**
+    - Improved handling of static values so it is more intuitive, by introducing the idea of a static chain when a constructor inherits from another
+    - Introduces a few new functions also:
+    - is_instanceof(struct, FuncName) returns true if struct has  anywhere in its static chain
+    - static_get(struct or FuncName) returns the static struct for a given struct or FuncName, or “undefined” if it has no static
+    - static_set(struct, struct) sets the static for a struct to point at another struct (Note: You should be very careful using this one, as it is provided for deserialisation use-cases only)
+
+- **Changes To Build Tools So In-Game Sprites Now Use QOI Image Format**
+    - See the runtime notes for more information, but games now use a modified version of the QOI image format with BZ2 compression, which is smaller than PNG (we saw in our testing that game packages are now around 80% of the size they would be in 2.3.7) and quicker to decompress
+    - You should also see your project build times are quite a bit shorter in this release (again, we saw potentially around 50% quicker, but quite how much depends on the size of your project and the number of sprites, obviously)
+    - If for some reason your game now fails to build or takes noticeably longer than 2.3.7 requires, please let us know via a bug report ticket and remember to attach a download of your project so we can check why it has an issue
+
+- **Changes To Cocoapods Initialisation**
+    - Changed the initialisation flow to make the process simpler
+    - Will also detect and workaround/fix more setup issues present on the Mac
+    - Also adds architecture support for both Intel and Silicon Macs
+
+- **Changes To HTML5 Step Event And Instance Creation Behaviours**
+    - All runners keep lists of the active instances and these are sorted by their depth, but HTML5 had them sorted in the opposite direction which caused a different order of event execution. E.g. on other platforms if the Step event of instance A was executed first, B second and C third, then on HTML5 it would be C/B/A - HTML5 now behaves the same as the other platforms
+    - Additionally, on all other platforms  if you created an instance in the Step event (for example), then that new instance's Step event wouldn't be executed until the next frame, but on HTML5 it would be executed immediately - again, HTML5 now behaves the same as the other platforms
+    - This fixes a number of projects that have had issues on HTML5 and means HTML5 now has more behaviour parity with the other platforms, but may have a negative effect if you relied on these particular HTML5 behaviours in your games
+
+- **Changes To Make The “Base” Runtime Module Contain Only Tools For Your Chosen IDE**
+    - In all older runtimes, the “Base” module has always included the tools required for all three of the Windows, Mac and Ubuntu IDEs, and so the download size has grown over time but a reasonable amount of the package was not really relevant for your specific installation
+    - Now, the “base” entry in the Runtime Modules dialog within the IDE will only download the tools relevant for the one IDE/operating system you’re using, saving you time downloading the runtimes and the space on your disk
+    - (The same change applies if you’re using Igor to download your runtimes via command line tools)
+
+- **Changes To `Noone` Being Returned By Some Functions**
+    - When reviewing the below bug report we found several other places where `noone` was being passed back as the number -4 rather than an instance handle
+    - In-Game: `layer_instance_get_instance()` returns "-4" when the element is not an instance, should be an invalid instance handle ("ref instance -4") [#9374](https://github.com/YoYoGames/GameMaker-Bugs/issues/9374)
+    - These have all been changed to return an instance reference of -4
+    - This may affect any code you have in your projects where you are checking for `is_number()` or `is_handle()` rather then looking for "noone"
+    - Note that most of the locations changed were to do with collision code - where noone is passed back when nothing is found
+
+- **Changes To Project Saving Regarding Game Options**
+    - As mentioned above, the options list has now been removed from the main project .yyp file - for users who don't ever roll back their IDEs this won't be of any concern, but be aware that if you want to use an older IDE version for some reason, then you should back up your projects before opening them in this 2023.1 release (we do always recommend backing up projects before updating to any new release anyway)
+    - Then, be aware of the following:
+    - 2022.11 will re-add just the options you need for your licence (if you're a free user you should use specifically 2022.11.1, as the original .0 release would not be suitable)
+    - 2022.8/9/LTS will re-add default options content for all platforms
+    - 2022.6 and older releases will not know how to read your project and so will open the project as read-only
+
+- **Changes To Runtime Names**
+    - Inside Target Manager and various other places you will now see "VM" has been renamed "GMS2 VM" and "YYC" is "GMS2 YYC"
+    - This change is simply to emphasise that the new runtime is coming in a future release and to clarify that new features at that time may not go into the "old" runtimes also
+
+- **Changes To Some In-Game Functions Which Accept Numbers-As-Strings**
+    - json_parse() now throws an error if a string starting with a digit is passed [#8015](https://github.com/YoYoGames/GameMaker-Bugs/issues/8015)
+    - real() now throws errors for strings that start with a number and have trailing characters (e.g., "infobar", "nano", "42 apples") [#7685](https://github.com/YoYoGames/GameMaker-Bugs/issues/7685)
+
+- **Changes To The Project Format And The New Project Serialiser**
+    - You may have noticed that over time GameMaker would "randomly" rewrite the contents of your .yy files in a different order. This was partly down to our JSON library getting updated and partly because we modified the various assets as we added new features last year and so were often adding, removing or modifying fields in the project source files. We've also been cleaning up our project format throughout the year, removing data that we can now safely synthesise and getting it into a cleaner and more robust format.
+    - Technically, the order of the entries in a JSON file is not standardised and so we should have communicated more a long time ago that the ordering of your files was never guaranteed, but it clearly got annoying to have data quietly moving around when source control was being used
+    - Accordingly, a new project serialiser tool/method has been implemented to stop data moving around unexpectedly in your .yy files and therefore fix these QoL issues with things like source control and also finding your content if you were manually editing your files at all
+    - From this version onwards GameMaker should no longer shuffle fields around, and the only changes would come when we add or remove data from the format - which will be accompanied at the time by an upgrade in that resource type's version number
+    - This new tool has an additional benefit in that you will likely find your projects now load faster - including when we reload them at the start of each build, which will reduce compile times as well
+    - This release also removes the old "Options" list from a project's main .yyp file, because as of 2022.9 this information is determined by your licence and so the list in the .yyp file is redundant (and so again it caused issues for teams where people's licence types differed) - note that there is more on this change below!
+    - To further help our source control users, there is also a new separate file in the project for saving the order of your assets in the Asset Browser, so that one team member will no longer get conflicts due to other team member’s ordering choices because your git can be set to ignore this user-specific file
+    - And there is a further fix included for GameMaker stalling/freezing and taking longer than necessary when saving changes to a sprite after importing a large number of big images at once, which potentially greatly reduces the time the import of the images will take - a progress bar is now also shown when importing multiple images at once, so you know something is working away
+
+- **Changes To Verifying Preferences Path/Command Line Paths During Builds**
+    - Previously, if a required path for command line builds was not supplied when triggering the build this could result in a silent crash of the build tools, rather than a useable error message saying that you needed to supply the required path (and which specific path was at fault)
+    - Now, all of the paths are checked before the build is started and if issues are found the build will be correctly stopped and you will get an error message asking you to supply the missing info
+    - Note that this change does also affect builds done inside the IDE - so if you try to build for a target which you have not correctly configured inside Preferences, you will now more reliably get an error message telling you which setting needs to be fixed (and again the build will be failed properly)
+
+- **Choose Your Preferred Spine Collision Values**
+    - Previously, GameMaker would inconsistently apply one of either of the bounding box and/or collision mask from a Spine collision mesh or the precomputed mask from the Sprite Editor, depending on different code paths executed in the game
+    - There is now a "Spine Collision Mesh" option into the Sprite Editor, which allows you to explicitly choose to consistently use Spine collision meshes OR GM collision masks in all code paths, on a per-sprite basis
+
+- **Code Editor 1: Fix For Hotkeys Not Working [#10843](https://github.com/YoYoGames/GameMaker-Bugs/issues/10843)**
+    - A number of the non-QWERTY keyboard bug reports for 2024.13 were actually for CE1 specifically and more to do with hotkeys not working
+    - This turned out to be the use of custom code snippets and a problem when declaring them, so those users seeing keyboard issues actually had duplicate entries and so the hotkey was being reused - this then caused an error which stopped all remaining hotkeys from being loaded
+    - Now, all default hotkeys are loaded and _then_ the custom ones, with new logging and an error dialog shown if your snippets file contains this problem
+
+- **Code Editor 2 (Beta) Now Available For Use**
+    - This release brings the new code editor to LTS releases for the first time (it's off by default, so you won't see anything unless you enable it in Preferences yourself)
+    - Note that the new code editor and its language server are both known to still have a number of outstanding bugs and changes to come, and so you will see it's all marked as a Beta inside GameMaker right now
+    - Accordingly, if you do find a bug when using Code Editor 2, please, _please_ do search for existing bug reports and just add comments or thumbs-ups onto those, rather than filing a duplicate report of your own
+
+- **Code Editor 2/Feather/GmlSpec [All Issues](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A2024.14%20in%3Atitle%20("Code%20Editor%202"%20OR%20"Feather"%20OR%20"GmlSpec"))**
+    - There are over 190 issues for these 3 tools, so of course not all of them can be listed here, but the summarised headline changes are:
+    - Lots of fixes for the LSP not starting properly when loading your projects
+    - Lots of fixes for code-colouring breaking mid-way through lines (e.g., arguments, template strings, piped values)
+    - Lots of fixes for autocomplete adding/not adding unwanted indents during some operations, particularly around indentation of braces
+    - Fixes for highlighting the correct argument as you're typing a function declaration
+    - Several fixes for changes to code files not being saved when their windows are closed, especially if the editor was in a child GameMaker IDE window
+    - Feather's "SyntaxErrors" profile is now a little more relaxed and also the IDE no longer forces a Preferences value change for this profile
+    - Renaming a collapsed #region can cause its contents to be lost [#11713](https://github.com/YoYoGames/GameMaker-Bugs/issues/11713)
+    - Deleting part of the declaration line for a collapsed function deletes the function's contents also [#11932](https://github.com/YoYoGames/GameMaker-Bugs/issues/11932)
+    - Navbar and Inspector events panels now show @Desc labels for Code events (Visual has an issue and so will come in .14.1) [#8925](https://github.com/YoYoGames/GameMaker-Bugs/issues/8925)
+    - Autocomplete does not appear inside "Execute Code" Visual nodes [#10387](https://github.com/YoYoGames/GameMaker-Bugs/issues/10387)
+    - Converting an event from GML Visual to GML Code doesn't update any refactored code [#11686](https://github.com/YoYoGames/GameMaker-Bugs/issues/11686)
+    - Code Editor 2: Tab and Enter not being able to be rebound cause code completion frustration [#9268](https://github.com/YoYoGames/GameMaker-Bugs/issues/9268)
+    - Note that as well as the new Redefine Keys entries, this one also added a few new Preferences for controlling when the autocomplete appears in CE2, so do see the issue linked above in case you would like to use these new behaviours
+    - A note for those who place their opening curly braces on the line below their function/loop declaration lines - you might want to try the "Braces" mode, rather than "Full", and see if this matches more closely what you want the editor to do for you, as "Full" mode is intended to do a lot more and conform to specific popular coding styles which have the braces on the declaration line
+
+- **Code Editor 2: "Rename Identifier" command now works also when caret is at the start of the identifier [#12381](https://github.com/YoYoGames/GameMaker-Bugs/issues/12381)**
+    - Previously, this command only worked if the caret was on/immediately after the identifier name - now, it supports the caret being immediately before the name also
+
+- **Code Editor 2: Added Support For Previewing Prefab Object Event Code [#12851](https://github.com/YoYoGames/GameMaker-Bugs/issues/12851)**
+    - It's now possible for code written in a prefab Object to be previewed in a read-only mode
+    - Select the Object in your prefab library and this will open it in the Inspector and show you the events that Object contains, and then you can now double-click the event in order to see its code
+
+- **Code Editor 2: New snippets override system  [#10164](https://github.com/YoYoGames/GameMaker-Bugs/issues/10164)**
+    - You can now add *.tmSnippet files into your user directory with the name as a built-in snippet to override that snippet
+    - In this way, you can add support for alternative code-formatting styles, or extend the code to always contain comments you write, or whatever else you wish
+    - An example of how to write one of these snippets can be found in the comments on the issue and the manual will soon be updated to go over it in more detail
+
+- **Code Editor Support For Binary Literals And Underscores In Numbers**
+    - Binary literals can now be declared in the form 0b…. (same as the hex literal 0x… that GameMaker has supported for a while). For example: var six = 0b0110; or var thirteen = 0b0100 | 0b1001;
+    - Also, integer, floating point, hex, and binary literals may now take an underscore to act as a visual separator. For example: var integer = 100_000_000; or var float = 3_141.59; or var hexadec = 0xDEAD_BEEF; or var binary = 0b01101000_01101001;
+    - Note that this is a Code Editor and Compiler change only - there is no support for this in-game
+
+- **Code Editor Support For Template Strings**
+    - Template strings allows you to format the strings the way you want in GML and perform operations in-situ in the code editor - a template string is denoted with a $ and the individual parameters are wrapped inside a { and }
+    - For example, if we assume we have a project which already has the functions get_weekday_name() and get_weather_name() we could write code like the following to make up a new string:
+    - var today = get_weekday_name();
+    - var weather = get_weather_name();
+    - var myTemplateString = $"Hello, World! Today is {today} and it's {weather}";
+    - And in-game this could end up with something like "Hello, World! Today is Wednesday and it's sunny"
+
+- **Code Snippets: "$" Characters Can Now Be Escaped And Therefore Used For Structs [#12827](https://github.com/YoYoGames/GameMaker-Bugs/issues/12827)**
+    - "$" being used as the line break character meant that in previous GM releases you could not create struct-based snippets
+    - You can now escape the character by using a backslash before it ("\$") and therefore use this escaped character when declaring structs
+    - For your line break characters you obviously remain using "$" on its own (with no backslash)
+
+- **Commandline Builds: Add a "Compile" option into Igor, to do the build and then stop before any packaging/running [#9367](https://github.com/YoYoGames/GameMaker-Bugs/issues/9367)**
+    - Added a new "Compile" option, which simply performs the build and then stops - no zipping/packaging or running the game, etc.
+
+- **Compile Errors: Opens Instance's Object Variables Window Correctly [#13583](https://github.com/YoYoGames/GameMaker-Bugs/issues/13583)**
+    - Following on from https://github.com/YoYoGames/GameMaker-Bugs/issues/13202, if a compile error refers to a problem with Variable Definitions values, up until now GameMaker would incorrectly open that instance's creation code, when it should have open the Variable Definitions dialog for that Object/Instance
+    - Now, it will open the correct place and therefore highlight the problem much more clearly
+
+- **Control SDF Settings For A Font In The IDE**
+    - Added support for outputting SDF font-rendering information during compilation, so now fonts which were created in the IDE are supported in-game
+    - You can find new settings in the Font Editor and the Inspector to enable/disable SDF and configure the required values
+    - Also, when in-game you will now find font_get_info() now includes SDF status and information
+
+- **Create Loop Points During Audio Playback**
+    - You can now add a loop start and end point into your playing sounds, then perform the loop as many times as you wish - turning the loop on and off as required
+    - This adds several new functions:
+    - audio_sound_loop() - for playing the sound with a loop enabled
+    - audio_sound_get_loop() - for checking if the sound you specify has a loop enabled
+    - audio_sound_loop_start() and audio_sound_get_loop_start() - for setting and then later getting the starting position of your loop (so you can move it afterwards if you wish)
+    - audio_sound_loop_end() and audio_sound_get_loop_end() - same as above, but for the end position of the loop
+
+- **Create Physics Shapes At Runtime**
+    - `sprite_get_convex_hull()` can now be used to generate the points of a convex hull for the given sprite
+    - You supply a sprite index (which can be an asset added through the Asset Browser or a sprite added at runtime) and a precision value, and the function returns an array of reals defining the points of the convex hull
+    - For more information see [#9472](https://github.com/YoYoGames/GameMaker-Bugs/issues/9472)
+
+- **Create Your Own "Game Launcher" App**
+    - game_change() can now be used to change from the current game and instead load the data file from another game, allowing you to pass arguments to the new game, and returning to the launcher again when the new game is closed
+    - The other project(s) must have been compiled already and then its data.win file also needs to have been added into the launcher project as an Included File
+    - This function requires VM builds (not YYC) and is supported on Windows, macOS, PS4, PS5 and Switch only - and note that only Windows supports running the launcher project from the IDE, all the others require the launcher to be built as a standalone application before game_change() can work
+
+- **Creating New Assets Now Uses Your Feather Preferences For Naming Conventions [#10477](https://github.com/YoYoGames/GameMaker-Bugs/issues/10477)**
+    - Asset Browser has been changed so that now your initial asset names will use the naming values set in your Preferences for Feather
+    - This will only take effect if Feather's "Message Severity" value for rule 2017 is _not_ using the default value of "Ignore" (so you may need to change this in Preferences yourself if you want to use this functionality now)
+    - Be aware that some asset types (Notes, Extensions, etc.) have Preferences defaults that are intentionally different to all the others, as in many cases you might not want these asset types to confirm to fixed names, etc.
+    - Also that "Room1" will always be called "Room1", as that comes from the base project and so already exists
+
+- **Creating New Projects No Longer Adds The Empty Default Groups In The Asset Browser [#9731](https://github.com/YoYoGames/GameMaker-Bugs/issues/9731)**
+    - Changed the default value for the "Create default groups in new projects" Preference to be OFF, so that the Asset Browser is back to containing only the content that _you_ have created
+    - Which means that when creating new projects you will only see the default Room1 that GameMaker always creates for you
+    - This communicates more clearly to everyone new to GameMaker that you do not have to create all your sprites in the "Sprites" group, all objects in the "Objects" group, and so on...
+    - It does not change the project structure when it's saved out - just that the Asset Browser won't show these unused folders
+    - {% include note.html content="For existing users/GameMaker installations you may need to change the Preference yourself if you want to get this change, as this release will not modify your current Preferences value" %}
+
+- **Debug Overlays**
+    - Added gamepad support into the debug GUI overlays in-game, so now you can interact with a pad as well [#10572](https://github.com/YoYoGames/GameMaker-Bugs/issues/10572)
+    - Added ability to toggle whether or not you want gamepad support, but also if you want only one specific gamepad to interact or to allow all pads [#11705](https://github.com/YoYoGames/GameMaker-Bugs/issues/11705)
+    - Added 2 new optional params to `show_debug_overlay()` to facilitate this
+    - Now it's `show_debug_overlay(enable,[minimised],[scale],[alpha],[gamepad_enable],[gamepad_index]...)`
+    - "gamepad_enable" can be true or false (default is true) and controls allowing gamepad input
+    - "gamepad_index" is either -1 (default) for allowing all gamepads or you can specify the gamepad index to limit interactions to (e.g., player 1 only)
+    - The new function `dbg_get_gamepad_input()` will return a real number to show the status of gamepad input in the debug overlay
+    - A return of -1 indicates gamepad input is disabled
+    - A return of -3 indicates gamepad input is enabled for all gamepads
+    - Any other number indicates that only _that_ specific gamepad is allowed for debug overlay input
+    - Also added several new functions for specifying which view/section a new control is to be added to, confirm if a control exists, and to delete a control [#10014](https://github.com/YoYoGames/GameMaker-Bugs/issues/10014)
+    - Note that this also changed the return values for several other existing dbg_... functions, so bear this in mind as you may need to update your code now
+
+- **Debug overlays have been updated!**
+    - We have incorporated Dear ImGui into the runner and initially we are using it to have a better and richer debug experience
+    - The old FPS overlay is now replaced with an improved graph showing changes over time and it will also show a stacked snapshot of the current frame as well
+    - FPS window - shows the current FPS graph
+    - Audio window - shows the current audio that is in flight and a graph of the mixers that are active
+    - Log window - shows the log output (currently only on Windows and macOS, but other platforms will follow in future releases)
+    - Mouse and keyboard input are supported within ImGui, so you can interact with the windows and move them around as you wish
+    - We will be expanding the ImGui usage over the next few versions in order to add in more functionality and capabilities
+
+- **Debugger [All Issues](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A2024.14%20in%3Atitle%20"Debugger")**
+    - Disabled UI for changing member variable values when real-time debugging is enabled [#11726](https://github.com/YoYoGames/GameMaker-Bugs/issues/11726)
+    - Profiling expensive frames and then stopping profiling no longer causes readouts to become incorrect [#12108](https://github.com/YoYoGames/GameMaker-Bugs/issues/12108)
+
+- **Decoupled audio-decoding threads from the audio context**
+    - For more info, see [#7055](https://github.com/YoYoGames/GameMaker-Bugs/issues/7055)
+    - Also fixes "In-Game: Audio playback no longer cuts sounds off early when using 2028.8 runtimes" [#7597](https://github.com/YoYoGames/GameMaker-Bugs/issues/7597)
+
+- **Deprecated `instance_change()` and `position_change()`**
+    - Added these functions to the Deprecated Behaviours section inside Game Options > Main
+    - {% include important.html content="If your project uses any of these functions you will need to tick the required Game Option now, otherwise you will get a code error in-game that it could not be found" %}
+    - For more, see [#10299](https://github.com/YoYoGames/GameMaker-Bugs/issues/10299), [#10514](https://github.com/YoYoGames/GameMaker-Bugs/issues/10514)
+
+- **Device Manager Support For Opera GX Mobile Devices**
+    - You will likely see a new firewall prompt for this the first time you start this new version, so for more information on this functionality and how to use it, please see [our new FAQ all about it](https://help.yoyogames.com/hc/en-us/articles/7961446360221)
+    - Added a new MQTT server for discovering Opera GX Mobile devices on your network, allowing you to just as easily test your GX games on your phone or tablet as you can on your desktop
+    - Simply scan the QR code inside Device Manager to connect the mobile device to GameMaker in seconds
+    - Note that your devices are only linked to that one instance of GameMaker and will be forgotten the next time you close GameMaker
+
+- **Device Manager: [iOS] Added support for a dummy device to be selected in Target Manager and used when building for iOS [#8413](https://github.com/YoYoGames/GameMaker-Bugs/issues/8413)**
+    - Similar to how XCode allows you to build for "Any IOS Device", which can then be deployed via Testflight or to a real device later on, GameMaker now has a default/dummy iOS device in Target Manager that you can use and do iOS builds even when no real iPhone/iPad is connected to your Mac (this is particularly useful in the case of remote or CI build setups)
+    - As you can see below, there have also been fixes for iOS and tvOS physical devices not being detected on some newer Mac hardware setups
+
+- **Export your very own Opera GX Game Strip**
+
+- **Extended struct functions**
+    - struct_foreach(struct, callback) - calls the provided function on each member of the struct
+    - struct_get_from_hash(struct, hash) - gets the value of a struct member using hash obtained from variable_get_hash
+    - struct_set_from_hash(struct, hash, value) - sets the value of a struct member using hash obtained from variable_get_hash
+    - variable_get_hash(name) - returns a hash value you can then use with the above two functions
+    - variable_clone(val, depth) - returns a clone of the value that is passed, but note that it does not clone data structures, rather it just copies as numbers, and the “depth” value defines the number of levels
+    - Note also that struct_get(), struct_get_names(), struct_set(), struct_exists(), struct_remove(), and struct_names_count() have all been added also, but these are simply aliases to the existing functions you would get if you typed “variable_” before each of them and the new names are simply to save keypresses in future
+
+- **Extensions "remote_build_step" Support**
+    - There is now another step available for extension developers/users, which is for a script which is ran on the remote machine so it can perform steps locally during the build process
+    - For example, using the Windows IDE to build an iOS project, your extension could use this functionality to tell the Mac which is doing the build to gather files together and ensure they are brought into the package
+
+- **Extensions Support New Features**
+    - Added the ability to embed a framework in a generated iOS app
+    - Added the ability to pass GML struct keys to Extensions
+
+- **Extensions: macOS YYC Now Has Support For Inserting Frameworks Into Your Builds [#10429](https://github.com/YoYoGames/GameMaker-Bugs/issues/10429)**
+    - You can now create a "MacFrameworks" folder in your project source and any Framework .zip files in here will be added automatically during your macOS YYC builds
+    - Note that this is supported on YYC only
+
+- **Extra Project Cleaning And Launching Options**
+    - A series of new options to launch builds and clean your cache areas are now available in the Build menu, which will help reduce build times and allow you to clean only the specific parts of your project you need to
+    - Those new options are: Re-Run last build, Clean Code, Clean Graphics, and Clean Audio
+    - There is also a new Preference to delete the Temp directory each time before running a project in General Settings > Paths, which saves drive space when repeatedly building very large projects
+
+- **Feather Additions**
+    - Feather Now reparses scripts whenever they are edited outside GameMaker
+    - The new rule GM2064 will validate that initialiser struct variables have variable definitions for the target object (and its Quick Fixes will now create Variable Definitions for missing fields)
+    - GM1013’s Quick Fix behaviour has now been modified for creating an instance variable
+
+- **Feather Fixes For Autocomplete/Helper Information**
+    - Fixed that GM could get stuck with the progress bar saying “Refactoring” when using automatic refactoring in some projects
+    - GM2017 renaming rule's Quick Action no longer causes "Rewrite Engine failed" errors
+    - GM2047 Unreachable Code rule now works correctly again, after not working in 2022.11
+    - Structs created within another struct are now detected properly, stops unexpected GM1052 and other warnings
+    - Stopped an unexpected GM1044 when using built-in constant for the object in collision_* functions
+    - Stopped an unexpected GM1019 when calling game_end() and supplying its optional arg
+    - A further fix for "global." renaming failures [2022.11 already fixed related other issues with renaming some non-assets giving inconsistent name suggestions]
+    - Ternary operators used as parameters no longer cause several false errors
+    - array_contains/array_contains_ext() "length" parameter descriptions no longer incorrectly mention array shuffling
+    - array_get_index() now includes its "value" argument
+    - camera_set_begin_script() now accepts real (-1) as the method
+    - camera_set_update_script() now accepts real (-1) as the method
+    - camera_set_end_script() now accepts real (-1) as the method
+    - ds_map_secure_load_buffer() arguments and return value are no longer incorrect
+    - file_find_first() now recognises 0 as an acceptable attribute
+    - mp_linear_path() now expects the correct "Asset.GMPath", rather than "Id.MpGrid"
+    - string_starts_with()  now correctly says it returns a Bool
+    - string_end_with() now correctly says it returns a Bool
+    - weak_ref_any_alive() argument types are no longer incorrect
+
+- **Feather Fixes/Changes**
+    - Feather: array_pop() now returns the actual type of the popped array, instead of always treating them as "Array(any)"
+    - Feather: Reassigning an array of a specific type to be empty no longer throws an unexpected warning about potential reassignment to just "Array" (no type specified), instead it now preserves the array's previous type value
+    - Project Load: GM no longer goes unstable when opening projects containing Instance Variables which have no name when Feather is enabled [was thought to be in 2022.6.0 already, but is in now]
+
+- **Feather Functionality/Fixes**
+    - Naming Rules now have a new value of "Unconstrained", which you can set to tell Feather to allow any naming convention when dealing with certain aspects of your code
+    - Added a new Preference for whether you want relaxed or strict type-checking (previous versions were “strict”, 2022.8 defaults to “relaxed” now)
+    - Also added a new Preference for controlling the amount of warnings Feather will show you in the code editor. You can now select between varying levels in the dropdown, which progressively enable more of the current warnings: "None" (which is compile errors only), "Syntax Errors" (which is syntax errors and compile errors),"Type Errors" (which adds variable type enforcement warnings), and "All" (everything Feather offers)
+    - Feather now does its parsing work on a separate application thread, so projects will load more quickly and should no longer cause "stalls"/"freezes" as you edit your projects or when renaming any scripts which contain functions referenced in multiple places elsewhere in your code - this last scenario will also no longer trigger an unwanted File Watcher dialog
+    - Fixed very poor general/overall IDE performance when thousands of Lint Messages are discovered
+    - Fixed some general performance issues with parsing scripts that contain a lot of JSDoc comments
+    - Syntax highlighting for tooltips now matches the colours/styling of the code editor
+    - You should also now find documents are fully code-coloured much more quickly after opening
+    - Added support for sorting by Code/Message/Resource column values into the Messages window
+    - There are also a lot of other Feather fixes lower down in the release notes, so please do review them also
+
+- **Feather Now Available And Enabled By Default**
+    - Feather is now enabled by default for all new users and when performing fresh installations
+    - For users who have existing Preferences: if you have never tried Feather in the past, then you don’t have a saved value and so the new default will take effect and Feather will be on for you, but if you have ever enabled it and then disabled it again, your existing saved value will not be overwritten and Feather will remain off for you
+    - If you would like to modify your settings you can always find them in Preferences > Feather Settings at any time
+    - Also fixed a number of Syntax Errors issues which have been in Betas since Feather was introduced - so now if you do turn Feather off, the “old” errors are more reliable and the dialog populates itself automatically whenever you open it
+
+- **Feather: Ability To Ignore/Modify Rules Checks For Specific Items**
+    - Extended the "// feather" directives by adding an "in" suffix, which takes a case-insensitive file path string (matching the asset browser's folder structure for your project), plus the rule(s) you wish to be ignored
+    - For example, you could create a blank new script and put it at the root of your Asset Browser tree and then type in commands like the following:
+    - // feather ignore GM2017 in *: ignore all Naming Rule violations in the whole project
+    - // feather ignore GM1064 in ./*: ignore GM1064 in the current folder and all subfolders
+    - // feather use type-errors in /Objects/System/*: set the profile to type-errors in specifically the Objects/System group
+    - // feather use all in /Objects/System/obj_controller: set the profile to all for the obj_controller Object
+    - Note that if you have two rules which affect the same path/object, then there is no guaranteeing which will be applied - and if you have lots of custom rules in your scripts or rules which affect a lot of scripts, then this may cause a performance overhead
+    - Also, be aware that you cannot use .. to go up the file path in a relative manner
+
+- **Filters/Effects And SDF Support Are Now Prefabs**
+    - These items are no longer always part of the runner/your build and instead are added dynamically if your project requires them
+    - That does mean that if you try to build a project which uses this functionality and you have not already linked the prefab to the project, then you will get a compile fail asking you to fix this / a dialog saying GameMaker fixed it for you
+    - Once you have linked any missing prefab(s), GameMaker will normally retry the build automatically, but if it does not start it again immediately, just build your project again - and that's that project sorted thereafter
+    - Note: this process will be streamlined throughout the rest of 2024.1400/14 development to automate more of it for you and show fewer fails/dialogs, but in this first release you will need to accept any dialogs or double-click any errors yourself to quickly install or link the missing prefab(s)
+
+- **Fix For macOS VM Building (sudden new "Malware" notifications the OS might be showing you)**
+    - Recent OS updates have started showing prompts indicating the YoYoRunner.app package is unsafe, so this release fixes just that issue
+    - Please note that if you have additional permissions errors now, such as "Unable to access vital folders", then even after updating to this new version you might need to review [our permissions FAQ](https://help.yoyogames.com/hc/en-us/articles/360022953052) in order to fix the additional issues
+
+- **Fix/Change to Spine memory-management**
+    - Games which constantly reset a character's animation every frame do not allow the animation time to advance, which meant that in previous releases redundant queued animations were piling up
+    - Now, if the game is trying to set an animation with a zero length mix duration (which means that no blending will occur anyway), the runner will clear all existing queued animations from the track before setting the new one, avoiding a memory build-up which eventually slowed down the game
+
+- **Fixed Launching GM Via Opening Your Project**
+    - Fixed an issue where double-clicking a .yyp file to launch GM could open an empty/blank and unusable GameMaker window on some people's machines [#10309](https://github.com/YoYoGames/GameMaker-Bugs/issues/10309)
+    - Also, on Mac IDE, fixed that double-clicking a .yyp in Finder would open GM, but not actually load the project [#1084](https://github.com/YoYoGames/GameMaker-Bugs/issues/1084)
+
+- **Font Editor / Font Support**
+    - Fixes have been made for situations where DPI values were still incorrectly being applied to your fonts, so now IDE previews and in-game results are much more accurate; however, be aware that if your project is in this situation already, then you still need to regenerate the font(s) yourself in order to recalculate the desired values now you have this fixed release
+    - Fixes these two, for example:
+    - Room Editor: Distorted font assets in 2024.1400 Beta 3+, now that other DPI calculations have been changed/fixed [#11042](https://github.com/YoYoGames/GameMaker-Bugs/issues/11042)
+    - In-Game: Room text element measurement can differ from IDE representation [#10893](https://github.com/YoYoGames/GameMaker-Bugs/issues/10893)
+    - GM's own theme fonts used to appear in the list of available fonts, but they are not usable and so have been removed [#7492](https://github.com/YoYoGames/GameMaker-Bugs/issues/7492)
+    - Inspector: [Fonts] Changing properties does not update font at runtime, have to regenerate manually to see a change [#11926](https://github.com/YoYoGames/GameMaker-Bugs/issues/11926)
+
+- **Functions To Minimise/Restore Game Windows On Desktop OSes**
+    - `window_minimise()` and `window_restore()` functions have been added for Windows, macOS, and Ubuntu
+    - Although, be aware that macOS will not respond to the restore function, as games are paused by the OS when they lose focus
+    - For more info, see [#7102](https://github.com/YoYoGames/GameMaker-Bugs/issues/7102)
+
+- **Further Changes To The Project Format And The New Project Serialiser**
+    - Asset Browser: Fixed that when using custom ordering, deleting/duplicating an asset inside a group could cause that group to reorder itself in the tree
+    - Project Save: Fixed that the Included Files list in the project .yyp file could shuffle around when the files are renamed outside GameMaker
+    - Note that in this .1 update release both of the project's main .yyp file and its new resource_order.json file will be updated with the current order of assets each time you make a change. It does unfortunately mean that the 2023.1.0 fix that the .yyp file will not cause source control conflicts has been re-introduced, but this will be rectified entirely in the February release, where only the resource_order file will be updated and all the ordering information will be removed from the .yyp file.
+    - However, this new change means that if you do for some reason have to open a project from this release in an older IDE it will have the correct, up-to-date order for your assets.
+
+- **Game Options [All Issues](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A2024.14%20in%3Atitle%20"Game%20Options")**
+    - Game Options now exports your texture page values as .json files when clicking the Preview button, so this information can be edited manually if you wish and ultimately used in-game later on [#10735](https://github.com/YoYoGames/GameMaker-Bugs/issues/10735)
+
+- **Game Options Default Value Changes**
+    - Currently all product/display names are set as "Created in Gamemaker" which, while true, is not a great name for _your_ game.
+    - This also leads to issues if you do not update this value in Game Options before releasing your content - for example, GX.Games uploads will fail as the name is already taken [#8939](https://github.com/YoYoGames/GameMaker-Bugs/issues/8939), and creating and running an installer on some platforms will leave it with an unhelpful folder name "Created In Gamemaker"
+    - Now, it's the _initial_ name of your project that is used when creating your Game Options the first time (so if you later rename your project you should still edit these values yourself)
+    - For more information see [#8291](https://github.com/YoYoGames/GameMaker-Bugs/issues/8291)
+    - Also, be aware that the default value of Windows' "Interpolate colours between pixels" setting is now ON, so it matches what the manual has long said and is the same as all the other targets [#2343](https://github.com/YoYoGames/GameMaker-Bugs/issues/2343)
+
+- **Game Options: [Windows] Added support For Direct Polling Of Mouse Cursor Location [#13394](https://github.com/YoYoGames/GameMaker-Bugs/issues/13394)**
+    - Added support for enabling direct polling of the mouse position, rather than relying on Windows messages in the way GameMaker has always done, to prevent instances input delay seen when toggling fullscreen/focus for you game
+    - You can see discussions of various situations when this might happen on the issue above, and from there determine if this is something your game would benefit from if you enabled the functionality
+
+- **Game Options: New Controls For Toggling Legacy Behaviours**
+    - Added new options for toggling the legacy behaviours for various changes made in 2024.8 and 2024.11, including string-to-number conversion, treatment of "other" (see below), and strict audio errors (also see below)
+    - For more, see [#8138](https://github.com/YoYoGames/GameMaker-Bugs/issues/8138)
+
+- **Game Options: Newly-Created Projects Default Vsync To ON [#13197](https://github.com/YoYoGames/GameMaker-Bugs/issues/13197) and [#13551](https://github.com/YoYoGames/GameMaker-Bugs/issues/13551)**
+    - Given the changes earlier in 2024.14, this is the most likely desired value for projects going forward
+    - Accordingly, this default has now been changed for all targets
+
+- **Game Options: Removed "Generate Mipmaps For Separate Texture Pages"**
+    - This Game Option has been redundant for a while, because in recent GameMaker versions you have managed this value in the Texture Groups editor instead
+    - Accordingly, the unused Game Option has been removed from the IDE now
+    - However, note that any existing value for this setting will be left in your project's source files, just in case for some reason you need to use an older IDE again
+    - For more, see [#7045](https://github.com/YoYoGames/GameMaker-Bugs/issues/7045)
+
+- **GM Now Creates Crash Dumps Even When It Recovers Enough To Close Itself Down [#11710](https://github.com/YoYoGames/GameMaker-Bugs/issues/11710)**
+    - It was realised that in some cases where GM told you there was a problem and so it had to close, because it was able to close safely it didn't then create a crash dump or ask you to send anything to us so we would know about that problem and be able to fix it
+    - Now, the cmd window will briefly appear when GM closes down due to one of these errors and the crash reporter will appear the next time you start GM again
+
+- **gml_pragma() Support For Always Compiling Assets With Your Specified Tags**
+    - Added a new "MarkTagAsUsed" command to say certain tags already added to your assets in the IDE denote that these assets must always be built, even when the Game Option for removing unused assets is ON
+    - As an example, if I have an IDE tag called "AlwaysCompileMe" and I have assigned that to some assets, I could type : `gml_pragma("MarkTagAsUsed", "AlwaysCompileMe");`
+    - For more, see [#8313](https://github.com/YoYoGames/GameMaker-Bugs/issues/8313)
+
+- **GX.games**
+    - Added support for rendering with a transparent background [#10305](https://github.com/YoYoGames/GameMaker-Bugs/issues/10305)
+    - Code-injection can now be used in Game Options (just like the HTML5 target has long supported)
+    - Extensions no longer pass in "self"/"other" as arguments [#12187](https://github.com/YoYoGames/GameMaker-Bugs/issues/12187)
+    - Resolution-updating code in Alarms/Time Sources now works reliably, so your code for this doesn't have to be in Step events [#11844](https://github.com/YoYoGames/GameMaker-Bugs/issues/11844)
+    - Attempting to go fullscreen on older iOS 15.8 and older no longer throws an exception [#11891](https://github.com/YoYoGames/GameMaker-Bugs/issues/11891)
+    - Arrow Key presses are now detected [#10487](https://github.com/YoYoGames/GameMaker-Bugs/issues/10487)
+    - Games now register inputs when hosted on Itch.io/others [#8549](https://github.com/YoYoGames/GameMaker-Bugs/issues/8549)
+    - Video playback no longer fails if there is a space in the filename [#10763](https://github.com/YoYoGames/GameMaker-Bugs/issues/10763)
+    - `os_get_info()` now includes the browser's UserAgentString in the map returned [#10340](https://github.com/YoYoGames/GameMaker-Bugs/issues/10340)
+    - `url_get_domain()` is now implemented [#11922](https://github.com/YoYoGames/GameMaker-Bugs/issues/11922)
+
+- **GX.games Exports: .Zip Package Type**
+    - Added a new "save as .zip" output type when clicking Create Exe
+    - This package type is intended for those who want to use the WASM package that the GX.games target creates for you, but on your own website rather than on the GX Community (and so you have webhosting and a suitable web page already)
+    - However, if for some reason you have problems uploading to the GX Community from inside GameMaker when doing a regular Create Exe, then you can use this .zip to send the game that way
+
+- **GX.games: Removed "QR" and "Console" buttons from exported packages [#12183](https://github.com/YoYoGames/GameMaker-Bugs/issues/12183)**
+    - These buttons are now removed when exporting using the Create Exe options
+    - They do still appear for run/debug, as you'd expect
+
+- **Headline Changes**
+    - Building Projects: [HTML5] 2024.13.0 runtimes fail to build projects containing global scripts or Game End events [#10258](https://github.com/YoYoGames/GameMaker-Bugs/issues/10258)
+    - Building Projects: [HTML5] All extensions fail to build correctly in 2024.13.0 runtimes [#10212](https://github.com/YoYoGames/GameMaker-Bugs/issues/10212)
+    - Building Projects: [Windows] 2024.13.0 runtime fails with "A resource or record version does not match the IDE you are using" if you're logged-out [#10138](https://github.com/YoYoGames/GameMaker-Bugs/issues/10138) / [#9866](https://github.com/YoYoGames/GameMaker-Bugs/issues/9866)
+    - In-Game: Storing a script asset in a variable causes an error on load in 2024.13.0 runtimes [#10171](https://github.com/YoYoGames/GameMaker-Bugs/issues/10171)
+    - In-Game: Extension Macros are not supported correctly in 2024.13.0 runtimes [#10141](https://github.com/YoYoGames/GameMaker-Bugs/issues/10141)
+    - In-Game: instance_id in-built variable always returns 0s in 2024.13.0 runtimes [#10149](https://github.com/YoYoGames/GameMaker-Bugs/issues/10149)
+    - In-Game: Sequences in-built "activeTracks.instanceID" variable always returns "ref unknown 0" in 2024.13.0 runtimes [#10310](https://github.com/YoYoGames/GameMaker-Bugs/issues/10310)
+    - In-Game: [Windows] Draw order of runtime-created instances on the same layer has changed in 2024.13.0 runtimes [#10290](https://github.com/YoYoGames/GameMaker-Bugs/issues/10290)
+    - In-Game: tag_get_asset_ids(... asset_script) incorrectly also returns all methods inside the tagged script in 2024.13.0 runtimes [#10219](https://github.com/YoYoGames/GameMaker-Bugs/issues/10219)
+    - ProjectTool Updated
+    - A newer "2024.14." version of ProjectTool has also been released in preparation for 2024.1400 Betas starting soon. If you had any issues opening your projects in 2024.13.0 or 2024.11 after editing them in 2024.13, then you can update to this version by using Package Manager.
+
+- **Help Menu “Create Your Bug Report Package” Tool**
+    - If you ever need to send us a Helpdesk ticket or bug report, then there is a new entry in the Help menu for a "Create Your Bug Report Package" tool
+    - This tool will quickly gather together the various log files, licensing files, and version numbers, etc., that we will always ask for when answering your tickets and will package them all up for you into one handy zip file so you can attach it to your ticket
+    - If you have a project open at the time, it will also ask if you want to include an export of that project inside the .zip
+    - We greatly appreciate it whenever you send as small a sample project as you can create which shows the issue (rather than including your entire game projects), but please do send sample projects when you can, as it does make it so much quicker and easier for issues to be determined and fixed
+
+- **Hotkeys are now separate plugins**
+    - Hotkeys/Keyboard Shortcuts are now being delivered as individual plugins
+    - Your Hotkeys are now also localised to the language you set in GameMaker
+    - There are no other changes to the user experience and the plugins are still getting installed during GameMaker’s installation process
+
+- **HTML5**
+    - Fixed augmented assignments not taking into account "js_use_infix_ops" optimisation [#11312](https://github.com/YoYoGames/GameMaker-Bugs/issues/11312)
+    - Fixed variables that are only set using [$"key"] aren't added to var2obf/obf2var [#112972](https://github.com/YoYoGames/GameMaker-Bugs/issues/11297)
+    - Collision functions called from inside structs no longer crash the game [#11014](https://github.com/YoYoGames/GameMaker-Bugs/issues/11014)
+    - Comparisons between a Ref and an Object (struct) no longer crash the game [#10195](https://github.com/YoYoGames/GameMaker-Bugs/issues/10195)
+    - `instance_create_*()` fixed when passing a struct [#11268](https://github.com/YoYoGames/GameMaker-Bugs/issues/11268)
+    - `sprite_collision_mask()` no longer gives '"_tolerance" is not defined in yySprite class' error [#11432](https://github.com/YoYoGames/GameMaker-Bugs/issues/11432)
+    - `gpu_get_scissor()` no longer crashes games if called [#9623](https://github.com/YoYoGames/GameMaker-Bugs/issues/9623)
+    - "other" behaviour now correctly always uses the Game Option setting value [#10885](https://github.com/YoYoGames/GameMaker-Bugs/issues/10885)
+
+- **IDE Updater Changes [All Issues](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A2024.14%20in%3Atitle%20"IDE%20Updater")**
+    - Note that the updater which is included in the 2024.13 release has the old name and is not suitable for updating to 2024.14
+    - Named the executable something safer-sounding and more identifiable as a GameMaker tool than the old name of "WindowsAutoUpdater" [#10805](https://github.com/YoYoGames/GameMaker-Bugs/issues/10805)
+    - Mac IDE users will now see the newer-style update notifications appearing over the Start Page and you can download the installer while you work, apply it when you're ready, etc.
+    - (Note that of course 2024.13 does not have support for the updater on Mac, so 2024.13 won't show any changes - assuming you update to 2024.14.0, the changes will start appearing whenever an updated 2024.14 is released)
+
+- **Image Editor Support For Pasting As A New Layer**
+    - The Image Editor now allows you to paste directly from your clipboard to a new layer
+    - This new layer will be automatically placed above the currently-selected layer and the pan tool will be auto-selected to immediately allow you to control the pasted content as you wish
+    - This is the default behaviour now, as there was a lot of feedback in favour of this change, but the previous “Paste-As-Brush” behaviour can be enabled again in Preferences if you want it
+
+- **Implemented Case-Insensitive Compatibility Mode For The Mac IDE**
+    - There has been an ongoing issue with case-sensitivity when working across different operating systems and changing an asset's character case when renaming it (and how this change of case might then effect external tools, such as git)
+    - An option has been added to allow you to disable these extra renaming checks, as it is quite performance-heavy
+    - (The same changes affect the Ubuntu IDE Beta also, as it behaves the same as the Mac IDE)
+
+- **Improved Memory Usage For Textures**
+    - The IDE will now clean its memory usage for graphics textures more efficiently, which should result in better performance and less slow down over prolonged sessions of running GameMaker
+    - It should also mean fewer issues with flickering sprites when scrolling up and down in the Asset Browser
+
+- **Improved Search & Replace For Visual Code Editors**
+    - Back in June’s release there was a fix made for Search & Replace in Visual code editors so that it would search the content of the nodes themselves; however, this removed the ability to search the GML which had been auto-generated by your visual nodes
+    - This release adds back in the ability to search the auto-generated GML, but note that you cannot replace anything in these read-only windows, so you will need to use the search results to inform you how to edit your visual editor nodes
+    - (The “Replace” buttons will be disabled if GameMaker detects a match from the GML code - so, e.g., searching for “show_debug_message” would not allow you to replace this value)
+
+- **Improvements To SDF Font Support**
+    - Improved the packing of glyphs for .ttf fonts added using font_add() on all platforms apart from HTML5 - now, excessively large glyphs in the font will not affect the packing unless they are actually drawn and also GameMaker does not crop the edges of the SDF when drawing each glyph
+    - Also added two new functions:
+    - font_sdf_spread(font_index, spread) - sets the "spread" value for the specified font, which represents the distance the SDF extends from the edge of each glyph and is measured in pixels (the value can vary from 2 to 32 pixels). Larger spread values allow for custom shader effects that require bigger radii (such as glows) and smaller spread values mean that each glyph takes up less space on the texture page and also improves rendering precision
+    - Note that this "spread" value will only be used for FreeType fonts added via font_add() and therefore does not apply when running on HTML5
+    - font_get_sdf_spread(font_index) - returns the spread value for the specified font (or -1 if the font does not exist)
+
+- **In-Game: [Android VM/YYC] Updated the audio backend to be AAudio via Oboe [#14513](https://github.com/YoYoGames/GameMaker-Bugs/issues/14513)**
+    - Android audio support has now been updated to a newer library, which brings lower latency and allows better support for audio functionality on modern devices
+    - Note that older devices which do not support this newer audio library will continue using the current one
+
+- **In-Game: [GX.games] Added Ability To Share Screenshots And URLs [#13701](https://github.com/YoYoGames/GameMaker-Bugs/issues/13701)**
+    - You can now trigger the share dialog inside the browser and use this to send screenshots and URLs to others
+    - On the issue above you can find a small example project which shows how to do this
+    - More general information on browser sharing functionality can be found on [this Mozilla docs site](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share)
+
+- **In-Game: [Windows] Fixed Input Lag Issues And Added New Controls For GPU Settings**
+    - In a previous GM release we made various changes to how swap chains are created and the flags passed to Present calls, but that was found to cause input lag on some players' machines (of which we have seen many reports, including [#12980](https://github.com/YoYoGames/GameMaker-Bugs/issues/12980) and [#14046](https://github.com/YoYoGames/GameMaker-Bugs/issues/14046) as two with lots of comments and activity)
+    - This release has removed that previous change causing this lag, and so all is well again now
+    - However, this release _also_ adds some new `debug_event()` commands so that various other GPU settings can be controlled in-game
+    - These new events are:
+    - "WinAllowTearingOn" - enable the 'allow tearing' flag on swap chains (for VRR displays)
+    - "WinAllowTearingOff" - disable the 'allow tearing' flag.
+    - "WinPresentRestartOn" - enable the DXGI_PRESENT_RESTART flag to be passed to Present
+    - "WinPresentRestartOff" - disable use of the DXGI_PRESENT_RESTART flag.
+    - "WinPresentDoNotWaitOn" - enable use of the DXGI_PRESENT_DO_NOT_WAIT flag to be passed to Present
+    - "WinPresentDoNotWaitOff" - disable use of the DXGI_PRESENT_DO_NOT_WAIT flag.
+    - Be aware that in all the above cases the default setting used in your game is "enabled".
+    - In addition there is now also a commandline option to prevent raising the game process to high priority, this is "-normalprocesspriority".
+    - Should you find that your game still exhibits some form of lag in this release, please do use [the test project attached in the comments on #14046 above](https://github.com/user-attachments/files/25718363/LagTester.zip) on the machine which shows the problem and then file a new bug report saying which values cause/fix the issue on your PC (don't send us a different sample or your full game - just use this premade test project and tell us the result)
+
+- **In-Game: `flexpanel_calculate_layout()` can now trigger a layout refresh [#14420](https://github.com/YoYoGames/GameMaker-Bugs/issues/14420)**
+    - This function has now gained controls for optionally forcing a recalculate of the layout at the time you call it
+    - See the issue for more info and the manual will soon be updated to go over it in more detail
+
+- **In-Game: `flexpanel_node_set_measure_function()` Can Now Clear Its Bind [#13609](https://github.com/YoYoGames/GameMaker-Bugs/issues/13609)**
+    - Added the ability to call this function and pass it "undefined" to clear any existing function that you have bound to the node
+
+- **In-Game: `random_set_seed()` Allows Greater Range Of Seed Values [#3006](https://github.com/YoYoGames/GameMaker-Bugs/issues/3006)**
+    - This function has now gained an override which will raise the number of possible RNG states
+    - You simply pass in a value as a second argument, and this will perform a version of the function which no longer truncates the values
+    - If you continue passing in only one argument, then this will maintain the current behaviour
+    - However, be aware that HTML5 had a secondary fix to bring it more in-line with the behaviour on other platforms, even when only passing the one argument
+    - More info on all of this can be found on the issue
+
+- **In-Game: debug_event("ErrorOnWarning") Turns Warnings Into Code Error Dialogs Which Include A Callstack [#4118](https://github.com/YoYoGames/GameMaker-Bugs/issues/4118)**
+    - In older runtime versions you would simply get a debug warning for a number of coding errors and there was no real information on how this problem had been encountered/where to look in your code in order tom go about fixing it
+    - As some examples given on the issue, this is messages like "Grid Index Writing Out Of Bounds", "Error: Index did not map to an existing audio asset" which show up in your Output window
+    - Now, you can call `debug_event("ErrorOnWarning")` somewhere early in your game and this will change all of these warnings into you being shown a code error dialog - at which point, you're now also shown a small callstack to help work out the steps that led up to this error being encountered
+    - Note that there were several other old requests for this, so those have been marked as duplicates of #4118 and closed now
+
+- **In-Game: instance_create_...() Now Allows "undefined" For Its Optional var_struct Parameter [#12218](https://github.com/YoYoGames/GameMaker-Bugs/issues/12218)**
+    - The functions will now work if undefined is passed in as the optional `var_struct` parameter, using an empty struct as expected
+
+- **In-Game: New Add/Delete Functions For Spawning Particle Systems Created In The IDE With Customised Values [#12150](https://github.com/YoYoGames/GameMaker-Bugs/issues/12150)**
+    - A new function has been added which can take edited values for a particle system emitter already created in the IDE and create a new instance of that system which uses the new values
+    - Also, a matching function to delete the system when you're done with it
+
+- **In-Game: New functions for layer sequence image blend and alpha values [#14404](https://github.com/YoYoGames/GameMaker-Bugs/issues/14404)**
+    - Added two new functions for controlling these values, which are:
+    - `layer_sequence_alpha(sequence_element_id, new_alpha_value)` and `layer_sequence_blend(sequence_element_id, new_blend_value)`
+
+- **In-Game: Sequence Properties Array Entries Can Be Set Individually [#12723](https://github.com/YoYoGames/GameMaker-Bugs/issues/12723)**
+    - Previously, to set the value of Sequence properties which accept arrays, the entire array had to be set in a single operation - e.g. the `colour` variable has 4 elements, so `colour_track.keyframes[0].channels[0].colour = [1, 1, 1, 1]`
+    - However, now you can set these individually if you wish - e.g. `colour_track.keyframes[0].channels[0].colour[0] = 1`
+    - Note that there are a variety of Sequence values that now support this functionality, so do see the issue for an in-depth explanation and an example project
+
+- **Included Files Inspector**
+    - Continuing with the theme of editing Included Files more easily, they are also now inspectable and so settings can be modified without opening the actual editor
+
+- **Inspector Support For The "Extension Options" Panel In Extensions**
+    - You can now inspect the options for your extensions
+    - Only the options have been implemented, as these are the per-project settings that the _users_ of an extension will need to set quickly and easily
+    - If you're the _developer_ of an extension, this also means your own values are safely still in the Extension Editor and less likely to be accidentally modified
+    - For more, see [#5345](https://github.com/YoYoGames/GameMaker-Bugs/issues/5345)
+
+- **Inspector UI/UX Additions**
+    - The header area can overlap other content if the panel is resized smaller (or you are using a small display), so there is now a new Inspector preference to toggle the header area being pinned to the top and always visible or not
+    - Also changed the dock item/window title to include the target(s) name, so you still know what is being inspected even when the header is not sticky and has been scrolled off the top of the viewable area
+    - And added support for copying text from the read-only code/text panel to your OS clipboard
+
+- **Inspector: [Objects] Can Now Give Friendly Names For Your Variable Definitions [#13141](https://github.com/YoYoGames/GameMaker-Bugs/issues/13141)**
+    - You can now use the Inspector to set a friendly name for each variable in your Objects' Variable Definitions window, which can be a useful helper for yourself
+    - However, the real benefit is that these friendly names will now appear when that Object is used in a prefab and _someone else_ imports that prefab into their project, as now they can get your helper text also - which can really help them identify much more quickly/easily what each variable is used for
+
+- **iOS**
+    - Games built with 2024.13.1 runtimes could crash with `Engine::GetDebugMode()` blamed by the Apple crash report, so this has been fixed now [#10555](https://github.com/YoYoGames/GameMaker-Bugs/issues/10555)
+    - Fixed crashes when closing a game which uses Time Sources in a Clean Up event [#9604](https://github.com/YoYoGames/GameMaker-Bugs/issues/9604)
+
+- **Laptop Mode Has Been Removed [#11502](https://github.com/YoYoGames/GameMaker-Bugs/issues/11502)**
+    - This functionality has been removed, as it often caused confusion and a source of UI/UX bugs
+    - It was added long before you had the ability to use the Redefine Keys section in Preferences to add your own custom key bindings, so nowadays it's possible to customise your setup far more than Laptop Mode allowed
+
+- **Licensing Change To Reduce Your Session Count When Using Multiple Installs**
+    - Sessions are now simply "one for the host machine" instead of "one per-IDE install on that machine"
+    - This means if you're using (for example) a Stable and a Beta install or Steam and non-Steam installs on a single physical machine, then this will only create one session going forward, rather than multiple as GMS2 has done to this point
+    - Note: This change will invalidate your current IDE session and so you will need to log in again one time, the next time you start GMS2
+    - You may also need to revoke your old sessions on your account's web panel one time if you receive errors about having too many sessions active
+
+- **Licensing Fixes For SSO Users**
+    - Added a fix for scenarios where SSO login attempts occasionally receive a 404 error from the web server and that caused GameMaker to treat the account as a Guest (and so therefore you did not see all of your expected modules inside Target Manager)
+    - Now, if there is a login error GameMaker will fall back to using any existing licencing information you have previously downloaded and will continue to login as normal if this earlier session is still valid
+
+- **Lots Of Other Audio Fixes**
+    - audio_play_sound...() now has new optional arguments for "gain", "offset", "pitch" and "listener_mask" - which means these values will reliably take effect immediately when the sound plays
+    - These values are also remembered and reused each time the instance is played again or resumed after pausing
+    - HTML5 now records audio at the same sample rate as other platforms, so you no longer need to code for different-sized buffer lengths if using this target
+    - Fixed cases of audio “crackling” or “popping” on Opera GX
+    - Fixed various issues where voice-level and source-level audio properties are conflated within the runner and so perhap were always played with the wrong values in previous releases
+    - Sound assets with invalid or non-existent underlying files were previously still included in game builds, but this of course would cause issues in-game if you tried modifying them later, so now you will be asked to fix all problem sounds before the build will succeed - again, to be clear, those sounds would not have worked correctly in-game in previous releases and our only change here is that you were not told this
+    - Several other audio functions have received fixes also, so please see the bugs list below for more info
+
+- **macOS**
+    - Grave (`) key and number 2 key no longer produce the same keycode [#9686](https://github.com/YoYoGames/GameMaker-Bugs/issues/9686)
+    - Fixed instances of game crashes when aborting via closing a code error dialog in games built using 2024.1300 or newer [#9987](https://github.com/YoYoGames/GameMaker-Bugs/issues/9987)
+    - Fixed instances of games silently crashing in a nested switch which return values in a "default" case [#10479](https://github.com/YoYoGames/GameMaker-Bugs/issues/10479)
+
+- **Manual Content: Uses Each Page's Title As The Browser Tab Label [#12774](https://github.com/YoYoGames/GameMaker-Bugs/issues/12774)**
+    - Previously, most pages in the manual used the same generic "GameMaker Manual" type title, so if you had multiple browser tabs showing different parts of the manual it was easy to forget which was the one you wanted, because they all looked identical
+    - Now, the page's own title is used, so each tab will be much more identifiable and it's easier to see/remember what each tab is currently showing
+
+- **Marketplace Integration Has Been Removed**
+    - Be aware that there is now no way of managing your Marketplace library and instead the Marketplace website will simply allow you to download the files for the assets you have aceess to
+    - Similarly, uploading new versions of assets you have published is all now done via your web browser, not inside GameMaker itself
+    - Accordingly, you will find that all relevant menu options are either removed or now simply open the correct URL in your OS's default browser
+    - For more, see [#9304](https://github.com/YoYoGames/GameMaker-Bugs/issues/9304)
+    - Also be aware of these "extra" bits that are to do with Marketplace functionality, but appear elsewhere in the IDE:
+    - Startup: GM no longer downloads your asset manifest, which stops a Mac IDE crash when a VPN blocks traffic to the Marketplace and causes a "403 Forbidden" error [#9906](https://github.com/YoYoGames/GameMaker-Bugs/issues/9906)
+    - Asset Browser: Removed "Add Existing from My Library" [#9907](https://github.com/YoYoGames/GameMaker-Bugs/issues/9907)
+
+- **matrix_inverse() Added**
+    - Added a new function for inverting a matrix which you supply to the function [#2960](https://github.com/YoYoGames/GameMaker-Bugs/issues/2960)
+
+- **Microphone Support On Opera GX**
+    - Added a new capture device for use by the runner, so now the microphone/recording functions which have worked on other targets for a long time now work on Opera GX also
+    - Note that the microphone count will always be 1, as this is all the browser allows
+    - Please see the manual for more specifics on the recording functions
+
+- **Misc New Functions**
+    - array_get_index() and array_contains() - can now be used to find if values exist in the given array
+    - array_shuffle(listName) - works the same as ds_list_shuffle() in that this new function will randomly reorder elements of an array - note that the existing array is modified and you do not get a new copy returned
+    - audio_effect_create() - now has an optional second argument for passing in a struct to be used to initialise the effect parameters immediately
+    - audio_bus_get_emitters(busName) - can now get an array of all emitters linked to that bus
+    - audio_play_sound_ext(argStruct) - can now be called to control pitch, gain, offset, and listener mask immediately via the struct you pass in
+    - method_call(method, argsArray, offset, length) - you can now pass in the method and its args array, plus an optional offset and length (both of which can be negative, so you count backwards)
+    - tileset_get_info(tilesetName) - works the same as spite/font_get_info() and returns a struct containing lots of information about this tileset (or "undefined" if the argument is not a valid tileset)
+    - audio_bus_clear_emitters() - can now relink all of a bus' emitters
+    - audio_group_get_assets(audiogroup_id) - This would return an array containing all of the asset IDs in the specified audio group
+    - audio_sound_get_audio_group(sound_id) - This would return the audio group index that the sound belongs to
+    - is_callable() - can be used to determine if the argument is either a method or an index of a function (and therefore is something you can call)
+    - json_stringify() - now has a new optional parameter added for toggling "pretty print" on its output
+    - array_shift() - works like the existing array_pop(), but for the first element instead of the last
+    - lin_to_db(real) and db_to_lin(real) - convert linear gain to decibels and vice-versa
+    - window_set_showborder(true/false) - allows toggling borderless window mode on-demand for Windows games
+    - Added compile-time macros for __LINE__, __FILE__, and __FUNCTION__ so games can show this debugging info if you require it
+    - An extension's version can now be exported to both the runner (and recalled using extension_get_version()) and can be checked in batch scripts using the environment variable GMEXT__Version
+    - ds_grid_to_mp_grid(src,dest,[func]) - converts a DS grid into an MP grid. You can also provide an optional predicate function argument to map the DS grid value to the corresponding MP grid value. If you don't provide a predicate function, the function will treat zero values as empty and non-zero values as occupied.
+    - surface_get_format(surface_id) - returns the format of the given surface. All formats are listed in our manual.
+    - display_get_frequency() - returns the frequency (or refresh rate) of the display that the game is being played on. It will return a real value as frames-per-second, so for example if your monitor is 60hz you will get 60, if it's running at 144hz then you will get 144, and so on.
+
+- **Misc Tweaks To UI Functionality**
+    - You can now double-click any device name in Target Manager to open Device manager and edit it - you now don't have to click the pencil button every time
+    - Added new "Show/Close All Windows" entries to the Layouts section of the menu bar, so these are no longer only on the Workspace right-click context menu
+    - Go To was disabled when on the Start Page in 2.3.7 in order to stop a crash, but this has been refined so that Go To is now re-enabled when on the Start Page but it will only search inside Preferences
+
+- **More Audio Falloff Options**
+    - Two new audio falloff models have been added for use with the function audio_falloff_set_model):
+    - audio_falloff_inverse_distance_scaled and audio_falloff_exponent_distance_scaled
+    - These behave similarly to audio_falloff_inverse_distance_clamped and audio_falloff_exponent_distance_clamped, but have been scaled in such a way that sounds are guaranteed to fall off entirely by the maximum distance
+
+- **More Effect Layer Types**
+    - New filters have been added for Contrast, Fractal Noise, Gradient, Colour LUT ("Look-Up Table"), and Twist Blur
+    - Dots Background
+    - Stripes Background
+    - Linear Blur
+    - Outline
+    - White Noise
+    - Boxes - Creates a tiled boxes effect with optional animation
+    - Colour Balance - Allows you to balance the highlights, midtones and shadows of the game
+    - RGB Noise - Displays coloured noise with optional animation
+    - Vignette - Displays a vignette around your game, with the ability to change the texture displayed on the Vignette
+    - Zoom Blur - Displays a zooming motion blur filter
+    - Yet more filters types have now been added to GameMaker: Blend, Glow, Recursive Blur, Clouds, and Mask
+    - Note that Blend and Blend Ext are both single-layer-only filters and so they only appear in the drop-down for editing any layer's own effect, not when adding a new Filter layer
+    - Old Film, Hue, Ripples, Blocks Background, Panorama Background and Parallax Background have all now been added into the Room Editor for you to use in your games
+    - Also added an indicator into the Layers Panel to show when any filter/effect has been used on a layer
+    - All the parameter names for all Filter & Effects are now documented on the manual page titled "FX Types & Parameters", so please see that page for the full information
+    - See the manual for more info and give them a try in the room editor to determine if they would be a good fit for your projects
+
+- **More Localisation Languages**
+    - You can now use the IDE in four additional languages: Japanese, Korean, Polish, and Italian
+    - The matching language translations for the manual will be coming soon
+    - We also made a number of fixes/additions for the existing languages to bring them up-to-date with the new additions in the 2022 releases so far, plus fix several typos in GML Vision node labels
+
+- **More Robust Runtime Download And Activation Processes**
+    - As well as fixing some RSS downloading crashes, we have added multiple fixes for when for some reason your runtime download has not been set as active
+    - If feed errors occur, GMS2 will still look for the matching runtime in your download folder, but will now more reliably activate it and allow the IDE to start up correctly
+    - Additionally, as of this release, if you do not have the correct matching runtime in your install, but you do have an older one, then GMS2 will activate that one just so it can start up safely (and then prompt you to update)
+
+- **More Texture Group Compression Options**
+    - Adding to the QOI support change in the last release, it is now possible to select whether you want the QOI images to be compressed or not - or indeed if you actually prefer to stick with the old .png output method
+    - This can be controlled on the Texture Group Editor via the new "Texture Group Format" drop-down
+    - By default, GM will use QOI+BZ2 in package builds and just QOI when doing a run/debug - if you want faster loading in your final packages, use QOI only; if you want smaller package sizes and lower memory usage continue to use QOI+BZ2
+
+- **New "Tremolo" Audio Effect**
+    - This is a gain modulation effect, with modulation being driven by a separate low-frequency oscillator (LFO) for each channel. This allows for effects from gentle gain fluctuations all the way up to to stuttering with “ping-pong” panning
+    - The effect has the following parameters:
+    - type - A read-only member which is set to AudioEffectType.Tremolo (a new member of the AudioEffectType enum)
+    - bypass - A flag which can be set to bypass the effect
+    - rate - The frequency of the LFO modulating the gain (0.0-20.0 Hz)
+    - intensity - The proportion of the input signal which should be modulated by the LFO (0.0-1.0)
+    - offset - The proportion of a waveform's period that the right-hand channel's LFO should be offset by, compared to the left-hand channel (0.0-1.0)
+    - shape - The waveform shape that the LFO should output
+
+- **New Asynchronous Zip Functions**
+    - zip_create() creates a new Zip archive structure (note that the object returned from this function is garbage-collected when no longer referenced, so it doesn't need to be manually cleaned up)
+    - zip_add_file(zip, path, file_path) adds a copy of the given file to a to a Zip structure - for nesting, include slashes in the path (e.g. "myFolder/test.txt")
+    - zip_save(zip, path) finalises the Zip structure (meaning that no new files can be written to it) and saves the archive to the given path
+    - Note that zip_save() is performed asynchronous and will trigger an event on success or failure
+
+- **New Audio Effects**
+    - Three new audio filters have been added:
+    - High-shelf filter (AudioEffectType.HiShelf) - this passes all frequencies, but increases or reduces frequencies above the shelf frequency by a specified gain
+    - Low-shelf filter (AudioEffectType.LoShelf) - this passes all frequencies, but increases or reduces frequencies below the shelf frequency by a specified gain
+    - Peak EQ filter (AudioEffectType.PeakEQ) - A peak EQ filter creates a peak or a dip in the spectrum by a specified gain around a specified centre frequency
+    - Each of these filters have the same parameter set:
+    - freq - the midpoint frequency (in Hz) of the shelf's slope (HiShelf / LoShelf) or the centre frequency (PeakEQ)
+    - q - the quality factor
+    - gain - the amount (as linear gain) to boost frequencies by (use db_to_lin() to give values in dB)
+    - As mentioned above, the AudioEffectType enum has 3 new options:  PeakEQ (which equals 7), HiShelf (8), and LoShelf (9)
+    - And similarly, the AudioEffect struct has a new key for “freq”
+
+- **New Fixes**
+    - Feather: GM no longer crashes if the Quick Fix shortcut (Ctrl+Q) is pressed while no code editors are open
+    - File Watcher: Reloading external modifications to an asset no longer causes GM to say it was "lost" and move the asset to the root of your Asset Browser
+    - Project Load: Room Order groups are no longer removed when loading a project
+    - Project Save: Tilesets are now correctly imported also when using Add Existing to import a room which contains tile layers from another project
+
+- **New Functionality Within Xbox Builds**
+    - Game Options for the GDK target now has a new checkbox for enabling “Simplified User Model” functionality (defaults to off), which will then toggle the user model in your games
+    - Game Options labels for the Xbox stat-system names have been reworded to match Microsoft’s current naming conventions, plus the settings have been expanded to allow mixing systems (again, to match what Microsoft allows nowadays)
+    - xboxone_get_achievement(user, achievement) can now be called to query the progress of the chosen achievement - this one works on XDK and GDK
+    - Added 120Hz support for Xbox Series X/S
+    - Please see the Xbox docs for more information on all of these
+
+- **New Functionality Within Xbox Builds**
+    - Game Options for the GDK target now has a new checkbox for enabling “Simplified User Model” functionality (defaults to off), which will then toggle the user model in your games
+    - Game Options labels for the Xbox stat-system names have been reworded to match Microsoft’s current naming conventions, plus the settings have been expanded to allow mixing systems (again, to match what Microsoft allowed nowadays)
+    - Please see the Xbox docs for more information
+
+- **New Launch Options When Doing Builds**
+    - Added a new "Create Executable and Launch" option to the "Build" menu and a matching button onto the toolbar, which can be used on the Windows, macOS, Ubuntu, Android, PS4, PS5, Switch, and Xbox targets
+    - Note: this has replaced the "Install on package" option from Android Game Options and the "Do you want to deploy?" prompt from Xbox builds, so those two things are now gone
+    - It also changes the UI flow for picking Xbox package type (Xbox One/Series and Dev/Submission) to being entries in the save dialog's dropdown, rather than custom dialogs as it was in previous releases
+    - There is also a new "/launch" flag in Igor for enabling this "Create Executable and Launch" behaviour when building a package from the command line
+
+- **New Login Flow**
+    - Signing-in has always had different UI depending on whether you have an old "Legacy" account or a newer Opera SSO Account
+    - Now, the "Legacy" UI has been removed from inside GameMaker and instead _all_ users will sign-in via the one button, which will open your web browser and allow you to sign-in there - once on the website, you will find the new Legacy option alongside the existing SSO one
+    - Proxy server users: Be aware this release also moves the controls for saying whether you have a proxy server and which details you log in with, so you will now find these in Preferences > General Settings > Proxy Settings. (Any proxy values have always applied to all internet traffic, including to SSO sign-ins, so this should clear up any confusion.)
+    - {% include important.html content="Due to this change of licensing system, you will be asked to log in again the first time you start this IDE (if you're coming from an older GM release). Similarly, if you want to use older IDEs/runtimes again in future, then you will need to delete your um.json file manually and log in again when first starting that old IDE. You cannot use older runtimes with this 2024.14.1 IDE, as they will result in an unable to obtain permission error." %}
+
+- **New Project Loading/Saving Tool**
+    - GameMaker now has a new application it calls when loading/importing/saving projects, which performs a lot of upgrade/downgrade checks on the project as you're opening them
+    - This fixes some issues with importing very old projects which have not been able to safely be imported for a while (in particular pre-2020 projects and also some 2.2.5-era projects which contain lots of DND actions, plus also some which were already missing specific data from some asset types)
+    - It will also allow IDEs starting with this release to open and allow you to edit projects which are created/opened in future IDE releases, as the older IDE will know to safely ignore the assets and other features it does not know about
+    - You should find that any old projects which had issues opening before will work now (if they still do not, send them to us in a Helpdesk ticket, please!)
+
+- **New Runtime Modules Dialog For Customising Your Runtime Downloads**
+    - You will see a new dialog for this the first time you start this new version, so for more information on this dialog and how to use it, please see [our new FAQ all about it](https://help.yoyogames.com/hc/en-us/articles/7303279382173)
+    - GameMaker now handles downloading just the specific modules you require from each runtime - you can select a minimal install suitable for your current OS, whichever modules you require just now, or “just give me everything” (which is what GameMaker has always done until now)
+    - You can modify these choices at any time by clicking the new button on the Runtime Feeds screen, but be aware that whilst the dialog will add additional modules okay, it will not remove any which were previously downloaded  - if you wanted to do that, you will currently need to modify the dialog settings and then delete your entire runtime folder, so that GameMaker will re-download just the bits you now want
+    - Preferences has also been changed so that downloading any runtime version manually will always ask if you want to activate it, regardless of where on that line you clicked when initiating the download (previously, you had to specifically click the version number in order to be asked)
+
+- **New Selection-To-Brush Ability In The Image Editor**
+    - Added the ability to turn your current selection into a custom brush even when paste-to-layer is enabled
+    - The default hotkey for this is Ctrl+B (Cmd+B in the Mac IDE)
+
+- **New Surface Formats For Use With surface_create()**
+    - In all previous releases, surface_create() did not allow you to specify the format of your new surface and always used R8G8B8A8
+    - Now, you can call one of several constants as a new optional argument to surface_create() in order to control this:
+    - surface_rgba8unorm - the default type mentioned above
+    - surface_r16float - e.g. for storing depth
+    - surface_rgba16float - e.g. for HDR rendering
+    - surface_rgba4unorm - a 4-bits-per-channel RGBA integer format
+    - And any of the following: surface_r8unorm, surface_rg8unorm, surface_r32float, and surface_rgba32float
+    - Note that not every platform supports every one of these formats, so you should always use the new surface_format_is_supported() to query whether you can use that format on the current device before you try using it with surface_create()
+    - And if you want to query the format of a surface later on you can use the new surface_get_format() (which will return 0 if the surface does not currently exist)
+
+- **New UI And Improved UX For Signing-in And Runtime Installation Status**
+    - There is a new look to the Licensing dialog so it better communicates the split between SSO and Legacy sign-ins
+    - That dialog also now appears on-demand (if it’s required) when clicking a platform inside Target Manager or the run/create exe, etc., buttons on the menubar
+    - Task Manager also now features status icons to tell you which runtimes have been installed already
+
+- **New Windows IDE Updater**
+    - Now, you won't actually see much evidence of this one until the _next_ GameMaker LTS release, as there is no newer version to update to right now, but be aware that this release does include the new in-IDE updater for Windows IDE and Mac IDE users (not the Ubuntu Betas!)
+    - This new system removes the IDE update notification early on startup and instead moves it to appear when the Start Page has loaded - you can also do an on-demand check from the new Help menu entry
+    - At which point, you can ask GameMaker to download the new installer in the background while you continue working if you wish
+    - Once the download is ready, GameMaker will ask if you want to restart and silently/automatically install the new version now, or wait and do it the next time you are asked
+    - If you choose "Yes" you will see a simple progress bar while the new version is installed for you
+    - For more, see [#3157](https://github.com/YoYoGames/GameMaker-Bugs/issues/3157)
+
+- **No Enforced Sign-In During Startup**
+    - As of this release, you will no longer be required to always sign-in during startup, and so this means brand-new users can instead start GameMaker as a “guest” account and do most actions inside the IDE without needing to be signed-in (if you were signed-in last time you ran GameMaker, then this is of course still maintained)
+    - You will still need to sign-in before you can do something which definitely needs to check your licence, like clicking the Create Exe button to start build or trying to use the Marketplace
+    - If you are a new user and you use GameMaker as a guest for a while and configure your Preferences and Device Manager list, etc., and then sign-in to an account, if no user settings folder already exists for your new account all of your guest settings will be copied over, so you won’t need to set things up again
+    - You can sign out and return to using a guest account later if you wish - but do always remember this will cause things like Preferences, device lists, and the Start Page’s recent projects list to all change accordingly (likely reset to defaults) and your settings won’t re-sync the next time you log-in to your real account again
+    - The menubar commands for "Logout" and “My Account” have been moved from "File" to a dedicated new "Account" menu on the menubar, along with some new commands for logging-in/out on-demand - that old command for "My Account" has also been split into two commands so you can reach your GameMaker Account and Opera Account panels more easily
+    - Also, the Start Page now shows a cleaner welcome message, as you can find your sign-in status at any time on that new Account menu (your username/email is now only ever shown on Help > About, so if you need to confirm which account you’re using, see that popup)
+    - A reminder that this change does not affect the usual 28-day licensing requirement for users who are signing-in, nor does it remove any other occasional internet requirements
+
+- **Optimised Calling Of Functions (Introduces Changes To Inheritence!)**
+    - The compiler will now optimise function calls when the script can be resolved directly
+    - {% include important.html content="This does require a change in how you need to code your functions which use inheritance and then later get overridden inside child objects (e.g, functionA calls functionB, and in your child object you override functionB before calling functionA)" %}
+    - You now need to either:
+    - add "self." before functionA calls functionB
+    - change the functionA declaration to be a method (so, rather than `function functionA(){}` use `functionA = function() {}`)
+    - This change is documented (with simple code examples) in the section "Overridden Script Functions" of [the manual page for Script Functions Vs. Methods](https://manual.gamemaker.io/monthly/en/#t=GameMaker_Language%2FGML_Overview%2FScript_Functions_vs_Methods.htm)
+    - Original info on this change and a small project which shows the code changes required before-and-after for the "self." route above can be found in [#10202](https://github.com/YoYoGames/GameMaker-Bugs/issues/10202#issuecomment-2792377582)
+    - Also be aware of this other optimisation change:
+    - Building Projects: [YYC] Calls to any function that returns the current "self", "other" and "global" are now optimised out [#9163](https://github.com/YoYoGames/GameMaker-Bugs/issues/9163)
+
+- **Package Manager [All Issues](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A2024.14%20in%3Atitle%20"Package%20Manager")**
+    - Installation Cache Is No Longer Shared Between Monthly And Beta IDEs
+    - In previous releases, if you downloaded a package/prefab in either of your Beta/Monthly installs, then it would immediately appear in _the other one_ as if it was also installed and ready for use - but it wasn't
+    - In the case of Prefabs, this could cause problems where you're told that you do not have a Prefab installed, but visually you appear to have it already
+    - This has now been changed so that Package Manager has a separate cache per GM IDE type, and so you will know when a Prefab is/isn't ready in whichever IDE you're currently using
+    - For more on this change, see [#10130](https://github.com/YoYoGames/GameMaker-Bugs/issues/10130)
+    - As one example of this problem in past releases, see [#10533](https://github.com/YoYoGames/GameMaker-Bugs/issues/10533)
+    - The default scope shown in the dropdown when opening Package Manager is now "GM Tools", not "GMRT Beta"; however, there is also now a Preference added so you can set this to a scope value of your choice if "GM Tools" is not the one you need most often [#10298](https://github.com/YoYoGames/GameMaker-Bugs/issues/10298)
+    - Added being able to specify via the RMB context menu which packages you want to see update notifications for [#11380](https://github.com/YoYoGames/GameMaker-Bugs/issues/11380)
+    - Similarly, from that same context menu you can now also say which packages should automatically update themselves [#11381](https://github.com/YoYoGames/GameMaker-Bugs/issues/11381)
+    - Added support for enabling/disabling automatic silent updating to newer package versions when they are released, so you can now right-click on packages and toggle this value (by default, no packages are set to auto-update) [#11381](https://github.com/YoYoGames/GameMaker-Bugs/issues/11381)
+    - Expanded package search to support filtering by short description and by keywords (although none of the official packages have keywords yet) [#10076](https://github.com/YoYoGames/GameMaker-Bugs/issues/10076)
+    - And it is now possible to queue multiple different packages at once for installation, and GameMaker will work through the list automatically
+
+- **Package Manager Now Available For Use**
+    - After being in the last few beta versions, the Package Manager is now available in 2024.11
+    - Currently this only allows you to load the latest versions of ProjectTool and the IDE Localisation plugins if you need to update any of these
+    - However, in current Betas and coming in future non-Beta releases, the Package Manager will also allow you to install Prefabs and packages for building projects with GMRT.
+
+- **Package Manager: "Update all" Functionality For When Multiple Packages Have Updates**
+    - Simultaneous notifications for Package Manager updates being available have been collated into a single notification and clicking this will take you to a new "Update All" window [#8625](https://github.com/YoYoGames/GameMaker-Bugs/issues/8625)
+    - And now you're able to click the one button to queue and update all of the packages [#10297](https://github.com/YoYoGames/GameMaker-Bugs/issues/10297)
+
+- **Package Manager: Remote script changes when installing packages [#14604](https://github.com/YoYoGames/GameMaker-Bugs/issues/14604)**
+    - Package Manager now defaults to ignoring remote scripts on the npm node when installing packages
+    - However, a new control has been added for when you _do_ want a custom node's scripts to be performed
+
+- **Particle Asset Type And A New Editor**
+    - You can now create new particle systems as assets inside your Asset Browser, open the new particle editor to set them up and see them in action, then reuse them in sequences and rooms as you want
+    - This particle system will then be passed through to the game and behave exactly as particle systems/emitters/types have done in previous releases - but without the need for you to code everything and test/iterate by doing builds
+    - You will now find there are a selection of pre-made particle emitters you can choose from in the Particle Editor's library:
+    - These are "Electricity", "Embers", "Embers 2", "Fire", "Flame Intensity", "Rain", "Smoke", "Smoke 2", "Sparks", "Warp Center", and "Warp Lines"
+    - The GML Visual "Create Particle System" node also now has a picker for selecting an optional particle system asset
+    - Again, be aware that older IDEs and runtimes have no knowledge of this new particles asset type, and so if you open or create any project in this new release it will not be editable in older GameMaker versions and instead will open in those older IDEs in read-only mode (significantly older IDEs will just show an error on loading the project)
+
+- **Particle Editor Preview Of Burst Systems**
+    - Now you can set a timer for repeatedly bursting particles inside the IDE, allowing you to better preview your effects
+    - Gives the same end result as the also-new functions part_emitter_delay() and part_emitter_interval() which you can now use in your code, but allows you to set the initial values up in the editor
+
+- **particle_get_info()**
+    - This function will allow you to access particle system information at runtime
+    - The returned values are broken down into 3 sections: a Particle System Info struct, an Emitter Info struct, and a Particle Type info struct
+
+- **Performance Improvements**
+    - Fix for reports of memory spikes and lots of files being created in Temp in 2023.2, all to do with file handles for images in the project
+    - Multiple fixes for Code Editor/Feather slowdown which could build up to high RAM usage in IDE sessions lasting more than 30-60 minutes
+    - Added a new Preference in the Text Editor section for "Disable Right-To-Left Text Ordering" - this functionality has always been supported and was previously enabled for everyone, but has recently been determined to be a performance issue and so is now disabled by default, which means those who want right-to-left text anywhere in the IDE will need to toggle this setting
+
+- **physics_debug() Added**
+    - Enables\disables physics errors which were previously being silently ignored
+    - For more (including a sample project showing this functionality), see [#8997](https://github.com/YoYoGames/GameMaker-Bugs/issues/8997)
+
+- **Pinch-To-Zoom Has Been Re-Implemented**
+    - The Workspace can now be zoomed in and out on devices with touch inputs (like trackpads)
+    - Windows IDE, this is done via Ctrl plus one finger on the trackpad; Mac IDE, it’s a two-finger pinch gesture
+    - There is a new Preference to disable this feature if you don’t want it
+
+- **PlayStation 5**
+    - You can now enable Low-Energy Mode in your games and it will be supported on the console (defaults to ON if you create a new project or param.sfo file)
+
+- **PlayStation 5: Updated to 12.00 [#12361](https://github.com/YoYoGames/GameMaker-Bugs/issues/12361)**
+    - You will need to update your install to this same version, otherwise builds will fail
+    - See the console's wiki if you need further info
+
+- **post_textures.bat Now Accesses More Environment Variables [#12008](https://github.com/YoYoGames/GameMaker-Bugs/issues/12008)**
+    - Previously, this batch file did not support a number of GM's environment variables - now, it is able to do so
+
+- **Prefab Library**
+    - You can now enable the new Prefab Library and import our intitial batch of Prefabs into your projects. This feature was previously only avalable in the Beta releases
+    - Prefabs are complete, standalone projects which help you quickly add more content into your games (like characters, sound packs, or gameplay mechanics/libraries, etc.)
+    - You can drag prefabs from your library and drop them into the Room/Sequence/Object Editor to link them to your project and use them right away - using this method the source files for the prefab are not added to your project’s own source, but instead are pulled in during builds and added into your game packages
+    - Or you can right-click the item and duplicate something from a prefab collection into your project - using this method copies the prefab source into your own project’s source and breaks the link to the original prefab, stopping it from using any later versions, but allowing you to now edit the files in your project
+    - Open the Library inside your project by clicking “Windows > Prefab Library” and this will open the new bottom dock panel
+    - Prefabs are then downloaded (once) using its Package Manager integration and then added to any of your projects thereafter from your library
+    - For more on this feature, see [#4681](https://github.com/YoYoGames/GameMaker-Bugs/issues/4681)
+
+- **Prefab Library: Duplicate An Entire Collection At Once [#10940](https://github.com/YoYoGames/GameMaker-Bugs/issues/10940)**
+    - Added an option into the content menu so that you can now duplicate the full contents of folders/collections at once, rather than having to add each prefab individually across multiple operations
+
+- **Prefab Library: Duplicate Entire Folders/Collections At Once [#10940](https://github.com/YoYoGames/GameMaker-Bugs/issues/10940)**
+    - Added a right-click option when selecting a Collection or a folder within a Collection (or multiple folders at once)
+    - This will then allow you to duplicate via one click everything inside whatever you had selected
+
+- **Prefab Library: Multi-selections Are Now Shown In Full [#13960](https://github.com/YoYoGames/GameMaker-Bugs/issues/13960)**
+    - Previously, when you multi-selected folders in the Prefab Library tree at the left side, the right-hand panel (by design) could only show one folder at a time
+    - Now, the full contents of what you have selected will be shown, giving accurate information as to what is actually being considered for importing, etc.
+
+- **Prefab Library: Reinstall A Collection via right-click menu #13249 [#13249](https://github.com/YoYoGames/GameMaker-Bugs/issues/13249)**
+    - Added support for reinstalling a Prefab Collection via the right-click menu when selecting the collection
+    - In this way, you can "undo" customisations made to that collection's prefabs that you no longer want and instead go back to a fresh start
+
+- **Prefab Support**
+    - Prefabs Now Allow Editing More Values Directly [#11842](https://github.com/YoYoGames/GameMaker-Bugs/issues/11842)
+    - The logic has been changed so that rather than only a handful of values relating to prefabs can be edited/overridden, now it's all but a specific few can be edited as of this release
+    - This means there is less need to duplicate a prefab into your project just so you can change some of its basic values
+    - It is now possible to import and export UI Layers as part of Prefabs [#9782](https://github.com/YoYoGames/GameMaker-Bugs/issues/9782) for more info
+
+- **Prefabs: Ability To Add Customised Prefabs And New Quick Access Section**
+    - You can now choose to Customise a prefab in your library, which will maintain the link to the base prefab, but now add a new entry into your Asset Browser, where you can then edit some of the inspectable elements - without modifying the base/original prefab
+    - All of your **customised** prefabs (not the linked ones) can also be found in a new section of the Quick Access panel within the Asset Browser
+    - You will also see that as of this release all prefabs (linked and customised) are shown in an orange colour to distinguish when their source comes from something external to your project
+    - (If you "Duplicate" a prefab into your project, then it's part of your project and no longer a prefab, so these will not show any of the above changes)
+
+- **Prefabs: Added Support For Modifying Exposed Prefab Macros [#9781](https://github.com/YoYoGames/GameMaker-Bugs/issues/9781)**
+    - Users of prefabs can now modify any exposed macros found in that prefab
+    - This uses a syntax similar to the config macros functionality that GM has supported for a long time -
+    - `#macro ::<prefab-scope>::[<ConfigName>:]<MacroName> <value>`
+    - e.g., `#macro ::com.russell.macrotest-1.0.0::Release:IsDebug false` as shown in the comments on the issue above
+    - See the issue and also the manual for more info
+
+- **Prefabs: Bundled-In All IDE Filters/Effects and SDF Support [#12870](https://github.com/YoYoGames/GameMaker-Bugs/issues/12870)**
+    - As shown in the issue above (and the other one it mentions), the Room Editor in 2024.14.1 stopped showing all possible filters/effects and instead only showed the ones you had installed inside Package Manager
+    - Now, all of these filter/effect prefabs, the one for SDF support and the one for the Particle System library, all come bundled as part of the installation process and so the list has accordingly gone back to showing all possible options again
+    - As of this release, you will always have the version of the prefab which was the current one when your IDE version was made, but you can use Package Manager to update to newer versions if they are released
+
+- **Prefabs: Included Files Support [#13703](https://github.com/YoYoGames/GameMaker-Bugs/issues/13703)**
+    - As there are situations in which Included Files may be required when developing prefab collections, these files are now allowed to be added to prefab packages
+    - Note that when duplicating Included Files from a prefab into your project they'll go directly into the datafiles folder of the project as per normal and therefore do not appear in the Asset Browser tree
+
+- **Prefabs: Previewing Of Notes/Shaders/Scripts [#13702](https://github.com/YoYoGames/GameMaker-Bugs/issues/13702)**
+    - Similar to how you can already preview code in events, you can now preview all of these types of assets without having to add their file(s) to your project.
+    - If a Note is a markdown file GM will use the markdown viewer for the preview of that file, rather than showing you the raw text in an editor
+
+- **Project Format Changes For Tile Layers In Rooms**
+    - We have introduced a new, much faster method for storing tile data in your rooms and passing this information into your builds - games which are using tile maps extensively in their designs may see a reduction in the size on disk of their projects, as well as a reduced load time
+    - This change also fixes a long-time compiler issue where projects containing rooms with lots of tile slots could see a pause on the line "Found Project Format 2" in their output log
+    - However, this new format is not compatible with older IDEs/runtimes and so accordingly we have introduced a new safeguard in this version, should you attempt to open a project in an older IDE again.
+    - On opening the project in any version newer than 2022.6 GameMaker will raise the project version automatically to be 1.6
+    - The next time a room containing a tile layer is edited in the newer IDE, this will potentially upgrade all the tile data and save it in a "TileCompressedData'' variable in the room’s own .yyp file - at this point, this project cannot be loaded into previous IDEs as it won’t understand its tile layer information. (Any game built by the 2022.8 or later IDEs, but using a runtime from 2022.6 or older will also lack all this tile layer’s content, so please be careful using older runtimes.)
+    - Please note if the room wouldn't benefit from the compression, GameMaker will continue to store the data in the old-style "TileSerialiseData" variable - this is the same format as before and previous IDEs can open it if you need to; however, you will need to follow the steps in [our FAQ for opening “too new” projects in older IDEs](https://help.yoyogames.com/hc/en-us/articles/4518066618129#h_01G8BB59TF9493M47YTAZX15CZ)
+
+- **Project Health Tool**
+    - Added warnings for Sounds that are missing their audio file [#9567](https://github.com/YoYoGames/GameMaker-Bugs/issues/9567)
+    - Added warnings for Shaders that are missing either of their vertex/fragment shader files [#9568](https://github.com/YoYoGames/GameMaker-Bugs/issues/9568)
+    - Also fixed that Project Health incorrectly reported files were missing for Sprite Layer Groups in 2024.13 [#9840](https://github.com/YoYoGames/GameMaker-Bugs/issues/9840)
+
+- **Project Load/Room Editor: Filter/Effect Layer Values Are Now Checked For Validity And Fixed Automatically**
+    - For situations where you get an in-game error which says "Unknown Function argument 1 invalid reference to (sprite) - requested -1 max is" (like the below issue), we have now determined this is due to invalid values being set in the Room Editor for your filter/effect layer(s)
+    - Accordingly, the Room Editor will now detect and fix up these invalid values, as these can have a variety of results in-game
+    - However, be aware that you will need to open the room and click on the filter/effect layer(s) that is/are active at this point in your game in order for GameMaker to diagnose the problem - the fix cannot be applied without doing this bit yourself first
+    - Building Projects / Project Load: Incorrect values in Dots filter in a room results in draw_sprite() crash in attached project, should catch and fix the filter [#8362](https://github.com/YoYoGames/GameMaker-Bugs/issues/8362)
+
+- **Project Save/Load**
+    - Local Package Integration: Create no longer exports the whole project and not just the stuff that was selected [#12196](https://github.com/YoYoGames/GameMaker-Bugs/issues/12196)
+    - Local Package Integration: Create no longer adds files with same name as folder even if not selected [#11864](https://github.com/YoYoGames/GameMaker-Bugs/issues/11864)
+    - Local Package Integration: Selecting only a Sequence or only a Room to be imported from a local package no longer fails to import because the dependencies are not imported also [#11501](https://github.com/YoYoGames/GameMaker-Bugs/issues/11501)
+    - Local Package Integration: UI layers are always included, even when not selected [#11114](https://github.com/YoYoGames/GameMaker-Bugs/issues/11114)
+    - Prefabs: Importing a YYZ that requires a Prefab Collection no longer stalls the import process [#11753](https://github.com/YoYoGames/GameMaker-Bugs/issues/11753)
+    - Prefabs: Trying to make a prefab object the child of a regular object when that prefab is used in the project no longer causes a project load failure [#10860](https://github.com/YoYoGames/GameMaker-Bugs/issues/10860)
+    - Project Export: Now able to rename a project from the file manager before saving the file [#11196](https://github.com/YoYoGames/GameMaker-Bugs/issues/11196)
+    - Project Export: Projects with non-ascii characters present in filename now export correctly [#9644](https://github.com/YoYoGames/GameMaker-Bugs/issues/9644)
+    - Project Import: YYZs that require a Prefab Collection no longer stall the import process if that Collection cannot be found [#11753](https://github.com/YoYoGames/GameMaker-Bugs/issues/11753)
+    - Project Import: The next successful project load after a failed renamed YYZ import no longer renames the project [#12245](https://github.com/YoYoGames/GameMaker-Bugs/issues/12245)
+    - Project Import: Fixed a GM hang when cancelling opening a .yyz file [#11757](https://github.com/YoYoGames/GameMaker-Bugs/issues/11757)
+    - Project Load: Add a dialog to advise of IDE.cs errors when checking the project's format [#11082](https://github.com/YoYoGames/GameMaker-Bugs/issues/11082)
+    - Project Load: Duplicating prefab into project no longer results in a project that will not load again [#10827](https://github.com/YoYoGames/GameMaker-Bugs/issues/10827)
+    - Project Load: Extension Options are not loaded correctly if this is the first project loaded after starting GameMaker [#9590](https://github.com/YoYoGames/GameMaker-Bugs/issues/9590)
+    - Project Save: Duplicating a Font no longer leaves behind ghost copies of the old font files [#11167](https://github.com/YoYoGames/GameMaker-Bugs/issues/11167)
+    - Project Save: Deleting specific Sprite in attached project no longer causes all future changes to not save and load failures thereafter [#12069](https://github.com/YoYoGames/GameMaker-Bugs/issues/12069)
+    - Project Save: Audio files dragged onto the IDE no longer create two entries [#12315](https://github.com/YoYoGames/GameMaker-Bugs/issues/12315)
+    - Project Save: Duplicating room1 to make room2, editing room2, then duplicating room2 to make room3 no longer causes the changes to room2 not be reflected when running the project [#11908](https://github.com/YoYoGames/GameMaker-Bugs/issues/11908)
+    - Project Save: Importing a Particle System from another project now pulls its dependencies also, no longer corrupts the current project [#11444](https://github.com/YoYoGames/GameMaker-Bugs/issues/11444)
+    - Project Save: SVG images dragged onto the IDE are now added as a vector sprites when requested [#12320](https://github.com/YoYoGames/GameMaker-Bugs/issues/12320)
+    - Project Save: Changing name of instance on a UI Layer no longer causes build fails and project load failure thereafter [#12237](https://github.com/YoYoGames/GameMaker-Bugs/issues/12237)
+    - Project Save: Deleting an Included Files now does not leave a reference in the .yyp [#10778](https://github.com/YoYoGames/GameMaker-Bugs/issues/10778)
+    - Project Save/Load: Deleting an extension function can break loading projects [#10416](https://github.com/YoYoGames/GameMaker-Bugs/issues/10416)
+    - Project Save/Load: Project names containing emojis causes Game Options read errors [#10581](https://github.com/YoYoGames/GameMaker-Bugs/issues/10581)
+    - Sequence Editor: Undo does now works in new Sequences created after duplicating a prefab's Sequence and editing that one [#12263](https://github.com/YoYoGames/GameMaker-Bugs/issues/12263) / Prefabs: Duplicating the Toggle prefab no longer gives "qToggle was lost and moved to root of project." every time the project is opened thereafter [#12280](https://github.com/YoYoGames/GameMaker-Bugs/issues/12280)
+    - {% include important.html content="If you have any issues opening/importing projects or packages, please ensure you're using this release's bundled version (or a newer release) of ProjectTool inside Package Manager and then try again before you submit any bugs!" %}
+
+- **ProjectTool Changes [All Issues](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A2024.14%20in%3Atitle%20"ProjectTool")**
+    - There are quite a number of project format/Game Options changes since 2024.13, so please be aware that you need to be set to the correct version inside Package Manager, otherwise you will continue to have the old issues
+    - The correct version of ProjectTool is bundled with this IDE install and so in the majority of cases you should be set to use this automatically inside Package Manager; however, if you have previously manually installed ProjectTool versions yourself, then yours may be set to use a different older version and this will continue to be obeyed - if so, simply _Uninstall_ your current version and then GameMaker will immediately use this new one
+    - Remember that if you need to take projects between this 2024.14 release and Betas/LTS you will likely need to download this version of ProjectTool from Package Manager _in those GameMaker installs_ before they will be able to open your projects
+    - Note also that as of this release you will only see the ProjectTool package relevant for the OS you're using (e.g., you won't be shown the Mac or Ubuntu package when you're using a Windows PC)
+    - See the Package Manager changes section above to find how to set Package Manager to notify you and/or auto-update ProjectTool in future
+
+- **ProjectTool Updated**
+    - A newer "2024.13." version of ProjectTool was already released ahead of this GameMaker release - this IDE automatically uses that version; however, if you have previously installed ProjectTool versions manually, then you may need to modify Package Manager in order to use this newer version
+    - If you see any issues with importing/exporting projects or packages, check to see if you have already got a version of ProjectTool installed inside Package Manager (in the "GM Tools" list)
+    - If Package Manager currently says you're using any older "0." version, then be aware it's always the one in Package Manager that will be prefered by the IDE
+    - Simply uninstall that old version and this will hopefully immediately resolve the problem you're seeing - if it does not, restart GameMaker and it will get the new one for you, and that should sort things
+
+- **Reddit Target Added**
+    - Reddit is now a target for Gamemaker
+    - This uses the Devvit tools by Reddit and is a replacement to the Reddit extension that was previously provided by GameMaker
+    - This target's setup guide can be found [here](https://github.com/YoYoGames/GameMakerRedditTemplate/blob/main/docs/HowToBuild.md)
+    - Please be aware that this target works quite differently from all others inside GameMaker and requires you to initially setup your Reddit project and also to run the Devvit tools yourself outside GameMaker in order to actually get your changes built and sent to Reddit each time - accordingly, please see the setup guide above before you try using this target
+    - More information about Devvit and getting started with Reddit publishing can be found [here](https://developers.reddit.com/docs/)
+
+- **Refinement Of The IDE Translations Process**
+    - You should not see any negative impact from this change - however, be aware that the tools used to generate translations are being changed and also we are performing clean-up on several of the language .csv files
+    - This will allow the quality of the translations to improve and also for more of the product to be localised, plus for the translations to arrive more quickly after a new feature has been added
+    - If you do see any issues in your chosen translation, please do file a bug report for this
+
+- **Removed In-Built Steamworks Functions**
+    - Removed the old code inside the runner for all Steam functions (which relied on a very old Steamworks SDK), in favour of a new extension which can be updated more easily in future
+    - This means the runner now does not always ship with this functionality, regardless of whether you were using Steam in your games or not
+    - For this reason, many of the IDE settings for enabling and configuring Steamworks are now gone, in favour of you editing these values inside the extension once it is added to your project
+    - The new Steamworks extension will be added to the Marketplace soon - again, to be clear: you will require this extension in your project and to configure some of its setup values if you want to enable Steam in your projects going forward
+
+- **Removed Some Legacy Platforms/Architectures**
+    - Some lesser-used or largely redundant versions of the targets have now been removed, so we can focus support on the current tools instead. These are:
+    - Android x86 32bit architecture (x86_64 is still there, so you can still use 64bit emulators)
+    - UWP target has been removed entirely, as the Windows store has accepted native packages for a while and the GDK extension can be used to implement current versions of Microsoft’s social functionality
+    - Windows x86 (32bit support) architecture has been removed from Game Options, so now only 64bit executables are available
+    - Xbox One Legacy (XDK) target has been removed entirely, as GDK has been available for a while
+
+- **Removed the Remote Worker**
+    - Whilst there were a small number of worker users and so we appreciate this might affect your workflow, the usage levels have been so low for several years that continuing to ship the installer as part of the download to everyone and support the worker each release is not effective
+    - Please use the regular Windows and Mac IDEs for all your platform builds now
+
+- **Renamed “GML” And “DnD” And Added New Control Options**
+    - “GML” is now “GML Code” (or simply “Code”)
+    - “Drag and Drop” (or “DnD”) is now “GML Visual” (or just “Visual”)
+    - This is a naming change we've wanted to make for a while, as “Drag and Drop” has not been a great label for our visual GML coding paradigm within GameMaker
+    - The new names better represent to new users the difference between the code and visual editors, whilst confirming it’s always GML regardless of which interface you’re using
+    - We also want to help bridge the gap between the two ways of working and bring them closer together, and so the Start Page no longer asks you to make a choice of editor style  before you create your project. Instead, when creating your scripts you will get a little explanation dialog and the choice between Visual or Code
+    - Your choice of editor style can be saved per-project, or if you already know which style you prefer and you don’t ever want to be asked about the other one you can simply set the Preference on this dialog and it won’t show again
+    - The values can always be modified again later either in Game Options > Main (for that project) or Preferences > Languages > GML (for all new code editors going forward)
+
+- **Resource Refactor And Project Saving Changes**
+    - This release introduces a big clean-up to how assets are handled, which should have very minor impact on how you work, but will make future releases far more stable
+    - Fixed a very important project-saving bug where if a script's source file had become locked (e.g., by an external process such as source control or Dropbox/GDrive/OneDrive, etc.) and therefore wasn't able to be read, then it was possible that Feather would incorrectly cause some other assets to be lost (typically Scripts, but not limited to this)
+    - Creating a new event in the Object Editor will now trigger an immediate save of your project, as this fixes multiple issues with source control status, but also when discarding other unsaved changes on closing GameMaker
+    - Case-insensitive file names are back - please be aware of this if you are moving projects between OS installations which use different naming conventions (or when committing into Git source-control repos)
+    - Fixed some memory management around loading assets, which will stop potential leaks and also fixes an issue with breakpoints failing to stay on the correct line in Object events if you later add other lines higher up in your code
+    - For each of the above points there may be minor changes to the file formatting/contents of some resources, so please be aware of this the next time you're committing to source control and if you see some unexpected changes
+
+- **Restored Some Missing Fixes**
+    - Project loading will now also merge duplicate folders whenever they are detected in a .yyp file - so if you had a project which for some reason had gained duplicate folders in the Asset Browser, you should now find that simply opening the project in this version will clean that up (if you know that you have a project in this state it’s worth creating a backup before you open it, so that if you do have any issues you can send us the original version for investigation)
+    - Asset Browser: Moving a folder of assets into another folder will cause resource load failures
+    - Project Load: Room Editor background layer colour values are no longer reset to white when loading a project
+    - Project Save: GM no longer hangs for some users when renaming a script (stops unexpected File Watcher dialogs also) [a final part of this fix had been lost in 34]
+
+- **Room Editor [All Issues](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A2024.14%20in%3Atitle%20"Room%20Editor")**
+    - Performance fix for Tile editing [#10710](https://github.com/YoYoGames/GameMaker-Bugs/issues/10710) (and there were several older/newer duplicates of this one, so all have been closed by this fix)
+    - Now, in most cases you will not see any delays, but be aware of you are selecting and copy/pasting hundreds of tiles at once there is of course still some small amount of lag
+    - UI Layer prefabs dropped onto a different layer type now trigger the usual dialog asking if you want to make a new layer of the correct type and add the prefab onto that [#11094](https://github.com/YoYoGames/GameMaker-Bugs/issues/11094)
+    - Matches the functionality that other assets (Objects requiring an Instance layer, Sprites and Sequences requiring an Asset layer, etc.) have had for a long time
+    - You can now double-click an instance within the Room Editor and change which Sprite is assigned to this instance [#3733](https://github.com/YoYoGames/GameMaker-Bugs/issues/3733)
+    - This means you can now better preview and position assets in your room
+    - These sprite values are also then used as the sprite_index upon game start
+    - Added the ability into the UI Layers functionality for resizing Flexpanels via mouse [#9699](https://github.com/YoYoGames/GameMaker-Bugs/issues/9699)
+    - This support covers canvas resizing, reordering, and margin/padding adjustment
+    - Added support for autotiling to allow tile 0 to be used as a blank tile [#12146](https://github.com/YoYoGames/GameMaker-Bugs/issues/12146)
+    - This ultimately works exactly the same as always, but now you can use the 0 tile rather than having to ensure you had a blank tile in your set
+
+- **Room Editor: "Select from Any Layer" No Longer Turns Off Whenever Selecting Something On A Tile Or Path Layer [#6924](https://github.com/YoYoGames/GameMaker-Bugs/issues/6924)**
+    - Previous GM releases would always turn this setting off, as Path and Tile layers are handled differently, but now the setting will not be toggled off
+    - However, a new Preference been added for if you want to keep the old behaviour (defaults to OFF)
+    - Regardless of the Preference being on or off, a knock-on where clicking on a tile layer when selecting would immediately draw a tile at the click location has been fixed
+
+- **Room Editor: Shows The Current Grid Location's X/Y values On The Status Bar [#2851](https://github.com/YoYoGames/GameMaker-Bugs/issues/2851)**
+    - In addition to the mouse position that's always been shown, the Room Editor now displays the grid location for wherever your mouse cursor currently is
+
+- **`room_get_info()` returns all the information about a given room**
+    - This function can be used to get all the information on a room
+    - `room_get_info(index,[views],[instances],[layers],[layer_elements],[tilemap_data])`
+    - It returns a struct that contains all of the data that has been requested, but be aware a room can be very large and so this can take a long time to complete, so some data can be omitted if you want to help speed it up.
+    - Note: Tilemap data is an array of all the tilemap indices stored as a one dimensional array of width * height, where an x, y entry is indexed as (y*width)+x
+    - The function has now been extended to take optional params to control whether you want to include the live state of the current room
+
+- **Rooms/Sequences Support Persistent Alignment Values For Text Instances**
+    - Added support for text instances to have persistent alignment in-game
+    - This is done via a combination of changed/new gadgets in the Room Editor/Sequence Editor, plus the new `layer_text_origin()`
+    - This function can be used with a range of new `origin_...` constants for standard values like topleft, bottomright, etc., to set the origin for a text instance
+    - And `layer_text_get_origin()` can be used to get which constant is in effect for a given instance
+    - For more, including a sample .yyz file which shows the new functionality, see [#11637](https://github.com/YoYoGames/GameMaker-Bugs/issues/11637)
+    - Also fixes the below issue:
+    - In-Game: Non-wrapped text instances ignore their alignment values [#10455](https://github.com/YoYoGames/GameMaker-Bugs/issues/10455)
+
+- **SDF Effects can now be added to text tracks in a sequence**
+
+- **Signed Distance Field ("SDF") Font Support**
+    - You can now use font_add() to load a font and then draw it using the SDF method, which allows more advanced rendering of your fonts
+    - There are two new GML functions to enable\disable rendering using SDFs:
+    - font_enable_sdf(font, true/false) - allows enabling or disabling SDF rendering for that font
+    - font_get_sdf_enabled(font) - queries whether SDF rendering is currently enabled for that font
+    - Note that the font must be loaded via font_add() in-game to use this functionality - fonts added inside the IDE are not supported
+    - Note also that at this time HTML5 is not supported - the functionality will be ignored
+
+- **Simpler/Alternative Time Source Creation Function**
+    - Creating a time source can now be done with a simple one-line function: call_later(period, units, func, [loop=false])
+    - This returns the timesource, but note they are not a child of the built-in sources and other time source functions will not work on timers created using this function
+    - call_cancel() can then be used to cancel any time source created using call_later()
+
+- **Sound Editor/Inspector [All Issues](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A2024.14%20in%3Atitle%20"Sound%20Editor")**
+    - Improved the clarity Of Editor/Inspector functionality [#9640](https://github.com/YoYoGames/GameMaker-Bugs/issues/9640)
+    - A number of the settings shown for sounds have now been renamed so they're clearer about what they will result in
+    - At the same time, several of the Inspector gadgets have been reordered/collapsed into dropdowns rather than radioboxes, and also settings that are made redundant by others are now enabled/disabled accordingly
+    - There is also a new section for showing the output size of your sound, based on the settings you have currently chosen - and this information can be collapsed/expanded and even copied to the clipboard for use elsewhere
+    - All of this does mean that if you change the audio file used by a sound, or you pick a new setting which would make a material difference to its output, the sound will be processed immediately and all of the values will be updated with the new results - depending on the size of the audio file, this can obviously take a few seconds, and so you will see the values blank out and a spinner appears while the sound file is being built
+    - Also, if your Sound is missing a source audio file the info box will make this much clearer now
+    - Previewing a sound in the Sound Editor or Inspector now reflects the current Sound Editor settings for that asset [#8632](https://github.com/YoYoGames/GameMaker-Bugs/issues/8632)
+    - This means your options can be heard during the preview inside the IDE and you no longer have to build your game in order to hear the difference after making a change
+    - Be aware that this does mean when you're editing the properties of your Sound assets you may trigger that sound to be converted on-demand, so bear in mind that this might cause short delays as this happens
+    - Added the ability to specify a path for storing streamed audio files, so they are not in the root folder [#2732](https://github.com/YoYoGames/GameMaker-Bugs/issues/2732)
+    - Controls for this can be found on the Sound Editor/Inspector for an individual sound asset, or on the Audio Groups Editor for all groups other than "default"
+    - There are some bits specific to HTML5 that will act differently with these controls, so please do review the issue below or the manual if you have issues when making your changes
+    - Note that this release also fixes a few issues when loading Sound assets in projects:
+    - Inspector: [Sound] Previewing very short audio files now always sets the button states correctly [#10256](https://github.com/YoYoGames/GameMaker-Bugs/issues/10256)
+    - Project Save: GM no longer crashes in ConvertAudio when converting a large number of files dragged onto the IDE at the same time [#10602](https://github.com/YoYoGames/GameMaker-Bugs/issues/10602)
+    - Project Load: Fixed a GM crash during ConvertAudio which stopped projects from loading [#10608](https://github.com/YoYoGames/GameMaker-Bugs/issues/10608)
+    - Stability: Fixed a PurgeAudio crash due to file lock [#10445](https://github.com/YoYoGames/GameMaker-Bugs/issues/10445)
+
+- **Sound Inspector Support**
+    - Allows you to set all the values in the usual editor, plus introduces the ability to see the waveform of your sound (so now you can spot unwanted silence in your sounds, etc.)
+
+- **Spine Interpolation And Stability Fixes**
+    - draw_skeleton(), draw_sprite(), and draw_sprite_ext() all now preserve any fractional part of the current image_index value when drawing, which fixes interpolation issues in recent releases since the Spine 4.0 update
+    - draw_sprite_stretched() and draw_sprite_tiled() now won't attempt to draw any Spine sprites (previously this crashed the game)
+    - Also added more error checks and logging when drawing fails occur, which stops a number of other in-game crashes - instead you will now get a log message "Unable to render sprite [name]" and the game will continue
+    - Fixed issues with Spine 4.0 files not working as intended if they contain multiple animation tracks
+    - Spine now animates correctly when using draw_ext()/draw_skeleton() and another object has a collision event for this Spine object
+    - Spine animation events no longer cause severe audio stacking
+    - Spine animations no longer rotate incorrectly if their image_xscale = -1
+    - Fixed an issue where Spine constraints are incorrect in the Spine 4.0 runtimes - needed a fix for this brought in from Spine 4.1
+    - Fixed an issue where Spine animation over the y axis is not played when using transform constraints - another Spine runtime issue, now fixed in Spine itself also
+    - FIxed issues with incorrect transitions between animations if you are not using skeleton_animation_mix() to handle this for you
+    - Spine interpolation information was also being incorrectly interpreted in recent releases, because a fix made for 2.3.7 had been lost from newer versions
+
+- **Spine Pre-Multiplied Alpha Control Functions Added [#12070](https://github.com/YoYoGames/GameMaker-Bugs/issues/12070)**
+    - A change was made earlier for 2024.14 that would automatically set the appropriate blend mode to correctly draw Spine sprites that use pre-multiplied alpha, as long as the current blend mode is set to the default (if the blend mode is set to anything else it's assumed that you have set it for a reason).
+    - However, there have been some projects submitted throughout the Beta period that this does not work well for, and so we've added a couple of functions to disable this again:
+    - `draw_enable_skeleton_blend_override(enable)` - "true" enables the override (new behaviour) and "false" to use the previous behaviour. (The default setting is true.)
+    - `draw_get_enable_skeleton_blend_override()` - returns true/false if the override is enabled or not.
+
+- **Sprite Editor: Float values for stretched frames [#11822](https://github.com/YoYoGames/GameMaker-Bugs/issues/11822)**
+    - Float values are now allowed again in stretched frames
+    - And you can set these values via the new textfield for typing precise values in more easily than dragging the frame edge
+
+- **sprite_add_ext()**
+    - This function will allow you to load sprites asynchronously without causing any freezing in your games
+    - It will fire the “Async - Image Loaded” event at the end of the operation, regardless of success or failure
+    - The async_load map returned in this event will have the status code you need to check, with 0 being a success and 1+ being error codes
+
+- **Stability: [Windows IDE] New Preference To Prevent Gsync Monitors Flickering [#14301](https://github.com/YoYoGames/GameMaker-Bugs/issues/14301)**
+    - Added a new Preference to allowing toggling FNA3D_D3D11_FORCE_BITBLT, which has been seen in #14223 to stop flickering on GSync monitors
+    - You can find this in the `General Settings` section as the "Force D3D11 Bitblt" checkbox (the default is OFF)
+    - If this applies to your PC also, then please do enable this setting
+    - Be aware that the setting is a bit wider-reaching than just GSYNC monitors, so if you have two GPUs in your system or any form of high-refresh monitor and you're seeing flickering while GM is running, then give this setting a go
+    - Note, however, that the original bug report talked about flickering when games are running also - that is not affected by this change
+
+- **Start Page Changes For Selecting Templates**
+    - In order for us to add more Templates for Games and Live Wallpapers over the coming months, the Start Page has now been tweaked to section-off each of these, so we can add more projects for you to use in future without making the old combined list unnecessarily large
+
+- **Startup Changes To When The Matching Runtime Is Required When Newer Runtimes Are Installed Also**
+    - Going forward, GameMaker will no longer force installing the matching runtime for an IDE release if a newer runtime is active and which matches at least the first 2 parts of the version number, but has a higher third/fourth part
+    - This means if you install this GameMaker IDE and allow it to get its matching runtime 730, whenever we release a newer 2024.1300.0.731+ runtime you could install that one and set it active instead, then (if you wished) delete runtime 730 manually to save disk space
+    - Again, to be clear, the newer runtime must be from the same "family" as the IDE version - having a "2024.1400" runtime (or whatever) will still not be accepted by this 2024.1300 IDE and it would download its matching runtime again for you
+    - For more, see [#5927](https://github.com/YoYoGames/GameMaker-Bugs/issues/5927)
+
+- **Startup: Plugin Safe Mode Cleared Automatically When Next Restarting GameMaker [#13330](https://github.com/YoYoGames/GameMaker-Bugs/issues/13330)**
+    - In a handful of recent releases when plugin safe-mode triggers on GameMaker startup, typically due to a problem with antivirus or system file permissions blocking the updater from working correctly, then the Bug Reporter is loaded so you can tell us about the problem and it can capture your logs and settings at that time, but crucially nothing else is loaded and so if you closed the bug reporter you wouldn't see the start page, etc.
+    - However, it has become clear from recent bug reports that some people are stuck in safe mode because it's not obvious what the problem is and how to fix it yourself
+    - As of this release the IDE will better advise you of the problem and still loads the bug reporter on that first start of GameMaker, but _now_ when you close GameMaker after sending your bug report it will clear out your plugins folder, removing any problem ones and forcing a fresh download of the ones you need whenever you next reopen GameMaker
+    - This allows you to send your bug report, but then quickly and easily recover your GameMaker setup and carry on working
+    - {% include note.html content="If you are often put into safe mode after updating GameMaker, or if you're currently seeing this and the above change does not clear things properly for you, then you need to review your antivirus client and/or file permissions using our guide on [the permissions that GameMaker needs](https://github.com/YoYoGames/GameMaker-Bugs/wiki/Permissions-Guide) as there must be an external problem when GM is modifying files on your machine" %}
+
+- **Static Initialisation No Longer Runs Multiple Times**
+    - Be aware of this change, as it might require you to refactor your project to maintain compatibility going forward
+    - However, we also added a new pragma command for re-enabling the old behaviour, which you can call one time early in your game - `gml_pragma("AllowReentrantStatic", true);`
+    - For more, see [#7888](https://github.com/YoYoGames/GameMaker-Bugs/issues/7888)
+
+- **Strings for handles to an asset now use the name of the asset rather than the number**
+    - This is a change primarily because the name is stable between versions, when the ID number is not; however, it is also now much easier to read the strings and know which asset is being referred-to
+    - For more, see [#9053](https://github.com/YoYoGames/GameMaker-Bugs/issues/9053)
+
+- **Support For Clipboard Functionality In More Targets**
+    - Added support into Android, iOS and macOS for the existing clipboard functions already supported on other platforms
+    - Note that tvOS is not included in these additions because it does not actually support any clipboard functionality
+
+- **Support For Not Packaging Unused Assets In Your Export Packages**
+    - You can now enable whether during builds GameMaker should automatically ignore any unused assets in your projects, so that these assets are not added into your game packages (the project itself is obviously not modified and the unused assets are safely left alone)
+    - Game Options > Main > "Automatically remove unused assets when compiling"
+    - Note that this defaults to ON for newly-created projects (off for existing projects), so if you do have any issues when this Game Option is enabled, please do send us a bug report and allow GameMaker to attach your project before you consider turning the feature off again
+    - Note that the new Prefabs feature available in Beta IDEs and coming in a future main release will still find all unused assets in the prefabs you're using and ignore them during builds, regardless of whether the Game Option is on or off, as the Game Option only applies to assets inside your own project
+    - For more on this new feature, see [#3597](https://github.com/YoYoGames/GameMaker-Bugs/issues/3597) and for an example of the new logging, see [#8312](https://github.com/YoYoGames/GameMaker-Bugs/issues/8312)
+    - {% include important.html content="If you created a project in any recent IDE starting with 2024.4 your Game Option value will already be ON as well, as GameMaker IDEs have quietly known about this feature for a while - however, the setting won't affect your builds if you're using those older runtimes" %}
+    - {% include note.html content="Scribble users: _older_ versions of Scribble always checked all font indexes and so if this setting is enabled Scribble will throw an in-game error when it finds a font is missing - you will need to change this code yourself or update your copy of Scribble ([#8198](https://github.com/YoYoGames/GameMaker-Bugs/issues/8198))" %}
+
+- **Support For The New Particle Asset Type In The IDE**
+    - You can now create new particle systems as assets inside the IDE, by using the new particle editor to set them up and see them in action, then reuse them in sequences and rooms as you want
+    - That particle system will then be passed through the build process and behave in-game exactly as particle systems/emitters/types have done in previous releases - but without the need for you to code everything and test/iterate by doing builds
+    - Be aware that older IDEs and runtimes have no knowledge of this new particles asset type, and so if you open or create any project in this new release it will not be editable in older GameMaker versions and instead will open in those older IDEs in read-only mode - see the IDE release notes for more information
+
+- **Support For Virtual Keys In Browser-Based Targets**
+    - Added support for virtual keys in the Opera GX and HTML5 targets
+
+- **SVG Support Introduced**
+    - This release now supports SVG graphics in the IDE and in-game. This feature was previously only available in the Beta releases
+    - You can now import and preview some SVG images, then this will carry through to your game at build time
+    - See these issues for details - [#5895](https://github.com/YoYoGames/GameMaker-Bugs/issues/5895) / [#8276](https://github.com/YoYoGames/GameMaker-Bugs/issues/8276) / [#8275](https://github.com/YoYoGames/GameMaker-Bugs/issues/8275) / [#8274](https://github.com/YoYoGames/GameMaker-Bugs/issues/8274)
+
+- **SVGs: Import Animations As Individual Frames [#10193](https://github.com/YoYoGames/GameMaker-Bugs/issues/10193)**
+    - The Sprite Editor can now import the animations within an SVG image and convert them into separate frames in your Sprite (you will get multiple individual frames, not 1 frame that animates in-game)
+    - Similarly, you can now drag SVG images onto the frames preview panel and have these turned into additional frames in that Sprite also
+
+- **SWF/SVG: Performance Changes And New Functions For Controlling Memory Usage [#11624](https://github.com/YoYoGames/GameMaker-Bugs/issues/11624)**
+    - Now, on most platforms (all except PS4, PS5 and HTML5), the drawing of SWF and SVG sprites is accelerated by caching them in vertex buffers first before drawing them. This trades reduced CPU load from manually transforming vertices and calculating anti-aliasing data each frame with an increased number of draw calls.
+    - In general, this is a large win; however, the amount of cache memory used for this new method is something you can control via the use of several new `vector_sprite_cache_...()` functions that have been added in this release
+    - You can query the amount of cache usage at any time
+    - Cached items will be automatically pruned when reaching an age value you set, plus you can control the rate of pruning these old items once they reach your chosen age
+    - Any sprites which attempt to draw when there is not enough of this new cache available will still draw fine - they will simply do so using the regular method that's been used for all GMS2 runtime releases until now
+    - And, if you want, you can turn the new method off and continue using the standard method instead by simply setting the cache limit to 0
+
+- **Switch NPLN support**
+    - Note that there are new Game Option checkboxes for toggling whether you want NEX or NPLN, so you will need to use that first if you want to enable this functionality
+    - Also added an async event to indicate NPLN authentication status (this isn't necessary to wait for in all cases, as the NPLN functions will wait for authentication to complete before they do their own thing and will also report any failures, but it is needed for cases where the game wants to know the player's own NPLN user ID)
+    - switch_matchmaking_session_close_participation(userindex,sessionid) - This function is used to close a matchmaking session to new participants, so if you don't support join in progress, you can close off the session after progressing from the lobby
+    - switch_matchmaking_session_open_participation(userindex,sessionid) - This function is used to open a matchmaking session to new participants, so if you have previously closed off new participants from joining you can open it again with this call
+    - switch_matchmaking_session_autojoin(userindex,gamemode,jointype,minparticipants,maxparticipants,description,use_mesh_topology)
+    - switch_npln_leaderboard_delete_score(npln_user_context,category_type_name,category_id) - Deletes the score registered on the leaderboard
+    - switch_npln_leaderboard_get_scores_near(npln_user_context,category_type_name,category_id,category_season,request_size) - Retrieve scores from a leaderboard, centered on the signed-in user
+    - switch_npln_leaderboard_get_scores_range(npln_user_context,category_type_name,category_id,category_season,request_offset,request_size) - Retrieve scores from a leaderboard
+    - switch_npln_leaderboard_get_user_data(npln_user_context) - Fetch the display name and optional data previously stored with switch_npln_leaderboard_set_user_data()
+    - switch_npln_leaderboard_set_score(npln_user_context,category_type_name,category_id,score,[score_data]) - Submit a score to a leaderboard
+    - switch_npln_leaderboard_set_user_data(npln_user_context,user_name,[user_data]) - Associate a display name and optional data with a player’s scores
+    - switch_npln_login_prearranged_user(user_index,npln_user_index,tenant_id_source) - This function is used to login/create a "prearranged" NPLN user. This must be performed before any other NPLN functions are called - and prior to calling switch_npln_login_prearranged_user() you must first have called switch_accounts_login_user() for the given user_index to ensure the user is logged into their online account. See the Nintendo reference documentation for more information on NPLN accounts.
+    - switch_npln_session_create(npln_user_context, config_name, [options])
+    - switch_npln_session_join(npln_user_context, session_id, [options])
+    - switch_npln_session_join_alias(npln_user_context, session_alias, [options])
+    - switch_npln_session_find(npln_user_context, config_name, [options])
+    - switch_npln_session_matchmake(npln_user_context, config_name, [options])
+    - switch_npln_session_destroy(npln_session_context)
+    - switch_npln_session_create_alias(npln_session_context)
+    - switch_npln_session_send_data(npln_session_context, user_session_id, buffer)
+    - switch_npln_session_update(npln_handle, {session_data, enable_participation})
+    - Also added a new function for NEX matchmaking to mirror the new NLPN description function switch_matchmaking_session_update_description(user_index, session_id, new_description) for NEX games
+
+- **Target Manager: Reddit Now Appears Lower In The List [#13675](https://github.com/YoYoGames/GameMaker-Bugs/issues/13675)**
+    - Moved the new Reddit target lower down in the targets list, so that the entry for your current OS is back nearer the top again
+
+- **Texture Pages (And Sprites) Can Now Be Created At Runtime**
+    - Added the ability to create a texture group and sprites at runtime from an external sprite sheet
+    - `texturegroup_add()` can now be used to create your texture page and have it ready for loading when you need it [#10367](https://github.com/YoYoGames/GameMaker-Bugs/issues/10367)
+    - The format to use can be found on the issue or in the manual
+    - Also allows passing premade buffers instead of filenames [#12084](https://github.com/YoYoGames/GameMaker-Bugs/issues/12084)
+    - `texturegroup_load()` and `texturegroup_unload()` can then be used to manage that
+    - `texturegroup_exists()` checks whether a specified texture group exists or not [#10919](https://github.com/YoYoGames/GameMaker-Bugs/issues/10919)
+    - `texturegroup_delete()` deletes it again when you're done with that group [#10678](https://github.com/YoYoGames/GameMaker-Bugs/issues/10678)
+    - Also fixed that `texturegroup_add()` used to allow multiple texture groups to be added with the same name [#10921](https://github.com/YoYoGames/GameMaker-Bugs/issues/10921)
+
+- **Time Source Functions Updated**
+    - Added a new time_source_resume(), which differs from the existing time_source_start() as this new one will not restart any already-finished time sources
+    - Added a new optional argument to time_source_destroy() to say whether to destroy all chained timers at the same time or not
+
+- **Time Sources**
+    - Time sources are like alarms which are not tied to an object. These are generic timers, of which any number can exist, and so you can now…
+    - Create a time source which will expire after a given period, expressed in either seconds or game frames
+    - Start, stop, pause, resume, restart and reconfigure the time source
+    - Specify whether time sources should repeat, and how many times (including indefinitely)
+    - Query the current status of a time source
+    - Note that chained time sources tick all sources before any are actually processed, which is a big difference versus chained alarms (Alarms will continue to fire each alarm as they are encountered, like they have always done, as it could break a lot of games if we changed this long-time behaviour)
+
+- **tvOS - Better Support For Siri Remotes**
+    - You can now use newer remote versions and also get their gyro inputs - see the following two issues for a little more info:
+    - Support for Siri Remote 2+ [#4254](https://github.com/YoYoGames/GameMaker-Bugs/issues/4254)
+    - Support for the motion controls in the Siri Remote [#3959](https://github.com/YoYoGames/GameMaker-Bugs/issues/3959)
+
+- **Tweaked the renderer's memory-management**
+    - Should resolve a number of poor performance issues and graphics card memory crashes seen in the last couple of releases
+    - If you do still have issues, please file a bug report, but remember to attach your ui.log and a DXDiag/System Information report
+
+- **Ubuntu**
+    - Fixed enumeration of mice as if they are gamepads [#9250](https://github.com/YoYoGames/GameMaker-Bugs/issues/9250)
+
+- **UI Layers**
+    - Added a Preference for your default asset anchor position [#9774](https://github.com/YoYoGames/GameMaker-Bugs/issues/9774)
+    - The Room Editor no longer updates your position coordinates when changing the anchor of an element in a flex panel (but a Preference has also been added to keep the old behaviour if you want) [#9698](https://github.com/YoYoGames/GameMaker-Bugs/issues/9698)
+    - Fix for instances on UI Layers being moved when reordering layers [#11700](https://github.com/YoYoGames/GameMaker-Bugs/issues/11700)
+    - Also see the runtime notes below and the general changelist, as there are many UI Layers fixes either in-game or in the IDE as part of 2024.14
+
+- **UI Layers**
+    - HTML5 is now supported by all the UI Layers functionality [#9198](https://github.com/YoYoGames/GameMaker-Bugs/issues/9198)
+    - Fixed an issue found in the 2023.13 runtimes where the drawing of elements on the same UI Layer is flipped after changing to a different room [#10311](https://github.com/YoYoGames/GameMaker-Bugs/issues/10311) (_lots_ of duplicates for this one, so consider all reports fixed)
+    - This was most-commonly seen when using our blog post's sample game project and its Esc menu's text/button draw order would change
+    - Also see the similar-but-opposite-results issues given in [#10474](https://github.com/YoYoGames/GameMaker-Bugs/issues/10474) and [#10390](https://github.com/YoYoGames/GameMaker-Bugs/issues/10390) where the draw order using "depth" was incorrect _until_ the room was restarted/changed and then became fixed
+    - And also fixed that calling room_goto() and leaving a persistent room broke UI Layer drawing in the next room [#10677](https://github.com/YoYoGames/GameMaker-Bugs/issues/10677)
+    - "mouse_x" and "mouse_y" for instances on UI Layers now use GUI co-ords rather than regular layer co-ords [#11678](https://github.com/YoYoGames/GameMaker-Bugs/issues/11678)
+    - Added two new custom measurement functions [#7419](https://github.com/YoYoGames/GameMaker-Bugs/issues/7419):
+    - `flexpanel_node_set_measure_function(node, function)` adds the given function to the node, and when a layout is calculated and a measurement is required the given GML function will be called with the parameters "width", "widthType", "height", "heightType" (see Yoga's documentation) and then return a struct containing the calculated width and/or height
+    - `flexpanel_node_get_measure_function(node)` gets the measure function for a given node
+    - These two expose existing Yoga functionality for manipulating your UI at runtime
+    - Objects on UI Layers now execute their Create events [#10629](https://github.com/YoYoGames/GameMaker-Bugs/issues/10629)
+    - UI Layers no longer break depth-sorting for Instance Layers below it in the room [#10390](https://github.com/YoYoGames/GameMaker-Bugs/issues/10390)
+
+- **Updated SDL2 Version To Fix Various UI/UX Issues**
+    - Fixed various bugs with Non-Microsoft IMEs not giving the expected results when typing in the Windows IDE (such as Baidu and others)
+    - If you use an IME it would be great to get your feedback on whether this version is better for you now and if any major issues still exist
+
+- **Updated The Live Wallpaper Template**
+    - The template has now been updated with some recent additions, performance improvements and bug fixes
+    - Adds examples of how you can set and use the new options functionality - in this case via additional performance settings you can adjust
+    - Also fixes a few scaling issues, such as the following bugs (if you had any of these issues, then you may need to create a new project using the template and then copy/paste the changes into your own project):
+    - In-Game: [GX.games] Live Wallpapers are no longer drawn using different dimensions when the project is ran locally using GM, differs from the result after publishing
+    - In-Game: [GX.games] Template project needs to account for browser_height/browser_width being 0 on the first frame of the game
+
+- **Updated the version of Gradle that Android builds will use**
+    - Should offer better support for some extensions (particularly for those writing new extensions themselves), but we have also added support for a compatibility mode with older versions of Gradle/Java also
+    - Please note that Gradle installs its own updates and this change may require a download during your first/next Android build - ensure you have internet access if your compiler log says Gradle needs this
+    - Our current Marketplace assets do not require this change and so are not being updated at this time, but eventually some may require it in future
+
+- **Using keywords as variables**
+    - It is now possible to use keywords (e.g., "then", "do") as variable names
+    - Please note that both Feather and the Code Editors will still mark those as errors, but the project will build and run with no problems
+
+- **Variable Definitions: Better Validation Checks [#13582](https://github.com/YoYoGames/GameMaker-Bugs/issues/13582)**
+    - Following on from https://github.com/YoYoGames/GameMaker-Bugs/issues/13202, validation checks are now setup per variable Type, so that invalid data cannot be entered
+
+- **Variable Definitions: Can now create a new variable in an Object which has a child that already has a variable of the same name [#1611](https://github.com/YoYoGames/GameMaker-Bugs/issues/1611)**
+    - In previous IDEs you could not create a new variable definition in an Object which has a child that already has a variable of the same name - it would result in an error message requiring you to manually delete that child variable and create it a second time in the parent
+    - Now you will be shown a new confirmation dialog alerting to the situation and asking how to proceed - and if you choose to move the variable, it will be done for you
+
+- **Various compiler optimisations to speed up building and execution**
+
+- **Vertex buffers can now be modified after they have been created and filled**
+
+- **Visual Editor Changes For Collision Actions**
+    - Updated the various Visual nodes relating to collisions, so that they can now accept arrays and also tilemap IDs, so that the new tilemap-based collisions feature (see the runtime notes) can be used in Visual editors as well as Code
+
+- **Warning On Startup If YYAL Failed To Load [#10222](https://github.com/YoYoGames/GameMaker-Bugs/issues/10222)**
+    - In previous releases GM would crash on startup if YYAL failed to load for any reason, but now you will get a warning message advising you that this problem happened and a little hint to check your ui.log for any information why and potentially how to fix the situation yourself right away
+    - If this happens on your machine you can still start GameMaker and work on your projects, but audio previews will not work in the Sound Editor
+
+- **Welcome Tab**
+    - This release adds a quick introduction screen for new users to understand the GameMaker IDE layout more quickly and learn where to find common controls, plus how to open the manual
+    - The first time that you open any project in this release you will see the new tab in your workspace area
+    - Once you have seen it the first time, it won't reopen again automatically, so you can close the tab once you're done with the information there
+    - Should you need to open it again, the Welcome Tab can be opened at any time from the Help menu
+    - (Obviously, if you have it open when you close a project it will form part of _that_ project's layout and so will still be there the next time you open that one project, so bear that in mind)
+
+- **Windows**
+    - Re-Added Support For Legacy DXGI_SWAP_EFFECT_DISCARD [#11489](https://github.com/YoYoGames/GameMaker-Bugs/issues/11489)
+    - Windows 11's "optimisations for windowed games" can cause issues for games which use transparency extensions and other graphical tricks
+    - Accordingly, there is now a new Game Option added for enabling the legacy swap chain that GameMaker has used in the past, which will not get these OS optimisations automatically applied
+    - This should allow your extensions to work again as they did in previous GM releases (however, we cannot prevent further changes in Windows itself causing future issues here)
+    - Some machines can see issues when losing focus, which can then cause timing functions to go wrong, so the new `display_set_timing_method(tm_countvsyncs_winalt)` constant and timing method has been added to help mitigate this situation
+    - You can now call this function and set the method early in your game startup and see if this resolves any issues on your player's machine
+    - Using this timing method also fixes "delta_time breaks when the game window loses focus on some machines" [#11562](https://github.com/YoYoGames/GameMaker-Bugs/issues/11562)
+    - Removed Requirement For Windows Media Pack (Where Possible) [#11965](https://github.com/YoYoGames/GameMaker-Bugs/issues/11965)
+    - Windows N users do not have Windows Media Pack installed by default as part of their OS install, but up until now games would not run unless the pack was installed first
+    - YYC builds no longer include this requirement by default (VM still does!)
+    - Instead, YYC only requires it for those which play videos - as it is the video playback functionality which introduced this requirement
+    - Not having a splash screen set in Game Options resulted in a flash of a white screen during load, so this has been fixed now [#12165](https://github.com/YoYoGames/GameMaker-Bugs/issues/12165)
+    - Mouse release status is now correct after pressing via touchscreen [#11464](https://github.com/YoYoGames/GameMaker-Bugs/issues/11464)
+
+- **Windows Exports: ARM64 Device Support**
+    - You can now create games that target ARM64 Windows devices
+    - For Run/Debug, there is no choice you need to make and your game will detect during startup which architecture the target device uses and automatically run the correct runner (i.e. x64 or ARM64)
+    - For Create Exe, there are new choices on the packaging type dialog so that  as well as the existing package types, you can now choose to build an ARM64 Zip or an ARM64 NSIS output file as well
+    - {% include note.html content="You can use Task Manager to see the architecture of the application and confirm that the ARM64 version is being run on your ARM64 device, but this is a hidden column in the _Details_ window, so you need to enable it yourself in Task Manager first" %}
+
+- **Windows IDE Updater Is Now A Package**
+    - Rather than shipping a fixed version of the IDE updater inside the GM installer, GameMaker will now silently download the latest version of the updater when first starting GM after installing it (just like how it gets your runtimes at the moment)
+    - While there is no need to routinely do this in order to get new GM versions in future, be aware the version you have installed _can_ also now be changed inside Package Manager - so, if it is ever required to update the Updater in order to see newer versions of GameMaker are available, you can immediately install the newest updater at that time and then restart GM to check for the IDE/runtime update you need
+
+- **Xbox GDK Now Able To Load UWP Game Saves**
+    - xboxone_set_savedata_uwp_compatibility() enables compatibility with existing UWP save game files - this function must be called before the game performs any savedata-related file operations
+    - Note: this function is only to be used in projects which are updating an already-released UWP title to use GDK instead
+
+- **Xbox GDK Video PlayBack Changes**
+    - Video playback on Xbox has always worked slightly differently to the other consoles. On Xbox videos were always drawn to fill the currently-set surface, whereas on the other consoles a new surface is created, which the video is decoded to, and it's then the game's responsibility to draw that surface to wherever it's required to be displayed
+    - This release changes how Xbox works, so that it matches the other platforms - accordingly, any code you have for video playback on Xbox will need to be reviewed now
+
+- **You can now copy strided data from one buffer to another**
+
+- **“Default Audio Device” Preference Has Been Removed**
+    - The preference to pick a default audio device in GameMaker has been removed
+    - The IDE follows the system’s preference
+    - For more info see [#9256](https://github.com/YoYoGames/GameMaker-Bugs/issues/9256)
+
+<br>
+
+### Crash/Stability Fixes
+
+- Performance: [Mac IDE] No longer leaks memory and mach ports over time, which used to cause system slowdown after a few hours of GM usage [#10524](https://github.com/YoYoGames/GameMaker-Bugs/issues/10524)
+- Performance: G-Sync can cause flickering when using GameMaker [#6515](https://github.com/YoYoGames/GameMaker-Bugs/issues/6515)
+- Performance: GM hangs when closing a large number of editor windows at once in a workspace [#7654](https://github.com/YoYoGames/GameMaker-Bugs/issues/7654)
+- Performance: GM no longer runs slower on LANs which use IPv6 (it did before due to constant networking attempts which failed and wrote to the ui.log) [#12820](https://github.com/YoYoGames/GameMaker-Bugs/issues/12820)
+- Performance: Project lag worse in 2024.8 for some affected users than previous releases showed [#7599](https://github.com/YoYoGames/GameMaker-Bugs/issues/7599)
+- Stability: [Mac IDE] Fixed that RAM usage still slowly increased while editing in a medium-to-large project [#13093](https://github.com/YoYoGames/GameMaker-Bugs/issues/13093)
+- Stability: [Mac IDE] GM no longer crashes after sleeping the Mac, due to `GetBsdNetworkInterfaces()` "An error was encountered while querying information from the operating system." [#13969](https://github.com/YoYoGames/GameMaker-Bugs/issues/13969)
+- Stability: [Mac IDE] GM no longer crashes due to internal error trying to open a window on the wrong thread [#7648](https://github.com/YoYoGames/GameMaker-Bugs/issues/7648)
+- Stability: [Mac IDE] GM no longer crashes during routine usage, likely due to network adapter hiccup [#11590](https://github.com/YoYoGames/GameMaker-Bugs/issues/11590)
+- Stability: [Mac IDE] GM no longer occasionally crashes when triggering any menubar command (Image/Room Editor, Debugger, etc.) on recent macOS versions [#12429](https://github.com/YoYoGames/GameMaker-Bugs/issues/12429)
+- Stability: [Ubuntu and Mac IDEs] GMS2 no longer has a silent exception in `Graphics.VertexBuffer.Destroy()` when closing down
+- Stability: Audio.Cache.PurgeAsync file access no longer crashes when deleting a Sound asset in 2024.14.0 [#12539](https://github.com/YoYoGames/GameMaker-Bugs/issues/12539)
+- Stability: Fixed a crash when Bluetooth headphones temporarily lost connection with laptop (likely a longstanding issue and not limited to 1400 Betas) [#11857](https://github.com/YoYoGames/GameMaker-Bugs/issues/11857)
+- Stability: Fixed a crash while editing sprites [#13419](https://github.com/YoYoGames/GameMaker-Bugs/issues/13419)
+- Stability: Fixed a GM crash while upgrading HotKeys file [#11470](https://github.com/YoYoGames/GameMaker-Bugs/issues/11470)
+- Stability: Fixed that GM errored when filtering Prefabs in the Asset Browser, gave "Collection was modified; enumeration operation may not execute" [#13655](https://github.com/YoYoGames/GameMaker-Bugs/issues/13655)
+- Stability: Fixed that GM keeps crashing with massive lag spikes when dragging IDE windows around on my computer [#13907](https://github.com/YoYoGames/GameMaker-Bugs/issues/13907)
+- Stability: Fixed that GM went unstable when reverting files in git and then reloading project, due to LspClient.ProvideText_DocumentLinks_OnChange error [#14288](https://github.com/YoYoGames/GameMaker-Bugs/issues/14288)
+- Stability: Fixed the build process trying to delete a locked build file could cause a crash [#13321](https://github.com/YoYoGames/GameMaker-Bugs/issues/13321)
+- Stability: GM no longer crashes after installing missing prefab when prompted at the start of a build, then attempting to build again [#13913](https://github.com/YoYoGames/GameMaker-Bugs/issues/13913)
+- Stability: GM no longer crashes due to massive memory usage loading large sprites set with precise collision masks, which can exhaust all resources [#13522](https://github.com/YoYoGames/GameMaker-Bugs/issues/13522)
+- Stability: GM no longer crashes in `Desktop.EndFrame()` / `Scene.SetCurrentClip()` when GM is idling in the background behind another app [#13438](https://github.com/YoYoGames/GameMaker-Bugs/issues/13438)
+- Stability: GM no longer crashes in GUILayout during set_ClipOffsetX when reopening an End Step event [#13163](https://github.com/YoYoGames/GameMaker-Bugs/issues/13163)
+- Stability: GM no longer crashes in set_ClipOffsetX when rapidly closing-and-reopening instance events [#12915](https://github.com/YoYoGames/GameMaker-Bugs/issues/12915)
+- Stability: GM no longer crashes on startup, due to error in `TextEditorManager.FindStyleAttributes()` [#14423](https://github.com/YoYoGames/GameMaker-Bugs/issues/14423)
+- Stability: GM no longer crashes when deleting assets in the Asset Browser after previously reloading a sprite which had invalid data [#13908](https://github.com/YoYoGames/GameMaker-Bugs/issues/13908)
+- Stability: GM no longer crashes when waking up laptop, which previously gave a "The MQTT client is not connected" exception [#13526](https://github.com/YoYoGames/GameMaker-Bugs/issues/13526)
+- Stability: GM no longer goes unstable when reloading files in the filewatcher, after reverting those files in git while they were also open in CE2 [#14288](https://github.com/YoYoGames/GameMaker-Bugs/issues/14288)
+- Stability: GM no longer locks some inputs after installing runtimes from Target Manager if focus was changed to a different IDE window during the install process [#9589](https://github.com/YoYoGames/GameMaker-Bugs/issues/9589)
+- Stability: Large areas of GameMaker flicker white/black in 2024.4.0 on some AMD GPU laptops which use DPI overrides above 100% [#5801](https://github.com/YoYoGames/GameMaker-Bugs/issues/5801)
+- Startup: "Checking Network" stage failing due to SSL errors can block GM from starting and does not show the expected error dialog [#6208](https://github.com/YoYoGames/GameMaker-Bugs/issues/6208)
+- Startup: "Update available" notifications are now in your chosen IDE language, rather than always in English
+- Startup: [Mac IDE] Fix for how system fonts are detected and loaded by GMS2
+- Startup: [Mac IDE] Fixed a GM crash after install if invalid runtime RSS feed values are set in Preferences [#11905](https://github.com/YoYoGames/GameMaker-Bugs/issues/11905)
+- Startup: [Mac IDE] Fixed an issue where GM failed to start on some machines and you got a Mono error saying "Make sure you have correct international codeset assembly installed and enabled"
+- Startup: [Mac IDE] Fixed that macOS assumes arguments on a startup shortcut’s "open" command are always files to load and crashes GMS2 while trying to find them
+- Startup: [Mac IDE] GM no longer crashes due to the Vulcan renderer failing when your project layout asked for multiple windows to be created
+- Startup: [Mac IDE] GM no longer crashes on launch if the IDE language value is set to "Simplified Chinese" [see the mention higher up that the default font has now been changed]
+- Startup: [Mac IDE] GMS2 no longer sometimes shuts down when "Checking Network..." shown on Splash Screen if your Mac is offline at that time
+- Startup: [Mac IDE] Steam IDEs launched on M1 Macs no longer fail to pass Steam params to the login API
+- Startup: [Mac IDE] Windows launched via File > New again show their correct GM icon and product name in the Dock
+- Startup: [Ubuntu IDE] GM 2024.1400.2 no longer fails to load a plugin and enters an endless "restart to open bug reporter" loop [#13055](https://github.com/YoYoGames/GameMaker-Bugs/issues/13055)
+- Startup: [Ubuntu IDE] Runtime Modules dialog no longer has the macOS module disabled in the selection list
+- Startup: [Windows 7] Fixed a crash on startup due to being unable to fall back to Mesa when using certain RDP drivers
+- Startup: [Windows IDE] GMS2 no longer crashes on launch if required manual RSS feed files are locked by another GMS2 instance which is also starting up at the same time (i.e., if you tried to really quickly open multiple copies of GMS2)
+- Startup: Added a new error dialog to advise times when GM's default layout XML has become corrupted and so a reinstall of GM is required [#13511](https://github.com/YoYoGames/GameMaker-Bugs/issues/13511)
+- Startup: Changed which gamemaker.io websites GameMaker tries to check in order to confirm it is able to reach the internet [so this will stop silent errors in your ui.log each run - also, if you do firewall GM and only allow access to a limited set of our own websites, then this might also fix issues with GM thinking it’s offline]
+- Startup: FFmpeg crash due to trying to close an already completed thread [#7657](https://github.com/YoYoGames/GameMaker-Bugs/issues/7657)
+- Startup: Fixed a GM unstable when a computer wakes up from sleep, due to an MQTT error in the ui.log
+- Startup: Fixed a silent exception which wrote out the ui.log because a NetworkProxy was being incorrectly sent an empty string
+- Startup: Fixed an incorrect check meant that the ui.log said every startup that several _dnd localisations were bad
+- Startup: Fixed an issue only in 2022.11 where GameMaker did starts up for the first time using your chosen language if you had selected either Brazilian Portuguese or Chinese during the installer
+- Startup: Fixed that after updating to new versions of GM you language preferences were sometimes not retained if you were logging-in using SSO (or perhaps you would momentarily see the wrong language and then it would fix itself when you reached the Start Page)
+- Startup: Fixed that failing to find any runtime feed showed two error dialogs and also duplicated the error dialog string as part of the splash screen
+- Startup: Fixed that GM could crash immediately after showing the splash screen if you were using a DPI override between 300-500%
+- Startup: Fixed that some users were unable to download runtimes due to error "System.IO.IOException: The response ended prematurely..." [this was written into the ui.log only]
+- Startup: Fixed that the runtime installation warning dialog about limited space was missing all of its strings in 2023.4
+- Startup: Fixed the missing string for "UserLogin_NoRuntime" on the dialog shown when unable to find a runtime in a stale cached copy of the runtime feed you had downloaded previously/access the runtime feed to download the current contents
+- Startup: GameMaker now uses same initial language as you chose in the installer when Brazilian Portuguese or Chinese was used
+- Startup: GM no longer crashes on the splash screen if using a machine_settings.json file to auto-logout the user on each startup
+- Startup: GM no longer shows an error dialog for each internal prefab that fails to load, instead it will now collate these prefab dialogs into one list and also give more information on how to fix [#13696](https://github.com/YoYoGames/GameMaker-Bugs/issues/13696)
+- Startup: GM no longer shows an unstable dialog due to MQTTnet.Internal.MqttTaskTimeout.WaitAsync exceptions which would also appear in your ui.log
+- Startup: GM now better handles the situation where both the font set in the skin and Preference's default IDE font cannot be loaded on a machine for some reason- will give proper information that this issue has occurred
+- Startup: GM unstable due to MQTTnet.Internal.MqttTaskTimeout.WaitAsync exception [#1648](https://github.com/YoYoGames/GameMaker-Bugs/issues/1648)
+- Startup: GMS2 no longer crashes on receiving http error "(417) Expectation Failed." from a proxy server stopping a user from logging-in (you will still need to resolve your proxy server issue, but this fix means GMS2 remains stable and tells you about the problem)
+- Startup: Increased the new splash screen’s size to be better proportioned when using a large monitor (e.g., it was previously very small on a 4K screen)
+- Startup: Logging in using SSO no longer causes a harmless machine.General Settings.Environment.Environment error to be written in the ui.log
+- Startup: MQTT "The profile for the user is a temporary profile" exceptions cause GM to never reach the Start Page [#948](https://github.com/YoYoGames/GameMaker-Bugs/issues/948)
+- Startup: Non-Steam IDEs no longer log a redundant error each startup that the Steam library was not found
+- Startup: Setting the DPI override to a large percentage no longer causes the DPI to be maxed-out or stops the override notification message appearing
+- Startup: Steam IDEs will no longer prompt users to download non-Steam installers [Of course, you’re welcome to keep using the non-Steam version also, but the Steam version will no longer offer the “wrong” download if there is a delay in us releasing a new version on Steam]
+- Startup: Steam versions will no longer crash on the splash screen for some users and give "System.Xml.XmlException: Data at the root level is invalid. Line 1, position 1." in your ui.log file (note that the crash came because your licence could not be determined, so if this crash affected you before you will now get a message asking you to please check your internet and Steam account settings are all okay)
+- Startup: Stopped recreating GMS2’s default "Paths" folders before checking if the values have been customised by you in Preferences already
+- Startup: ui.log no longer indicates (incorrectly) that the Windows/Ubuntu IDEs were attempting to load a Mac IDE keymaps file every startup
+
+<br>
+
+### IDE Bugs Fixed
+
+- AnimCurve Editor: "Toggle Visibility" button’s highlight is now fixed
+- AnimCurve Editor: Changing curves when the Prefab Library is also open in the dock no longer causes lag [#11551](https://github.com/YoYoGames/GameMaker-Bugs/issues/11551)
+- AnimCurve Editor: Ctrl+Mousewheel now zooms to a point centered on the mouse pointer
+- AnimCurve Editor: Fixed "Show Help" button opened the manual at its home page [#12446](https://github.com/YoYoGames/GameMaker-Bugs/issues/12446)
+- AnimCurve Editor: Fixed that GM went unstable after copying/pasting curve values between tracks in a shared animcurve [#12720](https://github.com/YoYoGames/GameMaker-Bugs/issues/12720)
+- AnimCurve Editor: Fixed the anim curve library to no longer display a grey overlay on any presets section that overlaps into the type section [#12341](https://github.com/YoYoGames/GameMaker-Bugs/issues/12341)
+- AnimCurve Editor: Some labels were not localised and always used English, now they will use your chosen IDE language
+- AnimCurve Editor: The first point in your curve is now correctly affected by undo (all the other points where already working correctly in 2.3.7) and we also fixed that attempting an Undo in the curve editor could cause rendering issues
+- AnimCurve Editor: You can now duplicate a channel via the context menu and via hotkey
+- Asset Browser: [Create Asset Window] Toggling between List/Grid view did not reliably affect future instances of the window, but now the setting will persist
+- Asset Browser: [Mac IDE] GMS2 no longer goes unstable when canceling the conversion of a 2.2.5 project which contains an asset you are currently performing Add Existing on
+- Asset Browser: [Ubuntu IDE] GM no longer crashes when renaming an asset to an invalid name if the current OS doesn't support a system beep
+- Asset Browser: [Windows IDE] Fixed various issues which contributed to flickering images when scrolling the browser panel
+- Asset Browser: Changing only capitalisation in a group's name no longer gives a false "Invalid name ... " warning [#11809](https://github.com/YoYoGames/GameMaker-Bugs/issues/11809)
+- Asset Browser: Creating assets via hotkey immediately after deleting a folder now safely adds the new asset into the asset browser root level (which also stops an error on reloading that project later)
+- Asset Browser: Fixed an issue where GM could go unstable when renaming an object, which might fix a number of hard-to-recreate rename-then-Undo issues which have been reported in the past
+- Asset Browser: Fixed cases where preview icons sometimes appear empty or show the red X until some other action triggers a refresh (or gets stuck that that way for a while on some machines)
+- Asset Browser: Fixed CE2 renaming objects failing to rename the object correctly if there are unsaved changes [#12463](https://github.com/YoYoGames/GameMaker-Bugs/issues/12463)
+- Asset Browser: Fixed that GM could crash when duplicating any sprite asset if the project happened to contain a script asset called specifically "Sprites"
+- Asset Browser: Fixed that indentation of the tree was far too large in 2024.14 at some DPI levels/on some displays [#12354](https://github.com/YoYoGames/GameMaker-Bugs/issues/12354)
+- Asset Browser: Fixed that no icon was shown for SVG sprites on initial import [#13700](https://github.com/YoYoGames/GameMaker-Bugs/issues/13700)
+- Asset Browser: Fixed that preview images for Sprites were not updated when using the Image Editor in 2024.1400.4 Betas [#14044](https://github.com/YoYoGames/GameMaker-Bugs/issues/14044)
+- Asset Browser: Fixed that SVG images have a white background in their thumbnails [#13128](https://github.com/YoYoGames/GameMaker-Bugs/issues/13128)
+- Asset Browser: GM no longer crashes when duplicating a Sprite attempts to set the new bounding box [#13324](https://github.com/YoYoGames/GameMaker-Bugs/issues/13324)
+- Asset Browser: Now immediately shows new assets when the Prefab Library "Duplicate to project" operation needed to create a new group [#8566](https://github.com/YoYoGames/GameMaker-Bugs/issues/8566)
+- Asset Browser: Now immediately shows the expected new assets even if Prefab Library "Duplicate to project" operation or "Add Existing" needed to create a new group to put those assets in [#8566](https://github.com/YoYoGames/GameMaker-Bugs/issues/8566) / [#9522](https://github.com/YoYoGames/GameMaker-Bugs/issues/9522)
+- Asset Browser: Objects with a sprite referenced from a prefab item now display the sprite [#8342](https://github.com/YoYoGames/GameMaker-Bugs/issues/8342)
+- Asset Browser: Resolved that a Sprite preview icon did not refresh for further edits after duplicating/renaming [#12906](https://github.com/YoYoGames/GameMaker-Bugs/issues/12906)
+- Asset Browser: Room Manager "Collapse All" context menu command does not work unless you clicked in empty space
+- Asset Browser: Tags were not shown at the bottom of the asset browser [#11038](https://github.com/YoYoGames/GameMaker-Bugs/issues/11038)
+- Asset Browser: You are now able to delete multiple Tags at once in Quick Access
+- Audio/Texture Groups Editors: Fixed that the incremental numbering scheme suddenly changed when reaching 20 [#12724](https://github.com/YoYoGames/GameMaker-Bugs/issues/12724)
+- Bookmarks: Fixed a GM crash when closing a window which stores a bookmark if Recent Windows and CE2 are both enabled [#9786](https://github.com/YoYoGames/GameMaker-Bugs/issues/9786)
+- Bookmarks: Texture/Audio Groups editors now show when they have been bookmarked [the bookmarking always worked, but the UI never showed it]
+- Bug Reporter: "Privately attach this project" has been reworded to again state all files are uploaded privately [#8173](https://github.com/YoYoGames/GameMaker-Bugs/issues/8173)
+- Bug Reporter: Added a warning when submitting a bug if you would be posting anonymously because your token has expired, now the bug reporter offers the chance to sign-in again first [#14028](https://github.com/YoYoGames/GameMaker-Bugs/issues/14028)
+- Bug Reporter: Exception when submitting a bug report for sounds not loading in 2024.14.0 [#12598](https://github.com/YoYoGames/GameMaker-Bugs/issues/12598)
+- Bug Reporter: Fixed that pasting-in text copied from external sources sometimes pastes the wrong text [#13332](https://github.com/YoYoGames/GameMaker-Bugs/issues/13332)
+- Bug Reporter: Fixed that reporting a bug while on the Start Page resulted in an Output window covering the success dialog [#12925](https://github.com/YoYoGames/GameMaker-Bugs/issues/12925)
+- Code Editor (Visual): "Do Effect" node's alpha option was redundant and so has been removed
+- Code Editor (Visual): [Mac IDE] "Execute Code" node does not work in 2023.8.0 [#1628](https://github.com/YoYoGames/GameMaker-Bugs/issues/1628)
+- Code Editor (Visual): Added a "Time" field to the "Set Audio Volume" node
+- Code Editor (Visual): Added nodes for the Get/Set/Use Rollback Player Preferences functions recently added for GML in Beta releases
+- Code Editor (Visual): Autocomplete text is now applied to the node value when pressing Enter key
+- Code Editor (Visual): Fixed that dot notation was not allowed in variable name fields in 2024.14.2.212 [#13260](https://github.com/YoYoGames/GameMaker-Bugs/issues/13260)
+- Code Editor (Visual): Fixed that opening any project gave infinite Toolbox windows, after opening an old project which triggers this layout issue [#13570](https://github.com/YoYoGames/GameMaker-Bugs/issues/13570)
+- Code Editor (Visual): Fixed that the node for "If Key Pressed (Rollback)" converted to Code didn't do anything, because it never had code beyond creating and setting a temp variable to hold the key input state
+- Code Editor (Visual): Hotkey for Pan is no longer displayed incorrectly
+- Code Editor (Visual): In multicolumn layouts, using the arrow keys no longer affects all columns at the same time
+- Code Editor (Visual): Increasing DPI settings in Preferences no longer causes some node icons to glitch
+- Code Editor (Visual): Move and Collide node's Tab index order is now correct
+- Code Editor (Visual): Re-applied an earlier fix for Move And Collide node's default values to ensure they permit movement and don’t require you to fix manually
+- Code Editor (Visual): Rollback node icons no longer all use the one "dice" image [see the Rollback section higher up for more]
+- Code Editor (Visual): Search & Replace no longer fails to Find All if you pass in a GML Code string (and so in previous releases you had to repeat the search to find more matches) [see the explanation higher up]
+- Code Editor (Visual): Tabs are no longer automatically removed from comments
+- Code Editor (Visual): Typing "x" and "y" in an instance's creation code editor will no longer also modify its Flip X/Y values in the room
+    - Note that there were actual several ways in which Room Editor commands could be accidentally triggered when typing in GML Visual editors which were open over the top of the room, and the fix above should resolve all of them
+- Code Editor (Visual): Undo and Redo menubar items and hotkeys now work correctly after making changes to DnD nodes
+- Code Editor (Visual): Using arrow keys whilst typing a comment incorrectly no longer switches the focus to a different node, will instead just move the caret as you would expect
+- Code Editor 1 and 2: Inherited code from a prefab which has not been copied to the project is now highlighted properly [#10857](https://github.com/YoYoGames/GameMaker-Bugs/issues/10857)
+- Code Editor 1 and 2: Resolved inherited code from a prefab which has not been copied to the project did not get highlighted properly [#10857](https://github.com/YoYoGames/GameMaker-Bugs/issues/10857)
+- Code Editor 1: "GoTo Line" dialog no longer accepts numpad Enter key as confirmation in 2024.13 [#10304](https://github.com/YoYoGames/GameMaker-Bugs/issues/10304)
+- Code Editor 1: Fixed that `layer_type_...` constants were not coloured as in-built constants [#14643](https://github.com/YoYoGames/GameMaker-Bugs/issues/14643)
+- Code Editor 1: Fixed that renaming a Note asset will make it not able to save any changes thereafter [#13189](https://github.com/YoYoGames/GameMaker-Bugs/issues/13189)
+- Code Editor 1: Now prioritises existing code workspaces when reopening a Script in the Asset Browser, rather than opening a chained window [#9247](https://github.com/YoYoGames/GameMaker-Bugs/issues/9247)
+- Code Editor 1: Resolved "Keep tabs"  Preference not properly updating to the correct value after logging-in [#12968](https://github.com/YoYoGames/GameMaker-Bugs/issues/12968)
+- Code Editor 1: Resolved various `flexpanel_....` constants did not exist in fnames, so were not highlighted [#7077](https://github.com/YoYoGames/GameMaker-Bugs/issues/7077)
+- Code Editor 2 (Visual): GM no longer crashes when copy/pasting actions and code from one event to another [#14095](https://github.com/YoYoGames/GameMaker-Bugs/issues/14095)
+- Code Editor 2 (Visual): Resolved 2024.14.1 not saving changes to events [#12875](https://github.com/YoYoGames/GameMaker-Bugs/issues/12875)
+- Code Editor 2 (Visual): Using undo on the chain no longer breaks the ability to save/commit changes to code nodes thereafter [#12825](https://github.com/YoYoGames/GameMaker-Bugs/issues/12825)
+- Code Editor 2: [Chinese lang] Fixed that Feather/Diagnostics contains many "string not found" for various messages [#11626](https://github.com/YoYoGames/GameMaker-Bugs/issues/11626)
+- Code Editor 2: Addressed selecting and deleting a large amount of code at once causing visual glitches [#12372](https://github.com/YoYoGames/GameMaker-Bugs/issues/12372)
+- Code Editor 2: Alt-select copy/paste no longer pastes the code upside-down [#12770](https://github.com/YoYoGames/GameMaker-Bugs/issues/12770)
+- Code Editor 2: Fixed a language server error when opening attached project in 2024.14.4 [#14047](https://github.com/YoYoGames/GameMaker-Bugs/issues/14047)
+- Code Editor 2: Fixed event names in the Navigation Bar disappearing even though it is not obscured by other UI elements [#12787](https://github.com/YoYoGames/GameMaker-Bugs/issues/12787)
+- Code Editor 2: Fixed local variables in certain objects losing their colour when typing anything [#12079](https://github.com/YoYoGames/GameMaker-Bugs/issues/12079)
+- Code Editor 2: Fixed that after previewing a prefab Object's code as read-only, opening a non-prefab Object will incorrectly keep the read-only label [#12794](https://github.com/YoYoGames/GameMaker-Bugs/issues/12794)
+- Code Editor 2: Fixed that all variables inside `with()` statements on Objects were coloured grey [#12769](https://github.com/YoYoGames/GameMaker-Bugs/issues/12769)
+- Code Editor 2: Fixed that asset names were being coloured grey instead of red in 2024.14.1 [#12767](https://github.com/YoYoGames/GameMaker-Bugs/issues/12767)
+- Code Editor 2: Fixed that bookmark hotkeys were not working reliably when project layout contains previously-opened editors or when re-using an existing bookmark [#13931](https://github.com/YoYoGames/GameMaker-Bugs/issues/13931)
+- Code Editor 2: Fixed that code colours could fail to load and instead logged an error in the ui.log file [#13076](https://github.com/YoYoGames/GameMaker-Bugs/issues/13076)
+- Code Editor 2: Fixed that creating a series of other assets and then a custom-named Script made that Script not able to be saved [#14510](https://github.com/YoYoGames/GameMaker-Bugs/issues/14510)
+- Code Editor 2: Fixed that Find and Replace's "selection only" checkbox was not working properly when using the "Replace All" option [#14586](https://github.com/YoYoGames/GameMaker-Bugs/issues/14586)
+- Code Editor 2: Fixed that global built-in variables were not coloured in the script editor [#13936](https://github.com/YoYoGames/GameMaker-Bugs/issues/13936)
+- Code Editor 2: Fixed that GML Visual script unsaved changes were not saved on closing the document [#12454](https://github.com/YoYoGames/GameMaker-Bugs/issues/12454)
+- Code Editor 2: Fixed that importing a local package which contains a UI layer made all imported objects have no LSP functionality [#12390](https://github.com/YoYoGames/GameMaker-Bugs/issues/12390)
+- Code Editor 2: Fixed that macros were not colour-coded when used in local function declarations in structs [#13063](https://github.com/YoYoGames/GameMaker-Bugs/issues/13063)
+- Code Editor 2: Fixed that renaming a Script which has the same name as a constructor in that script could cause the constructor's contents to be lost on project reopen [#14505](https://github.com/YoYoGames/GameMaker-Bugs/issues/14505)
+- Code Editor 2: Fixed that renaming a shader made it not able to save changes thereafter [#12806](https://github.com/YoYoGames/GameMaker-Bugs/issues/12806)
+- Code Editor 2: Fixed that Room Creation Code colour-coding and autocomplete stop working when renaming that room while CE2 is open [#12455](https://github.com/YoYoGames/GameMaker-Bugs/issues/12455)
+- Code Editor 2: Fixed that scripts sometimes refused to save after renaming them [#13492](https://github.com/YoYoGames/GameMaker-Bugs/issues/13492)
+- Code Editor 2: Fixed that the "Find and Replace" dialog could go unresponsive [#12052](https://github.com/YoYoGames/GameMaker-Bugs/issues/12052)
+- Code Editor 2: Fixed that using "Change Event" in the Inspector led to data loss, as the editor did not save changes thereafter [#13972](https://github.com/YoYoGames/GameMaker-Bugs/issues/13972)
+- Code Editor 2: Fixed the scrollbar to not take keyboard focus [#11609](https://github.com/YoYoGames/GameMaker-Bugs/issues/11609)
+- Code Editor 2: GM no longer crashes when editing a Mouse Left Release event and autocomplete tried to appear [#11975](https://github.com/YoYoGames/GameMaker-Bugs/issues/11975)
+- Code Editor 2: LSP no longer fails to load when importing/opening a project that contains a Prefab collection which you have not already installed [#11262](https://github.com/YoYoGames/GameMaker-Bugs/issues/11262)
+- Code Editor 2: No longer causes massive lag when typing anywhere in the IDE after going AFK and then returning [#7203](https://github.com/YoYoGames/GameMaker-Bugs/issues/7203)
+- Code Editor 2: Omitting the parameter type in a function's JSDoc no longer uses the wrong colours on param name and description [#12436](https://github.com/YoYoGames/GameMaker-Bugs/issues/12436)
+- Code Editor 2: One-line `if()` statements no longer cause unwanted indentation in "Full" Auto-Indent Mode [#12783](https://github.com/YoYoGames/GameMaker-Bugs/issues/12783)
+- Code Editor 2: Regions containing "/*" and "*/" lines now fold everything up to the `#endregion` correctly, rather than only up to the "*/" line [#12321](https://github.com/YoYoGames/GameMaker-Bugs/issues/12321)
+- Code Editor 2: Resolved GML extension files did not save their edits [#12972](https://github.com/YoYoGames/GameMaker-Bugs/issues/12972)
+- Code Editor 2: Resolved that Alt-select copy/paste incorrectly does the paste as one item with newlines, rather than pasting into each destination line [#6999](https://github.com/YoYoGames/GameMaker-Bugs/issues/6999)
+- Code Editor 2: The minimap now fully updates when a bunch of code is pasted into the IDE [#12284](https://github.com/YoYoGames/GameMaker-Bugs/issues/12284)
+- Code Editor 2: Typing a closing brace when using "keep" auto-indent mode no longer deletes all tabs behind the brace [#12563](https://github.com/YoYoGames/GameMaker-Bugs/issues/12563)
+- Code Editor 2: Typing a struct literal inside a multi-line array definition will no longer incorrectly remove any indentation on the first line [#11699](https://github.com/YoYoGames/GameMaker-Bugs/issues/11699)
+- Code Editor 2: Using "change event" no longer makes all unsaved changes to that event unable to be saved [#12423](https://github.com/YoYoGames/GameMaker-Bugs/issues/12423)
+- Code Editor:  "#define" keyword is now coloured correctly
+- Code Editor: #endregion is now coloured correctly again
+- Code Editor: '.text' struct variable in a text track array is now coloured correctly as an in-built rather than as if a custom variable
+- Code Editor: 'Shift' override now works correctly when NumLock is on
+- Code Editor: [Light Skin] Status bar errors have been given more contrast between the black text and the dark red highlight
+- Code Editor: [Mac IDE] Caret no longer snaps to previous line when attempting to type on a new line using the Japanese IME
+- Code Editor: [Mac IDE] Characters are now replaced correctly when using the native macOS IME
+- Code Editor: [Mac/Ubu IDE] Keyboard shortcuts now work reliably when using specific non-Roman language keyboard layouts [#953](https://github.com/YoYoGames/GameMaker-Bugs/issues/953)
+- Code Editor: [Windows IDE] Win+V dialog now pastes successfully from the clipboard
+- Code Editor: `angle_difference()` auto-complete shows its argument descriptions in the correct order now
+- Code Editor: `audio_effect_create()` calling AudioEffectType.Tremolo no longer always returns an error (the content of which differed in 2023.2 depending which of Feather/Syntax Errors was enabled)
+- Code Editor: `layer_tilemap_get/set_colmask()` added in 2024.14 are now coloured correctly [#12326](https://github.com/YoYoGames/GameMaker-Bugs/issues/12326)
+- Code Editor: `network_send_raw()` no longer says all 4 arguments are mandatory and gives a syntax error, now it knows the last one is optional
+- Code Editor: `network_send_raw()`, `skeleton_animation_set()` and `skeleton_animation_set_ext()` all now correctly have their final argument marked as optional in autocomplete
+- Code Editor: Breakpoint click area has been restored back to its original full size
+- Code Editor: Calling an inherited constructor which has optional args no longer throws an error if you try to call it via ,, to skip an arg
+- Code Editor: Calling an inherited constructor which has optional args will throw error if you try to call it via ,, to skip an arg
+- Code Editor: Code such as "var0 = var1!=0+var2!=0" no longer causes local variables further down in that code file to not have their correct colour
+- Code Editor: Converting a Visual script containing a disabled node to Code no longer makes that node disappear
+- Code Editor: Ctrl+Tab to switch to fullscreen code editor tabs does not also activate the caret inside the editor
+- Code Editor: Ctrl+Tab to switch to fullscreen code editor tabs now also activates the caret inside the editor, so you can now start typing immediately
+- Code Editor: Deprecated the constants for unsupported devices "os_uwp", "os_psvita", "os_ps3", "os_win8native", "os_winphone", "os_xboxone" [#9192](https://github.com/YoYoGames/GameMaker-Bugs/issues/9192)
+- Code Editor: Fixed a redundant error from being shown when using asset IDs as arguments in inherited constructors
+- Code Editor: Fixed clicking MMB on a function again so it scrolls the new Code Editor window down to place its declaration line at the top of the visible area
+- Code Editor: Fixed that string templates containing Structs gave an unexpected syntax highlighting error [#14098](https://github.com/YoYoGames/GameMaker-Bugs/issues/14098)
+- Code Editor: Fixed that text was not selected when pressing Shift+Home in Ctrl+F search tool [#13361](https://github.com/YoYoGames/GameMaker-Bugs/issues/13361)
+- Code Editor: Fixed that using Ctrl+X on the first line would incorrectly remove everything but the last line
+- Code Editor: Fixed various bugs with Non-Microsoft IMEs not giving the expected results when typing [as mentioned above already]
+- Code Editor: Footer no longer shows red after updating to a new GM version if a code editor was already open in your 2022.3 project layout
+- Code Editor: IME windows do not open at the cursor position, always to the bottom-left of the whole screen
+- Code Editor: Opening an Object from Recent Windows now maintains the previous Object layout [#11252](https://github.com/YoYoGames/GameMaker-Bugs/issues/11252)
+- Code Editor: Renaming assets in the Asset Browser when a Code Editor is open will also add an unwanted newline
+- Code Editor: Rollback variables "player_id" and "player_local" are now coloured as built-in variables
+- Code Editor: Shaders now colour the whole words for #else and #endif
+- Code Editor: Status bar helper text now only highlights the current argument you’re editing, not all of the arguments to the left as well
+- Code Editor: Tab names now have the correct letter casing, rather than always only lowercase letters
+- Code Editor: Unsaved changes asterisk indicator on script tabs no longer incorrectly returns if the GMS2 window loses focus shortly after a save operation
+- Code Editor: When creating a script and renaming it in the Asset Browser to include mixed case names, the matching name of the function inside that script no longer only uses lower cases [We are aware the tab name in the middle is still lowercase just now]
+- Config Editor: Deleting a parent config now warns you that all of its children will be deleted as well
+- Config Editor: No longer possible to open multiple editors at once, which could lead to incorrect values being saved in previous releases
+- Crash Reporter: Fixed various project-building issues which caused the crash reporter to be triggered on next startup, when there's no record of a crash in the log and you were likely unaware of any issues with the previous run
+- Device Manager: "Detect Browsers" again detects Microsoft Edge
+- Device Manager: [HTML5] Now able to detect new versions of Opera GX [#9106](https://github.com/YoYoGames/GameMaker-Bugs/issues/9106)
+- Device Manager: [iOS] Fixed that "String not found" was shown for all disconnected devices [#12831](https://github.com/YoYoGames/GameMaker-Bugs/issues/12831)
+- Device Manager: [iOS] Fixed that GM did not see attached physical devices in some cases if using macOS 26 + XCode 26 [#12635](https://github.com/YoYoGames/GameMaker-Bugs/issues/12635)
+- Device Manager: [Mac IDE] "Launch Simulator" for iOS and tvOS now launch the correct matching simulator every time, rather just asking Xcode to launch the last simulator used and therefore possibly being the wrong one for the platform being built that time
+- Device Manager: [Mac IDE] Ubuntu hostname values are now automatically trimmed of any accidental whitespace at either end of the string, which stops "Hostname not valid" error when testing the connection to your newly-added device
+- Device Manager: [Switch] Fixed that "Test Connection" for a blank hostname always claimed it was successful because GameMaker attempted a check for USB-only EDEVs, but that check itself also required a fix - now, it the field is blank and no EDEV can be found on a USB port, then you get be the expected fail result
+- Device Manager: [tvOS] Fixed that physical devices are not detected on some Macs [#12030](https://github.com/YoYoGames/GameMaker-Bugs/issues/12030)
+- Device Manager: [Ubuntu IDE] "Detect Browsers" now detects the major browsers if they are installed [the same list the Windows and Mac IDEs will detect]
+- Device Manager: GM no longer goes unstable when adding a new Ubuntu device which duplicates an existing device's Display Name
+- Docs Integration: "2022.100." Beta IDEs always point to the Stable manual
+- Docs Integration: [Mac IDE] GM no longer crashes when failing to download the manual .zip due to antivirus/OS permissions blocking the file write [#7540](https://github.com/YoYoGames/GameMaker-Bugs/issues/7540)
+- Docs Integration: _Help > Required SDKs_ menu option now uses HTTPS protocol and goes directly to the correct new address (and so Firefox no longer fails to load the page) [#8536](https://github.com/YoYoGames/GameMaker-Bugs/issues/8536)
+- Docs Integration: `particle_get_info()` and `part_system_get_info()` now respond to MMB to open the manual [#13982](https://github.com/YoYoGames/GameMaker-Bugs/issues/13982)
+- Docs Integration: F1/MMB on a function name again opens the correct page (rather than just opening the manual's home page as it did in 2022.6.1)
+- Docs Integration: Fixed that only the English manual is available to select in all 500 Betas and specifically 2022.3.0.625
+- Docs Integration: FIxed that the Help menu "Knowledge Base" link incorrectly opened a old subcategory page, rather than the actual main landing page
+- Docs Integration: IT/JP/PO/KR now open their own translated manual when using online versions, rather than always opening English
+- Docs Integration: MMB/F1 on functions in 2023.8.0 just opens the online manual's home page [#1649](https://github.com/YoYoGames/GameMaker-Bugs/issues/1649)
+- Docs Integration: Opening the manual will now always default to opening the English copy if the current Preferences language does not actually have a manual (yet), rather than picking some unexpected other language
+- Docs Integration: skeleton_animation_get/`set_frame()` no longer open the manual pages for ..._get/`set_position()`, and those ...`position()` functions not open anything [#12289](https://github.com/YoYoGames/GameMaker-Bugs/issues/12289)
+- Docs Integration: The IDE is back to using the correct manual build's tags file when opening pages in the online manual [#14344](https://github.com/YoYoGames/GameMaker-Bugs/issues/14344)
+- Docs Integration: Visual nodes for Time Sources now have their manual tags, so F1 will open the correct specific manual page
+- Extension Editor: [FR] The translated version of "Uncompress on build" now fits in the space available
+- Extension Editor: Having more than one tag in iOS/Android injection code no longer shows a false error message [#7604](https://github.com/YoYoGames/GameMaker-Bugs/issues/7604) / Extension Editor: Fixed false warnings when using namespaced tags in Android code injection text [#7677](https://github.com/YoYoGames/GameMaker-Bugs/issues/7677)
+- Extension Editor: Options are now preserved when importing a different version of that extension [#7634](https://github.com/YoYoGames/GameMaker-Bugs/issues/7634)
+- Feather: "AudioEffectType" and "AudioLFOType" enums are now shown in the autocomplete list
+- Feather: "Delete" keyword no longer incorrectly shows error GM1052 on variables containing structs
+- Feather: "delete" now correctly flags GM1052 when called on constructor functions created by "new", which helps prevent unexpected in-game code errors
+- Feather: "GB/US English" Preference setting is now respected in the code editor's autocomplete
+- Feather: "id" in-built variable is no longer treated as read-only when assigned-to inside structs (e.g. "self.id = 1;"), which lead to incorrect GM1008 and GM1052 errors being raised in previous versions
+- Feather: "player_id" and all other rollback multiplayer variables no longer cause unexpected Error GM1013 messages
+- Feather: "Variable Length Arguments" checkbox values in GML extension are now respected
+- Feather: "with" loops can now recognise arbitrary expressions
+- Feather: @ignore now works for global variables
+- Feather: `array_pop()` tooltip now shows its correct description
+- Feather: `audio_create_buffer_sound()`'s return type is  now the correct "Asset.GMSound"
+- Feather: `audio_group_load()` argument type is now correct, so no longer gives unexpected GM1041 messages
+- Feather: `buffer_sizeof()` is no longer treated as if it returns "undefined"
+- Feather: `display_set_gui_maximize()` now expects the correct number of arguments
+- Feather: `display_set_timing_method()` no longer incorrectly says it takes a string as its argument [#13192](https://github.com/YoYoGames/GameMaker-Bugs/issues/13192)
+- Feather: `ds_map_secure_load_buffer()` now correctly says the argument is of "Buffer" type, rather than "String" as it thought before
+- Feather: `ds_priority_delete_min()` is no longer incorrectly treated as a pure function
+- Feather: `gamepad_get_device_count()` description now shows more content from the manual and so is far more useful
+- Feather: `gml_pragma()` fixed to not show unexpected GM1019 when passing more than 2 arguments for JS optimizations in 2024.14 [#12483](https://github.com/YoYoGames/GameMaker-Bugs/issues/12483)
+- Feather: `gpu_set_tex_...()` functions "sampler_index" argument type is no longer incorrectly treated as Real, now is of the correct type Id.Uniform
+- Feather: `http_request()` is now correctly treated as accepting Id.Buffer or Real types, stops incorrect Error GM1041 messages
+- Feather: `instance_activate_object()` is now correctly treated as accepting Id.Instance types, stops incorrect Warning GM1044 messages
+- Feather: `instance_deactivate_object(objectName)` no longer gives an unexpected Warning GM1044
+- Feather: `layer_enable_fx()` second argument is no longer incorrectly always treated as "undefined"
+- Feather: `layer_get_all()` is now treated as returning “`Array(Id.Layer)`” instead of just “Array”
+- Feather: `make_color_hsv()` tooltip now correctly maps the preview value from 0-255 [#13642](https://github.com/YoYoGames/GameMaker-Bugs/issues/13642)
+- Feather: `network_destroy()` is now correctly treated as accepting Id.Socket types, stops incorrect Error GM1041 messages
+- Feather: `network_send_raw()`’s information has now been updated to match that this function allows 4 arguments
+- Feather: `os_check_permission()` no longer shows an incorrect return type
+- Feather: `script_exists()` no longer always show incorrect Warning GM1029 messages
+- Feather: `skeleton_attachment_exists()` and `skeleton_attachment_replace_colour()` are now highlighted properly and are no longer missing some of their  tooltip info
+- Feather: `sprite_set_speed()` using spritespeed_framespersecond constant no longer gives an unexpected GM1044 message because Feather was expecting the wrong SpriteSpeed value
+- Feather: `time_source_...()` functions now allow Constant.TimeSource as a valid arg type for all applicable functions
+- Feather: `time_source_get_state()` no longer produces unexpected and incomplete warning messages about Type promotion
+- Feather: `time_source_get_state()` no longer shows an incorrect and incomplete warning message about unexpected Type promotion
+- Feather: A function declared inside another function no longer incorrectly uses the Instance Variable naming rule
+- Feather: Added @self as an alias to @context (which allows you to explicitly specify the object that a function's self is bound to)
+- Feather: Added light skin support for Feather’s dock tab
+- Feather: Adding an array into a map no longer shows an incorrect error ("The type 'Array' appears where the type 'Id.DsMap' is expected")
+- Feather: Addressed restoring default Message Severity settings in Preferences causing a loop of "analysing" the attached project [#12920](https://github.com/YoYoGames/GameMaker-Bugs/issues/12920)
+- Feather: Anonymous functions assigned inside anonymous structs no longer show unexpected type-reassignment warning and now return the expected type of "Struct"
+- Feather: Anonymous functions declared in another function's parameter initialisation are now found correctly whenever referenced elsewhere in your code
+- Feather: arg[0]() is no longer incorrectly treated inside functions as type "Function" instead of "Array"
+- Feather: argument[i] is no longer incorrectly treated inside functions as "Real" rather than "Array"
+- Feather: ArgumentIdentity variables passed to functions now promote their types from the parameter type
+- Feather: Auto-complete list ordering now elevates recently-used matching identifiers to the top of the list, so you can pick them again more quickly
+- Feather: Auto-complete now displays the correct Instance Variables when used inside a function declared in an Object event
+- Feather: Auto-complete now shows member variables for instances when called using the format “inst_NNNN.”
+- Feather: Auto-complete now works for 'id'
+- Feather: Auto-complete now works for enum members
+- Feather: Auto-complete now works for the dot operator after collection indexing (e.g. myArray[0].x, myList[| 0]., etc)
+- Feather: Auto-complete now works for the dot operator after function calls (e.g. `randomPosition()`.x)
+- Feather: Auto-complete now works reliably when inside constructor functions
+- Feather: Auto-complete now works with macros
+- Feather: Auto-complete suggestions are now shown for variables inside functions when using globalvar
+- Feather: Autocomplete is now much better at showing all matching results when typing a partial word if that term also comes after a special character in the result name (e.g., "lis" in "ds_list_create" would not work in previous releases) - note, however, that Feather is cleverer than the old Syntax Errors and so may legitimately/deliberately not show you as many results, but this is because it has ignored unwanted matches
+- Feather: Autocomplete window now appears when typing in the Visual editor or Inspector
+- Feather: Autocompletion windows no longer disappear/flicker when typing long identifiers near the end of a file
+- Feather: Calling "`draw_set_colour(c_white)`;" no longer gives an incorrect GM2062 error
+- Feather: Can now specify enum types for parameters in JSDoc
+- Feather: Can now “new” a constructor function via dot dereference (e.g. new `foo.bar()`)
+- Feather: Chained array indexer and data structure accessor expressions no longer lose track of the  underlying element type
+- Feather: Code errors for wrong argument number on in-built functions are now shown again [#13371](https://github.com/YoYoGames/GameMaker-Bugs/issues/13371)
+- Feather: Collection Type dereference without a known element type now returns the expected 'any*' rather than 'undefined'
+- Feather: Comparing "shader_current" to -1 is now correctly allowed
+- Feather: Console functions are now shown in autocomplete
+- Feather: Console functions now all have the correct documentation and types in their tooltips and should be handled correctly
+- Feather: Constructor structs are now recognised as type "Struct" and child constructors are now recognised as a type of their base constructor
+- Feather: Directive "ignore" is now a synonym for "disable" (e.g. // Feather ignore GM2014)
+- Feather: Directive “Feather” is now case-insensitive (e.g. // feather ignore GM2014)
+- Feather: Directives can now disable GM1100 errors from showing
+- Feather: Editing collision events no longer causes GM to go unstable
+- Feather: Enum number values are no longer always cast to real when used
+- Feather: Enum types as specified in JSDoc for parameters are now always respected thereafter, as Feather now assumes you know best - so do bear this in mind if you have accidentally typed the wrong value in your JSDoc!
+- Feather: Error 1021 is no longer incorrectly shown when calling functions which are stored in a variable
+- Feather: Error if a function named “argument” is an argument passed to an instance function
+- Feather: Expressions using accessors no longer give unexpected type errors which read as if the accessor was not being used
+- Feather: Fixed a crash in auto-complete and tooltips when resolving dot references from struct accessors into non-structs
+- Feather: Fixed a crash when opening a script where a GM1010 has been raised on a ternary
+- Feather: Fixed a failure to propagate collection element type to parameter type in some instances
+- Feather: Fixed a few ways in which a "Rewrite engine failure" warning would be shown when renaming objects
+- Feather: Fixed a GM crash when enabling or disabling Feather in Preferences whilst on the the Start Page and before any project is loaded
+- Feather: Fixed a GM crash when setting a variable within a struct to itself and hovering over it with your mouse
+- Feather: Fixed a redundant warning from being displayed in a parent constructor when one of its variables is overridden in a child constructor
+- Feather: Fixed a situation where errors were shown in the Code Editor even when Preferences says Feather is disabled [Is actually the same problem as the Preferences fix lower down]
+- Feather: Fixed a warning when comparing id.instance to noone or a resource.GMRInstance value
+- Feather: Fixed again that variables set in the Variable Definition window would throw an error and result as undefined
+- Feather: Fixed an error was incorrectly shown when using sprite_index to reference a sprite
+- Feather: Fixed an error when accessing the "self" struct via accessor
+- Feather: Fixed an error when giving a struct to instance_create_depth and instance_create_layer and calling a variable from the struct in the create event of the relevant object
+- Feather: Fixed an incorrect GM1009 message when comparing `layer_get_id()` to -1
+- Feather: Fixed an issue where the autocomplete list is unreliable as to whether it listed all inherited values from a grandparent in a child (the parent was usually correct)
+- Feather: Fixed an issue which made it possible for GM1010 to be incorrectly displayed
+- Feather: Fixed an unexpected "Error Rewriting" for GM2001 messages when nested parentheses are used in your code
+- Feather: Fixed an unexpected "The identifier ... is declared as a local variable ... " error when reusing variable names in both instance and local scopes
+- Feather: Fixed an unexpected Error GM1013 when using a function which was declared inside another function
+- Feather: Fixed an unexpected error shown when using `array_length()` with the array of strings returned by `fx_get_paramter_names()`
+- Feather: Fixed an unexpected error when using any operation other than -- or ++ in a for loop
+- Feather: Fixed an unexpected GM1041 message when `audio_exists()` is provided a return value from `audio_play_sound()`
+- Feather: Fixed an unexpected GM1044 message when calling "event_type == ev_draw && event_number==0" because ev_draw_normal event type is not supported
+- Feather: Fixed an unexpected GM2018 warning when declaring a new var and not giving it an initial value on that same line of code
+- Feather: Fixed inconsistencies in variable-resolution between auto-complete, tooltips, and Find All References
+- Feather: Fixed incorrect type inference of Any* that a collection accessor is used on, now uses the actual element type over implied collection type
+- Feather: Fixed multiple instances of a "Rewrite engine failure" warning when renaming Objects and other assets
+- Feather: Fixed multiple issues with interpreting arrays or structs created from passing an array into "new", such as that a Collection Type's Element Type was not promoted for arithmetic and binary infix operators
+- Feather: Fixed some instances of incorrectly flagging arguments as "non-existent asset" in multiple edge cases
+- Feather: Fixed some instances of project freezes when renaming an asset or very poor typing performance within large projects
+- Feather: Fixed that "`FEATHERHINT`" is apparently now a reserved name to Feather, breaking my macro [#12666](https://github.com/YoYoGames/GameMaker-Bugs/issues/12666)
+- Feather: Fixed that a Function declared inside a Function would incorrectly use the Instance Variable naming rule
+- Feather: Fixed that array variables were frequently mangled and their types were incorrectly detected
+- Feather: Fixed that auto-complete often showed non-existent variables on 'self'
+- Feather: Fixed that certain sprite sizes will extend beyond the 'Resource' column in the Feather Messages dock
+- Feather: Fixed that comparison with singular equal sign gave an error when combined with ||, &&, or ^^
+- Feather: Fixed that comparisons of Constant.* to Any* correctly inferred the type but still incorrectly warned of type promotion
+- Feather: Fixed that cyclically-recursive macros were not flagged as an error
+- Feather: Fixed that enums were previously considered as structs
+- Feather: Fixed that errors with macros just marked the body of the macro definition, rather than also on the usage of the macro
+- Feather: Fixed that failing to rename a function declaration should stop all refactoring for calls to that function [#8346](https://github.com/YoYoGames/GameMaker-Bugs/issues/8346)
+- Feather: Fixed that Feather sometimes erroneously reported alarms as not existing
+- Feather: Fixed that functions with the same name in different constructors could get mixed up
+- Feather: Fixed that GM crashed when pressing Ctrl+L in a Shader or Note [that hotkey command has been removed completely]
+- Feather: Fixed that GM1044 suggested an extremely long line of possible constants and that `event_perform()` and `event_perfom_async()` were not accepting argument types correctly
+- Feather: Fixed that GM1059 being raised against a function declaration line also blocked the parsing of that function's body, which stopped you from seeing other errors/warnings in that code
+- Feather: Fixed that GM1062 rule is never applied, when it should be enabled if using either of the "Type Errors" or "All" profiles [#13203](https://github.com/YoYoGames/GameMaker-Bugs/issues/13203)
+- Feather: Fixed that incorrectly-formatted JSDoc types did not show the expected GM1062 errors
+- Feather: Fixed that JSDoc generation also did not correctly reparse all affected scripts after a change
+- Feather: Fixed that Local variables were sometimes incorrectly interpreted as being instance variables
+- Feather: Fixed that Macros referenced inside other macros were not expanding, resulting in errors
+- Feather: Fixed that macros were incorrectly marked as recursive in some cases, showing an unexpected GM1100 message
+- Feather: Fixed that Macros were not visible inside functions declared in the same script
+- Feather: Fixed that macros which define functions could result in failure to discover those functions when later used elsewhere in your code
+- Feather: Fixed that multiple keywords were not present in auto-complete - e.g., "switch", "while", "globalvar", "#region" and "#endregion"
+- Feather: Fixed that navigating to errors caused by references to global variables made those/other errors disappear upon opening the document
+- Feather: Fixed that per-Config macros did not rewrite correctly
+- Feather: Fixed that performing multiple Quick Fixes in a row followed by one Undo via control/command+z would undo all/several of those Quick Fixes rather than only the last one
+- Feather: Fixed that pre-increment operators following a semicolon were incorrectly parsed as if ";++"
+- Feather: Fixed that prefab Object Methods were not coloured [#11899](https://github.com/YoYoGames/GameMaker-Bugs/issues/11899)
+- Feather: Fixed that prefab Object Methods were not coloured [#11899](https://github.com/YoYoGames/GameMaker-Bugs/issues/11899)
+- Feather: Fixed that Quick Fix occasionally did nothing when you asked it to work on static variable declarations
+- Feather: Fixed that Quick Fix suggestions did not appear inside function bodies
+- Feather: Fixed that reassigning a macro to be an anonymous function created by "new" resulted in type-inference breaking
+- Feather: Fixed that recommended names for assets did not always match the custom values set in Preferences for casing if a default prefix/suffix was set also [now, whatever you type in will always be used in the suggestion - regardless of whether or not your text matches the casing rule you selected]
+- Feather: Fixed that rendering tooltips of enums with a lot of members did not fit into the IDE window - now only shows a maximum number at once
+- Feather: Fixed that scripts which had been opened and then closed did not rename their referenced assets whenever that asset is later renamed in the Asset Browser
+- Feather: Fixed that skipping arguments with commas did not report Error GM1005 correctly
+- Feather: Fixed that the Messages panel highlight/selection could become offset from the mouse cursor when scrolling through lots of messages
+- Feather: Fixed that the output log could fill up with "Unable to find function 'ent_player_Event_Create$$anon_function ...', which should exist!" lines
+- Feather: Fixed that the “other” keyword frequently did not show variables after the dot operator
+- Feather: Fixed that tooltips could show "anon_function_XX_XX" instead of the actual function name for functions declared in struct literals
+- Feather: Fixed that tooltips did not display in some instances for "self" variables
+- Feather: Fixed that type-checking for Struct.WeakRef “ref” field is not declared as Any*
+- Feather: Fixed that unexpected GM1024 warning is triggered for reusing names of in-built variables within custom structures [#13356](https://github.com/YoYoGames/GameMaker-Bugs/issues/13356)
+- Feather: Fixed that unmatched curly braces did not raise any error messages
+- Feather: Fixed that using "other" in legitimate cases could give the error “Reference to non-existent 'Resource': 'other;”
+- Feather: Fixed that valid syntax in the format new (function () constructor { ... })() or new array[i]() were both incorrectly marked as an error
+- Feather: Fixed that variables declared outside of variable method are marked as undefined in the method
+- Feather: Fixed that “globalvar” declared variables did not show up in auto-complete
+- Feather: Fixed the drawing of function tooltips to now support any multi-line content which is defined in the JSDoc
+- Feather: Fixed the return values for various colour and blend functions
+- Feather: Fixed the statement clause of a for statement incorrectly flagging +=, -=, etc. as erroneous
+- Feather: Fixed unexpected GM1056 errors when declaring optional arguments following an argument whose default is "undefined"
+- Feather: Fixed unexpected GM2016 warnings on any function/variable declared in Create-called user-defined events [#1606](https://github.com/YoYoGames/GameMaker-Bugs/issues/1606)
+- Feather: Fixed various issues correcting one Feather warning in your code could cause all other warnings to disappear also [We are aware there are other fixes still required here]
+- Feather: Fixed various issues with using "undefined" as a default for an argument - struct values, nullish operator, and being able to omit arguments
+- Feather: Fixed various issues with using Quick Fix to perform JSDoc generation: mangling of pre-existing comment style; missing out tabs/spaces; omitting preceding and trailing comments or whitespace; omitting pre-existing @ignore, @deprecated, and @context attributes; mangling union types; that it occasionally resulted in unexpected "function not found" errors; and that it was not available for anonymous functions assigned to variables or struct literal members
+- Feather: Fixed various type-checking errors for a number of functions due to bad data in the GmlSpec.xml file
+- Feather: Fixed what looked like a hang when parsing chained function calls larger than 6 calls [it was actually that it just took a long time to process the function chain - it’s now much faster and so you shouldn’t see any “stalls”]
+- Feather: Function preview no longer flashes repeatedly if it is too tall for the screen space available
+- Feather: Functions declared inside of struct literals now recognise instance variables declared on the struct
+- Feather: Functions expecting a bool argument type (e.g. physics_joint_xxxx_create) will now determine if the value being passed-in is suitable before showing an error or not - if the value van be converted to a bool, this will be allowed
+- Feather: GM no longer crashes when showing tooltip or auto-complete for expressions which contain recursive macros
+- Feather: GM no longer crashes with "Non-Collection type cannot have element type" error when enabling Feather in "Test1" project
+- Feather: GM no longer goes unstable after attempting to create a missing alarm or inherited event via the Quick Fix tool
+- Feather: GM no longer goes unstable when accessing a struct in a global variable using dot notation and autocomplete
+- Feather: GM no longer goes unstable when typing a dot after the square brackets of an array
+- Feather: GM no longer hangs for a second after every code edit in some projects/on some machines
+- Feather: GM no longer hangs if a very large amount of text is pasted into a Code Editor in one go [there might be a short pause if it’s a lot of text, but GameMaker will now reliably continue]
+- Feather: GM no longer shows a redundant "Files Modified on Disk" dialog when Feather modifies a script which is not currently open in the code editor
+- Feather: GM will no longer crash if you start typing a parameter name the same as another existing parameter
+- Feather: GM1061 ("index might be out of range") has now be removed as it was found to frequently give false-positives, which stopped it being useful in many situations
+- Feather: GM2043 is now correctly raised if an out-of-scope local variable is assigned to a new declaration of the same name
+- Feather: Helper popups should now never cover the line of code the caret is on
+- Feather: Hovering over a globalvar now shows the expected tooltip
+- Feather: Hovering over globalvar variables now shows a tooltip
+- Feather: If the JSDoc sets "@returns Any", that function's "return" command no longer always shows a warning about its type not being correct
+- Feather: Immediate dot-access of a newly-defined struct literal no longer shows an unexpected Error GM1012 message
+- Feather: Importing the GMLive package "input_5_5_0.yymps" and choosing to replace an older version of those files no longer causes GM to get stuck "analysing" the project
+- Feather: Incorrectly-formatted JSDoc types now show the expected GM1062 errors
+- Feather: Inheriting a constructor declared in an event will no longer give incorrect GM1054 warnings
+- Feather: Instance variables declared in root of scripts now implicitly assign themselves as global scope
+- Feather: Intellisense now shows the member variables of a struct if you declared them with “self”
+- Feather: Invalid jsdoc type annotation now falls back to default type introspection behaviour
+- Feather: JSDoc @ignore now works for globalvar, instance and local variables
+- Feather: JSDoc declarations now have their desired effect on type hints for static methods
+- Feather: JSDoc now applies for functions declared in struct literals
+- Feather: JSDoc now applies when doing "name = function () { }" inside constructor functions
+- Feather: JSDoc parameters now matches on ordinal, rather than only applying if the name perfectly matched
+- Feather: JSDoc values are now determined correctly for functions declared inside struct literals
+- Feather: JSDoc-specified return and parameter type are now applied if code conflicts are detected
+- Feather: Local variable definitions no longer incorrectly flag GM2043 in some circumstances
+- Feather: Macro errors GM1038 and GM1051 are now always shown when the project's code causes them
+- Feather: Macro parsing no longer gives an incorrect error GM1100 if the macro ends with empty brackets
+- Feather: mp_* functions are no longer incorrectly treated as a pure function
+- Feather: Multi-line macros with a comment after the backslash now terminates the macro body at the correct location
+- Feather: Multiple functions which return an array have had their return type fixed, so Feather will handle them correctly and not show false errors
+- Feather: Nested anonymous functions now capture scope correctly and show syntax errors if these have been detected
+- Feather: Newly-created projects in 2023.8.0 will display an empty redundant Syntax Error tab alongside Feather Messages [#1693](https://github.com/YoYoGames/GameMaker-Bugs/issues/1693)
+- Feather: No longer warns on calling `event_inherit()` whenever a parent object does not have a matching event from which to inherit
+- Feather: Now correctly identifies any functions which are prefixed by macro names
+- Feather: Now correctly renames some “non-game” asset types and gives better, more consistent name suggestions for all
+- Feather: Now gives a warning in the Code Editor if non-Western characters are typed in for function names (as these are not allowed)
+- Feather: Now properly supports function calls in the format of global.fname = function () { ... }
+- Feather: Now reparses scripts correctly when any error is fixed outside the GameMaker IDE
+- Feather: Now understand prefabs referenced in code [#11677](https://github.com/YoYoGames/GameMaker-Bugs/issues/11677)
+- Feather: Nullish operator Suggestion GM2061 is no longer shown when the code already has an "else" branch [fixes an issue where the Quick Fix action would incorrectly remove that "else" block in previous releases]
+- Feather: Object variables are now suggested after the "." when calling Object inside a function call
+- Feather: Parameter tooltip is now shown automatically when you type and dismiss the hover tooltip [#7133](https://github.com/YoYoGames/GameMaker-Bugs/issues/7133)
+- Feather: Parameter type Id.DsList now accepts arguments also of type Id.DsList (e.g. `ds_list_add(list, "a")` multiple times)
+- Feather: Preferences default values for naming styles now match our guidelines for coding standards in our official tutorials, documentation and extensions (but of course you’re free to edit them as you wish)
+- Feather: Quick Fix action for renaming enum member names now works
+- Feather: Quick Fix area is no longer clickable without anything to quick fix, which stops an expected large empty window appearing over the code editor
+- Feather: Recursive macro references no longer results in unexpected errors
+- Feather: Removed JSDoc generation support for a global-scope script’s return statement, as this is deprecated functionality (if you want this, instead declare a function inside that script)
+- Feather: Resolved strings containing commas incorrectly treated the commas as argument separators [#13368](https://github.com/YoYoGames/GameMaker-Bugs/issues/13368)
+- Feather: Returning Mixed type from array now does not raise GM1045
+- Feather: RHS variable Type is now inferred correctly when the LHS is an array-indexing operation
+- Feather: Scripts containing the code “isCompatibility=true” no longer cause errors/warnings GM2039, GM1019, and GM1049
+- Feather: Scripts marked as isCompatibility are now read from disk correctly, stopping errors saying that script's contents did not exist
+- Feather: Skipping an argument in a function call now falls back to the types you originally defined
+- Feather: sprite_index and mask_index are now correctly treated as accepting -1 as a valid assignment
+- Feather: Sprites wider than they are tall now fit properly in their column within the Feather Messages window
+- Feather: Static analysis now works more often, rather than only when an Object is created/deleted - keeps error/warning information more up-to-date
+- Feather: Static variables no longer leak scope when calling functions that define them
+- Feather: Static variables now resolve correctly inside functions called from constructors
+- Feather: Stopped GMS2 going unstable when highlighting #endregion keyword, showing error "non-parsable characters at end of string"
+- Feather: Strings are now accepted as keys in struct literals
+- Feather: Structs containing function definitions no longer mangle the resulting “type” value and give unexpected GM1043 errors
+- Feather: The "Syntax Errors" window which appears when Feather is disabled is now docked correctly, rather than floating in the centre of your workspace
+- Feather: Tooltip preview for c_orange no longer shows a blue square
+- Feather: Tooltips are now displayed as you’d expect if the same script is opened in two different views
+- Feather: Tooltips for global variables now always display the "global." prefix
+- Feather: Tooltips no longer cut off your function descriptions at any first dot/period in your text
+- Feather: Tooltips no longer lack a space between the "function"/"var" labels and the name of the function/local variable [#13868](https://github.com/YoYoGames/GameMaker-Bugs/issues/13868)
+- Feather: Tooltips now appear and autocomplete is now correct when brackets have been used earlier on that same line
+- Feather: Tooltips now colours keywords and type annotations so they stand out better
+- Feather: Tooltips now correctly display constructor function signatures
+- Feather: Tooltips now display even when hovering over code inside deeply-nested functions
+- Feather: Tooltips now display even when hovering over dereferenced variables of type "Any"
+- Feather: Tooltips now display what the underlying object type of a Resource.GMRInstance is (e.g. inst_NNNN is an instance of Object1)
+- Feather: Type Notation is now consistent with branding and documentation
+- Feather: Type-checking is correct again for built-in variables' struct members, rather than always returning "Any" like it did in the last releases
+- Feather: Typing an incorrect number of digits in a CSS Colour now has a proper error/rule code of GM1100, rather than the generic error code "GM11xx"
+- Feather: US spellings of blend mode factor constants no longer give unexpected warnings
+- Feather: Using a valid accessor on read-only variables no longer raises incorrect errors GM2016, GM1008, or GM1031
+- Feather: Using bitwise operators in macro definitions and then calling these macros no longer breaks subsequent code highlighting within scripts
+- Feather: Valid arithmetic of constants is no longer treated as a coding error
+- Feather: Variable Definitions used in the matching event for both parent and child objects no longer get an unexpected Warning GM2016 message
+- Feather: Variables declared in an Object's Variable Definitions window now appear as they were declared when later used inside events
+- Feather: Variables declared outside of variable method are no longer marked as undefined in the method
+- Feather: view_wport is no longer incorrectly marked as deprecated
+- Feather: Wavy underlines are no longer incorrectly drawn from the start of the line when your Code Editor line endings are LF instead of CRLF (e.g., you edited text outside of GM using some editor which uses LF)
+- Feather: You are now able to disable Feather rules again via "// Feather disable GMnnnn" comments
+- Feather: “Find All References” now works correctly
+- Filewatcher: [Mac IDE] Now ignores any .DS_Store files which appear in the save location on disk, so will no longer add them into the project .yyp or include them in .yyz archives
+- Filewatcher: Deleting a recently-pasted instance which has creation code no longer triggers the watcher [#7493](https://github.com/YoYoGames/GameMaker-Bugs/issues/7493)
+- Filewatcher: Fixed a GM crash when creating a new project reusing the name of a recently-deleted project [#11709](https://github.com/YoYoGames/GameMaker-Bugs/issues/11709)
+- Filewatcher: Fixed an unexpected "Project Modified" `dialog(s)` shown on project load if File I/O stalled at any point when loading that project
+- Filewatcher: Improved the messaging/handling of the "too many changes" error, by quickly confirming if the entire project folder has been lost or not and giving a more useful message if it was deleted whilst GMS2 was open
+- Filewatcher: Renaming a folder in your Datafiles outside GameMaker now marks all the files as having been renamed also, stops an issue in 2023.1.0 where they would not be found in-game
+- Filters and Effects: Fixed that the effect type list was completely blank when a project is first opened, causing IDE lag and repeated project saves [#12868](https://github.com/YoYoGames/GameMaker-Bugs/issues/12868)
+- Font Editor/Inspector: Changed "From File" to be consistent between the editor and the inspector and so that both methods allow the use of .txt and .csv files with no issues, plus to accept other formats but in those cases to warn that the results may not be as expected
+- Font Editor: Fixed an issue where Select Font occasionally could not be undone
+- Game Options: [iOS] Removed the check that icons need an alpha channel, as Apple no longer requires this [#9175](https://github.com/YoYoGames/GameMaker-Bugs/issues/9175)
+- Game Options: [Main] Fixed that General > Deprecated Behaviours section's "more info" link opened the manual page for macOS Game Options [#12808](https://github.com/YoYoGames/GameMaker-Bugs/issues/12808)
+- Game Options: [Opera GX] "Internal Share Url" button no longer returns an incorrect URL which gives a 404 error
+- Game Options: [Opera GX] "Register" button is now disabled whilst the "invalid character" warning is displayed [see two lines up]
+- Game Options: [Opera GX] Cursors can now be made visible on game start, as a Game Option to enable the cursor was previously missing (you will need to select this option to get the fix)
+- Game Options: [Opera GX] Deleted games no longer show in your Game List [note if GM is showing the list at the same time as you delete the game on the website, then you will of course need to trigger a refresh of the list before the game will disappear]
+- Game Options: [Opera GX] Now also validates the desired group name is suitable with the gx.games website before attempting to register a new game
+- Game Options: [PS4] Unsaved changes are no longer lost when you click the NPTITLE.DAT button - now, your game options are saved first
+- Game Options: [PS5] Finished the removal of redundant options which are not actually used during builds   [the UI for these was removed in 2022.8, but creating a new project still wrote the default values to the .yyp, so those are removed now also]
+- Game Options: [PS5] Removed redundant options which are not actually used during builds (for the most part because they always came from your external game metadata files anyway) - Version number, Package ID, NPTitleID, NPTitleSecret, Share Param File, Pronunciation File, and Pronunciation Sig
+- Game Options: [Switch] Added new checkboxes for whether your game will use NEX or NPLN  [see the runtime notes for more info on the new NPLN support]
+- Game Options: [Windows/HTML5] When generating project images the icon preview no longer always appears empty
+- Game Options: [Xbox GDK] Added more "Support 4K on ..." options to cover Xbox One X/S and Series X/S devices
+- Game Options: [Xbox GDK] “Service Manifest for Event-Based Stats” button no longer gives a broken error message and opens wrong Prefs section if your Visual Studio or SDK paths cannot be found at that moment
+- Game Options: Added a field to select the user's studio and also now respects the "Group ID" upload limit on GX.games
+- Game Options: Fixed that creating a project while signed-out and then signing-in required a reload of the project to create the additional options for your licence
+- Game Options: Fixed that the Opera GX section’s "Edit Game on Opera" button did not actually open the browser for some users
+- Game Options: Fixed that Windows > General started showing "String not found: Version" for the version number label in 2022.1.0
+- Game Options: General's "Default Scripting Language" label is now translated into the various IDE languages
+- Game Options: GM no longer goes unstable when signing out of an account that does not have the Android module due to Android Logcat options being checked when they didn’t need to be [similar issues happened with some other modules also, such as Switch]
+- Game Options: PS5’s Images > "Share Overlay" picker now verifies your chosen image meets the required dimensions
+- Game Options: Radiobox gadgets no longer shift position after hovering the mouse over one of its radio buttons (e.g. Android's "Launchscreen fill" setting)
+- Game Options: Removed the old entry "option_lastchanged" so it doesn't always cause source control changes every time you open the project
+- Game Options: Stopped GM going unstable after changing the API level on Amazon Fire (simply by removing the entire Amazon Fire section, as mentioned already higher up these notes)
+- Game Options: The Spine Agreement dialog's website link is no longer obscured by its own text
+- Generate Project Images: [PS5] Now resizes images to the correct size for the format required [#12689](https://github.com/YoYoGames/GameMaker-Bugs/issues/12689)
+- Generate Project Images: GM no longer hangs when attempting to use a .gif which it also couldn’t load in the Sprite Editor, etc. - now, you will safely be told the .gif is not readable
+- Go To: Feather's Preferences now appear in search results
+- Go To: Fixed a GM crash with an OutOfRangeException when reopening after a previous search returned no matches [#11972](https://github.com/YoYoGames/GameMaker-Bugs/issues/11972)
+- Go To: Fixed that GM could crash when using the search assets functionality if the expected results failed to appear and so you repeatedly reopened Go To and performed the search again in an attempt to refresh the list [Note that you will now get a warning message if GM thinks there are any missing results - please send us your ui.log, the project itself, and a mention of what your search term was in a bug report if you see this new warning]
+- Go To: Fixed that GM went unstable when clicking an incorrect entry shown for Steamworks SDK location in Preferences [#1079](https://github.com/YoYoGames/GameMaker-Bugs/issues/1079)
+- Go To: Fixed that Redefine Keys searching was Case Sensitive, when it should not have been
+- Go To: Function names are no longer sometimes shown in the format objectname_event_name$$functionName [#9820](https://github.com/YoYoGames/GameMaker-Bugs/issues/9820)
+- Go To: GM crash when pressing Ctrl+T if Code Editor 2 is also enabled (potential fix) [#10787](https://github.com/YoYoGames/GameMaker-Bugs/issues/10787)
+- Go To: GM no longer crashes when pressing Ctrl+T if CE2 is also enabled [#8900](https://github.com/YoYoGames/GameMaker-Bugs/issues/8900)
+- Go To: Redefine Keys preferences results no longer show up when you have "Search in Preferences" disabled
+- Go To: We also fixed misc issues which meant that several buttons throughout the IDE were previously not being included in the search results
+- GXC Integration: Fixed a "String not found" message on the dialog shown whenever changing your Opera GXC environment fails
+- GXC Integration: Game uploads no longer fail if the Game Options "Game Name" value contains an underscore or certain other special characters (however, there are still some character rules your names must follow, so you will now also get a message whenever your desired game name is not compliant)
+- GXC Integration: GM no longer silently fails to register a new game on GX.games if the browser account currently signed-into differs from account in use inside GameMaker [see the Game Options mention of this change higher up]
+- GXC Integration: Previously, once a project had been uploaded to the store you could not change Game Options to have a different ID - you can now do this
+- GXC Integration: You can now upload your games to the GX.games developer-testing “Sandbox” environment (if you are required to do so in order to test out a feature in your game)
+- Image Editor: "Convert To Frames" command no longer requires two attempts to succeed
+- Image Editor: "Convert to Frames" tool "Number of Frames" limit has been increased beyond 999 [#9652](https://github.com/YoYoGames/GameMaker-Bugs/issues/9652)
+- Image Editor: "Rotate brush 90 degrees" shortcut key now works again
+- Image Editor: [Mac IDE] Backspace shortcut now displays correctly in the various menus
+- Image Editor: [Mac IDE] Hotkeys for 1:1 and Fit Screen now work correctly again
+- Image Editor: [Mac IDE] The Delete button now deletes custom brushes
+- Image Editor: Added the current/total frame numbers to the status bar text [#5474](https://github.com/YoYoGames/GameMaker-Bugs/issues/5474)
+- Image Editor: Addressed selecting a different tool after a copy/cut in one Sprite caused focus to swap to the previous Image Editor tab you had focused [#13107](https://github.com/YoYoGames/GameMaker-Bugs/issues/13107)
+- Image Editor: Colour picker can no longer accidentally select blank/alpha
+- Image Editor: Copy-pasting an image from GameMaker into an external editor no longer causes the alpha value to increase
+- Image Editor: Copying 256-colour image data from outside GMS2 and pasting it in no longer flips the red/blue values
+- Image Editor: CTRL+D now works for duplicating layers
+- Image Editor: Deleting multiple frames no longer occasionally leaves a rogue blank frame behind
+- Image Editor: Fixed a GM crash when pasting a selected area from one frame into another, due to "ImageMagick.MagickResourceLimitErrorException: pixel cache allocation failed" [#14327](https://github.com/YoYoGames/GameMaker-Bugs/issues/14327)
+- Image Editor: Fixed a GM crash when using Ctrl+R resize shortcut on a SVG sprite [#10172](https://github.com/YoYoGames/GameMaker-Bugs/issues/10172)
+- Image Editor: Fixed a GM crash while using Rectangular Selection tool [#11685](https://github.com/YoYoGames/GameMaker-Bugs/issues/11685)
+- Image Editor: Fixed an issue which meant keyboard shortcuts could stop working after a Ctrl+Z operation in some circumstances [ui.log quietly reported a "No valid action matches the id provided" error in previous releases]
+- Image Editor: Fixed GM going unstable when creating a new layer underneath an invisible layer while a pasted layer is pending [#12316](https://github.com/YoYoGames/GameMaker-Bugs/issues/12316)
+- Image Editor: Fixed that an exception was being thrown when dragging browser tabs onto the editor canvas [#14072](https://github.com/YoYoGames/GameMaker-Bugs/issues/14072)
+- Image Editor: Fixed that auto-trim applies an incorrect origin adjustment when the original origin was outside the sprite bounds [#12798](https://github.com/YoYoGames/GameMaker-Bugs/issues/12798)
+- Image Editor: Fixed that certain tool settings are slightly obscured in the tool bar [#12453](https://github.com/YoYoGames/GameMaker-Bugs/issues/12453)
+- Image Editor: Fixed that renaming a Sprite while editing made all further edits not display any change until the image was reopened [#12922](https://github.com/YoYoGames/GameMaker-Bugs/issues/12922)
+- Image Editor: Fixed that running a game when the image editor has highlighted text would bring the highlight into the game [#12830](https://github.com/YoYoGames/GameMaker-Bugs/issues/12830)
+- Image Editor: Fixed that the frames panel intercepts arrow key inputs made while using the Selection tool [#13342](https://github.com/YoYoGames/GameMaker-Bugs/issues/13342)
+- Image Editor: Fixed that transparency is lost when pasting an image into/out of 2023.2
+- Image Editor: Fixed the sprite preview frame occasionally becoming blank after deleting a frame
+- Image Editor: GM no longer crashes after undoing a change to one frame of a sprite, then using fill on a different frame (and finding instead it incorrectly pasted part of the sprite in again) [#13883](https://github.com/YoYoGames/GameMaker-Bugs/issues/13883)
+- Image Editor: GM no longer crashes when using the eraser tool after earlier using a hotkey to override a mouse-down when initially selecting the eraser tool [#13513](https://github.com/YoYoGames/GameMaker-Bugs/issues/13513)
+- Image Editor: GM no longer goes unstable (and the undo action is no longer broken) after deleting frames following reordering those frames [#13117](https://github.com/YoYoGames/GameMaker-Bugs/issues/13117)
+- Image Editor: Grid controls no longer allow clickthrough and affecting things underneath [#8866](https://github.com/YoYoGames/GameMaker-Bugs/issues/8866)
+- Image Editor: In previous releases, the editor would continue showing any suitable cached content for sprites which had been removed while GM was closed, which could then cause issues when the IDE subsequently "refreshed" the data and revealed it was actually gone (as this looked like the Image Editor had corrupted your image, when actually you had already deleted it) - now, the IDE will clear the project cache each time a project is loaded, which will stop this issue but be aware it might introduce a slightly longer loading time for very large projects, depending on your system specs
+- Image Editor: Laptop Mode hotkeys no longer also affect the Rectangle and Paint Selection tools if they are being used at the time you press the key combo
+- Image Editor: Left-Ctrl and clicking a palette swatch now edits it [in previous releases only Right-Ctrl worked]
+- Image Editor: No longer continues showing any cached content for sprites which have been removed while GM was closed [See the “Misc Change” above]
+- Image Editor: Removing the last frame in an image no longer cause the IDE to turn black and become unresponsive
+- Image Editor: Status bar text is no longer illegible when the 'Light' skin is used [#14079](https://github.com/YoYoGames/GameMaker-Bugs/issues/14079)
+- Image Editor: Undoing a resize by "Resize All Frames" now undoes the changes to height and width properly
+- Included Files: Fixed that references to deleted files were sometimes not removed from the project .yyp correctly, which could then prevent building some YYC targets until you cleaned the .yyp file of the stale info yourself
+- Included Files: GM no longer hangs when adding 7k files at once into the datafiles folder [there will of course be a delay while so many files are processed, but GM will now finish the process and remain stable]
+- Inspector/In-Game: [Mac IDE] Fixed an issue where an M1 Mac had some distortion when audio is previewed and in-game in 2024.14.2.255 RT [#13312](https://github.com/YoYoGames/GameMaker-Bugs/issues/13312)
+- Inspector: "Disable IDE transition animations" Preference is now obeyed by Inspectors
+- Inspector: [Animation Curve] You are now able to paste a copied curve, as a blank row has now been added at the end of the list and will accept the paste operation
+- Inspector: [Code] Enter key now applies the highlighted autocomplete entry
+- Inspector: [Font] [Mac IDE] Tags field no longer cuts off the bottoms of some characters
+- Inspector: [Font] Fixed that the panel turned blank after regenerating a font texture whilst all glyphs were selected
+- Inspector: [Font] Glyph Section buttons no longer remain selected after clearing selection
+- Inspector: [Fonts] "Copy to project" now shows the filepath of the selected font and so no longer differs from what the Font Editor always showed
+- Inspector: [Fonts] Fixed regenerating fonts from the Inspector [#9278](https://github.com/YoYoGames/GameMaker-Bugs/issues/9278)
+- Inspector: [Instances] Added a highlight on the canvas in Room/Sequence editors for the instance being inspected
+- Inspector: [Layers] Double-clicking an instance no longer focuses on the wrong location if previous location being viewed is far away [#2462](https://github.com/YoYoGames/GameMaker-Bugs/issues/2462)
+- Inspector: [Mac IDE] Fixed the "Inspector: ..." label was missing padding at top and bottom [#12474](https://github.com/YoYoGames/GameMaker-Bugs/issues/12474)
+- Inspector: [Objects] Inherited events now appear in the list
+- Inspector: [Objects] Light skin no longer uses white or pale backgrounds with white icons for search, icon, and selection arrow buttons, uses the correct darker icons
+- Inspector: [Paths] Now allows the same decimal value ranges for "speed" that the Path Editor allows, which stops very large values being capped/incorrect if later edited in the Inspector
+- Inspector: [Paths] Precision value is no longer incorrectly capped at 20 instead of 8
+- Inspector: [Room Instance] Copy and pasting an instance which has creation code now shows this code immediately
+- Inspector: [Room Layers] Can now unlock the Animation Speed field on a Background layer again
+- Inspector: [Room Layers] Instances on Instances Layer are now shown in the Inspector window
+- Inspector: [Room/Sequences] Asset previews now update when changing frames in an instance (fixed both sprites on asset layers and objects on instance layers)
+- Inspector: [Rooms] Fixed issues which meant changes to the Camera or Viewport properties sections would not be shown in-game unless the "Enable Viewports" checkbox was disabled and re-enabled
+- Inspector: [Sequence] Opacity and Offset controls for images are now disabled when no image has been selected yet
+- Inspector: [Shader] The Code panel now updates automatically to match changes in the Code Editor whilst the Inspector is open
+- Inspector: [Sounds/Sequences] Fixed that looping mode "Play Once" caused the sound to not play in the Sequence Editor
+- Inspector: [Sprites] "Left", "Right", "Top" and "Bottom" labels are no longer cut off when using the Spanish translation
+- Inspector: [Sprites] Added functionality to change the starting frame in the sprite inspector
+- Inspector: Audio group values are now changed when changing type to "Compressed - Streamed" for multiple assets at once [#9411](https://github.com/YoYoGames/GameMaker-Bugs/issues/9411)
+- Inspector: Can now click on an already-selected item within a multi-select list to deselect it
+- Inspector: Inspection of single item from multiple selection now works correctly
+- Inspector: Now resets/updates correctly if a selected prefab asset's package is removed in the Prefab Library [#8368](https://github.com/YoYoGames/GameMaker-Bugs/issues/8368)
+- Inspector: Variable definitions are now shown when you select multiple instances of the same object in the Room Editor
+- Installer: [Mac IDE] Fixed that macOS has changed its icon requirements as of Tahoe, so new icons are now used [#13704](https://github.com/YoYoGames/GameMaker-Bugs/issues/13704)
+- Installer: [Mac IDE] Installer background now has an image when using the OS’s dark mode - and the dark and light skins both actually now have a shiny new image as well
+- Installer: [Mac IDE] Installer user agreement text no longer has unexpected "?" characters before the bullet points
+- Installer: [Mac IDE] Installing a new version now renames the old version's .app to include the old version in the name before it's added to your trash [#8467](https://github.com/YoYoGames/GameMaker-Bugs/issues/8467)
+- Installer: [Mac IDE] Introduction screen used an out-of-date GMS2 branding image in the last release
+- Installer: [Mac IDE] The correctDock icon is now shown on initial launch of GameMaker after installation
+- Installer: [macOS] Fixed that button text was obscured when using light theme on a Tahoe Mac [#12131](https://github.com/YoYoGames/GameMaker-Bugs/issues/12131)
+- Installer: [Ubuntu IDE] Dock and applications menu no longer use the old Beta icon
+- Installer: [Ubuntu IDE] Now runs a runtime post-install script to fix the file permissions after downloading a new runtime [same as the Mac IDE has done for a long time]
+- Installer: [Win IDE] Opera GX’s component name in the installer is now a much more appropriate length for the visible area
+- Installer: [Windows IDE] Fixed that the “missing freetype.dll” error dialog shown if GameMaker cannot start still says "GMS2"
+- Installer: [Windows IDE] If you requested the installer make one, the Windows desktop shortcut's "Start in" value is no longer set to an invalid path (seems to have only ever affected a tiny number of users)
+- Installer: Fixed an issue where the runtime installation process can cause a RDP disconnect
+- Installer: Fixed that Steam IDEs will still install redundant old .NET Framework versions if the Windows system does not have them installed already [partial fix - some of this is dictated on the Steam side and needs to be this way to support older versions]
+- Installer: Fixed that the GameMaker process was still referred to as "GameMaker Studio 2" in the last release
+- Installer: Installer is no longer missing Italian, Polish, Korean and Japanese from the dropdown menu
+- Installer: Setting your installer language to a non-English option now more reliably changes the initial IDE language to be the same
+- Installer: The EULA link to the GMC Guidelines site no longer takes you to a 404 error page
+- Laptop Mode: Fixed that Left Alt/Option key could still always be used to create assets rather than being reserved for its Laptop Mode operation
+- Layouts: Room Manager inside the Asset Browser is now saved in layouts [#9953](https://github.com/YoYoGames/GameMaker-Bugs/issues/9953)
+- Licensing: 2023.8.2.106 can crash on launch if the um.json file contains stale SSO information [#1874](https://github.com/YoYoGames/GameMaker-Bugs/issues/1874)
+- Licensing: 2023.8.2.106 crashes on startup if incomplete SSO keys are in the um.json due to a "bad request" error being returned by Web [#1884](https://github.com/YoYoGames/GameMaker-Bugs/issues/1884)
+- Licensing: [Mac IDE] Fixed a crash during startup when SSO sign-in had failed
+- Licensing: [Mac Sequoia 15.6.1] Resolved logging-in did not use the default web browser always and instead would use Opera GX if that was installed [#12663](https://github.com/YoYoGames/GameMaker-Bugs/issues/12663)
+- Licensing: Added a change to hopefully fix that some proxy server users are not able to log in to 2022.5 due to 407 server errors for authentication [Please do let us know if you still have this issue!]
+- Licensing: Added a timeout message for attempting to sign-in with SSO and it failing
+- Licensing: Addressed updating from 2024.13.1 (or older) straight to 2024.14.3 caused a subscription dialog to appear and did not license the targets properly (now, the legacy licensing information the older IDE created will be fully removed and you will correctly be shown as logged-out) [#13835](https://github.com/YoYoGames/GameMaker-Bugs/issues/13835)
+- Licensing: Downloading invalid licence info causes the IDE to crash each time that licence is checked [#9499](https://github.com/YoYoGames/GameMaker-Bugs/issues/9499)
+- Licensing: Fixed a way of getting accidentally logged-out in 2024.14.n releases [#12727](https://github.com/YoYoGames/GameMaker-Bugs/issues/12727)
+- Licensing: Fixed an issue where GameMaker can get stuck on a web exception during startup if you are unable to reach the licensing service at the time you launch GM [either because you’re offline/Airplane Mode or if our server had a temp issue]
+- Licensing: Fixed issues signing-in using new login flow in 2024.1400.1 that required you to delete the um.json file in order to fix [#12639](https://github.com/YoYoGames/GameMaker-Bugs/issues/12639)
+- Licensing: Fixed that console targets were not updated when using the Update License user panel command [#13252](https://github.com/YoYoGames/GameMaker-Bugs/issues/13252)
+- Licensing: Fixed that creating a new project whilst logged-out, activating Source Control, and then logging in, in previous releases some source control menubar options remained disabled until you restarted GameMaker
+- Licensing: Fixed that legacy logins containing certain old values could be forgotten when reopening the 2024.1400 Beta IDE [#13990](https://github.com/YoYoGames/GameMaker-Bugs/issues/13990)
+- Licensing: Fixed that logging out of the "My Account" webpage also quietly logs-out inside the IDE, which makes subsequent licensing requests silently fail [#12845](https://github.com/YoYoGames/GameMaker-Bugs/issues/12845)
+- Licensing: Fixed that several strings on the Login Screen were cut off in non-English languages
+- Licensing: Fixed that users of recent GM releases which use GMauth sign-ins could be signed-out when restarting GM whilst their local machine is offline [#13205](https://github.com/YoYoGames/GameMaker-Bugs/issues/13205)
+- Licensing: Free/guest users can now add and edit Filter/Effect layers in rooms
+- Licensing: Free/guest users can now add and edit groups in these two editors
+- Licensing: Free/guest users can now import projects - including old-format projects which contain additional custom Configs
+- Licensing: Free/guest users can now import SWF and Spine files
+- Licensing: Free/guest users can now resize existing Texture Pages someone else has already added into a project
+- Licensing: Free/guest users can now use the Create Local Package command
+- Licensing: GameMaker no longer goes unstable when logging-in to an account if the Room Editor is open at the time
+- Licensing: GM no longer crashes on startup when encountering a Proxy server of an invalid type
+- Licensing: GM no longer crashes when Legacy dialog attempts to sign-in using a blank password field [#9090](https://github.com/YoYoGames/GameMaker-Bugs/issues/9090)
+- Licensing: GM no longer crashes when next signing-out if you revoke your current session on the accounts website while GM is running
+- Licensing: GM now warns properly again when an SSO account has exceeded the max account sessions permitted, rather than silently failing to sign-in like 2023.6 did
+- Licensing: GMS2 no longer crashes when clicking Log Out if your user data folder and um.json file were already deleted by you whilst GMS2 was still open
+- Licensing: IDE still logs you out for no reason in 2023.8 [#1784](https://github.com/YoYoGames/GameMaker-Bugs/issues/1784)
+- Licensing: Made some fixes for Steam IDE users who wish to use SSO for logging-in
+- Licensing: Now checks for an active subscription before displaying any upcoming expiry message for legacy licences [Some people recently saw messages that old time-limited licences were expiring, despite you already having a subscription to keep using that platform after the old licence ran out]
+- Licensing: Online checks no longer fail when a broken IPv6 default route is present (fixes issues with long startup times or being unable to sign-in) [#7152](https://github.com/YoYoGames/GameMaker-Bugs/issues/7152)
+- Licensing: Preferences are now immediately loaded in full when a user logs in, rather than some requiring an IDE restart before they would load again
+- Licensing: Renewal notification messages no longer incorrectly refer to old “Trial” licences
+- Licensing: Revoking a session in My Account for either login type now correctly logs that user out during the next GameMaker startup
+- Licensing: SSO "Error creating session" alerts will now always log you out properly, rather than allowing you to log in and see an incorrect state reported in the Account Panel (also stops a number of issues where your modules were missing in Target Manager until you logged-out and in again)
+- Licensing: Target Manager sometimes shows only guest user targets and "Update License" button does not fix [#1631](https://github.com/YoYoGames/GameMaker-Bugs/issues/1631)
+- Local Package Integration: [Mac IDE] Fixed a GM crash when clicking on "Home" button to close project shortly after creating a package [#12186](https://github.com/YoYoGames/GameMaker-Bugs/issues/12186)
+- Local Package Integration: Can now create working packages again [#9305](https://github.com/YoYoGames/GameMaker-Bugs/issues/9305)
+- Local Package Integration: Fixed that creating a package can result in an error (or even a GM crash) and exported extra items it should not [#11651](https://github.com/YoYoGames/GameMaker-Bugs/issues/11651)
+- Local Package Integration: Fixed that Included Files with the same name would cause "Item with the same key has already been added" even if they are in different folders [#13285](https://github.com/YoYoGames/GameMaker-Bugs/issues/13285)
+- Local Package Integration: Fixed that the create process could result in error (or even a GM crash) and exported extra items it should not [#11651](https://github.com/YoYoGames/GameMaker-Bugs/issues/11651)
+- Local Package Integration: Importing only a room from a package now fully accounts for the other assets referenced in the room [also stopped GM going unstable if the imported room duplicates an existing room's name]
+- Local Package Integration: Importing single objects from a package now more reliably retains its “parent” value when an object with the parent's name already exists
+- Local Package Integration: Resolved create dialogs not showing the contents of groups in 2024.14.3 [#13638](https://github.com/YoYoGames/GameMaker-Bugs/issues/13638)
+- Local Package Integration: Resolved import dialogs not showing the contents of groups in 2024.14.3 [#13639](https://github.com/YoYoGames/GameMaker-Bugs/issues/13639)
+- Localisation: "Add new watch..." text in the Variables tab is now translated into the various IDE languages
+- Localisation: [BPT/RU] Fixed that “Switch” (as in the platform name) was mistakenly translated on multiple dialogs
+- Localisation: [Chinese] Fixed that some words were incorrectly using Japanese characters
+- Localisation: [EN] Runtime Modules dialog no longer shows Guest users a missing string for “TargetSelection_Platform_Test”
+- Localisation: [IT] Italian translation for the "Clean" button on the toolbar has been fixed
+- Localisation: [RU] Fixed being unable to select the "Snap to Grid" checkbox due to its translated string being too long for the gadget
+- Localisation: Fixed that the two "Show ..."/"Close All Windows" commands were not localised and so always in English
+- Localisation: Go To's "Search in Redefine Keys" label has now been translated for Spanish
+- Localisation: Home button's tooltip and dialog buttons are now localised, rather than always using English
+- Localisation: Preferences' "Redefine Keys" section is now translated into the various IDE languages
+- Localisation: Preferences' Text Editor > Visual Editor section is now translated into the various IDE languages
+- Localisation: References to "Drag and Drop" (rather than "GML Visual") have been fixed in all remaining strings which used the old name
+- Localisation: The Game Options "Project Use Time" statistic now displays correctly for users who have their IDE language set to any of Japanese, Korean, Polish, Russian, and Spanish
+- Localisation: Updated a number of IDE translations to account for changes in 2022.6 and 2022.8 [we are aware some still need fixing in the next release]
+- Marketplace Integration: [Light skin] Asset Import dialog text no longer turns invisible when an item is selected
+- Marketplace Integration: Added extra logging to diagnose "failed to acquire access token" errors when updating existing packages [if you do get this issue, please send us a ticket with your ui.log file attached]
+- Marketplace Integration: Fixed that "Update Existing Package" menubar command incorrectly required you to click the "Create Package" one time before it would become enabled
+- Notes: Now display correctly the first time they are opened after loading the project [#10362](https://github.com/YoYoGames/GameMaker-Bugs/issues/10362)
+- Object Editor: 'Add child' in Parent options is now correctly affected by attempts to undo changes
+- Object Editor: [Light skin] Sprite previews are no longer just a black square, will show the correct preview
+- Object Editor: Changed limit for physics number of polygon points to be 32, so this matches the in-game limits [#9779](https://github.com/YoYoGames/GameMaker-Bugs/issues/9779)
+- Object Editor: Dragging an asset into the Variable Definitions window for a child object which overrides its parent no longer overwrites its parent's default value also
+- Object Editor: Fixed GM unstable when trying to undo the deletion of a Variable Definition that has been overwritten in a child Object [#12297](https://github.com/YoYoGames/GameMaker-Bugs/issues/12297)
+- Object Editor: Fixed that selecting "None" as the parent in a child object had no effect on the parent's list of children
+- Object Editor: Fixed that Variable Definitions fields used a white cursor on a light background when using the Light skin
+- Object Editor: Fixed the Physics Collision Shape panel to show the sprite again and that changing mask type was causing GM to go unstable [#12846](https://github.com/YoYoGames/GameMaker-Bugs/issues/12846)
+- Object Editor: GM no longer crashes when deleting stuff in my project [#13070](https://github.com/YoYoGames/GameMaker-Bugs/issues/13070)
+- Object Editor: Variable Definitions dialog no longer allows the "-" character to be typed in the name field, as this will cause compile fails (any project already in this state will need you to fix its variable names) [#12896](https://github.com/YoYoGames/GameMaker-Bugs/issues/12896)
+- Package Manager: Fixed being unable to install the Prefab "User Interface" because GM says it's already installed [#10830](https://github.com/YoYoGames/GameMaker-Bugs/issues/10830)
+- Package Manager: Fixed situation where the dialog was so large that you could not close the dialog after opening it and therefore it was also reopened each time the project was opened [#13998](https://github.com/YoYoGames/GameMaker-Bugs/issues/13998)
+- Package Manager: Fixed that changing the "URL Search path" for a custom Package Source entry didn't stick on restarting [#14584](https://github.com/YoYoGames/GameMaker-Bugs/issues/14584)
+- Package Manager: Fixed that installing prefabs is not showing them in the prefab library [#13081](https://github.com/YoYoGames/GameMaker-Bugs/issues/13081)
+- Package Manager: Fixed that searching for a specific older Prefab Collection, when no version of said Package set is installed, will fail [#12643](https://github.com/YoYoGames/GameMaker-Bugs/issues/12643)
+- Package Manager: Fixed that uninstalling GMRT packages did not remove files from disk [#14621](https://github.com/YoYoGames/GameMaker-Bugs/issues/14621)
+- Package Manager: Fixed that uninstalling Prefab Collections silently removed any dependents also, now informs you this is happening and fixes the status of the dependants [#10040](https://github.com/YoYoGames/GameMaker-Bugs/issues/10040)
+- Package Manager: No longer forgets the JavaScript package is installed each time the IDE is restarted [#8448](https://github.com/YoYoGames/GameMaker-Bugs/issues/8448)
+- Package Manager: Now recognises when an install attempt has been cancelled [#10127](https://github.com/YoYoGames/GameMaker-Bugs/issues/10127)
+- Particle System Editor: "Copy To GML" button now generates code which obeys the values of your "Feather Naming Rules" Preferences
+- Particle System Editor: "Draw Order" value is no longer ignored when actually running the game and so now particles will use the correct order [so if any of your particle systems are drawn reversed now, check if you had actually ticked that option inside the Particle Editor in the last release]
+- Particle System Editor: "Enabled" value is no longer ignored during your builds and so now disabled particles will be hidden in-game [same as above, if a particle no longer appears in-game, check you didn’t previously set them to be disabled]
+- Particle System Editor: [Mac IDE] You are now able to access the GameMaker built-in presets from the Inspector’s library
+- Particle System Editor: Fixed that "Open Editor" and "Edit Image" buttons were incorrectly enabled even though no Sprite was selected [#13352](https://github.com/YoYoGames/GameMaker-Bugs/issues/13352)
+- Particle System Editor: GM no longer crashes when copying a newly-created preset emitter [#12958](https://github.com/YoYoGames/GameMaker-Bugs/issues/12958)
+- Particle System Editor: GM no longer goes unstable when setting the Subparticles' On Update Particle Count to a negative value and when an emitter is selected
+- Particle System Editor: Saved Custom Presets do not appear in the Presets List
+- Particle System Editor: The "Delete" option is no longer shown when clicking on a GameMaker built-in preset (it only appears on your own particles)
+- Path Editor: [Mac IDE] Right-Click hotkeys for "Pan To Path" and "Reverse" now show the correct keys
+- Path Editor: [Mac IDE] The "Connection kind" radio buttons are no longer obscured at many DPI values
+- Path Editor: Shift Path button is no longer obscured by its text label when using certain IDE languages
+- Prefab Library: Declining overwriting an existing prefab package no longer leaves GM in a disabled state until you open a different project via the File menu [#13065](https://github.com/YoYoGames/GameMaker-Bugs/issues/13065)
+- Prefab Library: Fixed GM going unstable when Duplicating a Prefab into a project that contains an asset with the same name [#12893](https://github.com/YoYoGames/GameMaker-Bugs/issues/12893)
+- Prefab Library: Fixed not being able to open the right-click menu for any prefab collections [#14623](https://github.com/YoYoGames/GameMaker-Bugs/issues/14623)
+- Prefab Library: Fixed that duplicating multiple Prefabs from multiple Collections put everything into one folder [#11518](https://github.com/YoYoGames/GameMaker-Bugs/issues/11518)
+- Prefab Library: Fixed that prefab asset's type display icons wouldn't show up in the metadata settings window [#13195](https://github.com/YoYoGames/GameMaker-Bugs/issues/13195)
+- Prefab Library: Fixed that prefab filters cause exceptions and  performance issues in large projects [#10539](https://github.com/YoYoGames/GameMaker-Bugs/issues/10539)
+- Prefab Library: Fixed that the "All Results" list was empty for any filter [#14251](https://github.com/YoYoGames/GameMaker-Bugs/issues/14251)
+- Prefab Library: Fixed that uninstalling a Prefab Collection that's not shown in Package Manager could leave references to that prefab in the project [#13118](https://github.com/YoYoGames/GameMaker-Bugs/issues/13118)
+- Prefab Library: Fixed that you were unable to clear filters for some prefab types once selected [#13177](https://github.com/YoYoGames/GameMaker-Bugs/issues/13177)
+- Prefab Library: GM no longer goes unstable after installing a prefab with a name that doesn't conform to single dash rule and then trying to right-click any prefab in your library [#14346](https://github.com/YoYoGames/GameMaker-Bugs/issues/14346)
+- Prefab Library: Projects edited in one IDE install to reference a newer version of any prefab can now be opened in a different IDE which only has an older version of that prefab installed (the newer version will be found and installed automatically, and you can then remove the old version if you want) [#13739](https://github.com/YoYoGames/GameMaker-Bugs/issues/13739)
+- Prefab Library: User Interface 1.0.0 will now show the expected "duplicate into project" context menu option (as of this new IDE version) [#14378](https://github.com/YoYoGames/GameMaker-Bugs/issues/14378)
+- Preferences: "Auto Logout" isn't functioning correctly for one Edu customer [we added more logging for this, rather than a true fix, so if you are affected by this issue also, then please file a bug report and send your ui.log]
+- Preferences: [GX.games] Added a second Emscripten SDK path, as the version used is different between GMRT and GMS2 targets [#12924](https://github.com/YoYoGames/GameMaker-Bugs/issues/12924)
+- Preferences: [Mac IDE] DPI override percentage always caps lower than the requested maximum
+- Preferences: [Mac IDE] Generating an Android keystore File now works correct on Macs with M1 CPUs (ones with Intel CPUs, it already worked fine in previous GMS2 releases)
+- Preferences: [Mac IDE] GM unstable and crash after setting .pem certificate values [#11415](https://github.com/YoYoGames/GameMaker-Bugs/issues/11415)
+- Preferences: [Mac IDE] Lowering the "Background framerate" value now reduces CPU usage much more when GM is not in focus
+- Preferences: [Mac IDE] The default value for performance when on battery power is now 70% rather than 35%, as there were complaints that GM ran too slowly and the value always needed to be raised
+- Preferences: [Package Manager] Fixed that the "Remote search endpoint" field was used for setting the wrong option [#14032](https://github.com/YoYoGames/GameMaker-Bugs/issues/14032)
+- Preferences: [Reddit] Fixed that redundant options were shown [#13762](https://github.com/YoYoGames/GameMaker-Bugs/issues/13762)
+- Preferences: [Redefine Keys] Fixed a number of missing spaces in the labels for some "Errors" keys
+- Preferences: [Redefine Keys] Fixed a typo in "Open Workspace Overview" command name
+- Preferences: [Runtime Feeds] "Clean Runtimes Now" button now works correctly again [it will remove all runtimes other than the active one and the one that IDE originally launched with (if these two are different)]
+- Preferences: [SP] Fixed a typo in "Reglas" on Feather's Naming Rules section title
+- Preferences: [Ubuntu IDE] Fixed the default path/picker values for the JDK setting, so these are custom to the Ubuntu IDE now
+- Preferences: [Ubuntu IDE] Now uses the system's in-built OpenSSL setup when generating a keystore [the same fix M1 Macs got in 2022.1.0]
+- Preferences: Added a new "IDE Font" value into General Settings
+- Preferences: Added a new preference for toggling verbose logging into your ui.log file - which can be useful for determining permission/firewall issues on your local machine (or if you're asked to send us an expanded log for a bug report you have filed)
+- Preferences: Added a setting for how many colour swatches are shown in the Image Editor
+- Preferences: Added settings to allow changing the toolchain directory for the new runtime
+- Preferences: Android's platform settings no longer has several text labels clipped at certain DPI values
+- Preferences: Anti-aliasing radio buttons no longer shift to the left after hovering over them
+- Preferences: Changed Feather's "Enabled" setting to be called "Enable Feather" so it can be found more easily when searching
+- Preferences: Disabled Feather rule GM2017 (Inconsistent Naming) by default [#3084](https://github.com/YoYoGames/GameMaker-Bugs/issues/3084)
+- Preferences: Disabled/changed the settings for the default code content used in new Scripts and Object events - note that if you have edited this Preference in the past, then your current values will be kept and you would need to reset to defaults to see our change [#7808](https://github.com/YoYoGames/GameMaker-Bugs/issues/7808)
+- Preferences: DPI values are now reset along with all the other values when clicking the Restore Defaults button on that General page
+- Preferences: Feather and Quick Access default values are now set properly if you have never manually set a value, and so no longer log an error in the ui.log each startup
+- Preferences: Feather's “Naming Rules” page now mentions that everything on that screen depends on rule 2017 being enabled elsewhere in Feather’s preferences
+- Preferences: Fixed a couple of remaining "Resources" name used instead of "assets" in General Settings
+- Preferences: Fixed other values that were overwritten/lost in 2024.14.1 if you start GM as a guest user and then sign-in sometime after startup [#12735](https://github.com/YoYoGames/GameMaker-Bugs/issues/12735)
+- Preferences: Fixed that "Modify Current Runtime Modules" settings were not loaded correctly in 2024.14.1 if you start GM as a guest user and then sign-in sometime after startup [#12872](https://github.com/YoYoGames/GameMaker-Bugs/issues/12872)
+- Preferences: Fixed that if you were using the Chinese language option for IDE Language, then certain fonts (such as JetBrains) use a substitute font for their Chinese glyphs, but that other font was not refreshed when the “parent” font was selected, which resulted in missing characters inside various parts of GameMaker
+- Preferences: Fixed that the "Start Page" section name didn't update when changing IDE language
+- Preferences: Fixed that the “Redefine Keys” section name was slightly misaligned in the tree
+- Preferences: GM no longer crashes when changing Build Cache and Temp directory paths and then resetting to defaults
+- Preferences: GM no longer crashes when setting the IDE Font value to certain MS Gothic fonts
+- Preferences: Import From Your Other GM Installs
+- Preferences: Languages > GML Code "Show US Spelling for system functions" is no longer on by default [#1399](https://github.com/YoYoGames/GameMaker-Bugs/issues/1399)
+- Preferences: New lines are no longer repeatedly added to the end of the Object Editor’s "default event content" textfield
+- Preferences: Now shows the expected/matching runtime for your current IDE on the Runtime Feeds page [#7008](https://github.com/YoYoGames/GameMaker-Bugs/issues/7008)
+- Preferences: Object Editor's "Default Event Content" no longer removes any blank lines when GM is next restarted
+- Preferences: Object Editor's "Default Event Content" no longer replaces tab characters with "\t" when you restart GM
+- Preferences: Platform Settings > OperaGX now has options for controlling the Webserver (exactly as HTML5 has)
+- Preferences: Raw DPI values no longer change automatically after being edited directly in the text box
+- Preferences: Removed a redundant setting for remembering your Xbox GDK package deployment choice [was made redundant by the UI changes in 2023.2]
+- Preferences: Resolved that logging-in did not always immediately apply your correct CE2 theme, selected runtime modules choices, or whether the setup wizard appears [#12642](https://github.com/YoYoGames/GameMaker-Bugs/issues/12642)
+- Preferences: Setting an invalid font to be the IDE Default Font now detects/fixes this properly, so that the Preference value no longer shows incorrect info indicating the font had been set
+- Preferences: Several more sections are now fully localised [the “Redefine Keys” section is yet to be fixed]
+- Preferences: Stopped GMS2 going unstable if you typed a pipe character “|” into any file path picker
+- Preferences: The Feather section is now localised
+- Preferences: UWP pref for remembering the package type is no longer valid and has been removed (which also removes a bug reported that this setting reverted itself when Create EXE was performed)
+- Preferences: Xbox GDK’s “Visual Studio location” file-picker now allows "VSDevCmd.bat" as a filter also
+- Project Export: Fixed a issue where GM has been unable to create an export of TheMol… for a few releases and additionally went unstable in Jan23 specifically as it tried to make the .yyz
+- Project Export: Root-level compile scripts are now included in .yyz packages
+- Project Export: The current project’s path setting is now restored correctly after using the Create Your Contact Us Package tool and including the project in your .zip, fixes that in 2023.6 further changes to that project were lost (until GM was closed or the project was reopened)
+- Project Import: [Mac IDE] Extra files are no longer created outside the main project folder when a 2.2.5 project is imported (and this no longer generates warnings about these unwanted files)
+- Project Import: [Mac IDE] Now able to import GM 2.2.5-and-older projects again [the change to .NET usage in 2022.6.0 had temporarily broke this]
+- Project Import: Can now reliably import the very large Secret C… project
+- Project Import: Fixed that 1.x and 2.2.5 projects could not be imported in 2023.2 [there is still a known issue with importing very large 2.2.5 projects which also contain a lot of GML Visual usage - this will be fixed for the June release]
+- Project Import: Fixed that you could not successfully import older projects which contain GML-type extensions in 2023.2 and were told "Resource load failures encountered" for the affected extensions
+- Project Import: Fixed the default name GM will suggest when any .yyz filename contains additional dots earlier in the name
+- Project Import: GM no longer crashes when extracting a .zip with non-ascii characters in the filename [#9578](https://github.com/YoYoGames/GameMaker-Bugs/issues/9578)
+- Project Import: Old 2.2.5-format projects which contain heavy amounts of GML Visual ("DND") use can now be converted
+- Project Import: Scripts from prefabs/packages lose their contents if renamed during import [#14230](https://github.com/YoYoGames/GameMaker-Bugs/issues/14230)
+- Project Layout: Fixed that customisations made when logged-in are lost if you later open that project while logged-out (and vice-versa) [#11811](https://github.com/YoYoGames/GameMaker-Bugs/issues/11811)
+- Project Load/Save: Attempted fix and also a lot more logging for GM 2024.14 crash when loading projects containing sounds/importing new sounds on my PC [#12485](https://github.com/YoYoGames/GameMaker-Bugs/issues/12485)
+- Project Load/Save: Fixed that some pre-existing Animation Curves could become corrupted when loaded in 2023.6 because they had additional points added when they did not need them
+- Project Load/Save: Fixed that some pre-existing Animation Curves could become corrupted when loaded in 2023.6 because they have additional points added when they did not need them
+- Project Load/Save: GM 2024.14 crash when loading projects containing sounds/importing new sounds on my PC [#12485](https://github.com/YoYoGames/GameMaker-Bugs/issues/12485)
+- Project Load: 2024.14 does not show the Objects in my project and logs lots of exceptions [#12532](https://github.com/YoYoGames/GameMaker-Bugs/issues/12532)
+- Project Load: [Mac IDE] Can now open projects direct from Finder via their .yyp file / Project Load: [Mac IDE] Right-clicking .yyp files and "open with" again correctly shows the Import dialog, rather than just sitting on the Start Page  [the change to .NET usage in 2022.6.0 had temporarily broke these]
+- Project Load: [Mac IDE] Right-clicking .yyz files and "open with" now starts the Import process properly, rather than stopping at the Start Page
+- Project Load: Fast Serialiser no longer fails to read TextureGroups that reference ParentGroups, causing the old serialiser to be used instead - now, all of it will be handled by the faster method
+- Project Load: Fixed a GM crash when loading tile data which has somehow been set to zero height/width values [#12020](https://github.com/YoYoGames/GameMaker-Bugs/issues/12020)
+- Project Load: Fixed an issue where a new blank project which only contained the default Asset Browser folders may have shown "resource load failure" errors if saved and reopened
+- Project Load: Fixed an issue where if a project layout has an open Included Files window and the project has lots of Included Files it needs to show, then loading that project could stall in 2022.11
+- Project Load: Fixed an issue with importing projects could cause GM to lock up, revealed when importing some .yyzs made with 2024.1300 Betas into 2024.11 (note that the fix here is to prevent the situation happening in 2024.13 and future versions - 2024.11 will not be fixed) [#9321](https://github.com/YoYoGames/GameMaker-Bugs/issues/9321)
+- Project Load: Fixed issues where importing old-format tutorial projects no longer imported their Included Files or other required source image/sound files
+- Project Load: Fixed that making any change to the main project file outside GameMaker incorrectly marked the project as changed during the next load in 2023.2, causing a full re-save and therefore invalidating the asset cache
+- Project Load: Fixed that recently-created Asset Browser sub-groups which had other pre-existing groups moved into them could become duplicated when reloading the project in 2023.1.0
+- Project Load: Fixed that the attached project gave "Resource load failures encountered..." after IDE update to 2024.14 [#12501](https://github.com/YoYoGames/GameMaker-Bugs/issues/12501)
+- Project Load: Fixed that the Output window would still show errors for a previous project that had failed to open after successfully opening a different project [#9394](https://github.com/YoYoGames/GameMaker-Bugs/issues/9394)
+- Project Load: GM no longer crashes when converting the project attached [#14010](https://github.com/YoYoGames/GameMaker-Bugs/issues/14010)
+- Project Load: GM no longer crashes when reopening a project after resizing any font in that project which lacks standard chars the IDE expects [GM now calculates the initial size much more accurately for fonts which lack these standard characters and will also resize the texture page correctly when you increase the font's point size]
+- Project Load: GM no longer goes unstable when opening projects containing Instance Variables which have no name when Feather is enabled
+- Project Load: GM no longer goes unstable when reopening a project which had a Room Layers warning dialog showing at the time the project was last closed [#13659](https://github.com/YoYoGames/GameMaker-Bugs/issues/13659)
+- Project Load: GM no longer hangs when loading a project if the project folder contains a folder named ".git"
+- Project Load: GM no longer silently crashes a short while after opening the attached project [#10685](https://github.com/YoYoGames/GameMaker-Bugs/issues/10685)
+- Project Load: If one project fails and then a second one loads correctly, the menu/tool bars disable lots of items [#8340](https://github.com/YoYoGames/GameMaker-Bugs/issues/8340)
+- Project Load: Projects can now be opened even when an AnimCurve inside the project has somehow lost any of its Y point values, allowing you to the edit the curve and fix the issue [all missing values on any curve which is one of "Position", "Rotation", "Scale", or "Origin" will now be reset to 0,0, as these types of curves always require their x and y channels to be in sync and the same length, etc.]
+- Project Load: Projects containing instances which inherit code from parents that have been removed at some point in the past now have this redundant/stale information cleaned automatically, as in previous versions the code obviously did nothing in-game but you got no indication about why it wasn’t called
+- Project Load: Projects created and last opened in a GM version from before the year 2020 (so project format < 1.3) no longer fail to load
+- Project Load: Projects which have been opened in Feb-or-newer releases will now show an error if you attempt to open them in this release (older versions will appear blank if the project does contain particles and will not warn you the project was opened read-only if the project does not contain particles, so please bear this in mind when using old IDEs)
+- Project Load: Very related to the line above, also fixed that having a lot of Included Files in a project could cause the same result
+- Project Save: "Add Existing" and picking assets which reuse an existing asset's name but with title-case changes did not import correctly [#12779](https://github.com/YoYoGames/GameMaker-Bugs/issues/12779)
+- Project Save: [Mac IDE] GM no longer crashes when Sounds are being imported and YYAL detects there is a problem with the sound (now, the error will simply be logged for you) [#13885](https://github.com/YoYoGames/GameMaker-Bugs/issues/13885)
+- Project Save: [Mac IDE] GM no longer crashes when trying to open a Save Dialog [#8293](https://github.com/YoYoGames/GameMaker-Bugs/issues/8293)
+- Project Save: [Win IDE] GM crash when attempting to create new project at a path longer than Windows' filesystem constraints [#11558](https://github.com/YoYoGames/GameMaker-Bugs/issues/11558)
+- Project Save: Deleting an instance's creation code no longer unexpectedly triggers the File Watcher and clicking "reload" no longer crashes GM [#8216](https://github.com/YoYoGames/GameMaker-Bugs/issues/8216)
+- Project Save: Deleting an Object used as a "following" in a viewport no longer corrupts the project, making it give compile and load errors [#8652](https://github.com/YoYoGames/GameMaker-Bugs/issues/8652)
+- Project Save: DnD-to-GML conversion of an object event now correctly modify the .yy file at the time of conversion, stops a bug where that event used DnD again whenever the project was next reloaded
+- Project Save: Dragging a file onto GMS2 to add as an Included File no longer has the potential to stop all further save attempts in that session
+- Project Save: Fixed a GM hang when using Add Existing asset if source control is enabled for that project
+- Project Save: Fixed a way that duplicating a UI prefab in 2024.14.1 could break the project and make unable to save or be opened thereafter [#12919](https://github.com/YoYoGames/GameMaker-Bugs/issues/12919)
+- Project Save: Fixed after duplicating certain prefab assets, project can no longer be closed [#13047](https://github.com/YoYoGames/GameMaker-Bugs/issues/13047)
+- Project Save: Fixed an issue where GM soft locks and takes longer than necessary when saving changes to a sprite after importing a large number of big images at once  [see the explanation higher up]
+- Project Save: Fixed cases of GM showing there were unsaved changes even when no modifications had been made
+- Project Save: Fixed that Game Options > Android didn't set a default value for DisplayLayout when creating projects (despite visually appearing to have done so) and therefore in-game it would just log a message until fixed manually) [#13426](https://github.com/YoYoGames/GameMaker-Bugs/issues/13426)
+- Project Save: Fixed that GML Visual nodes could disappear after the event window is closed in 2024.14.3 [#13681](https://github.com/YoYoGames/GameMaker-Bugs/issues/13681)
+- Project Save: Fixed that guest user Preferences defaults meant you were not shown confirmation dialogs when deleting events from Objects (and so it looked like you had to sign-in to be able to delete events) [#13183](https://github.com/YoYoGames/GameMaker-Bugs/issues/13183)
+- Project Save: Fixed that Instance Creation Code editors using Code Editor 2 could refuse to save correctly after copy-pasting objects which have ICC [#13756](https://github.com/YoYoGames/GameMaker-Bugs/issues/13756)
+- Project Save: Fixed that instance variable changes did not save one time when edited in the Inspector and then run [#13276](https://github.com/YoYoGames/GameMaker-Bugs/issues/13276)
+- Project Save: Fixed that per-instance creation code in rooms was stripped from .yymps on import [#14212](https://github.com/YoYoGames/GameMaker-Bugs/issues/14212)
+- Project Save: Fixed that renaming/deleting an object assigned as a viewport's "object to follow" caused project load failures thereafter [#13516](https://github.com/YoYoGames/GameMaker-Bugs/issues/13516)
+- Project Save: Fixed that some Spine sprites could give warnings on import about not being supported by GM, despite working fine thereafter [#13142](https://github.com/YoYoGames/GameMaker-Bugs/issues/13142)
+- Project Save: Fixed that the Sprite Editor and Asset Browser did not show any changes if you created a new Sprite, immediately renamed it, and then edited it [#12788](https://github.com/YoYoGames/GameMaker-Bugs/issues/12788)
+- Project Save: Fixed that when duplicating a room the newly-created room still linked to the old room's creation code file until whenever you next opened the new room’s code window
+- Project Save: GM no longer goes unstable when duplicating a UI layer in the Room Editor [#13761](https://github.com/YoYoGames/GameMaker-Bugs/issues/13761)
+- Project Save: GM no longer hangs when creating a new project from a Template and adding a space as the last character in its name
+- Project Save: GMS2 no longer goes unstable or corrupts your project when attempting to import unreadable .ogg files
+- Project Save: Removed a redundant warning when renaming newly-created and empty Timeline moments
+- Project Save: Removed the redundant resource order information from the project .yyp file, so now all resource-ordering information comes from the separate new file which was added in 2023.1.0
+- Project Save: Resolved duplicating the UI prefab did not duplicate a required script and so you got an error that `GetLocalisation()` was missing [#13714](https://github.com/YoYoGames/GameMaker-Bugs/issues/13714)
+- Project Save: Resolved shaders not importing reliably when using "Add Existing" if a shader with the same name already exists in the current project [#13790](https://github.com/YoYoGames/GameMaker-Bugs/issues/13790)
+- Project Save: Setting a UI Layer to use "Game View", undoing this, duplicating the layer and then deleting the original no longer breaks the project thereafter [#13670](https://github.com/YoYoGames/GameMaker-Bugs/issues/13670)
+- Project Save: The default room name is always no longer incorrectly localised for some IDE languages and so is always "Room1" again (fixes issues with sharing projects made in some languages, as seen on the line above)
+- Project Save: The Home button on the toolbar (to return to the Start Page) no longer always saves script/event/note changes
+- Project Save: You can now remove links for filters/effects after adding them, so you're able to build the project again after uninstalling that prefab [#12895](https://github.com/YoYoGames/GameMaker-Bugs/issues/12895)
+- Recent Windows: [Mac IDE] You can now multi-select assets using ⌘+LMB
+- Recent Windows: Clicking on a “chained” window (e.g., an object’s Event window) now also Inspects the relevant asset
+- Recent Windows: Fixed that the Texture/Audio Groups Editors never appeared in the  list
+- Redefine Keys: "Record Keys" search now maintains all keys pressed in the combination on key-up, rather than only considering the last-released key
+- Redefine Keys: "Show code snippets" has been restored, so you can now redefine this if you want
+- Redefine Keys: [Image Editor] Shortcuts for "Auto Trim and "Export to PNG" now work correctly
+- Redefine Keys: [Mac IDE] Fix that the "Key Record" search feature was too strict and so didn't show all expected matches
+- Redefine Keys: [Mac IDE] GM no longer crashes after deleting all text from the Search Bar
+- Redefine Keys: [Mac IDE] Mapping "Start/End of Document" to Command-Up/Down keys now works [#9112](https://github.com/YoYoGames/GameMaker-Bugs/issues/9112)
+- Redefine Keys: [Mac IDE] Search will now find keys that have a Unicode display (as well as continuing to find those which don’t)
+- Redefine Keys: [Mac IDE] The tilde key is now displayed correctly as ~, rather than as its key code (167)
+- Redefine Keys: [Windows IDE]  The hash key is now displayed correctly as #, rather than as its key code (35)
+- Redefine Keys: Added a warning when binding the Shift key in a command which affects Code Editor, just to make you aware of the implications of your change
+- Redefine Keys: Addressed choosing "override" causing subsequent undo/redo operations to jump around in the list [#12613](https://github.com/YoYoGames/GameMaker-Bugs/issues/12613)
+- Redefine Keys: Change sorting/display order of entries so that priority commands are always listed first
+- Redefine Keys: Fixed an issue with keybindings not working correctly for some commands which had multiple keys available to do the same thing, or where the timings of the keypresses could affect the outcome (e.g., a very quick press-and-release of Ctrl+Tab would give a different result to holding those keys for a tiny amount longer)
+- Redefine Keys: Fixed names for Left and Right Brackets to be consistent
+- Redefine Keys: Fixed that bindings using Alt / Shift / Ctrl showed duplicates of those modifier keys [#13335](https://github.com/YoYoGames/GameMaker-Bugs/issues/13335)
+- Redefine keys: Fixed that some commands did not appear in the list until you were actively working on a loaded project, so (e.g.) if you were on the Start Page you could not see them - now, all commands are always available once GameMaker has started
+- Redefine Keys: Fixed that some keyboard shortcut descriptions were vague
+- Redefine Keys: Fixed the missing strings for the keyboard shortcuts regarding creating new Particle assets
+- Redefine Keys: GMS2 crashes if Redefine Keys window is closed when "Record Keys" search option is enabled
+- Redefine Keys: No longer possible to update Hot Key label for Object Editor keys and block creation of new events thereafter [#10469](https://github.com/YoYoGames/GameMaker-Bugs/issues/10469)
+- Redefine Keys: Now able to collapse/expand sections in Preferences UI
+- Redefine Keys: The "Create Asset Window" shortcut now works correctly in further projects after returning to the Start Page one time
+- Redefine Keys: Timeline Editor's "Edit Moment" hotkey of Alt+Enter now works again [the same thing would have affected any key combination which used Enter/Return along with any other keys]
+- Redefine Keys: Timeline Editor's "Edit Moment" preference label is now "Change Moment" to match the actual editor command
+- Redefine Keys: Trying to reassign a shortcut back to its default key will not bring up a conflict window any more
+- Refresh System Fonts: Fixed that earlier 2024.14 releases did not make newly-installed fonts available immediately, had to restart GM to see them [#12734](https://github.com/YoYoGames/GameMaker-Bugs/issues/12734)
+- Room Editor: "Centre fit" now works properly when the origin of an instance/asset is not at the top-left or if its sprite/sequence is rotated
+- Room Editor: "Select Tiles" tool no longer causes a lot of lag after GM has been open for a while [#8830](https://github.com/YoYoGames/GameMaker-Bugs/issues/8830)
+- Room Editor: [Mac IDE] GM no longer crashes when opening the Instance Creation Order dialog for any room in attached project [#12853](https://github.com/YoYoGames/GameMaker-Bugs/issues/12853)
+- Room Editor: [SP] Status bar text for path layer mouse controls is now localised correctly
+- Room Editor: alt+ctrl now allows precise placement of objects again and using ctrl while alt is pressed no longer makes the object invisible
+- Room Editor: Asset/Background layers correctly show their content if using a custom skin and there is a Path layer in that room [#8783](https://github.com/YoYoGames/GameMaker-Bugs/issues/8783)
+- Room Editor: Changing the layer order in inherited rooms is no longer reset after later reloading the project
+- Room Editor: Colour Tint effect type’s colour picker is now one which does not show alpha settings - the alpha was correctly being ignored in older GMS2 versions, as this is not part of the effect, but the picker implied it should have worked
+- Room Editor: CTRL+D now works for duplicating layers
+- Room Editor: Cut/Copy/Paste Instance keyboard shortcuts are now working again
+- Room Editor: Distort's "scale" value now increments via the slider consistently compared to how it does via the buttons
+- Room Editor: Filter settings common to both "Boxes" and "Stripes Background" no longer use different labels and ranges to each other
+- Room Editor: Fix to "Don’t show it next time" Preference when deleting a room layer [#9049](https://github.com/YoYoGames/GameMaker-Bugs/issues/9049)
+- Room Editor: Fixed a Room Layer inheritance issue shown in project Fantasy...
+- Room Editor: Fixed an issue where some specific projects couldn't convert instance creation code from Visual to Code (textv8_... )
+- Room Editor: Fixed an issue where you were unable to interact with room layers after using auto-tiling and then undoing your changes
+- Room Editor: Fixed issues where free users could edit redundant fields for filter/effect layer settings if such a layer was already in the room (so now these fields are disabled, like the Inspector versions of these fields were already)
+- Room Editor: Fixed issues with selecting overlapping objects [#8065](https://github.com/YoYoGames/GameMaker-Bugs/issues/8065)
+- Room Editor: Fixed room background layer not loading when opening the Room Editor when the image icon has not been generated
+- Room Editor: Fixed that any Sprite Override value is lost when changing the Object for an Instance [#12852](https://github.com/YoYoGames/GameMaker-Bugs/issues/12852)
+- Room Editor: Fixed that blank lines in layer text elements don't show up in the room editor [#13601](https://github.com/YoYoGames/GameMaker-Bugs/issues/13601)
+- Room Editor: Fixed that copy/pasted instances sometimes changed position shortly after being pasted if there was a difference in grid values between the layers [#10979](https://github.com/YoYoGames/GameMaker-Bugs/issues/10979)
+- Room Editor: Fixed that cutting multiple Objects at once and pasting them to a different layer loses any instance creation code those Objects had [#13530](https://github.com/YoYoGames/GameMaker-Bugs/issues/13530)
+- Room Editor: Fixed that Filter layer settings were almost all always English [note that this translation work has not yet been done for the brand new Windblown Particles type, so that will still mostly be English]
+- Room Editor: Fixed that layer properties were still editable when the layer is locked (and the same fix for the Inspector when targeting a room)
+- Room Editor: Fixed that name-uniqueness was only enforced when naming UI layer root, not when naming nested panels - is now consistent and will allow the same name for both [#13485](https://github.com/YoYoGames/GameMaker-Bugs/issues/13485)
+- Room Editor: Fixed that shift-clicking disabled "select from any layer" [#5751](https://github.com/YoYoGames/GameMaker-Bugs/issues/5751)
+- Room Editor: Fixed that when creating a new layer, the Room tab is selected for rename instead of that new layer in the room [#14216](https://github.com/YoYoGames/GameMaker-Bugs/issues/14216)
+- Room Editor: Fixed that when using "select from any layer" mode, clicking on a Tile Layer with autotiling enabled instantly drew tiles where you clicked [#6410](https://github.com/YoYoGames/GameMaker-Bugs/issues/6410)
+- Room Editor: GM 2024.14 crash for calculating an item's area when trying to open a sound in the Sound Editor [#12481](https://github.com/YoYoGames/GameMaker-Bugs/issues/12481)
+- Room Editor: GM no longer crashes if the File Watcher is set to "auto-reload" in your Preferences and an external app (e.g., source control) modifies a room's .yy file while it's in use [#7868](https://github.com/YoYoGames/GameMaker-Bugs/issues/7868)
+- Room Editor: GM no longer crashes in SaveInstanceLayoutXml when loading my project while GM was not in focus [#13013](https://github.com/YoYoGames/GameMaker-Bugs/issues/13013)
+- Room Editor: GM no longer crashes in some circumstances after performing multiple actions in a row via keyboard shortcuts and then trying to Undo
+- Room Editor: GM no longer crashes when copy/pasting blank tiles assets [#13949](https://github.com/YoYoGames/GameMaker-Bugs/issues/13949)
+- Room Editor: GM no longer crashes when copying an instance which references in its Variable Definitions a now-deleted second instance [#13479](https://github.com/YoYoGames/GameMaker-Bugs/issues/13479)
+- Room Editor: GM no longer crashes when deleting a UI Layer [#14093](https://github.com/YoYoGames/GameMaker-Bugs/issues/14093)
+- Room Editor: GM no longer crashes when pasting multiple flexpanels that were copied from a different UI Layer [#13545](https://github.com/YoYoGames/GameMaker-Bugs/issues/13545)
+- Room Editor: GM no longer crashes when trying to use my tileset in a room [#13944](https://github.com/YoYoGames/GameMaker-Bugs/issues/13944)
+- Room Editor: GM no longer crashes when using certain size of monitors/resolutions and opening any room creation code editors whilst the currently-selected layer is a filter layer
+- Room Editor: GM no longer goes unstable when copy/pasting or duplicating instances and then pressing Ctrl-Z to undo the changes [#1973](https://github.com/YoYoGames/GameMaker-Bugs/issues/1973)
+- Room Editor: GM no longer goes unstable when double-clicking on a search result which points to a disabled instance's creation code
+- Room Editor: GM no longer goes unstable when dropping a Spine sprite into the room and saying “yes” to automatically creating a new asset layer
+- Room Editor: GM no longer goes unstable when moving a layer inside a locked folder in the layers panel [#7353](https://github.com/YoYoGames/GameMaker-Bugs/issues/7353)
+- Room Editor: GM no longer goes unstable when opening a project which has an instance creation code window already open in its layout and for which no code file exists at that moment
+- Room Editor: GMS2 no longer goes unstable when moving a sub-layer out of an effect layer
+- Room Editor: GMS2 no longer goes unstable when trying to open room creation code if the project layout file contains an extremely high/low location for this window
+- Room Editor: Layers Panel content no longer disappears when using the undo command on Room Editor operations
+- Room Editor: Paths can now be modified when "select from any layer" is enabled
+- Room Editor: Paths dialog for incrementing the direction no longer has clipped text when using localised languages - now, the text will wrap properly
+- Room Editor: Related to the above, GM no longer crashes when previewing any filter layer and then scrolling the room editor so much that the room goes off-screen
+- Room Editor: Renamed all filter layer settings which had the naming convention of "Rgb1/2/3" to now specify which one of R, G or B that setting actually affects
+- Room Editor: Renaming objects, sprites and tiles in the Asset Browser now immediately updates the name shown on all relevant Layer Properties panels and the Instance Creation order panel inside the room UI
+- Room Editor: Resolved "Select from Any Layer" functionality not working as expected when selecting across Tile Layers [#13983](https://github.com/YoYoGames/GameMaker-Bugs/issues/13983)
+- Room Editor: Resolved that duplicating instances sometimes did not generate a new ID for that new instance [#13536](https://github.com/YoYoGames/GameMaker-Bugs/issues/13536)
+- Room Editor: Room contents are now updated when Room Manager's inheritance values are updated
+- Room Editor: Stopped you being able to later modify a locked "Filters and Effects" layer without having to unlock it again first
+- Room Editor: The "Select From Any Layer" button no longer switches itself off after one use, instead it will now stay enabled until toggled manually again [note that this does not apply to the “P” hotkey for this same functionality - that still only applies whilst you’re pressing the key]
+- Room Editor: Windblown Particle Effect settings are now localised correctly
+- Room Manager: Changing room inheritance now shows a warning you are about to make the change
+- Runtimes: Can now roll back runtimes to ones published in earlier calendar years [#10200](https://github.com/YoYoGames/GameMaker-Bugs/issues/10200)
+- Search & Replace: Fixed that clicking on a search result sometimes changed the scroll offset, sending you to the wrong result [#12371](https://github.com/YoYoGames/GameMaker-Bugs/issues/12371)
+- Search & Replace: Fixed that the Inspector effectively overrides "Replace All" changes in a Script if it is being previewed at that time
+- Search & Replace: Fixed that the process sometimes never finished if "Stop Search" was clicked while processing a large project
+- Search & Replace: GM no longer goes unstable when replacing text if there are multiple views of the same script visible at the time
+- Search & Replace: Now changes GML Visual function names even if the function's node is open at the time
+- Search & Replace: Now works correctly on GML Visual node values
+- Search & Replace: Resolved that the dialog not move correctly when dragged to a new location [#13146](https://github.com/YoYoGames/GameMaker-Bugs/issues/13146)
+- Sequence Editor: "Add Track" + button now works even if a track is already selected in the Track Panel
+- Sequence Editor: "Invalid shared curve" dialog text is no longer cut off
+- Sequence Editor: [Attached Keys] All keys now get selected reliably when using the SHIFT+LMB hotkey to do this
+- Sequence Editor: [Light Skin] Dope Sheet no longer shows track preview images as silhouettes
+- Sequence Editor: [Mac IDE] Fixed that closing a popped-out Dopesheet window could potentially crash GMS2 with a render error
+- Sequence Editor: Adding a function from the moment editor no longer has the chance of adding multiple of the same name
+- Sequence Editor: Adding specific tracks to the Clipping Mask no longer unwantedly renames the mask
+- Sequence Editor: Addressed dope sheet curve tool causing significant slowdown while editing curves [#9071](https://github.com/YoYoGames/GameMaker-Bugs/issues/9071)
+- Sequence Editor: Broadcast Message windows now have a field to edit its frame, just like Moments already do
+- Sequence Editor: Can now adjust the Dopesheet zoom via Ctrl+MouseWheel again
+- Sequence Editor: Can now rename tracks in the Track Panel again
+- Sequence Editor: Changing the sorting of tracks inside groups no longer shows incorrect results until you next reopen that sequence
+- Sequence Editor: Creating a new clipping mask now creates it expanded straight away
+- Sequence Editor: Fixed an issue where changes to an object on the canvas were not saved properly after interacting with dashed blue translation paths [initially reported to be after idling GMS2 for a while]
+- Sequence Editor: Fixed audio incorrectly began playing in full when a sequence was paused on the frame in which the audio function is called
+- Sequence Editor: Fixed that Clipping Mask text changed case after closing and reopening that Sequence
+- Sequence Editor: Fixed that you could undo the removal of the track of a deleted asset, causing compile and project load failures [#12279](https://github.com/YoYoGames/GameMaker-Bugs/issues/12279)
+- Sequence Editor: GM goes unstable when pasting a moment timestamp into a function field [#9455](https://github.com/YoYoGames/GameMaker-Bugs/issues/9455)
+- Sequence Editor: GM no longer crashes when copy/pasting points in an AnimCurve [#14689](https://github.com/YoYoGames/GameMaker-Bugs/issues/14689)
+- Sequence Editor: GM no longer crashes when creating a delay audio effect track [#8408](https://github.com/YoYoGames/GameMaker-Bugs/issues/8408)
+- Sequence Editor: GM no longer crashes when pressing Ctrl+C after clicking the tracks panel, but no track selected at the time [#13943](https://github.com/YoYoGames/GameMaker-Bugs/issues/13943)
+- Sequence Editor: GM no longer goes unstable when manually adding a keyframe to an Image Index track
+- Sequence Editor: GMS2 no longer goes unstable when deleting a locked or hidden track
+- Sequence Editor: GMS2 rendering no longer fails after rotating the only visible track in a sequence containing multiple hidden tracks
+- Sequence Editor: Go To Moment will now take you to a newly-created function even if the script is closed
+- Sequence Editor: Hotkeys for editing a curve now work [#7233](https://github.com/YoYoGames/GameMaker-Bugs/issues/7233)
+- Sequence Editor: If a sound is longer than the sequence, the audio audio preview no longer plays a different section whenever looping [note that enabling ping-pong will continue to play the audio normally when the sequence is looping - it won’t suddenly play it backwards]
+- Sequence Editor: Pasting a moment timestamp into a function field no longer causes instability [#9455](https://github.com/YoYoGames/GameMaker-Bugs/issues/9455)
+- Sequence Editor: Removed a redundant "Asset Track" variable from sequence instances
+- Sequence Editor: Resolved text elements in a sequence had their origin shifted, making them scale incorrectly and causing a gap at the top of the frame [#14043](https://github.com/YoYoGames/GameMaker-Bugs/issues/14043)
+- Sequence Editor: Seeking while audio is playing now updates the audio track position correctly
+- Sequence Editor: Setting a sequence's framerate to 0 no longer also locks its length to 1
+- Sequence Editor: Text is no longer incorrectly rendered using the "DPI override" Preference value, stops issues where text can look different in the editor to the in-game result if the IDE is set to anything other than 100% DPI
+- Sequence Editor: The audio buffer is now cleared when rewinding the sequence
+- Sequence Editor: There’s a new option for the selection of keys in sequences either with or without the associated track in Preferences > Sequences
+- Sequence Editor: Track Panel previously allowed Sprites to be dropped outside a Clipping Mask's "Subject" and "Mask" tracks, but clipping only works when sprite is a child of these, so now the drop controls will only appear when you drop the Sprite onto the track, not next to it
+- Shutdown: [Windows IDE] Resolved that GM did not always fully shutdown if launched from Steam Client, as child processes need to be closed also (note that this fix does not only apply to Steam, so all issues with Windows thinking GM is still running after you have closed the IDE should be fixed now) [#13418](https://github.com/YoYoGames/GameMaker-Bugs/issues/13418)
+- Sound Editor/Inspector: Fixed that renaming a sound asset also reset its volume [#12252](https://github.com/YoYoGames/GameMaker-Bugs/issues/12252)
+- Sound Editor: [Mac IDE] GM no longer crashes on M-series Macs when creating/opening sounds if Rosetta is not installed [#2592](https://github.com/YoYoGames/GameMaker-Bugs/issues/2592)
+- Sound Editor: Audio import IDE crash and Program Files directory deletion [#12610](https://github.com/YoYoGames/GameMaker-Bugs/issues/12610)
+- Sound Editor: Fixed a "Conversion Failed" error being returned when trying to play sounds in the attached project in 2024.1400.4 Beta IDEs [#14014](https://github.com/YoYoGames/GameMaker-Bugs/issues/14014)
+- Sound Editor: Fixed that audio preview kept playing after the asset has been deleted [#13822](https://github.com/YoYoGames/GameMaker-Bugs/issues/13822)
+- Sound Editor: GameMaker doesn't play an audio file from Audacity [#880](https://github.com/YoYoGames/GameMaker-Bugs/issues/880)
+- Sound Editor: GM crash when changing a sound but the original audio file is locked by the OS [#11452](https://github.com/YoYoGames/GameMaker-Bugs/issues/11452)
+- Sound Editor: GM goes unstable and crashes if the local machine blocks running the FFMpeg executable due to a Windows group policy setting [#10981](https://github.com/YoYoGames/GameMaker-Bugs/issues/10981)
+- Sound Editor: GM no longer crashes in `SoundInstance.PrepareToPlay()` when changing the source file for an asset to be a new .ogg [#14446](https://github.com/YoYoGames/GameMaker-Bugs/issues/14446)
+- Sound Editor: Play button no longer stops responding if clicked again too soon when trying to preview a large sound file
+- Source Control: Fixed creating and committing to projects using the word “commit” in the comment [#9339](https://github.com/YoYoGames/GameMaker-Bugs/issues/9339)
+- Source Control: Fixed that the Commit Changes button sometimes remains disabled after changing assets/files, unless you Pull first or restart GM [related to the Licensing fix mentioned higher up already]
+- Source Control: Fixed that the Output window incorrectly showed a redundant old "Trial user" message when loading a project using a Free/Guest licence
+- Source Control: GM no longer crashes when viewing Git history if Preferences is set to use GitHub Desktop (or some other non-commandline client) [#10626](https://github.com/YoYoGames/GameMaker-Bugs/issues/10626)
+- Source Control: Removed a lot of duplicated logging to the ui.log for various commands which already correctly showed their result to you inside GMS2 anyway
+- Sprite Editor: "Centre Fit" now works correctly for Spine images
+- Sprite Editor: [Mac IDE] Importing an image should no longer occasionally result in a blank sprite being created [If you do still get this, please file a bug ticket and send us your ui.log]
+- Sprite Editor: [Mac IDE] Restored the old behaviour that files dragged onto the image window now replace the existing sprite content as you’d expect (and as the WIndows IDE still does), rather than creating a new sprite like GMS2 did in the last few releases
+- Sprite Editor: [Spine] Fixed an issue which meant it was in some cases not possible to import images which have multiple skins using Spine's mesh-deformation feature
+- Sprite Editor: `ToggleCollisionTypeOptions()` errors can cause the editor window to fail to open [#8953](https://github.com/YoYoGames/GameMaker-Bugs/issues/8953)
+- Sprite Editor: Changed "Precision" for SVG sprites to use integers, so the slider is smoother and acts like a percentage [#8958](https://github.com/YoYoGames/GameMaker-Bugs/issues/8958)
+- Sprite Editor: Cropping the sprite no longer malforms its Sprite Origin
+- Sprite Editor: Extended the selection areas for "Texture Settings, "Collision Mask" and "Nine Slice" so the whole row will react to mouse clicks, rather than just the area where the words are
+- Sprite Editor: Fixed a GM crash when closing all animation frames at once [#11649](https://github.com/YoYoGames/GameMaker-Bugs/issues/11649) / Sprite Editor: GM crash when importing multiple images into a sprite at once [#11180](https://github.com/YoYoGames/GameMaker-Bugs/issues/11180)
+- Sprite Editor: Fixed that changing frame length often affected a different frame instead of the active one you dragged [#13245](https://github.com/YoYoGames/GameMaker-Bugs/issues/13245)
+- Sprite Editor: Fixed that Frame View allowed gaps between frames and that stretching/shrinking frames behaved unpredictably [#13244](https://github.com/YoYoGames/GameMaker-Bugs/issues/13244)
+- Sprite Editor: Fixed that the eraser tool missed editing some frames while the Sprite is currently animating and at 10FPS+ [#14017](https://github.com/YoYoGames/GameMaker-Bugs/issues/14017)
+- Sprite Editor: Fixed that the wrong confirmation dialog was used when dropping images onto GM from Explorer/Finder and so you were able to set your Preferences to block future image imports via drag/drop [#13767](https://github.com/YoYoGames/GameMaker-Bugs/issues/13767)
+- Sprite Editor: Fixed that vectors imported 1px smaller than expected and therefore draw beyond their own preview canvas [#13533](https://github.com/YoYoGames/GameMaker-Bugs/issues/13533)
+- Sprite Editor: Fixed that you could add multiple broadcast messages on a single frame, but the editor repositioned them on reopening that sprite (and that all of this differed from what the manual said was allowed) [#13246](https://github.com/YoYoGames/GameMaker-Bugs/issues/13246)
+- Sprite Editor: GM crash in `DopeSheet_OnOsDndEvent()` when deleting a frame from the preview bar [#10835](https://github.com/YoYoGames/GameMaker-Bugs/issues/10835)
+- Sprite Editor: GM no longer crashes due to a large memory usage spike when adding text to a large image (e.g., larger than 1080p)
+- Sprite Editor: GM no longer crashes when trying to undo a sprite replacement to restore a previous source image [#13477](https://github.com/YoYoGames/GameMaker-Bugs/issues/13477)
+- Sprite Editor: GM no longer crashes when trying to undo the import of multiple images of different sizes [#13758](https://github.com/YoYoGames/GameMaker-Bugs/issues/13758)
+- Sprite Editor: GM no longer crashes when using Ctrl+C to copy a frame in 2024.14.1 [#12923](https://github.com/YoYoGames/GameMaker-Bugs/issues/12923)
+- Sprite Editor: GM no longer goes unstable when dragging a PNG into the sprite dopesheet for a SVG sprite [#13737](https://github.com/YoYoGames/GameMaker-Bugs/issues/13737)
+- Sprite Editor: GMS2 can now import .jpg files made by Photoshop 2021 (the same thing could affect other editors in their new versions also, as it's due to a change in the .jpg header format)
+- Sprite Editor: Importing a SWF as a new sprite no longer gives a red “X” broken sprite preview
+- Sprite Editor: Locked origin values now reset properly when the origin returns to the locked point after being moved
+- Sprite Editor: Now fully allows multiple Broadcast Messages on a single frame [#13246](https://github.com/YoYoGames/GameMaker-Bugs/issues/13246)
+- Sprite Editor: Num Keys 1-3 no longer interfere with text input actions
+- Start Page: "Browse Project" button is now the correct colour and uses the correct icon relative to the design
+- Start Page: "Last Login" string for Brazilian Portuguese no longer uses the wrong language
+- Start Page: "Recent Projects" entry highlight no longer extends too wide for the column
+- Start Page: "Setup Wizard" hover states are consistent for the "Skip ..." and "Close" buttons
+- Start Page: All text elements are now localised
+- Start Page: Downloading any Templates will now recreate the required “TemplateFiles” cache folder if it has been deleted outside GM whilst GM is open
+- Start Page: Fixed that buttons such as New/Open/etc. appeared active but did not function whilst the "Setup Wizard" is open
+- Start Page: Fixed that the Tutorials button actually used an old "yoyogames.com" URL rather than the current gamemaker.io version (but your browser then redirected you anyway)
+- Start Page: Folder picker button now has a hover highlight
+- Start Page: GMS2 now allows opening Go To to search for Preferences matches whilst on the Start Page [mentioned in the misc tweaks section above already]
+- Start Page: Loading any project no longer causes the font in the Start Page to change slightly [originally thought to be a result of using the "Refresh System Fonts" command whilst in a project]
+- Start Page: Modified the tour/wizard to start new users on step 2, as they have no existing projects to be shown/told about
+- Start Page: New project's name and save path fields are now immediately below the GML/DND buttons, as new projects have no Description value to show
+- Start Page: Online/offline indicators are now updated properly on a timer, like they were in the old-style Start Page
+- Start Page: Recent Projects list now immediately updates to show the expected content when you log-in using a Legacy account [it already worked in 2023.2 if you were using SSO]
+- Start Page: Right-clicking will no longer open a redundant context menu
+- Start Page: Set Up Wizard no longer has a "\N" typo in the Spanish translation of the description text
+- Start Page: Sidebar scaling is now correct in non-maximised windows after returning via the Home Button
+- Start Page: Template download "cancel" buttons do not actually cancel the process
+- Start Page: Template preview images now fit their preview pane correctly
+- Start Page: Template titles are no longer the wrong colour relative to the design and misaligned
+- Start Page: The "all/official/user" filter dropdown value on the New Project page is now remembered for future visits to the Start Page
+- Start Page: The "Cancel" and "Let's Go" buttons are no longer always in their hover state
+- Start Page: The "This is a Beta version" warning dialog now shows again, following the version number changes earlier in the year
+- Start Page: The username label is now aligned with "Get Started"
+- Start Page: Tour - Fixed an inconsistency with double-quote placement for "Tutorials" in German
+- Start Page: Tour's  '#' prompt no longer overlaps with the text for those languages which did not handle this correctly in the last release
+- Start Page: Tour's "Set Up Wizard" string is no longer cut off for SP, IT, FR, BZ
+- Start Page: Tour's "SKIP to Set up Wizard" is no longer cut off in a number of languages
+- Start Page: User's name shown no longer differs if using YYAcc or Opera SSO to login (it always shows your Username if you have set one in your YoYo Account panel or otherwise your first name)
+- Start Page: You are again able to use the Enter/Return key to confirm creating a new project (in recent versions you always had to click the “Let’s Go” button with your mouse)
+- Start Page: You now cannot open a redundant Workspace Overview window whilst on the Start Page
+- Syntax Errors: `string_split()` now correctly handles the last 2 of its 4 arguments as being optional, stops an unexpected syntax error
+- Syntax Errors: Dialog is now automatically populated with any existing errors whenever opened manually [you no longer need to create a new error in order for the old ones to appear]
+- Syntax Errors: Window now correctly appears after Feather is disabled in that IDE session [you no longer need to restart GM to enable the old errors again]
+- Target Manager: [GX.games] Fixed that devices were not selectable when scanning a QR code from the 2023.4 IDE
+- Target Manager: Fixed an issue there the current target platform and device values could be shown as empty in the top-right of the GameMaker window when loading a project after a user has upgraded from a free account [as a slight aside, you can also now use the new “Update Licence” command to immediately get any new purchases]
+- Target Manager: Fixed that selecting your default build target in Preferences to be some of the platforms (usually consoles) did not actually set Target Manager properly when creating a new project thereafter
+- Target Manager: GX.games is now the default target for all users whenever a new project is created
+- Target Manager: There’s a new option for subscription licence holders to change the default build platform used when opening/creating a new project in Preferences > General Settings
+- Target Manager: Using the "Modify Current Runtime Install" button in Preferences and applying a change now refreshes the owned/downloaded status of all modules in the list
+- Texture Groups Editor: Changed the old "Add Resource" label to the correct "Add Asset"
+- Texture Groups Editor: Fixed the "String not found" for the new BZ2 compression option in 2022.2.0 [this option has also changed already to become a dropdown, as mentioned higher up#
+- Texture Groups Editor: No longer fails to load groups correctly or sets UI focus incorrectly in projects containing more than one group [#7788](https://github.com/YoYoGames/GameMaker-Bugs/issues/7788)
+- Texture Groups Editor: Optimised Texture Groups to work with new image format
+- Texture Groups Editor: The preview window is now refreshed/cleared when changing the selected group
+- Texture/Audio Group Editor: Now refreshes automatically if already open when adding Prefabs into the project [#10059](https://github.com/YoYoGames/GameMaker-Bugs/issues/10059)
+- Tile Set Editor: GM no longer crashes when using an external editor to enlarge a sprite used by a tileset [#9052](https://github.com/YoYoGames/GameMaker-Bugs/issues/9052)
+- Tile Set Editor: The default value for the "Disable Source Sprite Export" checkbox is now OFF, so that tilemap collisions new in this August release work straight away, and there is also a new tooltip on the checkbox to say this
+- Tile Set Editor: Tile animation speed of 0 will result in very fast playback speed in-game, so the editor preview now shows the same result [#10977](https://github.com/YoYoGames/GameMaker-Bugs/issues/10977)
+- Timeline Editor: [Mac IDE] Right-click menu's hotkeys now match the Redefine Keys defaults
+- Timeline Editor: Duplicated moments are now correctly parsed by Feather after they have been created
+- UI Layers: Fixed being unable to drag a multi-selection of items in the UI Layers tree [#14252](https://github.com/YoYoGames/GameMaker-Bugs/issues/14252)
+- UI/UX: "Proxy Settings" dialog has been relocated from inside Legacy sign-in to somewhere more generic [#7546](https://github.com/YoYoGames/GameMaker-Bugs/issues/7546)
+- UI/UX: [Accounts Menu] If you resize the GameMaker window when the Accounts panel is open, the opened dialog no longer stays at old location until GameMaker is clicked again
+- UI/UX: [DPI] Addressed switching to displays of differing resolutions when closing laptop lid caused DPI problems [#13103](https://github.com/YoYoGames/GameMaker-Bugs/issues/13103)
+- UI/UX: [Light Skin] Overridden instance variable "name" and "type" values in the Inspector and Room Editor are no longer light-text-on-a-white-background
+- UI/UX: [Mac IDE] "DPI Override" notification will no longer appear whilst using values under the suggested maximum limit (and the notification also itself respects your DPI settings now)
+- UI/UX: [Mac IDE] Beta IDE "Release Notes" link in the Help menu no longer takes you to a very old "GMS2" beta releases page
+- UI/UX: [Mac IDE] Dock icon’s "Quit" option now actually closes GameMaker
+- UI/UX: [Mac IDE] Fixed a situation where DPI calculations could be wrong on older Intel-based Macs and those with two GPUs, such as a 2019 Macbook Pro (now, GM always requests the accelerated chip does all the work) [#14097](https://github.com/YoYoGames/GameMaker-Bugs/issues/14097)
+- UI/UX: [Mac IDE] Fixed an issue where a previously-closed file picker dialog reappeared after switching back to GM from another application
+- UI/UX: [Mac IDE] Fixed laptop mode panning and zooming
+- UI/UX: [Mac IDE] Fixed that numpad keys performed both their navigational action and typed their number character [#8147](https://github.com/YoYoGames/GameMaker-Bugs/issues/8147)
+- UI/UX: [Mac IDE] Fixed that regular number keys no longer function as of 2024.1400 Beta 1 [#13950](https://github.com/YoYoGames/GameMaker-Bugs/issues/13950)
+- UI/UX: [Mac IDE] Fixed that the DPI value in Preferences keeps changing when moving the IDE between Retina and non-Retina displays [however, you may continue to need to change this value yourself when moving GM between different monitors with very different resolutions or DPI values]
+- UI/UX: [Mac IDE] Fixed that you could not open several context menus inside editors if the “IDE Language” Preference is set to "Simplified Chinese" [see the mention higher up that the default font has now been changed]
+- UI/UX: [Mac IDE] Laptop status is no longer always set to false, so Macbooks will now always use the expected hotkeys
+- UI/UX: [Mac IDE] Menubar’s "Minimise" command is now re-enabled correctly after you later maximise/restore the IDE again
+- UI/UX: [Mac IDE] Numberpad keys can again be used to trigger hotkey commands throughout GMS2
+- UI/UX: [Mac IDE] Numpad key "5" is now handled/ignored correctly when numlock is on/off on some keyboards
+- UI/UX: [Mac IDE] Option+Right Arrow now positions the caret at the end of the current word, not at the start of the next word, so it's more consistent with macOS norms [#9099](https://github.com/YoYoGames/GameMaker-Bugs/issues/9099)
+- UI/UX: [Mac IDE] Touchpad scrolling again longer uses the OS's "inertia" value [the change to .NET usage in 2022.6.0 had temporarily broke this]
+- UI/UX: [Win IDE] Resolved win-V not correctly pasting all history items [#4914](https://github.com/YoYoGames/GameMaker-Bugs/issues/4914)
+- UI/UX: [Win IDE] Tiny black bar flickers at bottom of the GM window since 2024.4 [#6108](https://github.com/YoYoGames/GameMaker-Bugs/issues/6108)
+- UI/UX: Added the "IDE Environment Variables" dialog into the Windows menubar dropdown
+- UI/UX: Allowed extending the size of all docks to 90% of screen, rather than only 40% [#8323](https://github.com/YoYoGames/GameMaker-Bugs/issues/8323)
+- UI/UX: Asian-language IMEs can now reliably type characters into the IDE [#6494](https://github.com/YoYoGames/GameMaker-Bugs/issues/6494)
+- UI/UX: AZERTY (French) resolved layout did not allow managing Bookmarks - setting them or navigating to existing ones [#13317](https://github.com/YoYoGames/GameMaker-Bugs/issues/13317)
+- UI/UX: Changed the staff credits to a link which opens an external webpage in the OS default browser, rather than the old scrolling window
+- UI/UX: Changed the text on GX upload dialog to say "Sign-In and Upload" rather than just “Sign-In”
+- UI/UX: Collapsed “Output Window” panels opened by an existing project layout now always immediately show their contents when expanded [you no longer have to manually trigger them to appear (e.g.) by resizing the dock]
+- UI/UX: Ctrl key works reliably for subsequent shortcuts again, no longer requires you to release and press it again [#2481](https://github.com/YoYoGames/GameMaker-Bugs/issues/2481)
+- UI/UX: Custom GX Environment SSO login dialog "No" button now also closes the dialog, as you might expect, rather than you having to always click the X afterwards
+- UI/UX: Fixed an issue where continued mouse wheel input kept scrolling the initial dialog for slightly too long after the cursor had been moved over another scrollable panel
+- UI/UX: Fixed dragging an Image Editor tab out into a new window causes the right panel to constantly resize
+- UI/UX: Fixed that floating windows (like the Included Files window) could fail to appear if they were set to appear on monitors to the right of the one the main IDE is on and required dragging the main IDE to a different monitor to fix [#13657](https://github.com/YoYoGames/GameMaker-Bugs/issues/13657)
+- UI/UX: Fixed that keyboard shortcuts for zoom controls in various editors either require/ignore Numpad keys in 2024.1400 Betas [#12344](https://github.com/YoYoGames/GameMaker-Bugs/issues/12344)
+- UI/UX: Fixed that overlapping a GM IDE window between two monitors could cause consistent flashing [#13414](https://github.com/YoYoGames/GameMaker-Bugs/issues/13414)
+- UI/UX: Fixed that reopening closed Output Windows from the Windows menu always created them undocked
+- UI/UX: Fixed that the "Beta Channel" dialog was too small for all non-English language’s text to fit
+- UI/UX: Fixed that the dialog shown when saving a new project inside another project’s folders incorrectly still said "GMS2" rather than “GameMaker”
+- UI/UX: Fixed that the Help menu links actually used old yoyogames.com URLs rather than their current gamemaker.io versions (but your browser then redirected you anyway)
+- UI/UX: Fixed that the label for Help -> YoYoGames.com is no longer the correct website name
+- UI/UX: Fixed that the OperaGX upload dialog accidentally said "Receiveng" instead of "Receiving"
+- UI/UX: Fixed that the Tile Animation window no longer accepts the Delete key to delete library items [#12441](https://github.com/YoYoGames/GameMaker-Bugs/issues/12441)
+- UI/UX: Fixed that various places in Preferences and Game Options still referred to "DND" rather than the correct newer name "GML Visual"
+- UI/UX: Fixed that zoom buttons were left disabled for the active workspace after a Script is detached to form a new IDE window [#13800](https://github.com/YoYoGames/GameMaker-Bugs/issues/13800)
+- UI/UX: Fixes for GMS crash in Exception in YoYoStudio.GUI.Gadgets.StackPanel,Void `StackPanel_UpdateLayout()`, which according to logs usually came when copy/pasting or saving via Ctrl+S [we also added more logging for this, so if you are still affected by this issue, then please file a bug report and send your ui.log]
+- UI/UX: Fixes For Non-QWERTY Keyboards and Numpad When NumLock Is Off
+- UI/UX: GM windows now have a minimum size value which can be configured in Preferences (defaults to 640x480) and stops accidentally making the IDE a tiny size
+- UI/UX: Hotkeys no longer still execute when searching for values in dropdown menus [#10640](https://github.com/YoYoGames/GameMaker-Bugs/issues/10640)
+- UI/UX: Input fields which accept floating points now accept and automatically convert commas into dots
+- UI/UX: Laptop Mode has been fixed so you can use Shift to perform multi-selection in various editors again [#7496](https://github.com/YoYoGames/GameMaker-Bugs/issues/7496)
+- UI/UX: Layouts now resize properly when opening a project which contains values for a smaller screen and then entering full-screen on a monitor with high DPI settings
+- UI/UX: Licencing Error 47 dialog’s “Retry” button has now been relabelled to clarify it only allows SSO retries
+- UI/UX: Light Skin's window close button no longer has an unwanted extra "X" embedded in the image, so now looks cleaner
+- UI/UX: Made a change/fix for mouse-polling so the IDE checks the mouse position less often when doing other actions (such as pressing keyboard keys)
+- UI/UX: Numpad Enter is not recognised in .1300 IDEs in CE2, among others [#9190](https://github.com/YoYoGames/GameMaker-Bugs/issues/9190)
+- UI/UX: Numpad keys are not obeyed correctly in 2024.13 IDEs when NumLock is OFF [#10327](https://github.com/YoYoGames/GameMaker-Bugs/issues/10327)
+- UI/UX: Resolved GM not maximising properly on 1440p secondary monitor after dragging from 4k primary [#11100](https://github.com/YoYoGames/GameMaker-Bugs/issues/11100)
+- UI/UX: Shortcuts not working properly in 2024.13 if using QWERTZ keyboards [#10217](https://github.com/YoYoGames/GameMaker-Bugs/issues/10217), AZERTY keyboards [#10154](https://github.com/YoYoGames/GameMaker-Bugs/issues/10154), or Dvorak keyboards [#10207](https://github.com/YoYoGames/GameMaker-Bugs/issues/10207)
+- UI/UX: The "Max sign-ins exceeded" warning dialog for legacy accounts has had its URL updated to the current one and made a hyperlink so you can click it to go straight there in your browser
+- UI/UX: The IDE now allows far higher zoom values in all editors/windows which have a Pan Area (e.g., you can zoom in on sprites a lot more in the Image Editor)
+- UI/UX: Toggling fullscreen in a game can cause GameMaker's menubar to become hidden [#6079](https://github.com/YoYoGames/GameMaker-Bugs/issues/6079)
+- UI/UX: Visual Editor and Image Editor no longer flicker at the right edges of their window if their toolbox width is reduced to smaller than the width of a scrollbar
+- Undo/Redo: You can now undo renaming an asset in the Asset Browser even after you have clicked off it and therefore “confirmed” that change
+- Uninstall: Now, when performing an update of GM, the uninstaller obeys any existing "silent" flag previously set on the installer by a third-party installation manager
+- Variable Definitions: "Label Name" has now been renamed "Display Name" [#13138](https://github.com/YoYoGames/GameMaker-Bugs/issues/13138)
+- Variable Definitions: Fixed that a variable's value was always reset to the new default when its type is changed [#13612](https://github.com/YoYoGames/GameMaker-Bugs/issues/13612)
+- Variable Definitions: Fixed that inherited friendly names and descriptions could be changed, affecting the parent Object [#13367](https://github.com/YoYoGames/GameMaker-Bugs/issues/13367)
+- Variable Definitions: Fixed that Label and Description were editable on an instance [#13136](https://github.com/YoYoGames/GameMaker-Bugs/issues/13136)
+- Variable Definitions: Fixed that new variables default to type real, but with a default value of 0 rather than the expected 0.0 [#13613](https://github.com/YoYoGames/GameMaker-Bugs/issues/13613)
+- Variable Definitions: Fixed that Real and Int type variables set to high numbers would get forcefully rounded down [#13550](https://github.com/YoYoGames/GameMaker-Bugs/issues/13550)
+- Variable Definitions: Fixed that variables with the type "real" that were previously set to anything that wasn't a number literal would show up blank, and the value was lost when changing type [#13451](https://github.com/YoYoGames/GameMaker-Bugs/issues/13451)
+- Variable Definitions: Labels are now shown in place of variable names, if set [#13137](https://github.com/YoYoGames/GameMaker-Bugs/issues/13137)
+- Variable Definitions: Resolved descriptions not showing all their content when hovering to show a tooltip and at higher DPI zoom values [#13978](https://github.com/YoYoGames/GameMaker-Bugs/issues/13978)
+- Webserver: Preferences > Platform Settings > HTML5 values are now being respected correctly [also fixed it so the new OperaGX preferences work]
+- Webserver: Preferences > Platform Settings > HTML5 values are now being respected correctly [also fixed it so the new OperaGX preferences work]
+- Workspaces Overview: [Mac IDE] You are now able to close Workspaces and assets using their little X button
+- Workspaces Overview: Ctrl+Tab now correctly selects the last active window in the list whenever you try to select that one
+- Workspaces Overview: Fixed an issue where GMS2 thought Ctrl was being pressed when the window was closed
+- Workspaces Overview: You are again able to flow backwards (Shift+Tab whilst still holding Ctrl)
+- Workspaces: "Syntax Errors" command on the menubar will now open the Feather Messages window if it’s actually Feather which is enabled at the time, rather than the old syntax error system
+- Workspaces: [Mac IDE] Fixed that the context menu used the word "Alt" instead of the macOS Alt icon for the Create Particle System shortcut key combo
+- Workspaces: [Mac IDE] Moving a window between monitors no longer causes GameMaker to be misaligned with the mouse cursor [if the monitors have different DPI values there may be a slight offset until you release the mouse button]
+- Workspaces: [Mac IDE] Pinch-to-zoom no longer gets activated by other multi-finger gestures
+- Workspaces: [Vulkan] Performance no longer drops after dragging a workspace out to be a new child window multiple times and all whilst a room editor is open
+- Workspaces: As part of the fixes to stop tabs popping out unwantedly for some users when there is a momentary lag or general slow performance, you can no longer drag workspaces out to be their own floating GM window - instead, there is now a right-click context menu option to detach the workspace (you can still drag them back in to merge windows again later on)
+- Workspaces: Deleting an object in the Asset Browser will now check for and unlink any bookmarks pointing to that object
+- Workspaces: Dragging a tab out into a separate window on a second monitor no longer drops it immediately and requires a second click to move fully
+- Workspaces: Editor windows no longer have an unwanted extra line of black pixels at their top edge
+- Workspaces: Fixed glitches when pulling out only Workspace tab when in fullscreen / Workspaces: Fixed that pulling out the only Workspace tab causes the GMS2 window to be moved whilst in fullscreen
+- Workspaces: Fixed that pressing Ctrl+F when the search dialog is already open could cause the workspace to pan undesirably
+- Workspaces: Pressing the Alt button on your keyboard when using Laptop Mode no longer unwantedly moves focus to wherever the mouse cursor is at that moment [see the Misc Change above]
+- Workspaces: Resolved after creating or loading a project the workspace and general IDE images not load promptly [#12597](https://github.com/YoYoGames/GameMaker-Bugs/issues/12597)
+- Workspaces: Scripts already open in the Debugger are again able to be opened at the same time in a workspace (you no longer have to close the Debugger copy first, like you did in 2023.1)
+- Workspaces: Zoom out hotkey (Ctrl+-) now works when using the numpad key versions
+
+<br>
+
+### Build Bugs Fixed
+
+- Building Projects: "Draw Order" value is no longer ignored when actually running the game and so now particles will use the correct order [so if any of your particle systems are drawn reversed now, check if you had actually ticked that option inside the Particle Editor in the last release]
+- Building Projects: "Enabled" value is no longer ignored during your builds and so now disabled particles will be hidden in-game [same as above, if a particle no longer appears in-game, check you didn’t previously set them to be disabled]
+- Building Projects: "Error: duplicate script name found" error message now says the location of the duplicates [#11041](https://github.com/YoYoGames/GameMaker-Bugs/issues/11041)
+- Building Projects: 'GMSC Error: Field 'templateType' missing in YoYoStudio.Resources.GMProject' appearing in the compiler log when building [fixed for other fields missing also] [#1717](https://github.com/YoYoGames/GameMaker-Bugs/issues/1717)
+- Building Projects: A sequence calling an audio file no longer shows "going to assume it's AudioKeyframe" warnings
+- Building Projects: A sequence calling an audio file no longer shows "going to assume it's AudioKeyframe" warnings
+- Building Projects: Accessing a struct key returned by a function by using an array value in conjunction with the struct-accessor no longer cause silent compiler fails [#14530](https://github.com/YoYoGames/GameMaker-Bugs/issues/14530)
+- Building Projects: Added an error/warning message when an image exceeds the texture page size, which stops the Temp folder gaining lots of .magick files
+- Building Projects: Android now more reliably stops the build timer/process automatically when a compile error occurs, rather than always having to click the stop button yourself before you could build again
+- Building Projects: Android now more reliably stops the build timer/process automatically when a compile error occurs, rather than always having to click the stop button yourself before you could build again
+- Building Projects: AssetCompiler crash when doing a debug run of a project linking to a prefab as the first build performed during that IDE session [private report]
+- Building Projects: Assets only referenced in Timelines are now correctly marked as used, so are not removed by "Remove unused assets" [#10460](https://github.com/YoYoGames/GameMaker-Bugs/issues/10460)
+- Building Projects: Attached project no longer fails during AssetCompiler pre-processing, with "Link-hosting resource instance is not linked to its GMProject" [#13912](https://github.com/YoYoGames/GameMaker-Bugs/issues/13912)
+- Building Projects: Builds no longer fail if the project only contains a single object with an overriden sprite in the room [#13763](https://github.com/YoYoGames/GameMaker-Bugs/issues/13763)
+- Building Projects: Calling a member function which has the same name as a global function no longer causes a compile error [#11783](https://github.com/YoYoGames/GameMaker-Bugs/issues/11783)
+- Building Projects: Code such as "`MyStruct()`.a++;" no longer gives unexpected compiler errors
+- Building Projects: Code such as "`MyStruct()`.a++;" no longer gives unexpected compiler errors
+- Building Projects: Compiler log no longer writes a redundant message for an unrecognised type tag for old Xbox One options
+- Building Projects: Compiler log no longer writes a redundant message for an unrecognised type tag for old Xbox One options
+- Building Projects: Compiler should now be much faster and no longer stay on "Found Project Format 2" lines in the Output Windows for any projects containing lots of tile slots in rooms [see the tile-encoding change mentioned higher up]
+- Building Projects: Crashlytics GML extension no longer causes a fail [#10542](https://github.com/YoYoGames/GameMaker-Bugs/issues/10542)
+- Building Projects: Custom noise PNG made in Paint.net causes builds to fail
+- Building Projects: Custom noise PNG made in Paint.net causes builds to fail
+- Building Projects: Extension code injection now uses the correct content for all configurations in the project, rather than only even using the content from the Default config
+- Building Projects: Extension code injection now uses the correct content for all configurations in the project, rather than only even using the content from the Default config
+- Building Projects: Extension Options values are now expanded correctly before Android/iOS/tvOS code-injection
+- Building Projects: Extension Options values are now expanded correctly before Android/iOS/tvOS code-injection
+- Building Projects: Fixed a compile error when using a dot accessor to send argument's values to a parent constructor [#13668](https://github.com/YoYoGames/GameMaker-Bugs/issues/13668)
+- Building Projects: Fixed a general issue where having an empty value for any required "Platform Settings" Preference could show an Igor error in your compiler log
+- Building Projects: Fixed a general issue where having an empty value for any required "Platform Settings" Preference could show an Igor error in your compiler log
+- Building Projects: Fixed a method of "Unable to obtain permission to execute" errors shown to some users who have valid licences
+- Building Projects: Fixed a method of "Unable to obtain permission to execute" errors shown to some users who have valid licences
+- Building Projects: Fixed an Asset Compiler crash when handling corrupted sprites, such as "sGrass" in the project sent to us
+- Building Projects: Fixed an Asset Compiler crash when handling corrupted sprites, such as "sGrass" in the project sent to us
+- Building Projects: Fixed an issue where converting SWF files could fail with "Attempted to divide by 0" when trying to build project SaveNew...
+- Building Projects: Fixed an issue where converting SWF files could fail with "Attempted to divide by 0" when trying to build project SaveNew...
+- Building Projects: Fixed an issue where some projects fail to run from the Steam IDE when using the alternative launcher, and so you might have just seen an empty cmd window
+- Building Projects: Fixed an issue where some projects fail to run from the Steam IDE when using the alternative launcher, and so you might have just seen an empty cmd window
+- Building Projects: Fixed building projects where a sprite's bbox mode is set to Full Image, but then incorrect values have been set manually [#7555](https://github.com/YoYoGames/GameMaker-Bugs/issues/7555)
+- Building Projects: Fixed cases where images were written out as 1-bit .pngs as of 2023.1.0 - this would result in white sprites being drawn black in-game and also iOS splash screen crashes (also added code to more reliably read these images back in if they are already in your project)
+- Building Projects: Fixed cases where images were written out as 1-bit .pngs as of 2023.1.0 - this would result in white sprites being drawn black in-game and also iOS splash screen crashes (also added code to more reliably read these images back in if they are already in your project)
+- Building Projects: Fixed that "finished." lines appear in Output window at the beginning of running a game for each filter/effect prefab used by that project [#12941](https://github.com/YoYoGames/GameMaker-Bugs/issues/12941)
+- Building Projects: Fixed that adding a prefab as a collection reference always included all Included Files from that prefab, even if they are not used [#14498](https://github.com/YoYoGames/GameMaker-Bugs/issues/14498)
+- Building Projects: Fixed that calling `gml_pragma("PNGCrush")`; did nothing in the recent GM versions since we re-introduced PNG outputs
+- Building Projects: Fixed that calling `gml_pragma("PNGCrush")`; did nothing in the recent GM versions since we re-introduced PNG outputs
+- Building Projects: Fixed that font assets defined only in #macro were not marked as used [#12703](https://github.com/YoYoGames/GameMaker-Bugs/issues/12703)
+- Building Projects: Fixed that installing missing filter/effect prefabs in 2024.14.1 could still show an incorrect error about that prefab being missing (simply restarting the build fixed the issue thereafter) [#12796](https://github.com/YoYoGames/GameMaker-Bugs/issues/12796)
+- Building Projects: Fixed that newlines inside double-quoted strings could only be escaped in files which have Unix-style line endings
+- Building Projects: Fixed that newlines inside double-quoted strings could only be escaped in files which have Unix-style line endings
+- Building Projects: Fixed that running a game while the project is still saving would result in a fail [#10447](https://github.com/YoYoGames/GameMaker-Bugs/issues/10447)
+- Building Projects: Fixed that the assetcompiler in 2024.14.4 RTs had lost a change which allowed extremely long Windows filepaths to be found and the files loaded [#14574](https://github.com/YoYoGames/GameMaker-Bugs/issues/14574)
+- Building Projects: Fixed that the attached project will never finish building, appears to be related to prefabs [#13580](https://github.com/YoYoGames/GameMaker-Bugs/issues/13580)
+- Building Projects: Fixed that the dialog saying to install GMRT always appeared if using a custom GMRT path in Preferences [#14142](https://github.com/YoYoGames/GameMaker-Bugs/issues/14142)
+- Building Projects: Fixed that Windy Woods in 2024.14.1 is generating a missing prefab compiler error and a popup that is missing strings [#13052](https://github.com/YoYoGames/GameMaker-Bugs/issues/13052)
+- Building Projects: Fixed that you were unable to build any project which uses a Sprite with Nine Slice enabled as a Background layer - and that GameMaker showed an incorrect error message about what was causing the build to fail
+- Building Projects: Fixed that you were unable to build any project which uses a Sprite with Nine Slice enabled as a Background layer - and that GameMaker showed an incorrect error message about what was causing the build to fail
+- Building Projects: Functions defined at global scope are no longer evaluated before parameters which use the same name, now come first [#11007](https://github.com/YoYoGames/GameMaker-Bugs/issues/11007)
+- Building Projects: Game Options > Windows values are now passed into NSIS builds correctly, so .exes will show the correct copyright, etc. information in Windows’ properties dialogs
+- Building Projects: Game Options > Windows values are now passed into NSIS builds correctly, so .exes will show the correct copyright, etc. information in Windows’ properties dialogs
+- Building Projects: GM_build_date optimizations applied to nested string template within an improperly-formatted parent template have been fixed to no longer cause a fail [#12431](https://github.com/YoYoGames/GameMaker-Bugs/issues/12431)
+- Building Projects: Importing a new Spine image no longer causes the next compile to get stuck
+- Building Projects: Importing a new Spine image no longer causes the next compile to get stuck
+- Building Projects: Improved build times in the Asset Compiler
+- Building Projects: Improved build times in the Asset Compiler
+- Building Projects: In previous releases you could get build errors for macOS/Android YYC after deleting/deselecting an extension or any function within an extension, and you would need to clear your project cache manually to fix this. Now, GameMaker will detect this situation and do the cache clean automatically for you after you have edited the extension
+- Building Projects: Included Files are not being included in builds made with 2024.1400.5 RTs [#14698](https://github.com/YoYoGames/GameMaker-Bugs/issues/14698)
+- Building Projects: Included Files in prefab collection reference are now only included in the build if they're actually used in your project [#14498](https://github.com/YoYoGames/GameMaker-Bugs/issues/14498)
+- Building Projects: Macros containing function declarations no longer throw a compile error
+- Building Projects: Macros containing function declarations no longer throw a compile error
+- Building Projects: Mipmaps are now generated when using the "GPU Hardware Texture Compression" feature [#5657](https://github.com/YoYoGames/GameMaker-Bugs/issues/5657)
+- Building Projects: No longer automatically performs Create Exe again when a missing prefab gets auto-downloaded (as this can pick a different packaging type to the one you chose) [#12811](https://github.com/YoYoGames/GameMaker-Bugs/issues/12811)
+- Building Projects: No longer creates an empty Pre-Create event/file for any objects that don't actually need them [saves filesize and also in-game memory]
+- Building Projects: Now shows a compiler error whenever a Script and a Function both reuse the name of an in-built function, as this resulted in 0 being returned in-game in older GM releases [#13297](https://github.com/YoYoGames/GameMaker-Bugs/issues/13297)
+- Building Projects: Optional arguments in functions being omitted no longer causes a variety of build failures which differed depending on how that function is later called
+- Building Projects: Optional arguments in functions being omitted no longer causes a variety of build failures which differed depending on how that function is later called
+- Building Projects: Output Window no longer displays an old "Steam not enabled in platform options" message during builds
+- Building Projects: Output Window no longer displays an old "Steam not enabled in platform options" message during builds
+- Building Projects: Overriding a prefab instance's sprite no longer causes build fails thereafter [#13621](https://github.com/YoYoGames/GameMaker-Bugs/issues/13621)
+- Building Projects: Particle Systems no longer get stuck on their "remove unused assets" check and cause builds to fail [#8902](https://github.com/YoYoGames/GameMaker-Bugs/issues/8902)
+- Building Projects: post_texture scripts are now run when targeting all platforms, not only when building for Windows
+- Building Projects: post_texture scripts are now run when targeting all platforms, not only when building for Windows
+- Building Projects: Preset particle textures are now only included in output packages when the in-built particles have been used in the project
+- Building Projects: Preset particle textures are now only included in output packages when the in-built particles have been used in the project
+- Building Projects: Projects containing new Facebook extension now give "-stack_size option can only be used when linking a main executable" error [#8038](https://github.com/YoYoGames/GameMaker-Bugs/issues/8038)
+- Building Projects: Redundant "LoadLibraryW failed with error code 126" lines are no longer written to the Output Window for .gml extensions
+- Building Projects: Redundant "LoadLibraryW failed with error code 126" lines are no longer written to the Output Window for .gml extensions
+- Building Projects: Removed all "hobby licence" functionality and splash screens from the runtimes
+- Building Projects: Removed all "hobby licence" functionality and splash screens from the runtimes
+- Building Projects: Resolved running a game that contains SDF fonts in early .1400.1 IDEs did not notify you are missing the SDF package [#12739](https://github.com/YoYoGames/GameMaker-Bugs/issues/12739)
+- Building Projects: Resolved that errors caused by a room instance's overwritten Variable Definitions did not adequately clarify the problem location [#13202](https://github.com/YoYoGames/GameMaker-Bugs/issues/13202)
+- Building Projects: Room instances using the same name as a room layer no longer causes fails (and no longer corrupts the project file if saved while in this state) [#13768](https://github.com/YoYoGames/GameMaker-Bugs/issues/13768)
+- Building Projects: Sound assets with invalid or non-existent underlying files are no longer embedded in the game, will error instead [see the longer explanation higher up]
+- Building Projects: Splash screen images only worked on some platforms if a genuine .png file was supplied in Game Options (rather than, for example, a JPEG format file simply renamed “.png”), so the build tools will now detect the mismatch and convert the image for you
+- Building Projects: Splash screen images only worked on some platforms if a genuine .png file was supplied in Game Options (rather than, for example, a JPEG format file simply renamed “.png”), so the build tools will now detect the mismatch and convert the image for you
+- Building Projects: Sprites are no longer downscaled when their dimensions match either dimension of the texture page size (they now have to be too large to fit before any downscaling happens) [#14440](https://github.com/YoYoGames/GameMaker-Bugs/issues/14440)
+- Building Projects: Struct literals containing keys that have as asterisk as the name cause compile fails [#10718](https://github.com/YoYoGames/GameMaker-Bugs/issues/10718)
+- Building Projects: Structs using variables names which match existing asset names will no longer fail your compile
+- Building Projects: Structs using variables names which match existing asset names will no longer fail your compile
+- Building Projects: Switch builds again contain the IDE version number in their metadata (only 2022.6 lacked this)
+- Building Projects: Texture pages are no longer rewritten every run, causing long build times (they were in 2022.6)
+- Building Projects: Texture pages are no longer rewritten every run, causing long build times [they were in 2022.6]
+- Building Projects: Timeline moments created using CE2 are not in order, so the build processes has been changed to account for this [#10196](https://github.com/YoYoGames/GameMaker-Bugs/issues/10196)
+- Building Projects: tvOS/iOS runs no longer fail in some cases with "no eligible process with specified descriptor" error in output log
+- Building Projects: tvOS/iOS runs no longer fail in some cases with "no eligible process with specified descriptor" error in output log
+- Building Projects: Typing an incorrect number of digits for CSS colours no longer results in the error displaying twice
+- Building Projects: Typing an incorrect number of digits for CSS colours no longer results in the error displaying twice
+- Building Projects: Ubuntu ARM64 YYC builds no longer use the wrong archive library
+- Building Projects: Ubuntu ARM64 YYC builds no longer use the wrong archive library
+- Building Projects: Ubuntu YYC ARM64 builds no longer fail with "Archive is not indexed"
+- Building Projects: Ubuntu YYC ARM64 builds no longer fail with "Archive is not indexed"
+- Building Projects: Uncompressed audio assets do not pick up value changes unless you clean build [#11575](https://github.com/YoYoGames/GameMaker-Bugs/issues/11575)
+- Building Projects: Unhandled assetcompiler exception in 2024.1400.3 RTs if you overwrite a variable definition inherited from another Object inside an instance on a UI layer [#13689](https://github.com/YoYoGames/GameMaker-Bugs/issues/13689)
+- Building Projects: Updated all Android tool chain path checks to match folder structure changes in NDK 23+ installs
+- Building Projects: Updated all Android tool chain path checks to match folder structure changes in NDK 23+ installs
+- Building Projects: Using a function as a grid accessor and not passing its argument now results in a compiler error [#7998](https://github.com/YoYoGames/GameMaker-Bugs/issues/7998) / [#7799](https://github.com/YoYoGames/GameMaker-Bugs/issues/7799)
+- Building Projects: Using a template string in a String type Variable Definition causes a compile error [#13487](https://github.com/YoYoGames/GameMaker-Bugs/issues/13487)
+- Building Projects: Using the syntax "function.property" and attempting to modify a static for that function was previously treated as read-only and so would cause a compiler error about this, but you are now able to set values via this syntax (i.e., “Function_name.property = 1;” now does the same thing has if you’d typed “`static_get(Function_name)`.property = 1;”)
+- Building Projects: Variable Definitions that contain a comma to declare two vars at once no longer fails [#12415](https://github.com/YoYoGames/GameMaker-Bugs/issues/12415)
+- Building Projects: Windows ARM devices are now able to run the attached sample project [#12387](https://github.com/YoYoGames/GameMaker-Bugs/issues/12387)
+- Command Line Builds: Fixed a licensing error within Igor which could have given "Unable to obtain permission to execute" when not using the IDE
+- Command Line Builds: Fixed that igor bootstrapper version can no longer download the "base" and "YYC" modules [#14432](https://github.com/YoYoGames/GameMaker-Bugs/issues/14432)
+- Command Line Builds: HTML5 no longer fails due to an incorrect webserver path
+- Command Line Builds: HTML5 no longer fails due to an incorrect webserver path
+- Command Line Builds: Igor now accepts device names which contain spaces
+- Command Line Builds: Igor now gives a suitable error and stops if it fails to download the version you specified [#14618](https://github.com/YoYoGames/GameMaker-Bugs/issues/14618)
+- Command Line Builds: Made Igor's /ssdk option optional
+- Configurations: GPU Texture Compression options are now saved and compiled correctly even when using any config other than "Default" [#9474](https://github.com/YoYoGames/GameMaker-Bugs/issues/9474)
+- Configurations: Target Manager no longer always says "default" in some cases, instead of the config the project is actually set to [#11964](https://github.com/YoYoGames/GameMaker-Bugs/issues/11964)
+- Extensions: Proxy files added to an extension are no longer automatically renamed to match the extension's own name [#14362](https://github.com/YoYoGames/GameMaker-Bugs/issues/14362)
+- Building Projects: [Android YYC, macOS YYC] String constants in constant array definitions can cause no longer fails in 2024.14.4.268 RTs [#14500](https://github.com/YoYoGames/GameMaker-Bugs/issues/14500)
+- Building Projects: [Android YYC] "Allow Backup" Game Option is now obeyed correctly during builds [#4333](https://github.com/YoYoGames/GameMaker-Bugs/issues/4333)
+- Building Projects: [Android YYC] Fixed that AAB packages error with Gradle Plugin 8.9.0 if minify and shrink are enabled [#13130](https://github.com/YoYoGames/GameMaker-Bugs/issues/13130)
+- Building Projects: [Android YYC] Fixed that builds would fail if that project contained any variable which is set to a value greater than max signed Int
+- Building Projects: [Android YYC] Fixed that builds would fail if that project contained any variable which is set to a value greater than max signed Int
+- Building Projects: [Android] Added support for the newer Gradle release which Electric Eel requires during builds
+- Building Projects: [Android] Added support for the newer Gradle release which Electric Eel requires during builds
+- Building Projects: [Android] Cleaning your cache will (correctly) fail to delete cache folders if they are locked externally, but the Output Window log would still say the whole clean process was a "success" - now, it will catch that a folder couldn’t be cleaned and let you know accordingly
+- Building Projects: [Android] Cleaning your cache will (correctly) fail to delete cache folders if they are locked externally, but the Output Window log would still say the whole clean process was a "success" - now, it will catch that a folder couldn’t be cleaned and let you know accordingly
+- Building Projects: [Android] Deploying to an emulator at the end of a build when using recent Android SDK versions no longer results in a "no device connected" error
+- Building Projects: [Android] Deploying to an emulator at the end of a build when using recent Android SDK versions no longer results in a "no device connected" error
+- Building Projects: [Android] Fixed a a JAVA_HOME error caused by the Java location is no longer always inside a folder called "jre" [note that if using Electric Eel you might need “Update 1” to avoid this bug inside Android Studio’s tools]
+- Building Projects: [Android] Fixed a a JAVA_HOME error caused by the Java location is no longer always inside a folder called "jre" [note that if using Electric Eel you might need “Update 1” to avoid this bug inside Android Studio’s tools]
+- Building Projects: [Android] Fixed an issue where Android Studio/JDK being newer than Required SDKs guide says to use for 2024.8 could result in "source/target value 8 is obsolete" fail [#7951](https://github.com/YoYoGames/GameMaker-Bugs/issues/7951)
+- Building Projects: [Android] Fixed that injection of IronSource's recommended ProGuard values created an invalid ProGuard file because an unwanted "methods" closing tag was incorrectly added
+- Building Projects: [Android] Fixed that injection of IronSource's recommended ProGuard values created an invalid ProGuard file because an unwanted "methods" closing tag was incorrectly added
+- Building Projects: [Android] Fixed that some extensions failed to build in gradle 8.7 because no namespace had been specified for the runner [#7973](https://github.com/YoYoGames/GameMaker-Bugs/issues/7973)
+- Building Projects: [Android] Games which use dynamic texture groups and supply custom paths now load correctly - apart from when building for Android and when your folder is called "Assets", as this folder name will not work with apks, so this will be detected and blocked with a compiler error asking you to change the folder name
+- Building Projects: [Android] Now force-stops all Gradle daemons when doing a Clean [#7209](https://github.com/YoYoGames/GameMaker-Bugs/issues/7209)
+- Building Projects: [Android] Permission for LEANBACK_LAUNCHER is now optional, as Google Play no longer allows .apk submissions when this is enabled, and so there is a new Game Option for controlling whether you want this permission added or not
+- Building Projects: [Android] Projects are now able to clean their cache successfully whenever any path names are > 260 chars
+- Building Projects: [Android] Projects are now able to clean their cache successfully whenever any path names are > 260 chars
+- Building Projects: [GDK] Added a stage to precompile the shaders in a project
+- Building Projects: [GDK] Added a stage to precompile the shaders in a project
+- Building Projects: [GMRT] Projects that contain `extension(s)` which do not target the current platform will now build [#14016](https://github.com/YoYoGames/GameMaker-Bugs/issues/14016)
+- Building Projects: [GX.games YYC] Included Files and audio files for non-streamed Sounds are no longer misplaced in the package, now load correctly when run from the IDE [#13243](https://github.com/YoYoGames/GameMaker-Bugs/issues/13243)
+- Building Projects: [GX.Games, HTML5] Fixed that extension variable injection is not correct in the build [#13890](https://github.com/YoYoGames/GameMaker-Bugs/issues/13890)
+- Building Projects: [GX.Games] Fixed debug runs did not include any Javascript extension code [#12606](https://github.com/YoYoGames/GameMaker-Bugs/issues/12606)
+- Building Projects: [GX.games] Fixed that uploading a game to the GXC could fail with an "Incorrect Data" message if your session token had not refreshed correctly - now, GM detects if the token failed to refresh properly and will show a message that you need to sign out and in again to fix [#7464](https://github.com/YoYoGames/GameMaker-Bugs/issues/7464)
+- Building Projects: [GX.games] Igor no longer fails when trying to build dynamic textures with a subfolder specified [#10699](https://github.com/YoYoGames/GameMaker-Bugs/issues/10699)
+- Building Projects: [GX.games] Now mirrors the packaging messages shown in the upload dialog to the Output Window also, so this information can be read later
+- Building Projects: [GX.games] WASM zip packages no longer duplicate the audio files into a redundant "runner" folder [#8411](https://github.com/YoYoGames/GameMaker-Bugs/issues/8411)
+- Building Projects: [HTML5, GX.games] Resolved projects not injecting code in RT 2024.14.2.255 [#13277](https://github.com/YoYoGames/GameMaker-Bugs/issues/13277)
+- Building Projects: [HTML5] Also fixed that clicking the 'Stop' button to end a running project resulted in the mixed message “FAILED: Run Program Complete” being written in the Output Window log
+- Building Projects: [HTML5] Builds again work reliably when the Game Options’ "path folder name" has been changed from the default of "html5game" to anything custom [this was an issue in 2022.9 only]
+- Building Projects: [HTML5] Builds again work reliably when the Game Options’ "path folder name" has been changed from the default of "html5game" to anything custom [this was an issue in 2022.9 only]
+- Building Projects: [HTML5] Fixed a caching issue if a different layer effect is selected in a room between runs
+- Building Projects: [HTML5] Fixed a caching issue if a different layer effect is selected in a room between runs
+- Building Projects: [HTML5] Fixed that attempting to re-run a project when one is still running only asked you to cancel the existing run one time and then would require you to stop the build manually each time thereafter
+- Building Projects: [HTML5] Fixed that builds failed if the path to the runner source was set to be the "scripts" directory in Preferences
+- Building Projects: [HTML5] Fixed that builds failed if the path to the runner source was set to be the "scripts" directory in the IDE Preferences
+- Building Projects: [HTML5] Fixed that clicking the 'Stop' button to end a running project resulted in the mixed message “FAILED: Run Program Complete” being written in the Output Window log
+- Building Projects: [HTML5] Fixed that in 2023.2 the output file must be named "index.html" in Game Options otherwise the build failed
+- Building Projects: [HTML5] Fixed that in 2023.2 the output file must be named "index.html" in Game Options otherwise the build failed
+- Building Projects: [HTML5] Global-scope macros which call in-built variables no longer cause a build error
+- Building Projects: [HTML5] Global-scope macros which call in-built variables no longer cause a build error
+- Building Projects: [HTML5] If GM opened the browser, the Stop button or starting a new run no longer kills the browser process if you have subsequently opened other tabs or closed the game tab
+- Building Projects: [HTML5] If GM opened the browser, the Stop button or starting a new run no longer kills the browser process if you have subsequently opened other tabs or closed the game tab
+- Building Projects: [HTML5] index.html is no longer included twice in the output package if a custom .html has been selected in Game Options
+- Building Projects: [HTML5] index.html is no longer included twice in the output package if a custom .html has been selected in Game Options
+- Building Projects: [HTML5] Streamed sound in Included Files is now exported correctly in the attached project [#7806](https://github.com/YoYoGames/GameMaker-Bugs/issues/7806)
+- Building Projects: [iOS, tvOS] When using Xcode 14 the "App Category", "Display Name", "Version" and "Build" fields are now populated correctly
+- Building Projects: [iOS, tvOS] When using Xcode 14 the "App Category", "Display Name", "Version" and "Build" fields are now populated correctly
+- Building Projects: [iOS, tvOS] Xcode 14 now correctly sets the initial splash screen to be the one specified in Game Options
+- Building Projects: [iOS, tvOS] Xcode 14 now correctly sets the initial splash screen to be the one specified in Game Options
+- Building Projects: [iOS] Added "add -FIRDebugEnabled" to the launch options whenever it's required so that the Firebase extension (and any other extensions which require this) can work [#8183](https://github.com/YoYoGames/GameMaker-Bugs/issues/8183)
+- Building Projects: [iOS] Fixed an issue where the cocoapods automated installation script was unable to install the required files properly when ran on a brand-new/fresh-installation Mac
+- Building Projects: [iOS] Fixed that building a project which has a display name with an & symbol will fail
+- Building Projects: [iOS] Fixed that building a project which has a display name with an & symbol will fail
+- Building Projects: [iOS] The version of Ruby used by Igor during builds is no longer out-of-date, fixes "file not found" errors for some extensions [#9477](https://github.com/YoYoGames/GameMaker-Bugs/issues/9477)
+- Building Projects: [Mac IDE] [Android] Creating an ".aab" file on a Sequoia Mac creates it as an ".aab.aa.apk" file instead [#7981](https://github.com/YoYoGames/GameMaker-Bugs/issues/7981)
+- Building Projects: [Mac IDE] Building archives for iOS and tvOS now automatically opens Xcode Organiser when the build has succeeded
+- Building Projects: [Mac IDE] Building for iOS now automatically starts the game on the device again, as it did in older releases
+- Building Projects: [Mac IDE] Building for iOS now automatically starts the game on the device again, as it did in older releases
+- Building Projects: [Mac IDE] Create Exe now/again opens the final output folder after creating a .dmg, rather than the temp folder it opened in the last release
+- Building Projects: [Mac IDE] Fixed an Android Studio Dolphin/Electric Eel give error that the ADB executable cannot be found when checking for connected devices
+- Building Projects: [Mac IDE] Fixed an Android Studio Dolphin/Electric Eel give error that the ADB executable cannot be found when checking for connected devices
+- Building Projects: [Mac IDE] Fixed that building a macOS DMG package could in some cases fail with a mkdir error that the "install" folder already exists
+- Building Projects: [Mac IDE] Fixed that building a macOS DMG package could in some cases fail with a mkdir error that the "install" folder already exists
+- Building Projects: [Mac IDE] Fixed that generation of SDF fonts for macOS target gave incorrect results [#11900](https://github.com/YoYoGames/GameMaker-Bugs/issues/11900)
+- Building Projects: [Mac IDE] Fixed that projects run twice when using F5 to start a build for macOS in 2023.6
+- Building Projects: [Mac IDE] HTML5 and Android targets now automatically opens Finder when the build has succeeded
+- Building Projects: [Mac IDE] macOS builds no longer fail with the error 'Cannot find File "/tmp/GameMakerStudio2/GMS2TEMP/[some file name]"'
+- Building Projects: [Mac IDE] macOS builds no longer fail with the error 'Cannot find File "/tmp/GameMakerStudio2/GMS2TEMP/[some file name]"'
+- Building Projects: [Mac IDE] macOS YYC builds will no longer incorrectly claim a success for the run part when targeting a different CPU architecture to the local machine [the build itself should work fine, but as you’re using the wrong CPU it’s correct that the run part will always fail to launch the game]
+- Building Projects: [Mac IDE] macOS YYC builds will no longer incorrectly claim a success for the run part when targeting a different CPU architecture to the local machine [the build itself should work fine, but as you’re using the wrong CPU it’s correct that the run part will always fail to launch the game]
+- Building Projects: [MacIDE] MacOS YYC builds could previously fail but still claim all was a success in the Output Window - now it will more reliably say the build failed
+- Building Projects: [MacIDE] MacOS YYC builds could previously fail but still claim all was a success in the Output Window - now it will more reliably say the build failed
+- Building Projects: [macOS YYC] "Min Version" in Game Options being empty will no longer generate an invalid .xcodeproj file [#13919](https://github.com/YoYoGames/GameMaker-Bugs/issues/13919)
+- Building Projects: [macOS YYC] Addressed using an array literal to create a nested array caused a build fail [#13937](https://github.com/YoYoGames/GameMaker-Bugs/issues/13937)
+- Building Projects: [macOS YYC] Build process is now more reliably stopped inside GameMaker when the game window is closed by you
+- Building Projects: [macOS YYC] Build process is now more reliably stopped inside GameMaker when the game window is closed by you
+- Building Projects: [macOS YYC] Steam builds no longer crash on launch because the correct Steam app ID is now used
+- Building Projects: [macOS YYC] Steam builds no longer crash on launch because the correct Steam app ID is now used
+- Building Projects: [macOS] "Allow Incoming/Outgoing network connections" values are now correctly written to the Xcode project again
+- Building Projects: [macOS] "Allow Incoming/Outgoing network connections" values are now correctly written to the Xcode project again
+- Building Projects: [macOS] Devs were unable to determine themselves the cause of "System.Exception: could not find archive" errors as not enough compiler log information
+    - Note: The above was a genuine fail for a bad package name, not a bug, but we have now restored a reasonable amount of Xcode's output into the compiler log, which will help determine reasons for errors such as this
+- Building Projects: [macOS] Devs were unable to determine themselves the cause of "System.Exception: could not find archive" errors as not enough compiler log information
+    - Note: The above was a genuine fail for a bad package name, not a bug, but we have now restored a reasonable amount of Xcode's output into the compiler log, which will help determine reasons for errors such as this
+- Building Projects: [macOS] Fixed an issue where some special characters (such as apostrophes and brackets) were not escaped properly and so caused builds to fail
+- Building Projects: [macOS] Fixed an issue where some special characters (such as apostrophes and brackets) were not escaped properly and so caused builds to fail
+- Building Projects: [macOS] Fixed an issue where YYC builds from the Windows IDE could fail for some projects due to an incorrect App ID value being sent
+- Building Projects: [macOS] Fixed an issue where YYC builds from the Windows IDE could fail for some projects due to an incorrect App ID value being sent
+- Building Projects: [macOS] Mac IDE now takes less time to build projects which contain many Included Files - much closer to what the Windows IDE requires
+- Building Projects: [macOS] Mac IDE now takes less time to build projects which contain many Included Files - much closer to what the Windows IDE requires
+- Building Projects: [macOS] Remote building on Mac from Windows machine no longer fails because of the `post_textures` script [#13973](https://github.com/YoYoGames/GameMaker-Bugs/issues/13973)
+- Building Projects: [macOS] Windows IDE to a Mac no longer fails to Create a .Zip package [#12494](https://github.com/YoYoGames/GameMaker-Bugs/issues/12494)
+- Building Projects: [macOS] You are now able to stop projects running remotely on a Mac when using the Windows IDE
+- Building Projects: [OperaGX YYC] Fixed that if your project name contains a hyphen, then it would not run
+- Building Projects: [OperaGX YYC] Fixed that if your project name contains a hyphen, then it would not run
+- Building Projects: [OperaGX YYC] Now applies the Game Name value to the browser tab correctly
+- Building Projects: [OperaGX YYC] Now applies the Game Name value to the browser tab correctly
+- Building Projects: [OperaGX YYC] Resolved an issue where some projects fail to build due to "Cannot find metadata for object of type: `Keyframe(AssetTextKeyframe)` going to assume it's Keyframe`1" errors
+- Building Projects: [OperaGX YYC] Resolved an issue where some projects fail to build due to "Cannot find metadata for object of type: `Keyframe(AssetTextKeyframe)` going to assume it's Keyframe`1" errors
+- Building Projects: [OperaGX] Builds no longer fail if the project is called specifically "game"
+- Building Projects: [OperaGX] Builds no longer fail if the project is called specifically "game"
+- Building Projects: [OperaGX] Failed builds could still try to upload the broken package, GMS2 crash if attempted
+- Building Projects: [OperaGX] Now correctly disables the Create Exe button immediately after starting a build, stops it being possible to have multiple builds/uploads running (which could also cause GM crash if too many started at once)
+- Building Projects: [OperaGX] Package uploading will now inform you and stop the upload when your package’s file size is too large [The UI also now shows all the values in MB rather than bytes, so is easier to understand]
+- Building Projects: [OperaGX] Package uploading will now inform you and stop the upload when your package’s file size is too large [The UI also now shows all the values in MB rather than bytes, so is easier to understand]
+- Building Projects: [OperaGX] Projects containing videos in subdirectories of Included Files will now build successfully
+- Building Projects: [OperaGX] Projects containing videos in subdirectories of Included Files will now build successfully
+- Building Projects: [PS4] Fixed that builds would fail with our sample projects due to an invalid old trophy file in the base project
+- Building Projects: [Switch YYC] Updated the CPU Profiler integration during launching builds to account for that application now has a new name in SDK 15
+- Building Projects: [Switch YYC] Updated the CPU Profiler integration during launching builds to account for that application now has a new name in SDK 15
+- Building Projects: [Switch] Fixed that you were often unable to Create Exe successfully using SDK 15 due to an error in the authoring tool where it no longer allows being passed empty folders
+- Building Projects: [Switch] Fixed that you were often unable to Create Exe successfully using SDK 15 due to an error in the authoring tool where it no longer allows being passed empty folders
+- Building Projects: [Switch] NEX installation path as set in Preferences is no longer always checked during builds (because this is a valid setup), which therefore removes an error if the destination file not found
+- Building Projects: [Switch] NEX installation path as set in Preferences is no longer always checked during builds (because this is a valid setup), which therefore removes an error if the destination file not found
+- Building Projects: [tvOS] Fixed an issue where projects failed to build with Xcode 14, gave error 74 and a "The project is damaged and cannot be opened due to a parse error" message
+- Building Projects: [tvOS] Fixed an issue where projects failed to build with Xcode 14, gave error 74 and a "The project is damaged and cannot be opened due to a parse error" message
+- Building Projects: [tvOS] Fixed that builds which trigger the "Persistent Storage" dialog would continue to fill your ui.log with silent and redundant errors until GM is next closed by you
+- Building Projects: [Ubuntu ARM] Non-Steam builds no longer rely on libssl1.1, which is now obsolete on newer Raspberry Pi OS installs and accordingly caused a build fail [#9318](https://github.com/YoYoGames/GameMaker-Bugs/issues/9318)
+- Building Projects: [Ubuntu IDE] [macOS] Files window now open automatically after creating an executable
+- Building Projects: [Ubuntu IDE] [macOS] Files window now open automatically after creating an executable
+- Building Projects: [Ubuntu IDE] Android VM and YYC builds no longer fail with some form of "Access denied" error [exact wording depended on if VM or YYC]
+- Building Projects: [Ubuntu IDE] Android YYC builds no longer fail because of case-sensitivity issues with gradlew
+- Building Projects: [Ubuntu IDE] Android YYC builds no longer fail because of case-sensitivity issues with gradlew
+- Building Projects: [Ubuntu IDE] Android YYC builds no longer fail with "cannot determine the dependencies"
+- Building Projects: [Ubuntu IDE] Android YYC builds no longer fail with "cannot determine the dependencies"
+- Building Projects: [Ubuntu IDE] iOS YYC projects containing extensions no longer gives an incomplete Xcode project with missing .ext files
+- Building Projects: [Ubuntu IDE] iOS YYC projects containing extensions no longer gives an incomplete Xcode project with missing .ext files
+- Building Projects: [Ubuntu VM] Resolved "Stop" button when debugging did not actually stop the game [#12411](https://github.com/YoYoGames/GameMaker-Bugs/issues/12411)
+- Building Projects: [Ubuntu YYC] Builds no longer fail due to ssh error "The client is already connected"
+    - Note: Also made a fix for Ubuntu YYC console logging not working in real-time
+- Building Projects: [Ubuntu YYC] Builds no longer fail due to ssh error "The client is already connected"
+    - Note: Also made a fix for Ubuntu YYC console logging not working in real-time
+- Building Projects: [Ubuntu YYC] Compiling from Windows/Mac IDEs to Ubuntu no longer fails on an error in the "unshare" command towards the end of your build
+- Building Projects: [Ubuntu YYC] Compiling from Windows/Mac IDEs to Ubuntu no longer fails on an error in the "unshare" command towards the end of your build
+- Building Projects: [Ubuntu YYC] Fixed an issue with passing g_undefined to CreateConstantArray in 2024.1400.4 Betas [#13997](https://github.com/YoYoGames/GameMaker-Bugs/issues/13997)
+- Building Projects: [Ubuntu YYC] Fixed that Raspberry Pi ARM devices error with "libyoyo_yyc-arm64.a: error adding symbols: file format not recognized" [#13147](https://github.com/YoYoGames/GameMaker-Bugs/issues/13147)
+- Building Projects: [Ubuntu YYC] The appimage is now correctly unpacked when the game is run from the IDE, which stops extensions failing to find files
+- Building Projects: [Ubuntu YYC] The appimage is now correctly unpacked when the game is run from the IDE, which stops extensions failing to find files
+- Building Projects: [Ubuntu] Build-and-Launch no longer stops after the .appimage has been created and instead carries on to actually launch the game as you requested
+- Building Projects: [Ubuntu] Builds no longer fail due to "unshare" command failing on the /opt/steam-runtime folder [#8356](https://github.com/YoYoGames/GameMaker-Bugs/issues/8356)
+- Building Projects: [Ubuntu] Compiling from Windows/Mac IDEs to Ubuntu no longer fails when Wayland is in use
+- Building Projects: [Ubuntu] Compiling from Windows/Mac IDEs to Ubuntu no longer fails when Wayland is in use
+- Building Projects: [Ubuntu] GM will now unpack the AppImage before launching the game, which stops issues with extensions
+- Building Projects: [Ubuntu] GM will now unpack the AppImage before launching the game, which stops issues with extensions
+- Building Projects: [Ubuntu] Now able to build projects successfully when targeting a 22.04 LTS machine, as the "Permission denied (publickey)" 22.04 gave has now been fixed [20.04 LTS remains our suggested dev platform for now anyway]
+- Building Projects: [Ubuntu] Now able to build projects successfully when targeting a 22.04 LTS machine, as the "Permission denied (publickey)" 22.04 gave has now been fixed [20.04 LTS remains our suggested dev platform for now anyway]
+- Building Projects: [Ubuntu] Runs no longer fail if using Ubuntu 18.04 due to unshare's "-R" flag not being a supported command on that old OS version [the -R is not used if building for 18]
+- Building Projects: [Ubuntu] Runs no longer fail if using Ubuntu 18.04 due to unshare's "-R" flag not being a supported command on that old OS version [the -R is not used if building for 18]
+- Building Projects: [VM] Can no longer compile out-of-context `break;` statements by putting them inside a method declared in a `with()` statement [#12953](https://github.com/YoYoGames/GameMaker-Bugs/issues/12953)
+- Building Projects: [WASM GMRT] "Save locally as .zip" export no longer incorrectly uses GMS2 runtimes to do the build [#10970](https://github.com/YoYoGames/GameMaker-Bugs/issues/10970)
+- Building Projects: [Windows IDE] iOS extension app delegate class names are now correctly maintained during the build
+- Building Projects: [Windows IDE] iOS extension app delegate class names are now correctly maintained during the build
+- Building Projects: [Windows YYC] Fixed that arrays with string constants in function arguments caused compile fails [#14648](https://github.com/YoYoGames/GameMaker-Bugs/issues/14648)
+- Building Projects: [Windows] Fixed that builds could fail with a "startIndex cannot be larger than length of string" error if Windows is set to certain non-English language and region formatting styles combinations
+- Building Projects: [Windows] Fixed that builds could fail with a "startIndex cannot be larger than length of string" error if Windows is set to certain non-English language and region formatting styles combinations
+- Building Projects: [Windows] Game Options macro for "projectName" is now expanded correctly, stops warnings during NSIS builds as well as adding the missing information into the .exe’s properties
+- Building Projects: [Windows] Game Options macro for "projectName" is now expanded correctly, stops warnings during NSIS builds as well as adding the missing information into the .exe’s properties
+- Building Projects: [Windows] Game Options value for "Publisher" is now added to the output package [same benefits as the line above]
+- Building Projects: [Windows] Game Options value for "Publisher" is now added to the output package [same benefits as the line above]
+- Building Projects: [Windows] Greatly improved extremely long compilation times caused by lots of large literal (struct or array) initialisation in code (10+ minutes on VM and 1+ hour on YYC) [#13706](https://github.com/YoYoGames/GameMaker-Bugs/issues/13706)
+- Building Projects: [Windows] Non-ASCII named projects no longer result in an NSIS script error "aborting creation process" during Create Exe
+- Building Projects: [Windows] Non-ASCII named projects no longer result in an NSIS script error "aborting creation process" during Create Exe
+- Building Projects: [Windows] Unhandled exception when adding an invalid Unicode sequence within a string [#8117](https://github.com/YoYoGames/GameMaker-Bugs/issues/8117)
+- Building Projects: [Xbox GDK] Added a new Preference for whether to always deploy the package after doing a Create Exe
+- Building Projects: [Xbox GDK] Fixed that cancelling a build manually did not always immediately re-enable the Create Exe button
+- Building Projects: [Xbox XDK] Creating a dev package when your game GUID starts with "L" or higher in the alphabet no longer causes the wrong file to install\run on the devkit during the build
+- Building Projects: [Xbox XDK] Creating a dev package when your game GUID starts with "L" or higher in the alphabet no longer causes the wrong file to install\run on the devkit during the build
+- Building Projects: [XDK YYC] Fixed an issue where projects containing functions which have multiple unused arguments might have failed with the error “Fatal error LNK1248: image size (...) exceeds maximum allowable size (FFFFFFFF)”
+- Building Projects: [XDK YYC] Fixed an issue where projects containing functions which have multiple unused arguments might have failed with the error “Fatal error LNK1248: image size (...) exceeds maximum allowable size (FFFFFFFF)”
+- Building Projects: [YYC] `div` no longer causes build fails [#14165](https://github.com/YoYoGames/GameMaker-Bugs/issues/14165)
+- Building Projects: [YYC] `mod` can cause build no longer fails when called as part of constructor calls [#14407](https://github.com/YoYoGames/GameMaker-Bugs/issues/14407)
+- Building Projects: [YYC] Accessing a static method in a constructor no longer causes the build to fail
+- Building Projects: [YYC] Accessing a static method in a constructor no longer causes the build to fail
+- Building Projects: [YYC] Attached project calling "argument0" in User Event 1 no longer produces code that fails to compile [#12704](https://github.com/YoYoGames/GameMaker-Bugs/issues/12704)
+- Building Projects: [YYC] Attached project no longer fails with fatal error in GlobalScript_0 [#12959](https://github.com/YoYoGames/GameMaker-Bugs/issues/12959)
+- Building Projects: [YYC] Calling `variable_struct_remove()` on a "global" struct no longer causes build errors
+- Building Projects: [YYC] Calling `variable_struct_remove()` on a "global" struct no longer causes build errors
+- Building Projects: [YYC] Fixed an issue where extremely large games would not link due to the 32bit tool having always been used inside Visual Studio - now it’s the 64bit version of the linker which is used
+- Building Projects: [YYC] Fixed that builds failed when defining a new function and giving it args for its parent constructor and a "new" constructor for a related child
+- Building Projects: [YYC] Fixed that builds failed when defining a new function and giving it args for its parent constructor and a "new" constructor for a related child
+- Building Projects: [YYC] Fixed that builds failed when struct member names are strings containing spaces
+- Building Projects: [YYC] Fixed that builds failed when struct member names are strings containing spaces
+- Building Projects: [YYC] Fixed that lines containing both `div` and `mod` cause compile fails [#12644](https://github.com/YoYoGames/GameMaker-Bugs/issues/12644)
+- Building Projects: [YYC] Fixed that using a pre-inc/dec expression as a function argument would causes build to fail in 2022.1
+- Building Projects: [YYC] Fixed that using a pre-inc/dec expression as a function argument would causes build to fail in 2022.1
+- Building Projects: [YYC] Projects fail to compile in 2024.1400.5.1021 RTs, due to "System.InvalidOperationException: Stack empty." errors [#14699](https://github.com/YoYoGames/GameMaker-Bugs/issues/14699)
+- Building Projects: [YYC] The error message used for when your Visual Studio install directory cannot be found has now been made easier to understand and therefore fix, as GMS2 will now catch this issue and direct you to fix your Preferences value
+- Building Projects: [YYC] The error message used for when your Visual Studio install directory cannot be found has now been made easier to understand and therefore fix, as GMS2 will now catch this issue and direct you to fix your Preferences value
+- Command Line Builds: [GX.games] can now build without having to supply a build.bff file [#13416](https://github.com/YoYoGames/GameMaker-Bugs/issues/13416)
+- Command Line Builds: [HTML5] Custom runtime path value is no longer ignored [#8292](https://github.com/YoYoGames/GameMaker-Bugs/issues/8292)
+- Command Line Builds: [PS4] Fixed fails in 2023.4 which were due to a "configParents" key being missing
+- Building Projects: [YYC] `ds_stack_pop()` no longer makes any project fail to build
+- Building Projects: [Android YYC} `exception_unhandled_handler()` no longer causes a fail if called by a GML extension and passed an anonymous function [#12974](https://github.com/YoYoGames/GameMaker-Bugs/issues/12974)
+- Building Projects: `gml_pragma("PNGCrush")`; now works properly again, as the crushed image is now added to the package, rather than the original being mistakenly added
+- Building Projects: `real()` causes a compile time error if used on a string containing an underscore [#8011](https://github.com/YoYoGames/GameMaker-Bugs/issues/8011)
+- Building Projects: `real()` can now convert hexadecimal strings larger than 32bit, stops the compile error you would get in earlier releases
+- Building Projects: `real()` can now convert hexadecimal strings larger than 32bit, stops the compile error you would get in earlier releases
+- Building Projects: [YYC] `show_debug_message()` using a optional arg no longer causes a compile fail
+- Building Projects: [YYC] `show_debug_message()` using a optional arg no longer causes a compile fail
+- Building Projects: `variable_struct_set()` with an empty key string no longer causes an out-of-bounds error [#14041](https://github.com/YoYoGames/GameMaker-Bugs/issues/14041)
+
+<br>
+
+### In-Game Bugs Fixed
+
+- Debugger: "View As" menu is now disabled, as the Debugger now knows what type of structure that reference is for, and so will automatically use the correct format each time
+- Debugger: All dimensions of an array can now be modified in the UI, rather than only the first two
+- Debugger: All dimensions of an array can now be modified in the UI, rather than only the first two
+- Debugger: Boolean values can now be edited again [also fixed the formatting to be lowercase "true" and "false" to match the in-game format]
+- Debugger: Breakpoints now persist between IDE sessions [#7306](https://github.com/YoYoGames/GameMaker-Bugs/issues/7306)
+- Debugger: Built-in variable 'sequence_instance' now appears in the Locals window
+- Debugger: Built-in variable 'sequence_instance' now appears in the Locals window
+- Debugger: Fixed a crash when hovering over a watch which points at an already-deleted buffer [#10422](https://github.com/YoYoGames/GameMaker-Bugs/issues/10422)
+- Debugger: Fixed an issue where you could rapidly/accidentally launch the debugger button twice in a row and this could prevent clicks from being detected in Windows
+- Debugger: Fixed failures to connect for all platforms in 2024.1400.3 Betas after an earlier debug run on GX.games has failed [#13623](https://github.com/YoYoGames/GameMaker-Bugs/issues/13623)
+- Debugger: Fixed issue where trying to edit array values in the Locals window always failed, even though the same array could be edited successfully in the Watches window
+- Debugger: Fixed that during text entry on Watches the text was cut-off at the bottom, resulting in some characters not displaying [#14106](https://github.com/YoYoGames/GameMaker-Bugs/issues/14106)
+- Debugger: Fixed that HTML5 games could fail to run (gives white screen) if invisible non-standard characters had accidentally been included in the project and therefore broke the obfuscation process
+- Debugger: Fixed that HTML5 games could fail to run (gives white screen) if invisible non-standard characters had accidentally been included in the project and therefore broke the obfuscation process
+- Debugger: Fixed that long initialization phases result in the debugger skipping breakpoints [#13131](https://github.com/YoYoGames/GameMaker-Bugs/issues/13131)
+- Debugger: Fixed that sometimes the play button was not re-enabled after hitting a breakpoint
+- Debugger: Game crashes no longer give full callstack info in 2024.11 runtime 226 [#8722](https://github.com/YoYoGames/GameMaker-Bugs/issues/8722)
+- Debugger: GM no longer goes unstable and then crashes (on some occasions) when closing the debugger tab after running repeated macOS builds from the Windows IDE
+- Debugger: GM no longer hangs when debugging `instance_create_layer()` due to new "ref" type in 2022.6 / Debugger: GM no longer hangs when debugging projects which attempt to work with the new "ref" type in 2022.6
+- Debugger: GM no longer hangs when debugging `instance_create_layer()` due to new "ref" type in 2022.6 / Debugger: GM no longer hangs when debugging projects which attempt to work with the new "ref" type in 2022.6
+- Debugger: Instance refs in the variable inspectors can't be expanded in 2023.8.0 [#1698](https://github.com/YoYoGames/GameMaker-Bugs/issues/1698)
+- Debugger: Locals window no longer always shows entries for both the American and English spellings of "colourmultiply" and "colouradd" (it will just show the spelling you selected in Preferences)
+- Debugger: Now displays the actual instance IDs and object type rather than raw references which were harder to understand what they meant
+- Debugger: Now mirrors game output to the Output Window so it can be viewed after closing the Debugger window
+- Debugger: Originating code is now shown correctly when hitting a breakpoint located on a line which has } at the end
+- Debugger: Originating code is now shown correctly when hitting a breakpoint located on a line which has } at the end
+- Debugger: Profiler's "Time" column now labels the value in "ms", not "Ms" [#13172](https://github.com/YoYoGames/GameMaker-Bugs/issues/13172)
+- Debugger: Projects containing TileSet prefabs no longer cause an exception during debugger startup [#12066](https://github.com/YoYoGames/GameMaker-Bugs/issues/12066)
+- Debugger: Stepping through returning a struct from a function no longer causes the debugger to jump to incorrect lines and no longer breaks the menu bar [#8901](https://github.com/YoYoGames/GameMaker-Bugs/issues/8901)
+- Debugger: Texture/surface previews are now freed from memory after you finish previewing them
+- Debugger: Texture/surface previews are now freed from memory after you finish previewing them
+- Garbage Collector: Audio effect structs are no longer collected too early
+- Garbage Collector: Fixed that function serialisation could break because objects were being cleaned before being accessed
+- Garbage Collector: Improved timings and performance which should stop some games which do a lot of garbage collection from getting stuck in loop and having to call `gc_collect()` manually to avoid this
+- Garbage Collector: Weak refs are now detached properly when the item is cleared, so no longer cause crashes if accessed thereafter
+- In-Game: "event_object" no longer returns a number, now it's an object reference [#7800](https://github.com/YoYoGames/GameMaker-Bugs/issues/7800)
+- In-Game: "Move And Collide" node now handles multiple objects correctly [#11871](https://github.com/YoYoGames/GameMaker-Bugs/issues/11871)
+- In-Game: _GMFUNCTION_ value is back to being correct when used as a default parameter in a constructor [#11824](https://github.com/YoYoGames/GameMaker-Bugs/issues/11824)
+- In-Game: `image_index` no longer goes out-of-bounds when changing the value by a large amount while running at slow framerates [#14595](https://github.com/YoYoGames/GameMaker-Bugs/issues/14595)
+- In-Game: A project with a blank Timeline no longer crashes on startup if debugging [#13549](https://github.com/YoYoGames/GameMaker-Bugs/issues/13549)
+- In-Game: Added a fallback for games no longer starting on some PCs if using RT 2024.14.1.253, and now the old method will be used on those affected PCs [#12921](https://github.com/YoYoGames/GameMaker-Bugs/issues/12921)
+- In-Game: Added a warning to game logs when ignoring calls to draw a tristrip or trifan due to the size of the item being too large (previously, the game just silently ignored the call)
+- In-Game: Added support for PS4/PS5 stick deadzone values smaller than +/- 0.10 from 0, so now it will smoothly increase from 0, rather than waiting until -0.1/0.1 before anything happens
+- In-Game: Added the missing “animcurvetype_bezier” constant, so trying to set this will no longer cause a code error in your game
+- In-Game: Adding a buffer_u8 and a buffer_u32 to each other no longer yields different results between VM and YYC
+- In-Game: Addressed 2024.14.1 RT causing input lag in the attached game [#12995](https://github.com/YoYoGames/GameMaker-Bugs/issues/12995)
+- In-Game: async_load map now supports much longer strings that 16384 bytes for the message when using websockets
+- In-Game: Audio effects now have a higher default "mix" value, as in 2022.11 some of their results were inaudible until you raised this value yourself
+- In-Game: Audio emitter functions no longer run on already-freed emitters
+- In-Game: Audio loop functions now print warnings to the game log if the loop section bounds were clipped [#8037](https://github.com/YoYoGames/GameMaker-Bugs/issues/8037)
+- In-Game: audio_falloff_exponent_distance never falls off completely [use the new falloff modes mentioned above]
+- In-Game: Broadcast messages no longer interfere with setting image_index values for that sprite
+- In-Game: Buffer initialisation now better checks the size of any buffer you are copying from, so that the offset and range arguments do not cause garbage to be read in
+- In-Game: Changing a skeletal animation sprite's scaling, coordinates, or angle in the Draw event no longer causes animation events to trigger twice [#12058](https://github.com/YoYoGames/GameMaker-Bugs/issues/12058)
+- In-Game: Changing a sprite element's `sprite_index` in code now maintains the existing "Fill container" parameters [#14695](https://github.com/YoYoGames/GameMaker-Bugs/issues/14695)
+- In-Game: Changing window size/state soon after an earlier request no longer ignores the new request, so your windows should be at the correct values (e.g., launch game and immediately click different app) [#12949](https://github.com/YoYoGames/GameMaker-Bugs/issues/12949)
+- In-Game: Changing window size/state soon after earlier request can no longer ignores the new request, leave window at wrong values (e.g, launch game and immediately click different app) [#12949](https://github.com/YoYoGames/GameMaker-Bugs/issues/12949)
+- In-Game: Colliding with 2 instances of the same object will no longer cause an object to get stuck
+- In-Game: Collisions are no longer inaccurate [if compatibility mode is OFF]
+- In-Game: Collisions between precise and non-precise masks are now reliable on non-HTML5 platforms [see the important change mentioned above]
+- In-Game: Constructors are unable to call an inherited `toString()` method if the method was defined as static in the parent
+- In-Game: Debug runs no longer crash in the attached project [#9245](https://github.com/YoYoGames/GameMaker-Bugs/issues/9245)
+- In-Game: debug_mode in-built variable was incorrectly marked as deprecated [#8505](https://github.com/YoYoGames/GameMaker-Bugs/issues/8505)
+- In-Game: Declaring a global. method in room creation code no longer causes a silent crash
+- In-Game: Ensured Script dependencies in Prefabs are accounted for [#11263](https://github.com/YoYoGames/GameMaker-Bugs/issues/11263)
+- In-Game: Exceptions caused by overwritten variable definitions no longer point to the wrong object [#11443](https://github.com/YoYoGames/GameMaker-Bugs/issues/11443)
+- In-Game: Extension Macros are now supported correctly [#10141](https://github.com/YoYoGames/GameMaker-Bugs/issues/10141)
+- In-Game: Filters and Effects are now applied correctly to cropped surfaces which are bigger than the application_surface [#7513](https://github.com/YoYoGames/GameMaker-Bugs/issues/7513)
+- In-Game: Fix for mismatch in UI Layers between runtime and IDE [#11271](https://github.com/YoYoGames/GameMaker-Bugs/issues/11271)
+- In-Game: Fixed a code error when using `floor()`/`ceil()`/`round()` on both indexes of a DS grid if that grid is also inside an array
+- In-Game: Fixed a crash in games when encountering a layer sprite element which does not actually have a sprite assigned to it
+- In-Game: Fixed a crash when using the Toggle button inside "User Interface 0.1.5" prefab if built using 2024.1400.3 RTs [#13626](https://github.com/YoYoGames/GameMaker-Bugs/issues/13626)
+- In-Game: Fixed a memory leak when comparing a variable to "" (empty string)
+- In-Game: Fixed a silent crash due to "b2ParticleSystem::`DestroyParticle(int, bool)`" after destroying a particle [#8997](https://github.com/YoYoGames/GameMaker-Bugs/issues/8997)
+- In-Game: Fixed a silent crash when replaying compressed audio which has loop points after initially playing a portion of that sound file
+- In-Game: Fixed an extensions-stubbing compilation issue which meant Slimes... fails to load one of its audio groups due to an earlier issue inside `is_mobile()` in its extensions
+- In-Game: Fixed an inconsistent crash with non-zero status in the submitted visual novel project
+- In-Game: Fixed chained prefab calls to publicly-exposed functions were not working [#11263](https://github.com/YoYoGames/GameMaker-Bugs/issues/11263)
+- In-Game: Fixed confusing and/or incorrect error messages when accessing variables on destroyed instances [#13827](https://github.com/YoYoGames/GameMaker-Bugs/issues/13827)
+- In-Game: Fixed dynamic textures not respecting "Generate mipmaps" option on the texture group [#12203](https://github.com/YoYoGames/GameMaker-Bugs/issues/12203)
+- In-Game: Fixed effect layers interfering with Draw End event's display transform matrix [#12324](https://github.com/YoYoGames/GameMaker-Bugs/issues/12324)
+- In-Game: Fixed issues where creating instances at depths close to an existing particle system’s depth could cause the instance to skip its drawing events if it is later moved to be at the same depth as the particle system
+- In-Game: Fixed precise collision masks for SWFs being broken in the last few releases
+- In-Game: Fixed that "Animation Event" for my player Object in the attached project is no longer run in 2024.14.1 RTs, differs from other Objects with this event [#12999](https://github.com/YoYoGames/GameMaker-Bugs/issues/12999)
+- In-Game: Fixed that `_GMFUNCTION_` always becomes the name of the most recently-declared function, rather than giving the containing function's name [#13928](https://github.com/YoYoGames/GameMaker-Bugs/issues/13928)
+- In-Game: Fixed that collision performance has been much worse in some projects/cases since 2022.1.0
+- In-Game: Fixed that exceptions said "<unknown_object>" even when the object is known [#12405](https://github.com/YoYoGames/GameMaker-Bugs/issues/12405)
+- In-Game: Fixed that flexpanel rounding gave wrong sizing and jittering placement [#12847](https://github.com/YoYoGames/GameMaker-Bugs/issues/12847)
+- In-game: Fixed that functions with the same name as the Script printed out a number instead of the expected ref string [#12961](https://github.com/YoYoGames/GameMaker-Bugs/issues/12961)
+- In-Game: Fixed that growing a buffer beyond 2GB would cause a silent crash [#13553](https://github.com/YoYoGames/GameMaker-Bugs/issues/13553)
+- In-Game: Fixed that Nintendo Switch 2 Pro Controller gives ghost inputs in RT 2024.14.2.256 [#13268](https://github.com/YoYoGames/GameMaker-Bugs/issues/13268)
+- In-Game: Fixed that precise tilemap collisions were inaccurate in 2024.1400.1 runtimes [#12658](https://github.com/YoYoGames/GameMaker-Bugs/issues/12658)
+- In-Game: Fixed that Rollback may cause a JavaScript error for other players when the room is changed
+- In-Game: Fixed that some `layer_text_...()` functions errored if used with a text element for an Object which is on a UI Layer [#12940](https://github.com/YoYoGames/GameMaker-Bugs/issues/12940)
+- In-Game: Fixed that some new-in-2.3.7 filter layers were not re-applied correctly after calling `game_restart()`
+- In-Game: Fixed that Spine sprite color/alpha blending keyframes are broken in 2024.14 [#12730](https://github.com/YoYoGames/GameMaker-Bugs/issues/12730)
+- In-Game: Fixed that Sprite-culling was performed too early in 3D camera games built using 2022.11 runtimes
+- In-Game: Fixed that sprites with "image_speed" of 0 played rapidly inside Sequences if the track speed is not 0 also [#12285](https://github.com/YoYoGames/GameMaker-Bugs/issues/12285)
+- In-Game: Fixed that SWF sprite masks are ignored when that sprite is drawn in the Draw GUI event
+- In-Game: Fixed that the debug overlay could show negative free memory values, while nested struct memory usage grows indefinitely [#13614](https://github.com/YoYoGames/GameMaker-Bugs/issues/13614)
+- In-Game: Fixed that the Nullish operator does not work with struct/map/list accessors, gives code error about converting string to int64
+- In-Game: Fixed that tilemap collisions broke in 2024.13 when using tilesets with gaps between the tiles [#12219](https://github.com/YoYoGames/GameMaker-Bugs/issues/12219)
+- In-Game: Fixed that variable Definitions were not being read correctly during Create events in very early 2024.14.1 builds [#12461](https://github.com/YoYoGames/GameMaker-Bugs/issues/12461)
+- In-Game: Flexpanels moved to a layer which has a different visibility state will now pick up that new visibility value [#14674](https://github.com/YoYoGames/GameMaker-Bugs/issues/14674)
+- In-Game: Fonts in Texture Groups are now working again, after they stopped being recognized in 2024.13 runtimes [#10238](https://github.com/YoYoGames/GameMaker-Bugs/issues/10238)
+- In-Game: Functions with more than 16 named args no longer creates a collision with variable names in the function [#11213](https://github.com/YoYoGames/GameMaker-Bugs/issues/11213)
+- In-Game: Games no longer crash if Variable Definitions for an instance references a different room editor instance ID, which you have subsequently renamed the object for and you have created a child room of that room before running the game
+- In-Game: Games will no longer crash when sending large amounts of data to a WebSocket (>4MBish)
+- In-Game: get_open/`save_filename()` could still return a non-empty string in 2024.11 runtimes, so this has been fixed [#9002](https://github.com/YoYoGames/GameMaker-Bugs/issues/9002) / In-Game: String comparisons between an empty string and a non-empty string are now correct [#8956](https://github.com/YoYoGames/GameMaker-Bugs/issues/8956) / In-Game: `get_open_filename()` and its variants no longer return " < null > " not "" [#8855](https://github.com/YoYoGames/GameMaker-Bugs/issues/8855)
+- In-Game: Global structs with the same name as a Script no longer cause inconsistent behaviour accessing the struct [#11828](https://github.com/YoYoGames/GameMaker-Bugs/issues/11828)
+- In-Game: GLSL ES shaders which call "gl_FragData" indexes beyond 0 now compile again
+- In-Game: Having "Disable Source Sprite Export" enabled in a Tile Set no longer causes incorrect Sprites to be used for Particle Systems
+- In-Game: image_angle behaviour no longer differs between Windows and HTML5 when reaching 360 degrees [see the important note about lots of the maths functions and epsilon values higher up]
+- In-Game: Implemented support for game data files of sizes >2GB (we now support up to 4GB), which fixes that massive projects which keep growing could eventually see issues where they could not load all of their sprites and would get "unknown Chunk     :-1" lines in the compiler log
+- In-Game: Increased performance of all string functions (ranging from 5% to 50% faster) and of all the recently-added array functions
+- In-Game: Inserting a flex panel into a UI layer with no existing flex panels no longer causes a Microsoft C++ runtime error [#10789](https://github.com/YoYoGames/GameMaker-Bugs/issues/10789)
+- In-Game: Instance creation code is no longer run when that instance's creation is cancelled by a room transition [#11778](https://github.com/YoYoGames/GameMaker-Bugs/issues/11778)
+- In-Game: Instance Variables and Creation Code for Objects on UI Layers are now applied if room is changed on first step [#12128](https://github.com/YoYoGames/GameMaker-Bugs/issues/12128)
+- In-Game: Instance variables with the same name as in-built runner variables will now affect the instance's, not the runner ones
+- In-Game: instance_create_* now binds methods to the instance correctly
+- In-Game: keyboard_string gains unwanted characters when pressing Shift, Ctrl, Alt, etc. [#10507](https://github.com/YoYoGames/GameMaker-Bugs/issues/10507)
+- In-Game: layer_background_xscale set to a negative value no longer gives "Error attempting to draw sprite ..."
+- In-Game: Lighting-related built-in uniforms now work correctly inside custom shaders [#6509](https://github.com/YoYoGames/GameMaker-Bugs/issues/6509)
+- In-Game: Macros that declare an array now create the array each time the macro is used in 2024.11 runtime 226 [#8746](https://github.com/YoYoGames/GameMaker-Bugs/issues/8746)
+- In-Game: Managed objects now remain Solid correctly in-game, which fixes issues with `place_free()` in rollback games
+- In-Game: mask_index is now always respected on Objects which have a Spine sprite assigned
+- In-Game: Memory is now fully released each time a video finishes playing
+- In-Game: Mirmy... will cause CPU to be used at 100% and the IDE will become unresponsive
+- In-Game: mouse_x/y values are no longer incorrect if game is ran fullscreen on a secondary monitor using a different resolution to the primary monitor
+- In-Game: mouse_x/y values are now correct when the game is ran fullscreen on a secondary monitor which uses a different resolution to the primary monitor
+- In-Game: Moving between persistent rooms with UI prevents moving back to already-seen room [#10891](https://github.com/YoYoGames/GameMaker-Bugs/issues/10891) / In-Game: Game drawing does not update after changing between persistent rooms [#10870](https://github.com/YoYoGames/GameMaker-Bugs/issues/10870)
+- In-Game: Multiple empty sounds in one project and all set to "streamed" no longer causes the runner to silently crash on startup
+- In-Game: Muting sync group tracks no longer causes them to stop playing silently and therefore de-sync
+- In-Game: Nested constructor function lookup no longer ignores self-qualification [#12398](https://github.com/YoYoGames/GameMaker-Bugs/issues/12398)
+- In-Game: Nineslice sprites have correctly-sized collision masks when their edges are blank [#11298](https://github.com/YoYoGames/GameMaker-Bugs/issues/11298)
+- In-Game: Nineslice sprites using mirror tile mode are no longer drawn incorrectly when their `image_yscale` is a float number [#10652](https://github.com/YoYoGames/GameMaker-Bugs/issues/10652)
+- In-Game: No longer able to create UI Layers and flexpanels in such a way that you can create an infinite loop and a crash on startup [#11182](https://github.com/YoYoGames/GameMaker-Bugs/issues/11182)
+- In-Game: Objects on a UI Layer which has its visibility disabled in the Room Editor will not be positioned by their flexpanel in their Create event #13486
+- In-Game: OpenGL platforms no longer sometimes fail to stage texture samplers [#11449](https://github.com/YoYoGames/GameMaker-Bugs/issues/11449)
+- In-Game: Opera GX games would not cache themselves properly in Opera GX Mobile and so running a game multiple times would take roughly the same amount of time to load - it will now be faster on runs 2 onwards
+- In-Game: Particle System are now affected by matrix changes when drawn manually [#7561](https://github.com/YoYoGames/GameMaker-Bugs/issues/7561)
+- In-Game: Pausing and resuming a video no longer resumes it muted and with an "Audio queue has no queued buffers" message [#10932](https://github.com/YoYoGames/GameMaker-Bugs/issues/10932)
+- In-Game: phy_position_x no longer returns different values in HTML5 and Windows
+- In-Game: Physics collisions between two infinite mass objects will no longer generate an infinite velocity and cause an infinite loop (now, the infinite velocity will not be generated, but you might still need to review your code) [#10716](https://github.com/YoYoGames/GameMaker-Bugs/issues/10716)
+- In-Game: Position of object in a UI Layer flexpanel is no longer ignored if that object is set to stretch [#11546](https://github.com/YoYoGames/GameMaker-Bugs/issues/11546)
+- In-Game: Precise collision test no longer fails to register collision in specific edge cases [if compatibility mode is OFF]
+- In-Game: Prefabs no longer have an unwanted effect on Text Elements placed on Asset layers [#11887](https://github.com/YoYoGames/GameMaker-Bugs/issues/11887)
+- In-Game: Random number functions no longer return 0 in Step events after starting a rollback session
+- In-Game: Reduced memory usage and file size required by Sprite collision masks
+- In-Game: Referencing an extension function in a macro no longer results in a code error due to an incorrect function ID
+- In-Game: Removed a redundant "Asset Track" variable from all Sequence instances
+- In-Game: Removed the ability to reference hidden functions using `ref script <name-of-hidden>` [#12027](https://github.com/YoYoGames/GameMaker-Bugs/issues/12027)
+- In-Game: Resolved a macro using a string which matches the name of a different macro incorrectly returned the other macro's value [#12469](https://github.com/YoYoGames/GameMaker-Bugs/issues/12469)
+- In-Game: Resolved audio group load messages in Output window were marked as warnings in 2024.14.1 [#12768](https://github.com/YoYoGames/GameMaker-Bugs/issues/12768)
+- In-Game: Resolved flexpanel nodes that have been replaced with new values did not preserve the original draw order [#12424](https://github.com/YoYoGames/GameMaker-Bugs/issues/12424)
+- In-Game: Resolved gamepad mappings for hat directions using negative thumbstick axis components [#12670](https://github.com/YoYoGames/GameMaker-Bugs/issues/12670)
+- In-Game: Resolved gamepad mappings for hat directions using negative thumbstick axis components did not work [#12670](https://github.com/YoYoGames/GameMaker-Bugs/issues/12670)
+- In-Game: Resolved particle System instances created from an asset did not have the asset origin applied [#12397](https://github.com/YoYoGames/GameMaker-Bugs/issues/12397)
+- In-Game: Resolved some issues around memory allocation\deallocation thread contention
+- In-Game: Resolved stringifying a method created from an extension or a built-in function did not add its name into the results string [#12801](https://github.com/YoYoGames/GameMaker-Bugs/issues/12801)
+- In-Game: Resolved that chained prefab calls to publicly-exposed functions did not work [#11263](https://github.com/YoYoGames/GameMaker-Bugs/issues/11263)
+- In-Game: Reverb effect no longer sounds distorted when using a device with more than two channels or if virtual spatialisation software is enabled
+- In-Game: Room text is no longer corrupted when project has both a local and prefab Font of the same name [#11925](https://github.com/YoYoGames/GameMaker-Bugs/issues/11925)
+- In-Game: Runtime functions can now use paths with mixed separators [#11254](https://github.com/YoYoGames/GameMaker-Bugs/issues/11254)
+- In-Game: SDF font characters no longer become vertically offset if they are accented [#5020](https://github.com/YoYoGames/GameMaker-Bugs/issues/5020)
+- In-Game: SDF support no longer draws text incorrectly if using small point size font glyphs [#7499](https://github.com/YoYoGames/GameMaker-Bugs/issues/7499)
+- In-Game: Sequences within another sequence no longer flicker when played in the game
+- In-Game: Silent crash in la Al... if using runtimes newer than 2.3.7 [note that the fix here is simply to show the crash message properly - the  project’s code still needs changing accordingly]
+- In-Game: Single-Layer Effects are now drawn correctly when using custom cameras also
+- In-Game: Spine animations now play reliably when an object collides with a Spine sprite if no collision mask was set in Spine itself
+- In-Game: Spine bounding boxes now correctly rotate with the sprite
+- In-Game: Spine collision meshes are no longer rotated incorrectly when the sprite is flipped
+- In-Game: Spine scaling values are now correctly determined even when the Spine IDE option to inherit bone scaling values had been disabled before the Spine was exported and then imported into GameMaker
+- In-Game: Spine sprite bounding boxes are no longer incorrectly computed using the Sprite Editor values by some functions [See the Misc Change higher up, plus the IDE notes for more]
+- In-Game: Spine sprite masking/clipping issues in 2023.2 have now been fixed
+- In-Game: Spine sprite's transparent areas are no longer rendered incorrectly as black/grey [#11465](https://github.com/YoYoGames/GameMaker-Bugs/issues/11465)
+- In-Game: sprite_get_width/`height()` now report the correct info for Spine images loaded via `sprite_add()`
+- In-Game: Sprites on Asset Layers animate at wrong speed in 2022.6.0 / In-Game: Sprites set to 0 FPS still animate in 2022.6.0
+- In-Game: Sprites with 6 frames and image_index += 0.2 each step no longer cause the animation to freeze on non-HTML5 targets
+- In-Game: Sprites with empty frames no longer cause miscalculation of "precise per-frame" bbox top-left [#9950](https://github.com/YoYoGames/GameMaker-Bugs/issues/9950)
+- In-Game: Static constructors can now instantiate their subsidiary constructors [#10226](https://github.com/YoYoGames/GameMaker-Bugs/issues/10226)
+- In-Game: Static variables inside constructors can now be accessed directly [#10291](https://github.com/YoYoGames/GameMaker-Bugs/issues/10291)
+- In-Game: Static variables inside constructors can now be accessed directly again [#10291](https://github.com/YoYoGames/GameMaker-Bugs/issues/10291)
+- In-Game: Steam-enabled games will now connect to Steam again, after showing a warning message and output log error "SteamInit failed with no msg" in 2022.1.0
+- In-Game: Stopping an inaudible voice now makes it immediately stealable [#7789](https://github.com/YoYoGames/GameMaker-Bugs/issues/7789)
+- In-Game: Stretch property of UI Layers now uses full sprite size [#11306](https://github.com/YoYoGames/GameMaker-Bugs/issues/11306)
+- In-Game: Strong references to structs held in ds_queues are now cleared properly when that struct is de-queued
+- In-Game: Structs with built-in properties (such as sequences and audio effects) can now have their built-in properties set using struct accessors and `variable_struct_set()`
+- In-Game: surface_set/`reset_target()` no longer give inconsistent behaviour depending on the current camera settings [#10840](https://github.com/YoYoGames/GameMaker-Bugs/issues/10840)
+- In-Game: SVG sprite with any collision mask other than "rectangle" no longer crashes the attached game with a memory allocation error [#11388](https://github.com/YoYoGames/GameMaker-Bugs/issues/11388)
+- In-Game: Template strings' runtime errors now show the correct line number [#10619](https://github.com/YoYoGames/GameMaker-Bugs/issues/10619)
+- In-Game: Templated Strings which use {{ and }} are back to giving the correct results [#10318](https://github.com/YoYoGames/GameMaker-Bugs/issues/10318)
+- In-Game: Text Elements now honour the Inspector's "Paragraph Spacing" value [#11885](https://github.com/YoYoGames/GameMaker-Bugs/issues/11885)
+- In-Game: The framerate of video playback on OperaGX and HTML5 is now much better
+- In-Game: The gain for a custom audio bus/the “Gain” audio effect now changes instantaneously, rather than smoothing to the new value as it did in previous releases
+- In-Game: The Runner’s description (and therefore Windows ANR messages) no longer uses old “GMS2” branding
+- In-Game: There is now an exception thrown when calling a constructor function without using the "new" keyword [#7690](https://github.com/YoYoGames/GameMaker-Bugs/issues/7690)
+- In-Game: Toggling "phy_particle_flag_wall" > "..._water" > "..._wall" no longer causes collisions to be performed incorrectly thereafter [#5499](https://github.com/YoYoGames/GameMaker-Bugs/issues/5499)
+- In-Game: UDP packets no longer cause a memory leak for each "Async - Networking" event map that is generated [#10252](https://github.com/YoYoGames/GameMaker-Bugs/issues/10252)
+- In-Game: UI Layer instances' mouse enter/leave areas are no longer offset when camera and viewport dimensions differ [#11715](https://github.com/YoYoGames/GameMaker-Bugs/issues/11715)
+- In-Game: UI layer text elements' automatic line-wrapping now resizes the framew and frameh values correctly [#12039](https://github.com/YoYoGames/GameMaker-Bugs/issues/12039)
+- In-Game: UI Layers are no longer invisible if the first room is marked as persistent [#11462](https://github.com/YoYoGames/GameMaker-Bugs/issues/11462)
+- In-Game: Unnamed Moments and Broadcast Messages recreated by Undo in the IDE are nww ignored, stopping subsequent builds from failing [the real fix is therefore on the IDE side]
+- In-Game: Upmixing from stereo to 7.1 no longer generates audible phase distortion
+- In-Game: Using optional arguments and going over the 16 argument limit no longer results in an unexpected "Variable set failed" code error dialog [#7321](https://github.com/YoYoGames/GameMaker-Bugs/issues/7321)
+- In-Game: Vector sprites can now be matrix-transformed properly even when they do not use a "top-left" origin point [#13543](https://github.com/YoYoGames/GameMaker-Bugs/issues/13543)
+- In-Game: Vector sprites that are part of a Sequence placed on a UI Layer now move correctly [#12209](https://github.com/YoYoGames/GameMaker-Bugs/issues/12209)
+- In-Game: Video playback can now play a second video after closing a previous one [#10208](https://github.com/YoYoGames/GameMaker-Bugs/issues/10208)
+- In-Game: Video playback is now always at the correct framerate [#8815](https://github.com/YoYoGames/GameMaker-Bugs/issues/8815)
+- In-Game: Video playback no longer starts a few seconds ahead of expected [#8936](https://github.com/YoYoGames/GameMaker-Bugs/issues/8936)
+- In-Game: VM and YYC no longer differ in what is called when a Script has the same name as a built-in function [#7611](https://github.com/YoYoGames/GameMaker-Bugs/issues/7611)
+- In-Game: White Noise, Dot and Stripe filter applied as a single layer effect now apply only to things on that layer as you would expect, rather than to the full screen
+- Live Wallpapers: Windows 24H2 release breaks Windows Wallpaper support [#8710](https://github.com/YoYoGames/GameMaker-Bugs/issues/8710)
+- Prefabs: Exporting a prefab that contains exported other prefabs no longer fails to add a reference to the appropriate `Collection(s)` [#11323](https://github.com/YoYoGames/GameMaker-Bugs/issues/11323)
+- Prefabs: Fix for Prefabs being editable via audio/texture groups [#11702](https://github.com/YoYoGames/GameMaker-Bugs/issues/11702)
+- Prefabs: Fixed issues where Fonts which have "regenerateBitmap=true" in their .yy file sometimes generate an override font texture even when the font is not used or been modified [#12013](https://github.com/YoYoGames/GameMaker-Bugs/issues/12013)
+- Prefabs: Fixed issues with overriding a prefab sprite that meant builds would fail thereafter [#11904](https://github.com/YoYoGames/GameMaker-Bugs/issues/11904)
+- Prefabs: Fixed that breakpoints placed in the code of an object with the same name as a prefab object would never trigger if you have a collection reference to that prefab [#14640](https://github.com/YoYoGames/GameMaker-Bugs/issues/14640)
+- Prefabs: Fixed that duplicating UI prefab put the included sequences outside the User Interface folder [#13715](https://github.com/YoYoGames/GameMaker-Bugs/issues/13715)
+- Prefabs: Fixed that fonts which have "regenerateBitmap=true" in its .yy file sometimes generated an override font texture even when the font is not used or been modified [#12013](https://github.com/YoYoGames/GameMaker-Bugs/issues/12013)
+- Prefabs: Fixed that importing a UI Layer prefab did not copy the creation code for any instances on that layer [#14232](https://github.com/YoYoGames/GameMaker-Bugs/issues/14232)
+- Prefabs: Fixed that Objects with Variable Definitions within UI Layer Prefabs gave an error on running [#13554](https://github.com/YoYoGames/GameMaker-Bugs/issues/13554)
+- Prefabs: Fixed that sequence Moment functions were not found when importing a prefab, even when using the #export command [#14502](https://github.com/YoYoGames/GameMaker-Bugs/issues/14502)
+- Prefabs: Fixed that sprite overrides do not function in prefab collections [#12011](https://github.com/YoYoGames/GameMaker-Bugs/issues/12011)
+- Prefabs: Fixed that there was no way to uninstall a prefab if its version is no longer available for install in Package Manager [#12826](https://github.com/YoYoGames/GameMaker-Bugs/issues/12826)
+- Prefabs: Fixed that you could edit prefab child Objects via override/inherit option (CE2) [#12256](https://github.com/YoYoGames/GameMaker-Bugs/issues/12256)
+- Prefabs: Resolved "Customised Prefabs Only" search filter not find customised prefabs in the Prefab Library [#13749](https://github.com/YoYoGames/GameMaker-Bugs/issues/13749)
+- Time Sources: Added a simpler one-line alternative to the current create/start/destroy functions
+- Debugger: [Android, macOS, iOS] No longer fails to connect for these targets on some user's machines [#14334](https://github.com/YoYoGames/GameMaker-Bugs/issues/14334)
+- Debugger: [GX.Games] Debug runs no longer fail to connect [#13842](https://github.com/YoYoGames/GameMaker-Bugs/issues/13842)
+- Debugger: [Mac IDE] Fixed a GM crash and unwanted child windows when running again after detaching workspaces [#11894](https://github.com/YoYoGames/GameMaker-Bugs/issues/11894)
+- Debugger: [Mac IDE] Games no longer crash after hitting a breakpoint
+- Debugger: [Mac IDE] Maximised windows restored from a layout file are now correctly sized as soon as they appear (so no longer have to animate as it resizes to fix)
+- Debugger: [Mac IDE] Now displays the correct memory usage of a game again (rather than always saying 4GB is in use, as it did in 2022.11)
+- Debugger: [Mac IDE] Now displays the correct memory usage of a game again (rather than always saying 4GB is in use, as it did in 2022.11)
+- Debugger: [MacIDE] Fixed that double-clicking on the watches grid resulted in the IDE going unstable [#12472](https://github.com/YoYoGames/GameMaker-Bugs/issues/12472)
+- Debugger: [Switch] Debug runs no longer fail to connect [#13970](https://github.com/YoYoGames/GameMaker-Bugs/issues/13970)
+- Garbage Collector: [Android] Game crashes due to runner's default GC strategy for dynamically-created arrays and structs have been fixed
+- Garbage Collector: [VM] Fixed that string refs can sometimes leak memory when collecting [#13105](https://github.com/YoYoGames/GameMaker-Bugs/issues/13105)
+- Garbage Collector: [YYC] Access violation when `MarkAndSweepGen()` is called just after an `if()` block referencing g_IgnoreGen [#10908](https://github.com/YoYoGames/GameMaker-Bugs/issues/](https://github.com/YoYoGames/GameMaker-Bugs/issues/))
+- Garbage Collector: [YYC] Decrement within a conditional no longer creates code which could lead to an imbalanced GC stack later on
+- Garbage Collector: [YYC] Fixed that context stack errors could cause game crashes
+- Garbage Collector: [YYC] Modifying a multidimensional array owned by a different object when copy-on-write is enabled no longer causes a variety of issues when the variable being changed incorrectly
+- GPUTextureCompression: [Android] Add support for older devices that only support GL_KHR_texture_compression_ldr [#7931](https://github.com/YoYoGames/GameMaker-Bugs/issues/7931)
+- In-Game: [Android YYC] Fixed game freezes without any exception due to deadlock between main and audio threads when allocating extra buffers for decoding compressed audio [#13991](https://github.com/YoYoGames/GameMaker-Bugs/issues/13991)
+- In-Game: [Android YYC] Fixed some timing crashes on startup, which could have been prevented in earlier releases simply by calling `show_debug_message()` or similar misc function before the problem call - now, you no longer need these unwanted extra lines
+- In-Game: [Android/Mac YYC] Games which use dynamic texture groups and supply custom paths now load correctly - apart from when building for Android and your folder is called "Assets", as this folder name will not work with apks, so this will be detected and blocked with a compiler error asking you to change the folder name
+- In-Game: [Android] "FPS" values now reliably reach 120 on high-refresh-capable devices when `game_set_speed()` requests 120 [30/60/90, etc., are all generally more accurate/consistent also - although, note that we are still investigating some specific devices which forcibly override your request and then give unexpected FPS values, causing slow/turbo game speeds]
+- In-Game: [Android] Added a check for some (typically slightly older) devices which return that the current display frequency is 0 and so nothing is drawn in-game on startup, and now a default of 60 is used instead
+- In-Game: [Android] Audio recorder devices are now automatically paused/freed when sending the game to the background
+- In-Game: [Android] device_get_tilt_x/y/`z()` now return their correct values right from the start of the game [in some previous releases you had to pause and resume the game in some way before they worked]
+- In-Game: [Android] Enabling "Dynamic Asset Delivery" no longer makes audio files inaccessible [#7668](https://github.com/YoYoGames/GameMaker-Bugs/issues/7668)
+- In-Game: [Android] Fixed a crash in `SET_RValue_Property(RValue*, RValue*, YYObjectBase*, int)`+256) [#9496](https://github.com/YoYoGames/GameMaker-Bugs/issues/9496)
+- In-Game: [Android] Fixed a crash in versions since the `flexpanel_calculate_layout()` change mentioned above, which gave "Only leaf nodes with custom measure functions should manually mark themselves as dirty" error [#14608](https://github.com/YoYoGames/GameMaker-Bugs/issues/14608)
+- In-Game: [Android] Fixed a freeze when loading files from the .apk as a .zip file, due to a threading problem [#7839](https://github.com/YoYoGames/GameMaker-Bugs/issues/7839)
+- In-Game: [Android] Fixed OpenAL Errors for compressed streamed audio [#7562](https://github.com/YoYoGames/GameMaker-Bugs/issues/7562)
+- In-Game: [Android] Fixed precision issues with the White Noise filter which meant it did not draw correctly when run on a real device (which differed from when using an emulator)
+- In-Game: [Android] Fixed some FPS issues for some devices when `game_set_speed()` is specifically 120 (issues which remained after the other fixes in 2023.2)
+- In-Game: [Android] Fixed that clean Up events were blamed for "FORTIFY" errors after calls to `YYCatchGMLException()` in 2024.14.1 RTs [#12969](https://github.com/YoYoGames/GameMaker-Bugs/issues/12969)
+- In-Game: [Android] Fixed that games close instantly during their first run on an Android 14 device [#13630](https://github.com/YoYoGames/GameMaker-Bugs/issues/13630)
+- In-Game: [Android] Fixed that the Global Left Down event could fire continuously after minimising the game by using the OS swipe gesture
+- In-Game: [Android] Games no longer crash when attaching a physical keyboard
+- In-Game: [Android] Games no longer restart when setting dark mode in Android itself
+- In-Game: [Android] Games set to anything other than 60FPS now run at their intended speed on Android 11+ phones with 90/120hz displays
+- In-Game: [Android] GM_version now returns the correct value, rather than the value of "Gradle Plugin Version" [#9476](https://github.com/YoYoGames/GameMaker-Bugs/issues/9476)
+- In-Game: [Android] iCade support no longer causes a crash when using Firebase's automation tools to shut apps down
+- In-Game: [Android] Manually using newer SDL community gamepad database no longer breaks D-pad inputs [#6143](https://github.com/YoYoGames/GameMaker-Bugs/issues/6143)
+- In-Game: [Android] No longer fails to startup correctly [#13891](https://github.com/YoYoGames/GameMaker-Bugs/issues/13891)
+- In-Game: [Android] Non-gamepad devices are now filtered from the list of gamepad devices [#8427](https://github.com/YoYoGames/GameMaker-Bugs/issues/8427)
+- In-Game: [Android] Running any project no longer writes lots of "UpdateGameSpeed" messages to the Output Window on some devices
+- In-Game: [Desktops] Nintendo Switch gamepads connected via USB are now filtered from the list of gamepad devices [#8426](https://github.com/YoYoGames/GameMaker-Bugs/issues/8426)
+- In-Game: [Desktops] Wacom tablets are now filtered from the list of gamepad devices [#8428](https://github.com/YoYoGames/GameMaker-Bugs/issues/8428)
+- In-Game: [GDK] Added support for the XUserFindControllerForUserWithUiAsync function to assist cert compliance
+- In-Game: [GDK] Now supports viewports with offset x,y coordinates
+- In-Game: [GX.games .ZIP] Fixed that project with interpolation on is exported with pixelated rendering [#12273](https://github.com/YoYoGames/GameMaker-Bugs/issues/12273)
+- In-Game: [GX.games and Ubuntu] Fonts in Included Files which contain uppercase non-ASCII chars or spaces in the filename no longer fail to load
+- In-Game: [GX.games VM] Buttons for Toggling console/Show QR codes are  displaying again and are able to connect
+- In-Game: [GX.games VM] The loading bar now shows progress during the start-up sequence again [#13250](https://github.com/YoYoGames/GameMaker-Bugs/issues/13250)
+- In-Game: [GX.games YYC] Fixed that JS extensions caused a startup error, "Error occured: Uncaught ReferenceError: wasm_browser_get_user_agent is not defined" [#13942](https://github.com/YoYoGames/GameMaker-Bugs/issues/13942)
+- In-Game: [GX.games YYC] Resolved "Interpolate colours between pixels" setting not working and so it is always off [#13251](https://github.com/YoYoGames/GameMaker-Bugs/issues/13251)
+- In-Game: [GX.games] `keyboard_string` variable no longer shows numpad keys registering unexpected alphabetical characters when NumLock is off [#13384](https://github.com/YoYoGames/GameMaker-Bugs/issues/13384)
+- In-Game: [GX.games] Ctrl/Shift/Alt key presses no longer incorrectly appear in "keyboard_string" and "keyboard_lastchar" values [#13035](https://github.com/YoYoGames/GameMaker-Bugs/issues/13035)
+- In-Game: [GX.games] Fixed a crash on load if any Texture Group uses PNG format and has a custom path defined [#7157](https://github.com/YoYoGames/GameMaker-Bugs/issues/7157)
+- In-Game: [GX.games] Fixed destination alpha not working when drawing to the back buffer
+- In-Game: [GX.games] Fixed that "keyboard_string" is returned in all-caps, regardless of the case when typed [#6877](https://github.com/YoYoGames/GameMaker-Bugs/issues/6877)
+- In-Game: [GX.games] Fixed that extension "self"/"other" stack is obfuscated [#12259](https://github.com/YoYoGames/GameMaker-Bugs/issues/12259)
+- In-Game: [GX.games] Fixed that number key events were not fired and so keyboard_lastkey said 0 each time [#12829](https://github.com/YoYoGames/GameMaker-Bugs/issues/12829)
+- In-Game: [GX.games] Games with a viewport size of specifically 640x480 will now render correctly in local runs also (previously, they only worked when published to the GX.games website)
+- In-Game: [GX.games] Live Wallpapers are now able to access Included Files after installing in the companion app
+- In-Game: [GX.games] Music playback is no longer slowed down when game is set to 30fps
+- In-Game: [GX.games] WASM games now correctly register inputs when hosted on Itch.io/others [#8549](https://github.com/YoYoGames/GameMaker-Bugs/issues/8549)
+- In-Game: [HTML5] "Windblown Particles" now uses your own sprite and settings as per the Room Editor, rather than always using in-built defaults
+- In-Game: [HTML5] Added a built-in check so that “Safari on iPadOS” is no longer detected as “Safari on macOS” (their browser agent strings are legitimately the same, so this workaround is required)
+- In-Game: [HTML5] Anonymous functions containing switch statements now work correctly and no longer always perform the "Default" case
+- In-Game: [HTML5] Asset compiler now knows how to handle the reserved keyword "getPrototypeOf"
+- In-Game: [HTML5] Attached project no longer crashes with "Identifier 'kgml_Script_anon_40_1316_40....' has already been declared" error [#8316](https://github.com/YoYoGames/GameMaker-Bugs/issues/8316)
+- In-Game: [HTML5] Attached project no longer immediately crashes due to "can't access property "sequence"" error [#13711](https://github.com/YoYoGames/GameMaker-Bugs/issues/13711)
+- In-Game: [HTML5] bbox values in 2022.6 were 1 smaller than what Windows, etc., would return, so this inconsistency has been fixed now
+- In-Game: [HTML5] Calling a function inside a nested array subscript no longer causes games to error on startup
+- In-Game: [HTML5] Changing tabs and then coming back to the game or resizing tabs within the browser will no longer cause the game to stop rendering
+- In-Game: [HTML5] Code performing a self-assignment (such as "var a = a") no longer causes an Uncaught Syntax Error on startup due to an unwanted “var” remaining in the generated JS file
+- In-Game: [HTML5] Comparing a variable set to "self" against the in-built "self" now returns a match
+- In-Game: [HTML5] Creating a static array inside a constructor no longer causes an error due to an unexpected extra comma appearing in your package’s source code
+- In-Game: [HTML5] Creating a static array with [] after another array no longer causes an unwanted extra comma to appear in the source code [2022.1.0 had a partial fix, but this route still remained]
+- In-Game: [HTML5] Creating a static variable after another static variable no longer causes an "unexpected token" error
+- In-Game: [HTML5] Custom loading screen extension is no longer delayed loading in 2024.2, results in image drawn at the wrong initial size [#5623](https://github.com/YoYoGames/GameMaker-Bugs/issues/5623)
+- In-Game: [HTML5] Draw Begin events do not actually draw anything in 2023.2
+- In-Game: [HTML5] Drawing large fonts at scaled-down sizes now yields correct/accurate results
+- In-Game: [HTML5] Extensions with variable number of arguments no longer compile to invalid JS
+- In-Game: [HTML5] Filters are not drawn in 2023.2.1
+- In-Game: [HTML5] Fixed "Uncaught TypeError: g_WebAudioContext" errors in 2022.6 when switching browser tabs or minimising the browser and then restoring it
+- In-Game: [HTML5] Fixed a case of calling some audio functions at their default asset and group gains could result in a TypeError like "____.gain.get is not a function"
+- In-Game: [HTML5] Fixed a crash if the audio context resumed before its DS Maps had been initialised
+- In-Game: [HTML5] Fixed a crash when setting the pitch of a streamed sound beyond supported limits in Chromium-based browsers
+- In-Game: [HTML5] Fixed a game crash on startup when trying to convert a string which starts with a 0 character into being a number
+- In-Game: [HTML5] Fixed an issue where audio was distorted on Safari for iOS/iPadOS due to a Webkit issue with audio worklets [now it will fall back to the old interface]
+- In-Game: [HTML5] Fixed an issue where the wrong sprite/font was drawn in a submitted vertex buffer if those sprites/fonts belong to different texture groups
+- In-Game: [HTML5] Fixed crashes when calling some older particle functions in 2023.2, including `part_particles_create_colour()` or effect_create_above/`below()`
+- In-Game: [HTML5] Fixed issues where reading buffers and returning a struct could fail, giving "undefined"
+- In-Game: [HTML5] Fixed issues where Spine animations did not loop correctly in 2022.3
+- In-Game: [HTML5] Fixed issues where struct member names were not sanitised if that struct is inside another struct, which created invalid object names and ultimately game crashes in previous releases
+- In-Game: [HTML5] Fixed mouse_x/y to no longer return NaN in some cases, as this would causes crashes if the NaN was passed to other functions
+- In-Game: [HTML5] Fixed that a runtime exception could be encountered after a Draw GUI event when dealing with textures or calling `vertex_submit()`
+- In-Game: [HTML5] Fixed that attached project gave an unhandled exception in 2024.14.1 RTs [#12892](https://github.com/YoYoGames/GameMaker-Bugs/issues/12892)
+- In-Game: [HTML5] Fixed that font vertical alignment was wrong in 2022.11, placing text higher than expected
+- In-Game: [HTML5] Fixed that games would crash when `webkitAudioContext.createGain()` was called on iOS 13.7
+- In-Game: [HTML5] Fixed that sprites caused an obfuscation error during game startup in RT 2024.14.2.255 [#13261](https://github.com/YoYoGames/GameMaker-Bugs/issues/13261)
+- In-Game: [HTML5] Fixed that the Delay effect when using maximum delay sounds the same as when there is zero delay
+- In-Game: [HTML5] Fixed that the use of double slashes in the audio worklet path created a compatibility issue on some OSes
+- In-Game: [HTML5] Fixed the detection process for whether Gamepad API is allowed by a webhost, as this check itself caused a crash on sites which enforce Feature-Policy: gamepad 'none' (e.g., Itch.io)
+- In-Game: [HTML5] Font resources are no longer cropped ignoring the border set in Texture Groups Editor
+- In-Game: [HTML5] Fonts now have their texture page border setting applied correctly
+- In-Game: [HTML5] Framerate no longer drops on iOS devices while waiting for the audio context to become available
+- In-Game: [HTML5] Instances can no longer be destroyed twice in Destroy events (which caused a variety of issues if you had accidentally done this in previous versions)
+- In-Game: [HTML5] layer_sequence_y/`layer_sequence_x()` now moves any clipping masks in the sequence as well
+- In-Game: [HTML5] Mobile devices connecting a locally-hosted webserver no longer get a "(reading 'addModule')" error because audio worklets are not allowed in this scenario [now it will fall back to the old interface]
+- In-Game: [HTML5] Obfuscation no longer breaks assigning struct field values when using accessor syntax [#12567](https://github.com/YoYoGames/GameMaker-Bugs/issues/12567)
+- In-Game: [HTML5] Obfuscation of "filename" and "lineno" keywords has been removed, so no longers cause errors or unexpected behaviors
+- In-Game: [HTML5] Pixels with alpha of 0 in a Tileset sprite no longer count for collisions [#8264](https://github.com/YoYoGames/GameMaker-Bugs/issues/8264)
+- In-Game: [HTML5] Recycling a voice which is requesting data now aborts the request [#8121](https://github.com/YoYoGames/GameMaker-Bugs/issues/8121)
+- In-Game: [HTML5] Resolved that tile layers were displaying incorrectly in 2024.14 [#12499](https://github.com/YoYoGames/GameMaker-Bugs/issues/12499)
+- In-Game: [HTML5] RNG-related changes in 2024.14.4.265 RT eventually cause crash when approx 15,000 numbers have been generated [#14435](https://github.com/YoYoGames/GameMaker-Bugs/issues/14435)
+- In-Game: [HTML5] The physics centre of mass (phy_com_x,phy_com_y) now matches phy_position_y
+- In-Game: [HTML5] The Z buffer is now always cleared after each step, so HTML5 no longer differs from Windows, etc., on this
+- In-Game: [HTML5] Two global methods with identical declaration lines will cause no longer games to fail to load
+- In-Game: [HTML5] Various fixes for getting and setting camera matrices and the arrays these functions return [which you can now see on the public-facing GitHub for the HTML5 runner!]
+- In-Game: [HTML5] view_current no longer gives an incorrect lower-than-expected result if "earlier" views are set to not be visible
+- In-Game: [HTML5] Virtual key and `device_mouse_to_gui()` values are no longer offset after pressing F10 to go fullscreen [#7386](https://github.com/YoYoGames/GameMaker-Bugs/issues/#7386)
+- In-Game: [HTML5] Websocket urls containing paths no longer incorrectly moves the port suffix to the end of the whole URL
+- In-Game: [iOS and macOS] Fixed that all layer... getter property functions would silently crash the game if passed a method as the element id
+- In-Game: [iOS] Added support for `display_set_ui_visibility()`
+- In-Game: [iOS] Corrected "DisplayLayoutInfo" event returned incorrect inset values [#13797](https://github.com/YoYoGames/GameMaker-Bugs/issues/13797)
+- In-Game: [iOS] Fixed an iPad OS 26.3.1 crash when pressing Circle or B on gamepad in attached project (actually tidies up a lot of the touches/gestures functionality) [private report]
+- In-Game: [iOS] Fixed slowdown/stuttering seen in the attached game on iOS 26 devices if built using 2024.14 [#12692](https://github.com/YoYoGames/GameMaker-Bugs/issues/12692)
+- In-Game: [iOS] Fixed that `tm_systemtiming` timing method could cause games to run at very low framerates [#13918](https://github.com/YoYoGames/GameMaker-Bugs/issues/13918)
+- In-Game: [iOS] Fixed that ProMotion displays kept returning to 60FPS because the game entitlement to go faster was not set properly in 2023.4 [now it’s all down to the phone and the Settings app on it]
+- In-Game: [iOS] Games no longer crash at startup while trying to FreePNGFile [#13524](https://github.com/YoYoGames/GameMaker-Bugs/issues/13524)
+- In-Game: [iOS] keyboard_lastchar no longer gets stuck on "10" when the enter key is used to close a virtual keyboard
+- In-Game: [iOS] keyboard_lastchar no longer gets stuck on iOS when using the enter key to close a virtual keyboard
+- In-Game: [iOS] keyboard_string is now cleared correctly and so does not cause subsequent keypresses to return the first character typed
+- In-Game: [iOS] Passing a bool into an extension function now works correctly, rather than always resulting in 0 as it did previously
+- In-Game: [iOS] Stopped logging duplicate "Network is IPv4/IPv6" debug messages after connecting to a network, now only show this message once when the connection is made
+- In-Game: [iOS] Tap and double-tap gestures are not registered correctly in 2024.1400.4/2024.14.4.265 RTs [#1448](https://github.com/YoYoGames/GameMaker-Bugs/issues/14448)
+- In-Game: [iOS] Video playback no longer automatically resumes when a game returns from losing focus as of 2024.600 [#7035](https://github.com/YoYoGames/GameMaker-Bugs/issues/7035)
+- In-Game: [macOS YYC] Create Exe packages will no longer show a GMS2 splash screen rather than the one you set in Game Options
+- In-Game: [macOS YYC] Fixed that gamepad mappings were not returned correctly in 2024.14.1 [#12955](https://github.com/YoYoGames/GameMaker-Bugs/issues/12955)
+- In-Game: [macOS YYC] Games which use dynamic texture groups and custom paths now loading correctly
+- In-Game: [macOS, iOS, tvOS] GM_version in-built no longer incorrectly uses the "Min Version" value from Game Options, is back to using the game's own version number
+- In-Game: [macOS/iOS/tvOS VM] infinity == infinity no longer returns false when game built on M1 Macs using a recent Xcode
+- In-Game: [macOS/iOS] Fixed that all layer... getter property functions would silently crash the game if passed a method as the element id
+- In-Game: [macOS] "Allow fullscreen switching" Game Option being disabled no longer stops fullscreen switching thereafter [#6082](https://github.com/YoYoGames/GameMaker-Bugs/issues/6082)
+- In-Game: [macOS] "Large Blur Filter" now displays correctly on Intel-based Macs [#8205](https://github.com/YoYoGames/GameMaker-Bugs/issues/8205)
+- In-Game: [macOS] Added support for Cmd+A and Cmd+C on the Code Error dialog, so now you can copy error dialog text and paste it elsewhere
+- In-Game: [macOS] Attached game no longer crashes silently shortly after pressing spacebar to start the game [#13074](https://github.com/YoYoGames/GameMaker-Bugs/issues/13074)
+- In-Game: [MacOS] Fixed that force-quitting some games would cause the OS to incorrectly call the game window "Solitaire"
+- In-Game: [macOS] keyboard_string no longer registers "(" as backspace [#337](https://github.com/YoYoGames/GameMaker-Bugs/issues/337)
+- In-Game: [macOS] Will now parse http response header maps which have a 401 http_status code
+- In-Game: [non-HTML5] Requesting a track position beyond the end of a sound asset's duration now gives a result consistent with the Web Audio spec
+- In-Game: [Opera GX YYC] "Show QR Code" now gives a sensibly-sized QR image [VM already does]
+- In-Game: [Opera GX] Cursor is no longer always made invisible on Game Start and remains so until it is moved off the game window [a Game Option to enable the cursor was missing, you will need to select this option to get the fix]
+- In-Game: [Opera GX] display_get_width/`height()` no longer always return 1920 and 1080 - now they will will return the actual width and height of the monitor you are going fullscreen on or, alternatively, if windowed, the monitor width/height that you started on
+- In-Game: [Opera GX] Games would not run properly in Opera GX Mobile if your phone is using iOS 14, as iOS 14 this only supports the older WebGL 1 - games will now work with that older WebGL version also
+- In-Game: [OperaGX VM] "Show QR Code" menu text no longer gets out-of-sync with the current state of the image
+- In-Game: [OperaGX YYC] Fixed that games would throw a Javascript error if played on the GX.games site when the original project name contains a hyphen
+- In-Game: [OperaGX YYC] Tank_R... no longer returns an Uncaught RuntimeError when a bullet hits an enemy
+- In-Game: [OperaGX] Assert thrown for rollback variable "input.generation" after pressing keyboard keys in attached project
+- In-Game: [OperaGX] Audio is no longer sometimes delayed by 1-2 seconds when played
+- In-Game: [OperaGX] display_get_width/`height()` no longer always returns 1920 and 1080
+- In-Game: [OperaGX] Fixed that the game window is always misaligned within our default empty browser page
+- In-Game: [OperaGX] Mouse wheel usage is now supported during Rollback Multiplayer input
+- In-Game: [OperaGX] Rollback games no longer crash when the "Windblown Particles" effect is used [see the important note higher up]
+- In-Game: [OperaGX] Rollback sync will now never reset a prediction from an earlier frame than the one on which the request was made, stops some syncing issues in earlier releases
+- In-Game: [OperaGX] Sounds loaded in custom audio groups now load and play correctly
+- In-Game: [OperaGX] Videos will now play sound once the page has been interacted with
+- In-Game: [PS4/5] Fixed tiling issues when drawing Spine sprites which are not sized to multiples of 8
+- In-Game: [PS4] Calling psn_* functions before `psn_load_modules()` no longer causes a hang in certain situations
+- In-Game: [PS4] Fixed a crash when playing some videos for a second time
+- In-Game: [PS4] Fixed that text-drawing functions have very poor performance because memory is always duplicated first [fixes a potential submission issue if you were drawing lots of text at once]
+- In-Game: [PS4] Reduced audio latency during video playback, which will also fix some cases of “stuttery” playback of the visuals
+- In-Game: [PS4] Video playback performance has been improved and so no longer buffers frequently or occasionally stalls in the middle of videos
+- In-Game: [PS5] Fixed a crash when changing languages and calling `font_delete()` on the font for the old language
+- In-Game: [PS5] Fixed that not all C++ new/delete operators had proper overloads, resulting in a mismatch [#13814](https://github.com/YoYoGames/GameMaker-Bugs/issues/13814)
+- In-Game: [PS5] Fixed that YYerror called from any other thread than the main thread would fail [#12242](https://github.com/YoYoGames/GameMaker-Bugs/issues/12242)
+- In-Game: [Reddit] Game no longer crashes on startup after adding JavaScript extensions containing functions [#13951](https://github.com/YoYoGames/GameMaker-Bugs/issues/13951)
+- In-Game: [Spine] Collision checks between a circle/ellipse and a rotated Spine mesh are now correct [#10513](https://github.com/YoYoGames/GameMaker-Bugs/issues/10513)
+- In-Game: [SVG] Fixed that the attached specific file was not showing correctly [#14181](https://github.com/YoYoGames/GameMaker-Bugs/issues/14181)
+- In-Game: [Switch] Fixed that some controller functions gave the wrong result
+- In-Game: [tvOS] A further fix for GM_version, as this platform was always using the value from iOS’s Game Options, not the one from tvOS
+- In-Game: [Ubuntu VM] Games running on an ARM device no longer segfault after receiving data from the network
+- In-Game: [Ubuntu] `window_get_visible_rects` returning an empty array when used on latest ubuntu IDE and runtime [#9378](https://github.com/YoYoGames/GameMaker-Bugs/issues/9378)
+- In-Game: [Ubuntu] Accessing the clipboard no longer crashes the game [#6383](https://github.com/YoYoGames/GameMaker-Bugs/issues/6383)
+- In-Game: [Ubuntu] Fixed that extension functions/macros always returned zero in 2022.3
+- In-Game: [Ubuntu] Fixed that no "Code Error" window appeared if a game crashed very early on startup (which differed from Windows, etc.)
+- In-Game: [Ubuntu] Fixed that Steam now requiring a different version of libcurl means games would not launch if ran from the store or on a Steamdeck device [the change to the Ubuntu build process above now resolves this]
+- In-Game: [Ubuntu] keyboard_lastkey now gives a suitable code for any multimedia keys pressed on the keyboard, rather than always returning "0"
+- In-Game: [Ubuntu] Now supports the "-game" launch parameter [#7225](https://github.com/YoYoGames/GameMaker-Bugs/issues/7225)
+- In-Game: [VM] Fixed that parent Static functions lost scope of their calling instance's statics [#13747](https://github.com/YoYoGames/GameMaker-Bugs/issues/13747)
+- In-Game: [VM] Functions that modify named arguments and use `method_call()` fixed or `script_execute_ext()` no longer cause array corruption [#12438](https://github.com/YoYoGames/GameMaker-Bugs/issues/12438)
+- In-Game: [VM] Macros named the same as keywords and containing functions will no longer give errors about failing to find those functions later on
+- In-Game: [VM] Statics may be called "undefined" if their functions are declared lower down in a Script than where they are called/used [#13663](https://github.com/YoYoGames/GameMaker-Bugs/issues/13663)
+- In-Game: [VM] Using the name of a string variable rather than a struct and attempting to call a member that does not exist now gives a more helpful error message as to what the problem is (note that YYC has not been changed) [#11906](https://github.com/YoYoGames/GameMaker-Bugs/issues/11906)
+- In-Game: [Windows YYC/Mac VM] Fixed that trying to launch the 3D Sprite Tool project using 2023.2 would cause a code error in-game
+- In-Game: [Windows YYC] Fixed that `mouse_x/y` returned the wrong coordinates when used inside a constructor [#12412](https://github.com/YoYoGames/GameMaker-Bugs/issues/12412)
+- In-Game: [Windows YYC] Nullish operator does not perform short-circuit eval when using struct dot access [#12026](https://github.com/YoYoGames/GameMaker-Bugs/issues/12026)
+- In-Game: [Windows] Addressed tabbing out of a fullscreen game caused the Output window to get spammed with messages as of 2024.14.3 RTs [#13644](https://github.com/YoYoGames/GameMaker-Bugs/issues/13644) and [#13839](https://github.com/YoYoGames/GameMaker-Bugs/issues/13839)
+- In-Game: [Windows] DInput versions of gamepads which support XInput are now filtered from the list of gamepad devices [#8425](https://github.com/YoYoGames/GameMaker-Bugs/issues/8425)
+- In-Game: [Windows] display_get_width/`height()` no longer always return the dimensions of the primary monitor
+- In-Game: [Windows] Enabling the Game Option "Start Fullscreen" no longer kicks some games immediately back to windowed
+- In-Game: [Windows] Fixed a mouse input delay seen after toggling fullscreen/app focus, now uses direct polling of the mouse position rather than Windows messages [#13394](https://github.com/YoYoGames/GameMaker-Bugs/issues/13394)
+- In-Game: [Windows] Fixed an input lag that goes away temporarily when switching rooms later on, if using 2024.14.1 RTS [#12964](https://github.com/YoYoGames/GameMaker-Bugs/issues/12964)
+- In-Game: [Windows] Fixed FPS fluctuations with 120fps game speeds if built using RT 2024.14.1.253 [#12931](https://github.com/YoYoGames/GameMaker-Bugs/issues/12931)
+- In-Game: [Windows] Fixed issues with the attached game running very slowly on some computers if built with 2024.14.1 RTs [#13120](https://github.com/YoYoGames/GameMaker-Bugs/issues/13120)
+- In-Game: [Windows] Fixed silent crashes due to YYAL's BufferQueue functionality freeing twice when two threads request at the same time [#13959](https://github.com/YoYoGames/GameMaker-Bugs/issues/13959)
+- In-Game: [Windows] Fixed that `delta_time` still had big fluctuations [#11343](https://github.com/YoYoGames/GameMaker-Bugs/issues/11343)
+- In-Game: [Windows] Fixed that a PS5 DualSense gamepad incorrectly returned the value for gp_axisrv as the left trigger’s value
+- In-Game: [Windows] Fixed that Alt+Tab to return to the game gave a short lag spike/freeze in 2024.14.0 runtimes [#12492](https://github.com/YoYoGames/GameMaker-Bugs/issues/12492)
+- In-Game: [Windows] Fixed that Alt+Tab usage introduced a lag to the game visuals if using 2024.14.1 RTs [#12980](https://github.com/YoYoGames/GameMaker-Bugs/issues/12980)
+- In-Game: [Windows] Fixed that changing window size at startup can cause incorrect values for the window/application surface as of 2024.1400.3 RTs [#13707](https://github.com/YoYoGames/GameMaker-Bugs/issues/13707)
+- In-Game: [Windows] Fixed that exiting out of fullscreen when borderless is enabled could cause the window to slightly resize [#14533](https://github.com/YoYoGames/GameMaker-Bugs/issues/14533)
+- In-game: [Windows] Fixed that maximising/resizing the game window would not give the expected dimensions window in earlier 2024.14 releases [#13838](https://github.com/YoYoGames/GameMaker-Bugs/issues/13838) and [#13820](https://github.com/YoYoGames/GameMaker-Bugs/issues/13820)
+- In-Game: [Windows] Fixed that minimising or moving game window between monitors gave a "Win32 function failed: HRESULT: 0x80070005" error on some PCs [#12965](https://github.com/YoYoGames/GameMaker-Bugs/issues/12965)
+- In-Game: [Windows] Fixed that OBS (or other screen-recording software) made games respond slower if targeted for recording [#12962](https://github.com/YoYoGames/GameMaker-Bugs/issues/12962)
+- In-Game: [Windows] Fixed that pollDirectInputConnections was called before g_pDirectInput is set up [#13745](https://github.com/YoYoGames/GameMaker-Bugs/issues/13745)
+- In-Game: [Windows] Fixed that resized game windows always snap back to monitor 1 when dragged to monitor 2 if built using 2024.14.1 RTs [#12976](https://github.com/YoYoGames/GameMaker-Bugs/issues/12976)
+- In-Game: [Windows] Fixed that splash screen just shows as white after enabling "Use legacy DXGI_SWAP_EFFECT_DISCARD" in Game Options [#13540](https://github.com/YoYoGames/GameMaker-Bugs/issues/13540)
+- In-Game: [Windows] Fixed that the Filters and Effects alpha channel did not work properly with some effect layers
+- In-Game: [Windows] Fixed that the taskbar entry could disappear when shifting focus to another app during startup of a project running fullscreen [#14193](https://github.com/YoYoGames/GameMaker-Bugs/issues/14193)
+- In-Game: [Windows] Fixed that vsync changes were not applied immediately in RT 2024.14.2.255, instead they require toggling fullscreen or moving the game to a different monitor before the change is effective [#13184](https://github.com/YoYoGames/GameMaker-Bugs/issues/13184)
+- In-Game: [Windows] Games no longer fail to start if using legacy DXGI_SWAP_EFFECT_DISCARD [#12631](https://github.com/YoYoGames/GameMaker-Bugs/issues/12631)
+- In-Game: [Windows] Games set to launch windowed, but then made fullscreen in code no longer require also calling `window_set_fullscreen(false)` before further Vsync values can be changed
+- In-Game: [Windows] Games which do not allow resizing should now always stay on the desired monitor when dragged to a different screen [#13785](https://github.com/YoYoGames/GameMaker-Bugs/issues/13785)
+- In-Game: [Windows] MP4 videos now play on Steam Deck [#8450](https://github.com/YoYoGames/GameMaker-Bugs/issues/8450)
+- In-Game: [Windows] Removed an incorrect additional swapchain creation during startup which meant in earlier 2024.14 RTs surfaces could be created, destroyed and created again as soon as the game ran [#13849](https://github.com/YoYoGames/GameMaker-Bugs/issues/13849)
+- In-Game: [Windows] Some games built using 2024.14.4.265 RT do not show on-screen if built using F5, but all fine when using debugger [#14431](https://github.com/YoYoGames/GameMaker-Bugs/issues/14431)
+- In-Game: [Windows] Using an IME whilst game is fullscreen will no longer cause the new game window to be sized incorrectly and also not have a title bar (note that you will still be returned to a windowed mode - that bit has not changed)
+- In-Game: [Xbox GDK] Fixed an issue where audio playback could become choppy for some projects because not all of the available CPU cores were being used
+- In-Game: [Xbox GDK] Games now continue drawing the splash screen until the game has fully loaded [fixes a submission failure on large games]
+- In-Game: [Xbox GDK] Removed the "display_name" map value returned for Xbox stats, as this is always empty in the result from the stats system anyway
+- In-Game: [YYC and HTML5] Boolean values in arrays and structs now compile as `typeof(bool)`
+- In-Game: [YYC, HTML5] Fixed an issue where games failed to build/run if you were reusing the names of some built-in variables as struct member names
+- In-Game: [YYC] "other" in a script function stored in an instance variable is no longer treated as a method and so the correct instance is now used [#10625](https://github.com/YoYoGames/GameMaker-Bugs/issues/10625)
+- In-Game: [YYC] Chained constructor methods no longer incorrectly perform their own initialisation a second time
+- In-Game: [YYC] Creating a large array literal via code no longer causes a silent crash [#7082](https://github.com/YoYoGames/GameMaker-Bugs/issues/7082)
+- In-Game: [YYC] Fixed a crash "HASH argument is unset" when repeatedly calling `with()` and `variable_clone()` on an empty constructor instance [#5923](https://github.com/YoYoGames/GameMaker-Bugs/issues/5923)
+- In-Game: [YYC] Fixed a silent crash when a function reads a variable from chained custom constructors [#7453](https://github.com/YoYoGames/GameMaker-Bugs/issues/7453)
+- In-Game: [YYC] Fixed that constructor "self" could be wrong if static function name is precisely "`create_array()`" [#12522](https://github.com/YoYoGames/GameMaker-Bugs/issues/12522)
+- In-Game: [YYC] Fixed that Switch cases which compared against struct values did not work
+- In-Game: [YYC] Fixed that using the $ accessor for some variables with the same name as built-in variables would always return undefined in previous versions
+- In-Game: [YYC] Functions no longer accidentally "inherit" any existing local function argument array size
+- In-Game: [YYC] int64 divided by another int64 no longer turns this into a "number" type [#10427](https://github.com/YoYoGames/GameMaker-Bugs/issues/10427)
+- In-Game: [YYC] int64 division by zero now shows a proper in-game error message and no longer causes runs to fail with just an "exited with non-zero status" message in the Output Window
+- In-Game: [YYC] Methods which return "self", when called directly after constructor instantiation, no longer cause the constructor to be re-instantiated [#9030](https://github.com/YoYoGames/GameMaker-Bugs/issues/9030)
+- In-Game: [YYC] No longer crashes when calling `with -9 { `show_message(self)` }` in a global script [#13171](https://github.com/YoYoGames/GameMaker-Bugs/issues/13171)
+- In-Game: [YYC] Null-coalescing operator on a struct variable that does not exist no longer causes a crash in 2024.11 runtimes [#9126](https://github.com/YoYoGames/GameMaker-Bugs/issues/9126)
+- In-Game: [YYC] Nullish operator no longer produces an incorrect result when structs are used in the expression
+- In-Game: [YYC] Projects affected in 2023.1.0 by the try-catch “alloca” compile error no longer get an in-game error instead (which they in some cases did in 2023.1.1)
+- In-Game: [YYC] Resolved constructor instance is incorrectly an instance of "[[Method]]" in the attached project [#12428](https://github.com/YoYoGames/GameMaker-Bugs/issues/12428)
+- In-Game: [YYC] sample-proj no longer crashes for `layer_sequence_destroy(self.elementID)` "arg 1 incorrect type" error, but works on VM
+- In-Game: [YYC] String constants are now cached, so performance is much better
+- In-Game: [YYC] Using the ?? operator no longer causes a string to always be cast into a number first
+- TestFramework: [VM and YYC] Fixed that gl_frag_coord/sv_position in BasicShaderTestSuite failed a draw buffer comparison [#11321](https://github.com/YoYoGames/GameMaker-Bugs/issues/11321)
+- TestFramework: [VM and YYC] json_stringify_test #4 in BasicJsonTestSuite, json_stringify ( struct:local, ..., replacer ) fixed , use custom replace funnction (structs are not equal) [#14335](https://github.com/YoYoGames/GameMaker-Bugs/issues/14335)
+- In-Game: [GX.Games YYC] `__js_get_gml()` no longer gives error "`Aborted('getValue' was not exported" [#13980](https://github.com/YoYoGames/GameMaker-Bugs/issues/13980)`
+- In-Game: [iOS] `achievement_post_score()` had multiple issues with the current extension [note that the fix also requires the use of an extension already updated since the bug was filed]
+- In-Game: `add_sprite()` also no longer silently crashes the runner if passed a gif image where the final frame fails to be detected properly [different issue to the one above]
+- In-Game: `add_sprite()` no longer silently crashes the runner when trying to load a gif format image
+- In-Game: [OperaGX] `anim_curve_get()` no longer causes rollback-enabled games to error with "No Idea how to create OBJECT_KIND=11"
+- In-Game: `animcurve_get_channel()` no longer always returns "-1" after `game_restart()` [#12205](https://github.com/YoYoGames/GameMaker-Bugs/issues/12205)
+- In-Game: [Non-HTML5] `application_surface_enable(false)` no longer causes `surface_set_target()` to stop working correctly [#10372](https://github.com/YoYoGames/GameMaker-Bugs/issues/10372)
+- In-Game: [HTML5] `array_concat()` is now properly named and so can be found [it was still called the temporary name “`array_join()`” in 2023.4]
+- In-Game: [YYC] `array_contains_ext()` called inside a conditional no longer crashes if the optional third argument is not provided [#12509](https://github.com/YoYoGames/GameMaker-Bugs/issues/12509)
+- In-Game: `array_copy()` when "src_index" is invalid no longer silently crashes the game, instead will show a code error [#7917](https://github.com/YoYoGames/GameMaker-Bugs/issues/7917)
+- In-Game: `array_copy()` no longer crashes the game when copying an empty array into a target array
+- In-game: `array_delete()` no longer deletes from the first entry instead of erroring when `index < -array_length(array)` [#12342](https://github.com/YoYoGames/GameMaker-Bugs/issues/12342)
+- In-Game: `array_delete()` resolved console message not listing the code line [#13339](https://github.com/YoYoGames/GameMaker-Bugs/issues/13339)
+- In-Game: [macOS/iOS/tvOS VM] `array_equals()` with arrays containing NaN no longer returns true when game built on M1 Macs using a recent Xcode
+- In-Game: [HTML5] `array_find_index()` no longer errors due to using incorrect argument values internally [#9200](https://github.com/YoYoGames/GameMaker-Bugs/issues/9200)
+- In-Game: [HTML5] `array_insert()` with index bigger than array length now automatically resizes that array, same as other platforms already do
+- In-Game: [HTML5] `array_insert()` operations which require the array to expand and add zeroes until it reaches the intended index now work correctly
+- In-Game: [HTML5] `array_last()` no longer gives an exception when calling a script function inside a struct inside an array [#8049](https://github.com/YoYoGames/GameMaker-Bugs/issues/8049)
+- In-Game: [YYC] `array_push()` fixed can perform ~380x slower than VM when oob/array resizing occurs [#13001](https://github.com/YoYoGames/GameMaker-Bugs/issues/13001)
+- In-Game: `array_reduce()` fixed that an empty array returned "undefined" instead of the init value [#12443](https://github.com/YoYoGames/GameMaker-Bugs/issues/12443)
+- In-Game: `array_reduce()` now returns the array as-is if whenever the array has 0 or 1 elements, rather than the differing and incorrect results these two situations resulted-in in older releases
+- In-Game: `array_shuffle()` no longer adds unwanted additional entries in the result if offset/length values are not their defaults
+- In-Game: `array_sort()` calling custom sorting functions no longer causes errors in StructSort... project
+- In-Game: `array_sort()` called inside another `array_sort()` no longer forgets its callback function reference
+- In-Game: `asset_..._tags()` variants no longer silently ignore the request when an asset ref is passed as an argument (note that these functions all now also throw a code error in the case of invalid arguments, rather than silently ignoring) [#9375](https://github.com/YoYoGames/GameMaker-Bugs/issues/9375)
+- In-Game: `asset_get_ids()` no longer returns "ref sound unused" for sounds removed during compile [#12023](https://github.com/YoYoGames/GameMaker-Bugs/issues/12023)
+- In-Game: `asset_has_tags()` now returns the expected "false" for any tags which don't actually exist yet
+- In-Game: [HTML5] `audio_bus_create()` and `audio_emitter_create()` no longer cause a crash if the audio worklets have not yet fully loaded before the functions are called
+- In-Game: `audio_create_buffer_sound()` no longer returns "ref sound <undefined>" when used with `string()` [#13290](https://github.com/YoYoGames/GameMaker-Bugs/issues/13290)
+- In-Game: [OperaGX] `audio_create_stream()` is now supported
+- In-Game: [Windows] `audio_create_sync_group()` now respects its "loop" argument
+- In-Game: `audio_emitter_free(emitterId)` no longer makes a glitch sound [#13759](https://github.com/YoYoGames/GameMaker-Bugs/issues/13759)
+- In-Game: `audio_emitter_pitch()` no longer applies the pitch change twice on the chosen sounds
+- In-Game: `audio_exists()` will now return false for an audio stream which has already been destroyed
+- In-Game: `audio_exists()` with ids larger than 200,000 will no longer always return “true”
+- In-Game: [HTML5] `audio_is_paused()` no longer causes the crash some users of the GitHub source reported
+- In-Game: `audio_is_playing()` now returns the correct value for .mp3 files
+- In-Game: `audio_play_sound()` (and various other audio functions) now works when the target sound assets are referenced exclusively by macros and "remove unused assets" is enabled [#9388](https://github.com/YoYoGames/GameMaker-Bugs/issues/9388)
+- In-Game: `audio_play_sound()`, `audio_play_sound_at()` and `audio_play_sound_on()` no longer throw an error if their default arguments are left as undefined
+- In-Game: `audio_play_sound()` no longer cuts the sound off shortly after it starts it
+- In-Game: `audio_play_sound()` playing multiple sounds at once no longer causes a memory leak
+- In-Game: `audio_play_sound()`/...`_at()` no longer return 0 if called on non-existent sounds and the audio group containing those sounds is not currently loaded, instead it will correctly return -1
+- In-Game: [HTML5] `audio_resume_sound()`/`audio_resume_all()` no longer cause the crash some users of the GitHub source reported
+- In-Game: [macOS] `audio_sound_gain()` can fail to apply immediately to new sound instances, but this is now able to be controlled using the new optional arguments for gain and pitch mentioned higher up in these release notes (be aware that if you do not use these arguments this could still happen)
+- In-Game: [OperaGX] `audio_sound_get_track_position()`  no longer always returns 0 for streamed sounds
+- In-Game: `audio_sound_length()` no longer hangs the game if that sound was streamed via `audio_create_stream()`
+- In-Game: [HTML5] `audio_sound_length()` now returns the correct length for streamed sounds, rather than always returning 0
+- In-Game: [HTML5] `audio_sound_loop_start()` is now obeyed even when no end point has been defined [#8160](https://github.com/YoYoGames/GameMaker-Bugs/issues/8160)
+- In-Game: `audio_sound_loop_start()` and `audio_sound_loop_end()` now work correctly even when passed assets whose duration cache is empty
+- In-Game: [HTML5] `audio_sound_pitch()` and `audio_emitter_pitch()` are now supported for use on streamed sounds
+- In-Game: `audio_sound_set_track_position()` behaviour no longer differs between Windows/HTML5, depending on if called before or after `audio_play_sound()`
+- In-Game: `audio_sound_set_track_position()`’s result no longer differs between Windows/HTML5, regardless of if called before or after `audio_play_sound()`
+- In-Game: [HTML5] `audio_sound_set_track_position()` now works when using streamed sounds in Chrome
+- In-Game: [HTML5] `audio_sound_set_track_position()` no longer also incorrectly resets that sound's pitch to its asset-level pitch
+- In-Game: [HTML5] `audio_stop_recording()` now clears the "microphone is in use" status in the browser and in Windows itself [#11053](https://github.com/YoYoGames/GameMaker-Bugs/issues/11053)
+- In-Game: [OperaGX] `audio_system_is_available()` now actually checks if the audio system is available for this browser (as HTML5 does), rather than assuming it is available (as Windows and several other platforms do)
+- In-Game: `base64_encode()` no longer gives a stack overflow when working with very large strings [#12156](https://github.com/YoYoGames/GameMaker-Bugs/issues/12156)
+- In-Game: [HTML5] `bool(undefined)` now returns a Boolean type instead of a real
+- In-Game: [HTML5] `buffer_get_surface()` now resizes grow-type buffers correctly
+- In-Game: [GX.games] `buffer_load()` can now read Included Files if they are in a subdirectory [#11807](https://github.com/YoYoGames/GameMaker-Bugs/issues/11807)
+- In-Game: `buffer_load_partial()` no longer returns the last character in the buffer when the offset exceeds the size of the buffer [#5665](https://github.com/YoYoGames/GameMaker-Bugs/issues/5665)
+- In-Game: [YYC] `buffer_peek()` no longer crashes when an extension exists in the project [#14551](https://github.com/YoYoGames/GameMaker-Bugs/issues/14551)
+- In-Game: [HTML5] `buffer_peek()` can return 'Undefined' instead of the expected string
+- TestFramework: [VM and YYC] `buffer_poke()` test in BasicBufferTestSuite no longer fails with "FATAL :: Runner silently crashed." [#12592](https://github.com/YoYoGames/GameMaker-Bugs/issues/12592)
+- In-Game: [HTML5] `buffer_poke()` fixed that the function missed out some bytes when printing UTF-8 characters [#14395](https://github.com/YoYoGames/GameMaker-Bugs/issues/14395)
+- In-Game: [Windows] `buffer_save_async()` no longer fails to generate the files [#11238](https://github.com/YoYoGames/GameMaker-Bugs/issues/11238)
+- In-Game: `buffer_save_async()` no longer crashes games if passed "-1" as the size argument
+- In-Game: `buffer_set_surface_depth()` no longer crashes when the surface is wider than it is tall [#11420](https://github.com/YoYoGames/GameMaker-Bugs/issues/11420)
+- In-Game: [HTML5] `buffer_sizeof()` now supports buffer_f16 type being passed in as a variable [#12854](https://github.com/YoYoGames/GameMaker-Bugs/issues/12854)
+- In-Game: `buffer_write()` no longer returns -4 when fails occur and new constants have been added for determining the _reason_ for the fail [#7385](https://github.com/YoYoGames/GameMaker-Bugs/issues/7385)
+- In-Game: [HTML5] `buffer_write()` fixed that writing 4-byte UTF8 characters into a buffer gave invalid results [#14397](https://github.com/YoYoGames/GameMaker-Bugs/issues/14397)
+- In-Game: `clipboard_get()` no longer causes a memory leak
+- In-Game: `collision_circle()` and `collision_circle_list()` no longer round their values when compatibility mode is not enabled (if it is enabled, then the old behaviour is maintained, as this is what the legacy functionality expects) [#14000](https://github.com/YoYoGames/GameMaker-Bugs/issues/14000)
+- In-Game: `collision_line()` no longer gives imprecise results if checking certain directions [if compatibility mode is OFF]
+- In-Game: `collision_line()` no longer has issue when sprite's image_xscale = -1 [if compatibility mode is OFF]
+- In-Game: [HTML5] `collision_rectangle()` now detects collisions [#10842](https://github.com/YoYoGames/GameMaker-Bugs/issues/10842)
+- In-Game: `date_compare_date()` no longer thinks Dec 26th 2025 is the same as Jan 1st 2026 (and similar incorrect results comparing neighbouring dates) [#9517](https://github.com/YoYoGames/GameMaker-Bugs/issues/9517)
+- In-Game: `date_compare_date()` and `date_compare_time()` now always use the correct local timezone, fixes the incorrect results previous versions could give at certain times of the day/year
+- In-Game: [Windows] `date_datetime_string()` output no longer includes 4 U+FFFD characters when the system locale is Korean [#10785](https://github.com/YoYoGames/GameMaker-Bugs/issues/10785)
+- In-Game: `date_inc_second()`/`minute()`/`hour()` are no longer returning incorrect values for some users
+- In-Game: `dbg_sprite_button()` has had its "label" argument removed and so now matches the manual docs [#8059](https://github.com/YoYoGames/GameMaker-Bugs/issues/8059)
+- In-Game: `debug_event("ResourceCounts")` now includes vertex buffers also [#9170](https://github.com/YoYoGames/GameMaker-Bugs/issues/9170)
+- In-Game: `debug_event("DumpMemory")` has been re-enabled for all targets
+- In-Game: `debug_view()` no longer reuses position values from earlier overlays if its label is not changed each time [#7418](https://github.com/YoYoGames/GameMaker-Bugs/issues/7418)
+- In-Game: [Android] `device_mouse_check_button()` values are now cleared when a game loses focus
+- In-Game: [Android] `device_mouse_check_button...()` no longer fails to detect releases when multiple touches and the OS screenshot gesture is enabled [#5945](https://github.com/YoYoGames/GameMaker-Bugs/issues/5945)
+- In-Game: [Android] `device_mouse_check_button...()` no longer fails to detect releases when there are multiple touches and the OS three-finger screenshot gesture is enabled [#5945](https://github.com/YoYoGames/GameMaker-Bugs/issues/5945)
+- In-Game: [Xbox GDK] `directory_exists()` now detects save game directories
+- In-Game: [Ubuntu] `display_get_frequency()` is now implemented [#4900](https://github.com/YoYoGames/GameMaker-Bugs/issues/4900)
+- In-Game: `display_get_frequency()` no longer incorrectly returns "60" on a PC when using higher refresh rate monitors
+- In-Game: [macOS] `display_mouse_get_x()` and …`y()` are now implemented
+- In-Game: `display_set_gui_maximise()` when "Allow window resize" is enabled no longer causes an issue which breaks the results of display_get_gui_width/`height()` thereafter
+- In-Game: `display_set_gui_maximize(-1, -1)` no longer reverses the GUI coordinate system instead of resetting it to the full screen
+- In-Game: `draw_clear()` no longer flips the red/blue component of its colour if you're also scaling the viewport/application_surface [#1949](https://github.com/YoYoGames/GameMaker-Bugs/issues/1949)
+- In-Game: [HTML5] `draw_clear()` now affects the entire depth buffer and so is consistent with Windows, etc.
+- In-Game: [GX.games] `draw_enable_drawevent()` frame skipping causes flickering [#9063](https://github.com/YoYoGames/GameMaker-Bugs/issues/9063)
+- In-Game: `draw_self()` now shows a suitable code error if called by something that is not an Object instance (e.g., by room creation code), rather than silently crashing the game [#12680](https://github.com/YoYoGames/GameMaker-Bugs/issues/12680)
+- In-Game: [HTML5] `draw_set_swf_aa_level()` no longer allows invalid values (which previously made those sprites blurry) [#11503](https://github.com/YoYoGames/GameMaker-Bugs/issues/11503)
+- In-Game: `draw_skeleton()` has been restored so it scales a sprite before it rotates it, as it did in all versions prior to 2022.11 (which did them the other way around)
+- In-Game: `draw_sprite()` has been fixed back to what the manual says and so it only auto-animates when sprite_index is set to specifically -1, rather than doing it in previous releases for anything negative
+- In-Game: `draw_sprite_ext()` on sprites with low alpha no longer returns incorrect 0xFEFFFFFF value instead of 0xFFFFFFFF [#14560](https://github.com/YoYoGames/GameMaker-Bugs/issues/14560)
+- In-Game: `draw_sprite_ext()` no longer causes Spine animation events to not work
+- In-Game: [GX.games] `draw_sprite_ext()` with a Spine sprite no longer causes a crash at the end of the sprite's animation
+- In-Game: [HTML5] `draw_sprite_general()` gives the same results as other targets now (note that it's only fixed when WebGL is enabled) [#203](https://github.com/YoYoGames/GameMaker-Bugs/issues/203)
+- In-Game: `draw_sprite_general()` with x/y scales set to minus values no longer causes sprites to disappear too soon when near room edges
+- In-Game: [HTML5] `draw_sprite_general()` now correctly renders sprites created from a surface
+- In-Game: `draw_sprite_general()` culling has been fixed for sprites drawn with negative scale
+- In-Game: [HTML5] `draw_sprite_part_ext()` and `draw_sprite_part()` now draw the expected parts correctly
+- In-Game: `draw_sprite_tiled()` crash when image_index exceeds the number of SVG frames has been fixed [#11669] (https://github.com/YoYoGames/GameMaker-Bugs/issues/11669)
+- In-Game: [HTML5] `draw_sprite_tiled()` now gives the same results as on other platforms
+- In-Game: `draw_text()` and most variants now correctly apply halign/valign values on all targets [only HTML5 worked correctly in recent releases]
+- In-Game: `draw_text_ext()` now respects all whitespace characters when determining where to wrap [#11569](https://github.com/YoYoGames/GameMaker-Bugs/issues/11569)
+- In-Game: `draw_text_ext...()` functions no longer give inconsistent valign behaviour when used with certain fonts and "sep" argument values
+- In-Game: `draw_text_transformed()` now renders SDF fonts correctly when using 0.5 scale or smaller [#10285](https://github.com/YoYoGames/GameMaker-Bugs/issues/10285)
+- In-Game: [HTML5] `draw_tile()` now supports this target also [#13409](https://github.com/YoYoGames/GameMaker-Bugs/issues/13409)
+- In-Game: `draw_tile()` now respects changes in a tile's alpha value
+- In-Game: `draw_tile()` within `surface_set_target()` now ignores the current depth value when drawing to the selected surface, fixed several issues with incorrect content being drawn to that surface
+- In-Game: [HTML5] `draw_tilemap()` no longer causes an Uncaught Reference error
+- In-Game: `ds_exists()` with argument "undefined" no longer causes a crash [#9554](https://github.com/YoYoGames/GameMaker-Bugs/issues/9554)
+- In-Game: [HTML5] `ds_grid_add()` no longer adds an unwanted "0" to the start of strings added to a grid
+- In-Game: [OperaGX VM] `ds_list_add()` being passed extremely high numbers of parameters in one go no longer causes stack errors
+- In-Game: [HTML5] `ds_map_create()` no longer throws a JavaScript error before the game even loads [#12888](https://github.com/YoYoGames/GameMaker-Bugs/issues/12888)
+- In-Game: `ds_map_delete()` now deletes keys which contain very long numbers correctly
+- In-Game: `ds_map_destroy()` and `ds_map_clear()` now also process any nested maps which were added using `ds_map_add_map()`, so matches what the manual said would happen in previous releases
+- In-Game: `ds_queue_dequeue()` no longer causes a silent crash in "Visual N..." when removing a reference to an already-cleaned array
+- Garbage Collector: `ds_queue_read()` no longer causes intermittent silent crashes when called in 2022.8+ games
+- In-Game: [HTML5] `event_perform(ev_pre_create,0)` no longer runs Create instead of PreCreate
+- In-Game: [YYC] `event_user()` called from within an empty struct no longer calls that event for an unexpected instance
+- In-Game: `exception_unhandled_handler()` functions containing `finally` no longer cause a runtime exception if `throw` is called elsewhere [#13605](https://github.com/YoYoGames/GameMaker-Bugs/issues/13605)
+- In-Game: `exception_unhandled_handler()` now retains the original member values so that they could be reused by `throw()` in a try/catch later on if you wanted
+- In-Game: `external_define()` does not respect sandbox settings for .dlls that are already loaded by the engine [#12054](https://github.com/YoYoGames/GameMaker-Bugs/issues/12054)
+- In-Game: `file_attributes(..., fa_directory)` result is no longer inverted
+- In-Game: [Windows] `file_delete()` can no longer implicitly delete files in the bundle area [#11097](https://github.com/YoYoGames/GameMaker-Bugs/issues/11097)
+- In-Game: [HTML5] `file_text_open_read()` now works when attempting to load Included Files, rather than returning -1 as it did in the last release
+- In-Game: `filename_path("")` no longer returns a full path to directory on some platforms, now always return an empty string as you would expect
+- In-Game: [Windows YYC] `find_file_first()` no longer gets a garbled string for its path argument (as it could on occasion in 2023.4), fixes a silent game crash
+- In-Game: `flexpanel_create_node()` instances created from `flexpanel_node_get_struct()` now perform their Create events [#9817](https://github.com/YoYoGames/GameMaker-Bugs/issues/9817)
+- In-Game: `flexpanel_create_node()` when "clipContent" is true no longer requires the "layerElements" key to exist in your input struct [#14186](https://github.com/YoYoGames/GameMaker-Bugs/issues/14186)
+- In-Game: `flexpanel_create_node()` with "display" set to none and containing a "layerElements" entry no longer triggers an "error drawing sprite" message [#14199](https://github.com/YoYoGames/GameMaker-Bugs/issues/14199)
+- In-Game: `flexpanel_create_node()` no longer takes a big performance hit after creating approximately 65,250 total nodes [#14145](https://github.com/YoYoGames/GameMaker-Bugs/issues/14145)
+- In-Game: `flexpanel_node_insert_child()` no longer silently crashes when inserting a runtime-created node [#12233](https://github.com/YoYoGames/GameMaker-Bugs/issues/12233)
+- In-Game: `flexpanel_node_set_measure_function()` no longer causes crashes when calling `game_restart()` or `room_restart()` later on [#13730](https://github.com/YoYoGames/GameMaker-Bugs/issues/13730)
+- In-Game: `flexpanel_node_style_set_display()` fixed setting "none" moved any text elements to the top-left corner [#12389](https://github.com/YoYoGames/GameMaker-Bugs/issues/12389)
+- In-Game: `flexpanel_node_style_set_display()` now affect the node's children also [#12985](https://github.com/YoYoGames/GameMaker-Bugs/issues/12985)
+- In-Game: [HTML5] `font_add_sprite_ext()` no longer gives an Uncaught ReferenceError / In-Game: [HTML5] `font_add_sprite()` and `font_add_sprite_ext()` no longer cause a crash when used / In-Game: [HTML5] Fixed a crash when trying to draw text with font made from sprite font functions
+- In-Game: `font_get_info()` no longer crashes when encountering blank glyphs, as seen in "fUI" font in the UI prefab [#13769](https://github.com/YoYoGames/GameMaker-Bugs/issues/13769)
+- In-Game: [HTML5] `font_get_info()` and `sprite_get_info()` .x / .y member variables no longer return undefined
+- In-Game: [HTML5] `font_get_info()` no longer throws an exception when accessing the glyphs provided
+- In-Game: `font_get_last()` only returns 255 or less for fonts added via `font_add()` [#12112](https://github.com/YoYoGames/GameMaker-Bugs/issues/12112)
+- In-Game: `frac()` results are now correct for compile-time constants with very small float values [#9541](https://github.com/YoYoGames/GameMaker-Bugs/issues/9541)
+- In-Game: `fx_set_parameter()` no longer throws an error if the game was built when using a free GameMaker account
+- In-Game: `game_end()` in a global-scope script no longer causes a runtime error or suddenly allocates a lot of memory
+- Garbage Collector: `game_load()` on a project which contains a sprite with nine slice data no longer crashes on exit [#12384](https://github.com/YoYoGames/GameMaker-Bugs/issues/12384)
+- In-Game: `game_restart()` no longer causes a memory leak if you have a persistent object in the first room [#7402](https://github.com/YoYoGames/GameMaker-Bugs/issues/7402)
+- In-Game: `game_restart()` now clears out time sources created by `call_later()` [#7403](https://github.com/YoYoGames/GameMaker-Bugs/issues/7403)
+- In-Game: `game_restart()` no longer crashes the game when in debug mode and after hitting a breakpoint and then continuing [#12524](https://github.com/YoYoGames/GameMaker-Bugs/issues/12524)
+- In-Game: `game_set_speed()` has been fixed so that values higher than the monitor's refresh rate no longer sync back to the refresh rate after a short delay [#12338](https://github.com/YoYoGames/GameMaker-Bugs/issues/12338)
+- In-Game: `game_set_speed()` is now properly respected when you game is not using the "legacy swapchain" Game Option [#12493](https://github.com/YoYoGames/GameMaker-Bugs/issues/12493)
+- In-Game: `game_set_speed()` no longer affects Spine animation speeds in 2024.14 if game speed >60fps [#12876](https://github.com/YoYoGames/GameMaker-Bugs/issues/12876)
+- In-Game: `game_set_speed()` resolved works incorrectly at FPS >117 if using legacy DXGI_SWAP_EFFECT_DISCARD [#13030](https://github.com/YoYoGames/GameMaker-Bugs/issues/13030)
+- In-Game: `gamepad_axis_value()` resolved values were clamped between 0-1 with various pads, so up and left directions did not work in RT 2024.14.2.255 [#13259](https://github.com/YoYoGames/GameMaker-Bugs/issues/13259)
+- In-Game: [macOS] `gamepad_axis_value()` now returns expected values for "gp_axislv" and "gp_axislh" [#13286](https://github.com/YoYoGames/GameMaker-Bugs/issues/13286)
+- In-Game: [Windows] `gamepad_axis_value()` resolved values were clamped between 0-1 with NS Pro Controller pads, so up and left directions did not work [#13229](https://github.com/YoYoGames/GameMaker-Bugs/issues/13229)
+- In-Game: [Windows] `gamepad_button_value()` no longer returns incorrect values for analogue triggers on DInput gamepads [#13366](https://github.com/YoYoGames/GameMaker-Bugs/issues/13366)
+- In-Game: [iOS] `gamepad_get_description()` values now update correctly when multiple devices are paired mid-game
+- In-Game: `gesture_double_tap_time()` no longer sets a value 10x larger than expected
+- In-Game: `get_...()` string/integer/etc. no longer add additional empty lines for each \n in the label you set
+- In-Game: `get_save_filename()` no longer freezes the game when "Cancel" is clicked / is back to returning an empty string (this fix covers the other related load/save filename dialogs also) [#7988](https://github.com/YoYoGames/GameMaker-Bugs/issues/7988)
+- In-Game: [OperaGX, iOS] `get_string_async()` no longer crashes your game when clicking the Cancel button if the entered string is either empty or very long
+- In-Game: [HTML5] `gif_add_surface()` no longer throws uncaught reference error
+- In-Game: [HTML5] `gpu_set_alphatestenable(true)` now works when WebGL is enabled
+- In-Game: [HTML5] `gpu_set_fog()` in combination with blend modes no longer malfunctions
+- In-Game: [HTML5] `gpu_set_fog()` using an array argument is now handled correctly and no longer causes the screen to turn black
+- In-Game: `gpu_set_tex_mip_enable(true)` after previously calling it with "false" now regenerate the mipmaps automatically [#11162](https://github.com/YoYoGames/GameMaker-Bugs/issues/11162)
+- In-Game: [Windows] `http_get()` no longer fails when sending very long queries to the server [#13208](https://github.com/YoYoGames/GameMaker-Bugs/issues/13208)
+- In-Game: [Ubuntu] `http_get()` and `http_get_file()` no longer cause games to exit without error when they are called
+- In-Game: [HTML5] `http_post_string()` now stores the retrieved session cookie correctly
+- In-Game: `http_request()`'s "cookie" header is no longer always stripped out
+- In-Game: [YYC] `ini_read_real()` no longer silently crashes games if it has to return its default value in 2024.14.1 RTs [#13004](https://github.com/YoYoGames/GameMaker-Bugs/issues/13004)
+- In-Game: `instance_copy()` methods are now bound to the copy, not the original instance [#10494](https://github.com/YoYoGames/GameMaker-Bugs/issues/10494)
+- In-Game: `instance_create_depth()` with no arguments no longer causes a silent crash, instead will show a code error and alert you to the problem line instead [#14273](https://github.com/YoYoGames/GameMaker-Bugs/issues/14273)
+- In-Game: `instance_create_layer()` being passed an invalid layer ID now gives an exception [#8570](https://github.com/YoYoGames/GameMaker-Bugs/issues/8570)
+- In-Game: [HTML5] `instance_create_layer()` no longer ignores in-built variables set through init-structs [#12540](https://github.com/YoYoGames/GameMaker-Bugs/issues/12540)
+- In-Game: `instance_create_layer()` performance no longer decreases each time `instance_create_depth()` modifies a depth other than the current layer's [see the important note about changes to depth-sorting and `with()` higher up]
+- In-Game: [HTML5] `instance_deactivate_all()` no longer crashes the game
+- In-Game: `instance_deactivate_object()` in a Draw GUI event now reliably deactivates all instances of that object (same as calling it in a Step event has always done)
+- In-Game: [HTML5] `instance_deactivate_object()` now works as expected again, fixes a crash in the last release
+- In-Game: [YYC] `instance_destroy()` no longer immediately removes the instance when called and instead waits until the end of that event, so now matches VM and what the manual says should happen
+- In-Game: `instance_exists()` no longer returns false for "self" and "other" [#11276](https://github.com/YoYoGames/GameMaker-Bugs/issues/11276)
+- In-Game: `instance_exists()` no longer throws an error when passed either an array in VM/YYC or "undefined" in YYC only
+- In-Game: [HTML5] `instance_place()` now returns "noone" (-4) to represent "no collision", as it does on Windows [#7519](https://github.com/YoYoGames/GameMaker-Bugs/issues/7519)
+- In-Game: [HTML5] `instance_place()` and other related collision functions do not return "noone" when no collisions are found for their array argument [#9222](https://github.com/YoYoGames/GameMaker-Bugs/issues/9222)
+- In-Game: `instance_place()` and `collision_rectangle()` no longer give different values when using newer collisions on all non-HTML5 targets [see the important change mentioned higher up]
+- In-Game: `instance_position()` always says a collision is happening when checking against tilemaps [#12105](https://github.com/YoYoGames/GameMaker-Bugs/issues/12105)
+- In-Game: [HTML5] `instance_position_list()` now returns the expected result [#12861](https://github.com/YoYoGames/GameMaker-Bugs/issues/12861)
+- In-Game: [YYC] `instanceof()` no longer always incorrectly returns "Object", as it did in 2023.1
+- In-Game: [HTML5] `instanceof(self)` no longer returns the child name when inheritance is used and instead correctly returns the parent’s name [2023.2 already fixed other platforms to return the parent]
+- In-Game: [HTML5] `int64()` no longer returns 0 if passed a local variable set to true (now it will return 1, as it already did for other variable types)
+- In-Game: `int64()` now gives consistent results between Windows/macOS when used on NaN, infinity, or a struct
+- In-Game: [macOS YYC/iOS YYC] `is_infinity()` on a method no longer silently crashes the runner
+- In-Game: [YYC] `is_instanceof()` no longer always incorrectly returns "true" for structs [#11865](https://github.com/YoYoGames/GameMaker-Bugs/issues/11865)
+- In-Game: `is_method()` now returns accurate and consistent results for built-in functions between Windows/HTML5
+- In-Game: [macOS/iOS/tvOS VM] `is_nan(NaN)` no longer returns false when game built on M1 Macs using a recent Xcode
+- In-Game: `json_encode()` can now parse big ds_maps again
+- In-Game: `json_encode()` no longer causes a silent crash if passed a map containing keys which use reals for their names
+- In-Game: `json_parse(json_encode(-1)`); no longer crashes games without any error message [now you will get a code error telling you to fix trying to parse undefined]
+- In-Game: [HTML5] `json_parse()` now returns the correct value if a key is called specifically "name" or “type”, rather than always returning undefined
+- In-Game: `json_parse()` no longer returns incorrect values when parsing int64 values found in JSON which was not created by GameMaker
+- In-Game: [HTML5] `json_stringify()` now processes Object names correctly [#12305](https://github.com/YoYoGames/GameMaker-Bugs/issues/12305)
+- In-Game: `json_stringify(myStruct)` no longer only includes the first of any nested structs inside "myStruct" and all others become null - now all the next structs will be added correctly
+- In-Game: `json_stringify()` used on a Sequence Object struct now adds all of its variables to the string, as you would expect
+- In-Game: [HTML5] `json_stringify()` should now be much faster
+- In-Game: [HTML5] `json_stringify()` and `json_parse()` now handle Booleans values for struct members correctly
+- In-Game: [OperaGX] `keyboard_check_pressed()` is now fixed to work with some vk constants which were not recognised in previous releases
+- In-Game: [Android] `keyboard_string()` is now able to delete the first character on the first attempt, so no longer requires multiple calls to achieve this
+- In-Game: `layer_background_index()` now caps the value to the number of frames in the sprite and so wraps back to the start of the sprite correctly
+- In-Game: `layer_background_xscale/yscale()` set to a negative number no longer causes tiled background scrolling to break [#14598](https://github.com/YoYoGames/GameMaker-Bugs/issues/14598)
+- In-Game: [HTML5] `layer_destroy_instances()` no longer leaves one instance on the named layer still active [#10470](https://github.com/YoYoGames/GameMaker-Bugs/issues/10470)
+- In-Game: `layer_get_all_elements()` has been reverted so it ignores destroyed instances again [this could cause exceptions in 2022.9]
+- In-Game: `layer_get_id()` / `layer_get_all()` no longer fail to find tile layers which do not already have a tileset assigned to it
+- In-Game: `layer_get_id_at_depth()` for a depth with no associated layers now returns an array handle "[ref layer -1]" [#9214](https://github.com/YoYoGames/GameMaker-Bugs/issues/9214)
+- In-Game: `layer_get_script_begin()` and `layer_get_script_end()` now return a ref instead of a number [#9212](https://github.com/YoYoGames/GameMaker-Bugs/issues/9212)
+- In-Game: `layer_has_instance()` does now return a boolean, which is what its manual page always said it did
+- In-Game: `layer_particle_get_system()` returns an invalid handle for systems created by `part_system_create_layer()` [#12014](https://github.com/YoYoGames/GameMaker-Bugs/issues/12014)
+- In-Game: `layer_sequence_create()` now correctly applies any clipping masks present in the sequence
+- In-Game: `layer_sequence_headpos()` now places all assets in their correct positions at the time they are created (rather than moving them very quickly after creation)
+- In-Game: [HTML5] `layer_set_target_room()` now affects all later `layer_...()` calls
+- In-Game: [HTML5] `layer_set_visible()` no longer causes a crash on load in the attached project [#12212](https://github.com/YoYoGames/GameMaker-Bugs/issues/12212)
+- In-Game: `layer_set_visible()` resolved the function not working after changing a layer's visibility and changing room [#12434](https://github.com/YoYoGames/GameMaker-Bugs/issues/12434)
+- In-Game: `layer_sprite_get_blend()` and `layer_background_get_blend()` now return the same default value [the background function now returns the same as the sprite one always has, rather than some incorrect value]
+- In-Game: `layer_text_get_x()` fixed returning relative co-ords, which differed from `layer_sprite_get_x()` giving absolute GUI co-ords [#13144](https://github.com/YoYoGames/GameMaker-Bugs/issues/13144)
+- In-Game: [HTML5] `layer_tilemap_set_colmask()` no longer gives an exception saying the sizes do not match, when they do [#13528](https://github.com/YoYoGames/GameMaker-Bugs/issues/13528)
+- In-Game: `load_csv()` now strips UTF-8 BOM markers [#12406](https://github.com/YoYoGames/GameMaker-Bugs/issues/12406)
+- In-Game: `math_set_epsilon()` values have been fixed so the function does not lead to incorrect image_index values later on
+- In-Game: `matrix_set()` using a non-array value now advises you of the coding error rather than silently crashing the runner
+- In-Game: [VM] `matrix_transform_vertex()` no longer crashes if you call it multiple times in a struct assignment [#12432](https://github.com/YoYoGames/GameMaker-Bugs/issues/12432)
+- In-Game: [Windows, HTML5] `mouse_clear()` no longer triggers the button release state [#9295](https://github.com/YoYoGames/GameMaker-Bugs/issues/9295)
+- In-Game: `move_and_collide()` corrected unexpectedly returning an empty array when the Object is stuck inside a colliding instance [#13338](https://github.com/YoYoGames/GameMaker-Bugs/issues/13338)
+- In-Game: `move_and_collide()`'s max_x/y arguments' "no limit" value is now -1, not 0, as that meant 0 could not be used for saying "do not move in this direction" in 2023.1
+- In-Game: `mp_grid_add_instances()` no longer requires the pixel-perfect flag to be set to true when using the new collisions system in order to avoid issues with those cells next to walls
+- In-Game: `network_connect()` now supports Websockets that use IPv6 addresses in the URL [#13463](https://github.com/YoYoGames/GameMaker-Bugs/issues/13463)
+- In-Game: [Windows] `network_connect_raw_async()` now fires the expected async event when it should
+- In-Game: `network_send_packet()` being accidentally given the server ID, not the client, now gives the expected code error [#9588](https://github.com/YoYoGames/GameMaker-Bugs/issues/9588)
+- In-Game: `object_get_mask()` now returns a ref instead of a number [#9206](https://github.com/YoYoGames/GameMaker-Bugs/issues/9206)
+- In-Game: `object_get_parent()` is back to returning the expected -100 when the object exists but has no parent [#14114](https://github.com/YoYoGames/GameMaker-Bugs/issues/14114)
+- In-Game: `object_get_sprite()` now returns a ref instead of a number [#9206](https://github.com/YoYoGames/GameMaker-Bugs/issues/9206)
+- In-Game: [Switch] `os_get_info()` no longer causes applications to crash
+- In-Game: [GX.games] `os_get_info()` map's "mobile" key now returns the correct result, rather than always containing “false”
+- In-Game: [GX.Games] `os_get_language()` now returns the correct country codes [#12115](https://github.com/YoYoGames/GameMaker-Bugs/issues/12115)
+- In-Game: `os_request_permission()` has now been extended to work on more platforms as a result of the GX.games features mentioned higher up this page
+- In-Game: `os_request_permission()`'s DeviceMotion "response" values are too similarly-worded and should be clarified [#9635](https://github.com/YoYoGames/GameMaker-Bugs/issues/9635)
+- In-Game: [HTML5] `part_emitter_destroy()` no longer causes an unhandled exception
+- In-Game: `part_emitter_destroy()` no longer removes particles from a previous/different emitter
+- In-Game: `part_particles_create_colour()` now applies the new colour immediately [#9070](https://github.com/YoYoGames/GameMaker-Bugs/issues/9070)
+- In-Game: [HTML5] `part_system_create()` and `part_system_create_layer()` create particle systems no longer which are not visible
+- In-Game: [HTML5] `part_system_create_layer()` no longer causes games to crash
+- In-Game: [HTML5] `part_system_depth()` no longer throws uncaught TypeError in some projects
+- In-Game: `part_system_get_info()` struct's "parttype" value is set to "undefined" if the system asset's emitter has a negative particle count [#14439](https://github.com/YoYoGames/GameMaker-Bugs/issues/14439)
+- In-Game: `particle_get_info()` now provides the correct ID for using with functions such as `part_emitter_region()` [#8845](https://github.com/YoYoGames/GameMaker-Bugs/issues/8845)
+- In-Game: `particle_get_info()`'s particle type struct "sprite" member now contains "ref sprite -1" if the type doesn't use a sprite [#9372](https://github.com/YoYoGames/GameMaker-Bugs/issues/9372)
+- In-Game: `particle_get_info()` and `part_system_get_info()` with a particle system instance that had its first emitter added through code no longer causes a silent crash [#11611](https://github.com/YoYoGames/GameMaker-Bugs/issues/11611)
+- In-Game: `particle_get_info()` and `part_system_get_info()` now include the "angle" and "colour" variables in their returned structs [#12402](https://github.com/YoYoGames/GameMaker-Bugs/issues/12402)
+- In-Game: `particle_get_info()` fixed "ptype" struct contained unclear values as to what colour and type values were actually used [#14060](https://github.com/YoYoGames/GameMaker-Bugs/issues/14060)
+- In-Game: `particle_get_info()` no longer always returns the info for particle type 0, regardless of which was requested [#13012](https://github.com/YoYoGames/GameMaker-Bugs/issues/13012)
+- In-Game: `particle_get_info()` "ang_inc" return value was a typo in previous releases, is now called the correct name "ang_incr" instead [and so if you were using this value before you will need to refactor your code accordingly]
+- In-Game: `physics_joint_weld_create()` "ref_angle" argument no longer requires double converting degrees to radians [#14255](https://github.com/YoYoGames/GameMaker-Bugs/issues/14255)
+- In-Game: `position_meeting()` no longer returns small gaps between adjacent bounding boxes when using Collision Compatibility Mode
+- In-Game: `ptr()` can now accept an array as its input
+- In-Game: [HTML5] `randomise()` no longer causes other random choice functions to break [#14495](https://github.com/YoYoGames/GameMaker-Bugs/issues/14495)
+- In-Game: [HTML5] `real(pointer)` behaviour is now consistent with the other platforms
+- In-Game: `rollback_define_input()` no longer reverts to default inputs after a disconnection and also can now be called again
+- In-Game: `rollback_game_running()` no longer returns true even after `rollback_leave_game()`
+- In-Game: `room_get_info()`'s instances array now returns asset refs rather than numbers for some values [#7526](https://github.com/YoYoGames/GameMaker-Bugs/issues/7526)
+- In-Game: `room_get_info()` now returns a particle system element's "ps" as an asset ref [#12268](https://github.com/YoYoGames/GameMaker-Bugs/issues/12268)
+- In-Game: `room_get_info()` no longer returns "undefined", as it was in 2024.1400.2 Beta 1 RTs [#13054](https://github.com/YoYoGames/GameMaker-Bugs/issues/13054)
+- In-Game: `room_get_info()` now shows the correct updated info for the current room after changes are made [#12848](https://github.com/YoYoGames/GameMaker-Bugs/issues/12848)
+- In-Game: `room_goto()` has been fixed to again temporarily stop subsequent draw events until the room has actually changed, so unexpected Draw events in 2022.5 releases will no longer occur
+- In-Game: `room_instance_add()` instance's "Create" event is now executed even if it is created in a global-scope script [#9787](https://github.com/YoYoGames/GameMaker-Bugs/issues/9787)
+- In-Game: `room_instance_clear()` now actually clears a room of all its instances
+- In-Game: `room_next()` and `room_previous()` now return asset refs rather than numbers [#7587](https://github.com/YoYoGames/GameMaker-Bugs/issues/7587)
+- In-Game: `room_next()` and `room_previous()` return "-1" for invalid destination rooms instead of the handle "ref room -1" [#9057](https://github.com/YoYoGames/GameMaker-Bugs/issues/9057)
+- In-Game: `script_execute()` no longer fails if the first usage of this function is made inside a room creation code event
+- In-Game: `script_execute_ext()` on an array with 63,666 or more elements no longer causes a stack overflow (if you call huge amounts of elements like this, then be aware a slower method of allocating the memory will now be used) [#13905](https://github.com/YoYoGames/GameMaker-Bugs/issues/13905)
+- In-Game: `script_execute_ext()` now calls in-built functions referenced in an array correctly again
+- In-Game: [HTML5] `script_execute_ext()` now works correctly, rather than always returning undefined
+- In-Game: `script_execute_ext()` now accepts an empty array as its second argument
+- In-Game: `script_execute_ext()` calling in-built functions now passes the whole of the argument array correctly, fixes an issue where previously only the first index of the array was passed-in
+- In-Game: `script_exists()`  no longer unexpectedly returns "true" when using "infinity" or "NaN" as parameters
+- In-Game: `script_get_name(-4)` no longer gives a "memory allocation failed" error
+- In-Game: `sequence_instance_override_object()` now sets the new instance to have the correct draw order for the sequence, so masks should no longer fail to be applied
+- In-Game: `shader_current()` now returns a ref instead of a number [#8911](https://github.com/YoYoGames/GameMaker-Bugs/issues/8911)
+- In-Game: `shader_enable_corner_id()` now works with particle systems created directly in the Room Editor
+- In-Game: `show_debug_message()` now supports "{{" and "}}" for escaping the brace characters  [#8564](https://github.com/YoYoGames/GameMaker-Bugs/issues/8564)
+- In-Game: `show_debug_message()` is no longer lagged if you're outputting multiple lines per frame [note that the processing speed is much faster again and the cap per frame has been raised much higher again, but there is still a cap on how much you can log per frame before some info will be delayed in order to keep the IDE responsive]
+- In-Game: [YYC] `show_message()` and `show_debug_message()` no longer ignore all methods contained in structs
+- In-Game: [YYC] `sin()` fixed it lacking an expected optimisation to speed it up [#12229](https://github.com/YoYoGames/GameMaker-Bugs/issues/12229)
+- In-Game: `skeleton_animation_set_ext()` has been fixed as mentioned in the important changes section higher up
+- In-Game: `skeleton_attachment_set()` when no skin is set now safely ignores the set and also logs that this happened, which stops a silent crash which occurred in previous releases
+- In-Game: `skeleton_get_bounds()` was returning no bounds for some Spine sprites, despite the imported JSON file containing the vertices - this is now fixed
+- In-Game: `skeleton_get_minmax()` did not return the min/max of some Spine sprites - this is now fixed also
+- In-Game: `skeleton_skin_create()` no longer causes a silent crash "Error code (-1073741819)" [#12164](https://github.com/YoYoGames/GameMaker-Bugs/issues/12164)
+- In-Game: [HTML5] `sprite_add()` now works with Spine images located inside Included Files
+- In-Game: `sprite_add_ext()` on some .pngs which contain transparency no longer causes that loaded image to be drawn "squished"
+- In-Game: `sprite_assign()` now works again with sprites from `texturegroup_add()` [#14237](https://github.com/YoYoGames/GameMaker-Bugs/issues/14237)
+- In-Game: [iOS] `sprite_delete()` in a Clean Up event on a sprite created via `sprite_created_from_suface()` no longer causes a crash during Game End [#10714](https://github.com/YoYoGames/GameMaker-Bugs/issues/10714)
+- In-Game: `sprite_delete()` can no longer delete sprites from the WAD [#13344](https://github.com/YoYoGames/GameMaker-Bugs/issues/13344)
+- In-Game: `sprite_duplicate()` no longer gives a silent crash when used on a sprite previously created by `sprite_add_ext()`
+- In-Game: [Windows VM] `sprite_get_convex_hull()` no longer gives a silent crash [#14611](https://github.com/YoYoGames/GameMaker-Bugs/issues/14611)
+- In-Game: `sprite_get_info()` now includes the end frame in each image's data
+- In-Game: [HTML5] `sprite_get_texture()` now allows Boolean values for its "subimage" argument [#12903](https://github.com/YoYoGames/GameMaker-Bugs/issues/12903)
+- In-Game: `sprite_merge()` now works correctly with sprites previously created by `sprite_add_ext()`
+- In-Game: [YYC] `sprite_nineslice_create()` now works again on these targets
+- In-Game: `sprite_set_offset()` no longer causes sprites not to be drawn if their collision mask is "middle centre" [Please note that HTML5 still requires this fix, but all other platforms are fine now]
+- In-Game: [HTML5] `sprite_set_offset()` no longer causes sprites not to be drawn if their collision mask is also set to "middle centre"
+- In-Game: `sprite_set_offset()` no longer causes a large increase in memory usage each time you call it
+- In-Game: `static_get()` no longer silently crashes the runner when "undefined" is the expected result for that struct [#8048](https://github.com/YoYoGames/GameMaker-Bugs/issues/8048)
+- In-Game: [Windows VM] `static_get()` no longer causes a silent crash when used on Track structs in a Sequence Event callback
+- In-Game: `string()` no longer returns some assets as their name, now it's always as their ref handle [#8662](https://github.com/YoYoGames/GameMaker-Bugs/issues/8662)
+- In-Game: `string()` now supports "{{" and "}}" for escaping the brace characters [#8564](https://github.com/YoYoGames/GameMaker-Bugs/issues/8564)
+- In-Game: [macOS/iOS/tvOS VM] `string(NaN)` no longer returns "nan" instead of "NaN" when game built on M1 Macs using a recent Xcode
+- In-Game: `string_count()` now gives the correct result for strings containing non-Latin characters
+- In-game: `string_delete()` no longer deletes from start of string when "_index < -`string_length(_string)`" [#12343](https://github.com/YoYoGames/GameMaker-Bugs/issues/12343)
+- In-Game: `string_format()` with a large number for the "total" argument no longer causes a silent crash [#14626](https://github.com/YoYoGames/GameMaker-Bugs/issues/14626)
+- In-Game: `string_height_ext()` and `draw_text_ext()` no longer have a mismatch when doing rounding for line breaks, which stops issues when the string width is within 0.5 pixels of max width [#12564](https://github.com/YoYoGames/GameMaker-Bugs/issues/12564)
+- In-Game: `string_join_ext()` fixed behavior changing unwantedly in 2024.14 [#12521](https://github.com/YoYoGames/GameMaker-Bugs/issues/12521)
+- In-Game: `string_split()`/`_ext()` now gives the correct output for strings containing certain special characters
+- In-Game: [HTML5] `string_split()` now works when the pipe character is used for the split location
+- In-Game: [HTML5] `string_width()` now returns the correct result, rather than always incorrectly returning NaN [#12468](https://github.com/YoYoGames/GameMaker-Bugs/issues/12468)
+- In-Game: `string_width()` on a string that starts with a space character no longer hangs the game
+- In-Game: [HTML5] `struct_get()` can now read from `static_get()`'s structs
+- In-Game: `struct_get_names()` / `struct_names_count()` both no longer ignore struct names starting with "<u" [#12702](https://github.com/YoYoGames/GameMaker-Bugs/issues/12702)
+- In-Game: [VM] `struct_get_names()` no longer returns an unexpected "<unknown built-in variable>" result on static structs [#13442](https://github.com/YoYoGames/GameMaker-Bugs/issues/13442)
+- In-Game: `struct_get_names()` used on a static struct no longer returns an incorrect extra element ""
+- In-Game: `surface_create()` no longer allows creating negative-sized surfaces, which stops games crashing later on when that surface is set by `surface_set_target()`
+- In-Game: [HTML5] `surface_free()` no longer causes a game crash if called on an already-freed surface ID  [the second call is ignored, as it is already on Windows, etc.]
+- In-Game: [HTML5] `surface_resize()` with application_surface now applies the resize correctly on all requests [#7666](https://github.com/YoYoGames/GameMaker-Bugs/issues/7666)
+- In-Game: `tag_get_asset_ids()` in 2024.1400 returns a reference that can now be used to instantiate a constructor [#12928](https://github.com/YoYoGames/GameMaker-Bugs/issues/12928)
+- In-Game: `tag_get_assets()` now includes audio assets in its results returned
+- In-Game: `texture_flush()` now works correctly when passed the texture group name [#13584](https://github.com/YoYoGames/GameMaker-Bugs/issues/13584)
+- In-Game: [Windows] `texture_set_stage()` no longer crashes when using the GPU Texture Compression extension [#11193](https://github.com/YoYoGames/GameMaker-Bugs/issues/11193)
+- In-Game: `texturegroup_delete()` now restores reference to the original WAD sprite/font/tileset if it was overwritten at runtime by using `texturegroup_add()` [#14164](https://github.com/YoYoGames/GameMaker-Bugs/issues/14164)
+- In-Game: `texturegroup_get_names()` added so you can retrieve the names of all the texturegroups contained in the game.
+- In-Game: `texturegroup_get_sprites()` now returns an array of sprite refs instead of an array of reals [#13378](https://github.com/YoYoGames/GameMaker-Bugs/issues/13378)
+- In-Game: `texturegroup_get_textures()` no longer returns an array of pointers which cause `texture_prefetch()` to crashes in 2024.1400.4 Betas [#14048](https://github.com/YoYoGames/GameMaker-Bugs/issues/14048)
+- In-Game: `throw()` used inside a struct no longer gives wrong line numbers in the error message
+- In-Game: [PS4 and PS5] `tilemap_get_at_pixel()` no longer returns incorrect values
+- In-Game: `tilemap_get_tileset()` now returns an asset ref [#12287](https://github.com/YoYoGames/GameMaker-Bugs/issues/12287)
+- In-Game: [HTML5] `tileset_get_info()` corrected that this returned different information to other targets, lacking changes the others got in 2024.14.1 [#13495](https://github.com/YoYoGames/GameMaker-Bugs/issues/13495)
+- In-Game: [HTML5] `tileset_get_info()` now returns the same key/value pairs on all targets [#13495](https://github.com/YoYoGames/GameMaker-Bugs/issues/13495)
+- In-Game: `tileset_get_info()` "frame_length_ms" value now returns the frame length as the expected/documented milliseconds, when previous releases incorrectly returned it in microseconds
+- In-Game: `time_source_create()`’s "callback" argument now accepts a function, rather than only accepting a method as it did in the last release
+- In-Game: `time_source_destroy()` no longer crashes games if called by one time source and requested to destroy a different time source which was also created after the first one
+- In-Game: `typeof()` no longer gives different results in VM vs YYC when called on the result of a comparison
+- In-Game: `typeof()` now returns the correct returns the correct answers when called on the return result of all `is_...()` functions
+- In-Game: [iOS] `url_open()` now works on iOS 18 if built with Xcode 16 [#8684](https://github.com/YoYoGames/GameMaker-Bugs/issues/8684)
+- In-Game: `url_open()` now more reliably uses the OS default browser on Windows 10/11 [#11616](https://github.com/YoYoGames/GameMaker-Bugs/issues/11616), and no longer uses the File Association for .html files [#243](https://github.com/YoYoGames/GameMaker-Bugs/issues/243)
+- In-Game: [Ubuntu] `url_open()` now works on Ubuntu 22 and other distros that require launching the browser directly from the user apps folder [#13909](https://github.com/YoYoGames/GameMaker-Bugs/issues/13909)
+- In-Game: `url_open()` no longer aborts your game if it is unable to be called due to no suitable OS browser setting [now it will just log that the call failed]
+- In-Game: `variable_clone()` no longer gives incorrect results for methods that have variables bound [#7994](https://github.com/YoYoGames/GameMaker-Bugs/issues/7994)
+- In-Game: [HTML5] `variable_clone()` no longer turns object refs inside the cloned array into empty structs [#12677](https://github.com/YoYoGames/GameMaker-Bugs/issues/12677)
+- In-Game: [HTML5] `variable_clone()` now keeps the types and so statics are now found/available [#13478](https://github.com/YoYoGames/GameMaker-Bugs/issues/13478)
+- In-Game: `variable_clone()` of a flexpanel struct now preserves any sprite override values in that struct [#13656](https://github.com/YoYoGames/GameMaker-Bugs/issues/13656)
+- In-Game: `variable_clone()` no longer corrupts strings in structs nested inside large arrays
+- In-Game: `variable_clone()` no longer fails when passed an array containing multiple objects with the same reference
+- In-Game: `variable_clone()` no longer returns garbage characters for instance variables using strings
+- In-Game: [HTML5] `variable_global_exists()` no longer returns false when a variable is currently set to undefined
+- In-Game: [HTML5] `variable_struct_get()` now returns returns the correct script ID if a struct member is a function, rather than always returning "undefined" for that member
+- In-Game: [YYC] `variable_struct_get_names()` no longer returns unexpected extra results compared to VM [#10221](https://github.com/YoYoGames/GameMaker-Bugs/issues/10221)
+- In-Game: [YYC] `variable_struct_names_count()` no longer returns unexpected extra results compared to VM [#10221](https://github.com/YoYoGames/GameMaker-Bugs/issues/10221)
+- In-Game: `variable_struct_remove()` no longer causes a memory leak
+- In-Game: `vertex_create_buffer_from_buffer()` no longer causes batch breaks when an empty buffer is copied to another empty buffer
+- In-Game: `vertex_create_buffer_from_buffer()` no longer causes batch breaks when an empty buffer is copied to empty buffer (unless that vertex buffer was manually frozen first) [see the buffers Misc Change mentioned above also]
+- In-Game: `vertex_freeze()` now returns -1 if it has failed and 0 for success, rather than returning nothing like it did before
+- In-Game: [PS5] `vertex_freeze()` no longer causes a crash trying to resize the index buffer whilst it is still in use by the GPU
+- In-Game: `vertex_submit()` no longer causes a silent crash if called using the return of `font_get_texture()` for a Font added at runtime via `font_add()` [#6315](https://github.com/YoYoGames/GameMaker-Bugs/issues/6315)
+- In-Game: [GX.games] `vertex_submit_ext()` ignores offset on frozen vertex buffers [#14460](https://github.com/YoYoGames/GameMaker-Bugs/issues/14460)
+- In-Game: `video_close()` no longer fails after changing rooms and then trying to play the video a second time
+- In-Game: [PS4 and PS5] `video_draw()` no longer cause a game crash due to an audio device error
+- In-Game: `video_get_duration()` no longer returns values 10x larger than expected/documented
+- In-Game: [Ubuntu] `video_open()` fixed that this added a long "/tmp/appimage_extracted_..." path onto files [#9555](https://github.com/YoYoGames/GameMaker-Bugs/issues/9555)
+- In-Game: `video_open()` now finds files which are in the AppData folder also [#13755](https://github.com/YoYoGames/GameMaker-Bugs/issues/13755)
+- In-Game: [HTML5] `video_open()` now shows a proper console message telling you it has been blocked by the browser if it is called before the player interacts with the webpage
+- In-Game: [Windows] `video_seek_to()` no longer incorrectly also restarts the video
+- In-Game: [Switch] `video_set_volume()` is now supported
+- In-Game: [Windows] `video_set_volume()` no longer modifies volume at the OS level for the runner, so subsequent runs of the game will start at the normal volume again
+- In-Game: [HTML5] `wallpaper_set_config()` now supports this target also [#13396](https://github.com/YoYoGames/GameMaker-Bugs/issues/13396)
+- In-Game: [Windows] `window_center()` now works reliably after Alt+Tabbing away/back to the game and turning fullscreen off [#13911](https://github.com/YoYoGames/GameMaker-Bugs/issues/13911)
+- In-Game: `window_get_visible_rects()` now returns the correct results when using 3 monitors as of 2023.4 runtimes [#9323](https://github.com/YoYoGames/GameMaker-Bugs/issues/9323)
+- In-Game: [Ubuntu] `window_get_visible_rects()` no longer just returns an empty array [#9378](https://github.com/YoYoGames/GameMaker-Bugs/issues/9378)
+- In-Game: [OperaGX] `window_get_width()`/`height()` will now return the browser width and height
+- In-Game: [GX.games] `window_handle()` now supports this target also [#13213](https://github.com/YoYoGames/GameMaker-Bugs/issues/13213)
+- In-Game: `window_has_focus()` now returns the correct result if focus was already lost while the game is launching [#6565](https://github.com/YoYoGames/GameMaker-Bugs/issues/6565)
+- In-Game: [GX.games] `window_has_focus()` has now been added for this target [#12864](https://github.com/YoYoGames/GameMaker-Bugs/issues/12864)
+- In-Game: [macOS] `window_mouse_set()` now affects the cursor position as you would expect
+- In-Game: [macOS] `window_set_cursor()` in a Step or other repeated event no longer causes inputs to not be properly detected thereafter [#5083](https://github.com/YoYoGames/GameMaker-Bugs/issues/5083)
+- In-Game: [MacOS] `window_set_cursor()` now supports more cursors than just "cr_none" and "cr_arrow" (which is also "cr_default") - see the manual for specifics
+- In-Game: [GX.games] `window_set_fullscreen()` now works when running the game on mobiles [#8979](https://github.com/YoYoGames/GameMaker-Bugs/issues/8979)
+- In-Game: [Windows] `window_set_size()` no longer unexpectedly recentres the window
+- In-Game: [GX.games] `window_set_size()` now works correctly when the project is ran locally using GM, which fixes issues where Live Wallpapers were drawn incorrectly when ran from GM compared to how they looked after publishing and downloading in the companion app
+- In-Game: `with()` no longer crashes the game if passed "undefined" [and it will not enter the with block]
+- In-Game: `xboxone_check_privilege()` now attempts to get the missing information when `XUserCheckPrivilege()` returns an "unknown" error
+- In-Game: `xboxone_generate_player_session_id()` now works the same way in GDK as it used to in XDK
+- In-Game: [XDK] `xboxone_matchmaking_session_leave()` and `xboxone_matchmaking_stop()` no longer crash the game
+- In-Game: [GDK] `xboxone_verify_string_async()` is now implemented
+
+<br>
+
+### Docs Bugs Fixed
+
+- GmlSpec: Renamed the arguments for the various copy functions of data structures so they use a consistent name and order of "(destination, source)" [#7434](https://github.com/YoYoGames/GameMaker-Bugs/issues/7434)
+- GmlSpec: `camera_set_view_target()` docs now use more typical names for arguments [#12996](https://github.com/YoYoGames/GameMaker-Bugs/issues/12996)
+- GmlSpec: `gpu_set_fog()` no longer shows an incorrect GM1020 warning when passed an array of values [#14583](https://github.com/YoYoGames/GameMaker-Bugs/issues/14583)
+- GmlSpec: `network_connect_async()` description now uses correct name when mentioning `network_connect_async_raw()` [#14459](https://github.com/YoYoGames/GameMaker-Bugs/issues/14459)
+- GmlSpec: `struct_names_count()` fixed that it had "number" written twice in its description [#12335](https://github.com/YoYoGames/GameMaker-Bugs/issues/12335)
+- GmlSpec: `variable_instance_names_count()` fixed that it had "number" written twice in its description [#12274](https://github.com/YoYoGames/GameMaker-Bugs/issues/12274)
+- GmlSpec: `xboxone_stats_get_leaderboard()` declaration now includes its arguments [#12460](https://github.com/YoYoGames/GameMaker-Bugs/issues/12460)
+- Manual Content: "Runtime Feeds Preferences" page no longer has multiple broken links to the "Runtime Modules Dialog" page [#13149](https://github.com/YoYoGames/GameMaker-Bugs/issues/13149)
+- Manual Content: `div` page now says dividing by any number less than 1 will give a "Divide by zero" error [#13728](https://github.com/YoYoGames/GameMaker-Bugs/issues/13728)
+- Manual Content: Added additional clarifications on various pages for how collision types work when rotated [#14168](https://github.com/YoYoGames/GameMaker-Bugs/issues/14168)
+- Manual Content: Audio page now says audio will not play in WASM export also (same as HTML5) unless the browser has been interacted with first [#12498](https://github.com/YoYoGames/GameMaker-Bugs/issues/12498)
+- Manual Content: Buffer load/save/async group pages all have coverage on error/fail results you will get with certain strings [#13784](https://github.com/YoYoGames/GameMaker-Bugs/issues/13784)
+- Manual Content: Building Via Command Line page now has an explanation of the "prefabs" argument new in 2024.14 [#14081](https://github.com/YoYoGames/GameMaker-Bugs/issues/14081)
+- Manual Content: draw_set_alpha/halign/`valign()` pages all now have a note about remembering to reset to back to default when no longer required [#14449](https://github.com/YoYoGames/GameMaker-Bugs/issues/14449)
+- Manual Content: DS Grids page now says more data types can be stored (although we are aware other pages still need the same fix as part of a different bug report) [#14358](https://github.com/YoYoGames/GameMaker-Bugs/issues/14358)
+- Manual Content: Extensions page now says that GX.games supports JS extensions also, not just GML ones [#14009](https://github.com/YoYoGames/GameMaker-Bugs/issues/14009)
+- Manual Content: Feather Messages page now has a listing for GM2018 [#13482](https://github.com/YoYoGames/GameMaker-Bugs/issues/13482)
+- Manual Content: Filter Effect Types page now specifies what values are used for colour arrays [#14437](https://github.com/YoYoGames/GameMaker-Bugs/issues/14437)
+- Manual Content: Fixed difficulty around searching for "variable definitions" (different problems in Monthly and Beta manuals) [#13429](https://github.com/YoYoGames/GameMaker-Bugs/issues/13429)
+- Manual Content: Fixed that `_GMFUNCTION_` page needed an example which clarifies the difference between the `gml_Script` and `gml_GlobalScript` macros [#13926](https://github.com/YoYoGames/GameMaker-Bugs/issues/13926)
+- Manual Content: Fixed that `xprevious` and `yprevious` pages needed to say these are set when an instance is created [#12653](https://github.com/YoYoGames/GameMaker-Bugs/issues/12653)
+- Manual content: Fixed that examples on the pages for "cache_directory" and "temp_directory" should not have had an extra backslash [#13887](https://github.com/YoYoGames/GameMaker-Bugs/issues/13887)
+- Manual Content: Fixed that general Preferences was lacking a sub-page for the Display section [#12466](https://github.com/YoYoGames/GameMaker-Bugs/issues/12466)
+- Manual Content: Fixed that Guide To Using Shaders page's code sample had various keywords that were not color-coded [#13862](https://github.com/YoYoGames/GameMaker-Bugs/issues/13862)
+- Manual Content: Fixed that the File Directory section had various pages for in-built variables which incorrectly said they are functions that return values [#13888](https://github.com/YoYoGames/GameMaker-Bugs/issues/13888)
+- Manual Content: Fixed that three different pages had the title "Debugging" and also that only two could be found in the Index (A-Z) [#13927](https://github.com/YoYoGames/GameMaker-Bugs/issues/13927)
+- Manual Content: Fixed that underwater filter's docs provided the wrong parameter type for distortion scales [#12451](https://github.com/YoYoGames/GameMaker-Bugs/issues/12451)
+- Manual Content: Fixed that various DS list/priority/queue pages' description text implied values could only be "real or string", when more types have been allowed for a long time [#14597](https://github.com/YoYoGames/GameMaker-Bugs/issues/14597)
+- Manual Content: Gesture Events page now says `device_mouse_dbclick_enable(false)` must be called for Double Tap to work on Android and iOS [#14489](https://github.com/YoYoGames/GameMaker-Bugs/issues/14489)
+- Manual Content: Sequence Overriding takes over draw control of an existing instance, so documentation now says this [#7872](https://github.com/YoYoGames/GameMaker-Bugs/issues/7872)
+- Manual Content: Sprite Editor page now uses the same "Rectangle With Rotation" naming that the IDE uses [#14169](https://github.com/YoYoGames/GameMaker-Bugs/issues/14169)
+- Manual Content: `array_shuffle_ext()` "length" argument's default value is now correctly documented [#14241](https://github.com/YoYoGames/GameMaker-Bugs/issues/14241)
+- Manual Content: `buffer_read()` and `buffer_write()` pages now document the endianness of reading numbers [#13872](https://github.com/YoYoGames/GameMaker-Bugs/issues/13872)
+- Manual Content: `collision_space()` now opens its manual page when middle-clicked in the IDE [#14267](https://github.com/YoYoGames/GameMaker-Bugs/issues/14267)
+- Manual Content: `ds_grid_add_grid_region()` example image no longer has the wrong number of arguments [#14003](https://github.com/YoYoGames/GameMaker-Bugs/issues/14003)
+- Manual Content: `flexpanel_create_node()` page no longer says the flexpanel creation struct is retained and can be used later on [#14341](https://github.com/YoYoGames/GameMaker-Bugs/issues/14341)
+- Manual Content: `flexpanel_node_set_measure_function()` page's code example now shows the method it is using [#13770](https://github.com/YoYoGames/GameMaker-Bugs/issues/13770)
+- Manual Content: `font_add_sprite()` page now clarifies the "prop" functionality is not performed on any Sprites created dynamically in-game [#13025](https://github.com/YoYoGames/GameMaker-Bugs/issues/13025)
+- Manual Content: `font_get_uvs()` page no longer has a typo on the final line of its code example [#13381](https://github.com/YoYoGames/GameMaker-Bugs/issues/13381)
+- Manual Content: `get_string_async()` page now says it is not async on browser platforms [#12882](https://github.com/YoYoGames/GameMaker-Bugs/issues/12882)
+- Manual Content: `handle_parse()` example has been fixed to show its handle being stringed using its name [#13783](https://github.com/YoYoGames/GameMaker-Bugs/issues/13783)
+- Manual Content: `layer_get_flexpanel_node()` page no longer incorrectly says the layer ID can be passed as an argument type [#14352](https://github.com/YoYoGames/GameMaker-Bugs/issues/14352)
+- Manual Content: `layer_tilemap_set_colmask()` fixed page lacked an "n" on the end of "given" [#12491](https://github.com/YoYoGames/GameMaker-Bugs/issues/12491)
+- Manual Content: `physics_joint_weld_create()` page now says the "ref_angle" argument uses radians [#14221](https://github.com/YoYoGames/GameMaker-Bugs/issues/14221)
+- Manual Content: `room_get_info()` page example has been fixed [#14318](https://github.com/YoYoGames/GameMaker-Bugs/issues/14318)
+- Manual Content: `room_get_info()` page now clarifies it will not update its "instances" array, even in live mode [#13362](https://github.com/YoYoGames/GameMaker-Bugs/issues/13362)
+- Manual Content: `sprite_set_speed()` page no longer says the incorrect return value [#12706](https://github.com/YoYoGames/GameMaker-Bugs/issues/12706)
+- Manual Content: `string_height_ext()` page no longer incorrectly says "bring drawn" instead of "being drawn" [#13809](https://github.com/YoYoGames/GameMaker-Bugs/issues/13809)
+- Manual Content: `struct_set_from_hash()` page now correctly says the "data" variable will be "point" [#14582](https://github.com/YoYoGames/GameMaker-Bugs/issues/14582)
+- Manual Content: `texturegroup_add()` fixed page's "back to parent section" link was broken [#12608](https://github.com/YoYoGames/GameMaker-Bugs/issues/12608)
+- Manual Content: `texturegroup_delete()` fixed page's "back to parent section" link was broken [#12609](https://github.com/YoYoGames/GameMaker-Bugs/issues/12609)
+- Manual Content: `tileset_get_info()` page now updated to document the changes made for 2014.14.1 [#13465](https://github.com/YoYoGames/GameMaker-Bugs/issues/13465)
+- Manual Content: `tileset_get_info()` page now clarifies it returns the columns on the tpage, not the columns of the source tileset [#13828](https://github.com/YoYoGames/GameMaker-Bugs/issues/13828)
+- Manual Content: `variable_clone()` page now states the correct depth values to use if you want a shallow copy [#12430](https://github.com/YoYoGames/GameMaker-Bugs/issues/12430)
+- Manual Content: `window_enable_borderless_fullscreen()` page now says it also works on macOS [#13436](https://github.com/YoYoGames/GameMaker-Bugs/issues/13436)
+- Manual Content and GmlSpec: Fixed that various flexpanel functions' pages contained circular/recursive definition in their descriptions [#14208](https://github.com/YoYoGames/GameMaker-Bugs/issues/14208)
+- Templates: Description Changes For Blank Project Templates And Fixes For Older Runtimes
+
+<br>
+
