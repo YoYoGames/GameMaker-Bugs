@@ -299,8 +299,8 @@
     - Note that this format is usable any place where a number can be used, as GML colours are just numbers, so these hex values can be used in more places than just defining a colour
 
 - **Code Editor: Support For Binary Literals And Underscores In Numbers**
-    - Binary literals can now be declared in the form 0b…. (same as the hex literal 0x… that GameMaker has supported for a while). For example: var six = 0b0110; or var thirteen = 0b0100 | 0b1001;
-    - Also, integer, floating point, hex, and binary literals may now take an underscore to act as a visual separator. For example: var integer = 100_000_000; or var float = 3_141.59; or var hexadec = 0xDEAD_BEEF; or var binary = 0b01101000_01101001;
+    - Binary literals can now be declared in the form 0b... (same as the hex literal 0x... that GameMaker has supported for a while). For example: `var six = 0b0110;` or `var thirteen = 0b0100 | 0b1001;`
+    - Also, integer, floating point, hex, and binary literals may now take an underscore to act as a visual separator. For example: `var integer = 100_000_000;` or `var float = 3_141.59;` or `var hexadec = 0xDEAD_BEEF;` or `var binary = 0b01101000_01101001;`
     - Note that this is a Code Editor and Compiler change only - there is no support for this in-game
 
 - **Code Editor: Support For Template Strings**
@@ -570,7 +570,7 @@
     - If the display layout has a waterfall display, then this is also returned as "waterfallinsetbottom"/"waterfallinsettop"/"waterfallinsetleft"/"waterfallinsetright"
     - For more (including a sample project showing this functionality), see the issue
 
--**New Event Added For "Audio Playback Has Ended"**
+- **New Event Added For "Audio Playback Has Ended"**
     - A new "Audio Playback Ended" event has been added so you can know when a sound has finished playback and then respond however you need to
 
 - **Arrays: Copy-On-Write Behaviour Changes**
@@ -842,7 +842,7 @@
     - `audio_group_get_assets()` returns an array containing all of the asset IDs in the specified audio group
     - `audio_play_sound_ext()` can now be called to control pitch, gain, offset, and listener mask immediately via the struct you pass in
     - `audio_sound_get_audio_group()` returns the audio group index that the sound belongs to
-- `buffer_get_used_size()` returns the actual usage size of the specified buffer, so you can see how much space is left in your buffer, etc. [#9298](https://github.com/YoYoGames/GameMaker-Bugs/issues/9298)
+    - `buffer_get_used_size()` returns the actual usage size of the specified buffer, so you can see how much space is left in your buffer, etc. [#9298](https://github.com/YoYoGames/GameMaker-Bugs/issues/9298)
     - `display_get_frequency()` returns the frequency (or refresh rate) of the display that the game is being played on. It will return a real value as frames-per-second, so for example if your monitor is 60hz you will get 60, if it's running at 144hz then you will get 144, and so on.
     - `ds_grid_to_mp_grid()` converts a DS grid into an MP grid (You can also provide an optional predicate function argument to map the DS grid value to the corresponding MP grid value, and if you don't provide a predicate function, the conversion will treat zero values as empty and non-zero values as occupied)
     - `font_get_info()` now includes SDF status and information
@@ -1041,7 +1041,7 @@
 - Preferences: [Mac IDE] GM no longer goes unstable and crashes after setting .pem certificate values [#11415](https://github.com/YoYoGames/GameMaker-Bugs/issues/11415)
 - Preferences: GM no longer crashes when changing Build Cache and Temp directory paths and then resetting to defaults
 - Preferences: GM no longer crashes when setting the IDE Font value to certain MS Gothic fonts
-- Preferences: GM no longer goes unstable if you type a pipe character "|" into any file path picker
+- Preferences: GM no longer goes unstable if you type a pipe character into any file path picker
 - Project Import: GM no longer crashes when extracting a .zip with non-ascii characters in the filename [#9578](https://github.com/YoYoGames/GameMaker-Bugs/issues/9578)
 - Project Import: Fixed a GM hang when cancelling opening a .yyz file [#11757](https://github.com/YoYoGames/GameMaker-Bugs/issues/11757)
 - Project Load: Fixed a GM crash when loading tile data which has somehow been set to zero height/width values [#12020](https://github.com/YoYoGames/GameMaker-Bugs/issues/12020)
