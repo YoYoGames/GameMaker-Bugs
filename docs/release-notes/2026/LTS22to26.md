@@ -1276,7 +1276,7 @@
 - Feather: Addressed restoring default Message Severity settings in Preferences causing a loop of "analysing" the attached project [#12920](https://github.com/YoYoGames/GameMaker-Bugs/issues/12920)
 - Feather: Anonymous functions assigned inside anonymous structs no longer show unexpected type-reassignment warning and now return the expected type of "Struct"
 - Feather: Anonymous functions declared in another function's parameter initialisation are now found correctly whenever referenced elsewhere in your code
-- Feather: arg[0]() is no longer incorrectly treated inside functions as type "Function" instead of "Array"
+- Feather: arg[0] is no longer incorrectly treated inside functions as type "Function" instead of "Array"
 - Feather: argument[i] is no longer incorrectly treated inside functions as "Real" rather than "Array"
 - Feather: ArgumentIdentity variables passed to functions now promote their types from the parameter type
 - Feather: Auto-complete list ordering now elevates recently-used matching identifiers to the top of the list, so you can pick them again more quickly
@@ -1284,7 +1284,7 @@
 - Feather: Auto-complete now shows member variables for instances when called using the format "inst_NNNN."
 - Feather: Auto-complete now works for 'id'
 - Feather: Auto-complete now works for enum members
-- Feather: Auto-complete now works for the dot operator after collection indexing (e.g. myArray[0].x, myList[| 0]., etc)
+- Feather: Auto-complete now works for the dot operator after collection indexing (e.g. `myArray[0].x, myList[| 0].x`, etc)
 - Feather: Auto-complete now works for the dot operator after function calls (e.g. `randomPosition()`.x)
 - Feather: Auto-complete now works reliably when inside constructor functions
 - Feather: Auto-complete now works with macros
@@ -1337,12 +1337,12 @@
 - Feather: Fixed multiple issues with interpreting arrays or structs created from passing an array into "new", such as that a Collection Type's Element Type was not promoted for arithmetic and binary infix operators
 - Feather: Fixed some instances of incorrectly flagging arguments as "non-existent asset" in multiple edge cases
 - Feather: Fixed some instances of project freezes when renaming an asset or very poor typing performance within large projects
-- Feather: Fixed that "`FEATHERHINT`" is apparently now a reserved name to Feather, breaking my macro [#12666](https://github.com/YoYoGames/GameMaker-Bugs/issues/12666)
+- Feather: Fixed that "FEATHERHINT" was briefly a reserved name, breaking macros [#12666](https://github.com/YoYoGames/GameMaker-Bugs/issues/12666)
 - Feather: Fixed that a Function declared inside a Function would incorrectly use the Instance Variable naming rule
 - Feather: Fixed that array variables were frequently mangled and their types were incorrectly detected
 - Feather: Fixed that auto-complete often showed non-existent variables on 'self'
 - Feather: Fixed that certain sprite sizes will extend beyond the 'Resource' column in the Feather Messages dock
-- Feather: Fixed that comparison with singular equal sign gave an error when combined with ||, &&, or ^^
+- Feather: Fixed that comparison with singular equal sign gave an error when combined with `||`, `&&`, or `^^`
 - Feather: Fixed that comparisons of Constant.* to Any* correctly inferred the type but still incorrectly warned of type promotion
 - Feather: Fixed that cyclically-recursive macros were not flagged as an error
 - Feather: Fixed that enums were previously considered as structs
@@ -2087,7 +2087,7 @@
 - Building Projects: Attached project no longer fails during AssetCompiler pre-processing, with "Link-hosting resource instance is not linked to its GMProject" [#13912](https://github.com/YoYoGames/GameMaker-Bugs/issues/13912)
 - Building Projects: Builds no longer fail if the project only contains a single object with an overridden sprite in the room [#13763](https://github.com/YoYoGames/GameMaker-Bugs/issues/13763)
 - Building Projects: Calling a member function which has the same name as a global function no longer causes a compile error [#11783](https://github.com/YoYoGames/GameMaker-Bugs/issues/11783)
-- Building Projects: Code such as "`MyStruct()`.a++;" no longer gives unexpected compiler errors
+- Building Projects: Code such as `MyStruct().a++;` no longer gives unexpected compiler errors
 - Building Projects: Compiler log no longer writes a redundant message for an unrecognised type tag for old Xbox One options
 - Building Projects: Compiler should now be much faster and no longer stay on "Found Project Format 2" lines in the Output Windows for any projects containing lots of tile slots in rooms [see the tile-encoding change mentioned higher up]
 - Building Projects: Crashlytics GML extension no longer causes a fail [#10542](https://github.com/YoYoGames/GameMaker-Bugs/issues/10542)
@@ -2144,7 +2144,7 @@
 - Building Projects: Updated all Android tool chain path checks to match folder structure changes in NDK 23+ installs
 - Building Projects: Using a function as a grid accessor and not passing its argument now results in a compiler error [#7998](https://github.com/YoYoGames/GameMaker-Bugs/issues/7998) / [#7799](https://github.com/YoYoGames/GameMaker-Bugs/issues/7799)
 - Building Projects: Using a template string in a String type Variable Definition causes a compile error [#13487](https://github.com/YoYoGames/GameMaker-Bugs/issues/13487)
-- Building Projects: Using the syntax "function.property" and attempting to modify a static for that function was previously treated as read-only and so would cause a compiler error about this, but you are now able to set values via this syntax (i.e., `function_name.property = 1;` now does the same thing has if you'd typed `static_get(function_name)`.property = 1;`)
+- Building Projects: Using the syntax "function.property" and attempting to modify a static for that function was previously treated as read-only and so would cause a compiler error about this, but you are now able to set values via this syntax (i.e., `function_name.property = 1;` now does the same thing has if you'd typed `static_get(function_name).property = 1;`)
 - Building Projects: Variable Definitions that contain a comma to declare two vars at once no longer fails [#12415](https://github.com/YoYoGames/GameMaker-Bugs/issues/12415)
 - Building Projects: Windows ARM devices are now able to run the attached sample project [#12387](https://github.com/YoYoGames/GameMaker-Bugs/issues/12387)
 - Command Line Builds: Fixed a licensing error within Igor which could have given "Unable to obtain permission to execute" when not using the IDE
@@ -2246,7 +2246,6 @@
 - Building Projects: [Ubuntu] Compiling from Windows/Mac IDEs to Ubuntu no longer fails when Wayland is in use
 - Building Projects: [Ubuntu] GM will now unpack the AppImage before launching the game, which stops issues with extensions
 - Building Projects: [Ubuntu] Now able to build projects successfully when targeting a 22.04 LTS machine, as the "Permission denied (publickey)" 22.04 gave has now been fixed [20.04 LTS remains our suggested dev platform for now anyway]
-- Building Projects: [Ubuntu] Runs no longer fail if using Ubuntu 18.04 due to unshare's "-R" flag not being a supported command on that old OS version [the -R is not used if building for 18]
 - Building Projects: [VM] Can no longer compile out-of-context `break;` statements by putting them inside a method declared in a `with()` statement [#12953](https://github.com/YoYoGames/GameMaker-Bugs/issues/12953)
 - Building Projects: [WASM GMRT] "Save locally as .zip" export no longer incorrectly uses GMS2 runtimes to do the build [#10970](https://github.com/YoYoGames/GameMaker-Bugs/issues/10970)
 - Building Projects: [Windows IDE] iOS extension app delegate class names are now correctly maintained during the build
