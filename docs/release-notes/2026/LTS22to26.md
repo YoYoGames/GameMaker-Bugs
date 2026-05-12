@@ -808,12 +808,6 @@
     - `texturegroup_delete()` deletes it again when you're done with that group [#10678](https://github.com/YoYoGames/GameMaker-Bugs/issues/10678)
     - Also fixed that `texturegroup_add()` used to allow multiple texture groups to be added with the same name [#10921](https://github.com/YoYoGames/GameMaker-Bugs/issues/10921)
 
-- **Time Sources**
-    - Time sources are kind of like "alarms which are not tied to an Object" - instead, they are generic timers, of which any number can exist, and which will expire after a given period (expressed in either seconds or game frames)
-    - Various functions have been added so you can start, stop, pause, resume, restart, reconfigure, and destroy time sources - so please do see the manual for all the info on these
-    - You can also specify whether a time source should repeat and how many times (including indefinitely) and at any time query the current status of a given time source
-    - Note that chained time sources tick all sources before any are actually processed, which is a big difference versus chained alarms (alarms will continue to fire each alarm as they are encountered, like they have always done, as it could break a lot of games if we changed this long-time behaviour)
-
 - **WebSockets: New Additions**
     - Secure sockets are now supported on all platforms except for GX.games
         - `network_create_socket()` now supports a new Secure WebSockets type "network_socket_wss" which you can then use with `network_connect()` to connect to a secure socket
