@@ -62,7 +62,6 @@ jobs:
             "$ISSUE_NUMBER" \
             "PVT_kwDOAFV58c4AUHyf")
 
-          echo "item_id=$ITEM_ID" >> $GITHUB_OUTPUT
 
           echo "Found item id: $ITEM_ID"
 
