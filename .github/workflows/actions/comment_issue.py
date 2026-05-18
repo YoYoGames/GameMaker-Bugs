@@ -20,7 +20,11 @@ STATUS_FIELD_NAME = "Status"
 TARGET_URL = "https://api.gamemaker.io/api/github/downloads/"
 
 GRAPHQL_URL = "https://api.github.com/graphql"
-HEADERS = {"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"}
+HEADERS = {
+    "Authorization": f"Bearer {GITHUB_TOKEN}",
+    "Content-Type": "application/json",
+    "Accept": "application/vnd.github+json",
+}
 
 if not all([GITHUB_TOKEN, ORG, REPO, COMMENT_BODY, ISSUE_NUMBER]):
     sys.exit("❌ Missing required environment variables")

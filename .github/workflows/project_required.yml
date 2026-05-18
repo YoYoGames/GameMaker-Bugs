@@ -1,4 +1,4 @@
-name: Ask for project
+name: Project Required
 
 on:
   issues:
@@ -22,10 +22,17 @@ jobs:
           echo "Triggered label: ${{ github.event.label.name }}"
           echo "Issue number: ${{ github.event.issue.number }}"
 
+      - name: Generate App token to publish CI check
+        uses: actions/create-github-app-token@v2
+        id: generate-token
+        with:
+            app-id: ${{ secrets.AUTOMATON_APP_ID }}
+            private-key: ${{ secrets.AUTOMATON_PRIVATE_KEY }}              
+
       - name: Check if comment already exists
         id: check_comment
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           NUMBER: ${{ github.event.issue.number }}
         run: |
           EXISTING=$(gh issue view "$NUMBER" --json comments \
@@ -36,7 +43,7 @@ jobs:
       - name: Add comment
         if: steps.check_comment.outputs.exists == '0'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           NUMBER: ${{ github.event.issue.number }}
         run: |
           gh issue comment "$NUMBER" --body "$(cat <<'EOF'
@@ -55,7 +62,7 @@ jobs:
       - name: Get project item id for this issue
         id: get_item
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           ITEM_ID=$(python .github/workflows/actions/get_node_id.py \
@@ -68,7 +75,7 @@ jobs:
       - name: Add to backlog
         if: steps.get_item.outputs.item_id != ''
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           gh project item-edit \
             --id "${{ steps.get_item.outputs.item_id }}" \
@@ -78,7 +85,7 @@ jobs:
 
       - name: Remove project_required label
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           NUMBER: ${{ github.event.issue.number }}
           LABEL: ${{ github.event.label.name }}
         run: |
