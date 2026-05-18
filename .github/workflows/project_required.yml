@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   add-comment:
-    if: github.event.label.name == 'project required'
+    if: github.event.label.name == 'project_required'
     runs-on: ubuntu-latest
 
     steps:
