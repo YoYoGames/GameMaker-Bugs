@@ -24,7 +24,7 @@ jobs:
             app-id: ${{ secrets.AUTOMATON_APP_ID }}
             private-key: ${{ secrets.AUTOMATON_PRIVATE_KEY }}    
             owner: YoYoGames
-            repositories: ${{ github.repository }}
+            repositories: GameMaker-Bugs
       
       - name: Run the Script
         env:
