@@ -5,9 +5,20 @@ layout: home
 
 <br/>
 
+## {% include inline_image.html file="lts.jpg" max-width="26" margin-bottom="-6" %} LTS
+
+LTS2026 is the version that we recommend everyone should use nowadays.
+
+Long Term Support means very few new features are ever added and it only gets critical bug fixes each time there is an update (which is very infrequent - if you want frequent updates, install the Beta also).
+
+#### [2026.0.0](\release-notes\2026\0) - May 2026
+#### [2022.0.3](\release-notes\2022\0) - November 2024
+
+<br/>
+
 ## {% include inline_image.html file="monthly.jpg" max-width="26" margin-bottom="-6" %} Monthly
 
-Released _roughly_ every other month up until the end of 2024, much slower since then. Always intended to be stable, but may have the odd lower-severity issue.
+Now replaced by the LTS2026 version linked above already, but prior to May 2026 these were released _roughly_ every other month (hence the name) up until the end of 2024 and much slower between 2025 and mid-2026. Always intended to be stable, but may have the odd lower-severity issue.
 
 #### [2024.14.4](\release-notes\2024\14_4) - 2024.14 releases are October 2025 onwards
 #### [2024.13.1](\release-notes\2024\13) - April 2025
@@ -21,21 +32,13 @@ Released _roughly_ every other month up until the end of 2024, much slower since
 
 <br/>
 
-## {% include inline_image.html file="lts.jpg" max-width="26" margin-bottom="-6" %} LTS
-
-Long Term Stable means very few new features are ever added and it only gets critical bug fixes each time there is an update (which is very infrequent).
-
-#### [2022.0.3](\release-notes\2022\0) - November 2024
-
-<br/>
-
 ## {% include inline_image.html file="beta.jpg" max-width="26" margin-bottom="-6" %} Beta
 
 Most up-to-date version and released very frequently, so you can get the newest features and fixes ASAP - but accordingly these releases _will_ contain bugs, so please do report any you find!
 
 We only recommend using the latest series of Betas (shown below) - if you need to stay on older Betas for some reason, then we would suggest just using the applicable Monthly instead of your Beta install.
 
-#### [2024.1400.5](\release-notes\2026\1400_5) - April 2026 onwards
+#### [2024.1400.5](\release-notes\2026\1400_5) - April 2026 onwards (became LTS 2026.0)
 
 <br/>
 
