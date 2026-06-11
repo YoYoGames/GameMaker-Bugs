@@ -26,7 +26,7 @@ These features are incomplete, lots of work is still to be done but we are very 
             - Cameras, Lighting and Environment settings
     - The full list of functions, attributes and struct information can be found in the GM3D_API.md file inside the example project
 
-- **Android Target**
+- **Android Target (aarch64 only for now)**
     - This [guide](https://gamemaker.io/en/help/articles/setting-up-for-android) still applies, but it is important to note that you require different SDK values
         - Android SDK 35 (android 15) follow the setup guide for how to use Android Studio to install Android SDKs / NDKs
         - Android NDK - 28.2.13676358
