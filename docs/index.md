@@ -46,6 +46,8 @@ We only recommend using the latest series of Betas (shown below) - if you need t
 
 New runtimes currently in development, which will eventually replace all the "GMS2" targets you can see in the GameMaker IDE - but accordingly these releases _will_ contain bugs and may not support functionality you're using in your projects, so it's **essential** you read the release notes and all setup information before deciding if you want to take part in the GMRT beta and feedback process.
 
-Always use the latest version of GMRT (shown below) in conjunction with the latest Beta release (see above), as you should always have the newest fixes/changes before filing any issues.
+Always use the latest version of GMRT (shown below) in conjunction with the latest Beta or LTS2026 releases (see above), as you should always have the newest fixes/changes before filing any issues.
 
-#### [0.18](\release-notes\2025\GMRT_ms_18) - October 2025
+#### [0.20](\release-notes\2026\GMRT_MS_20) - June 2026
+
+<br/>
