@@ -7,7 +7,7 @@ Here you can also suggest, request, and vote on new features for the GameMaker I
 <br>
 
 > [!IMPORTANT]
-> If your problem is to do with signing-in or not seeing your correct platforms in Target Manager (even after signing-out and in again), our setup guides, then please continue to contact our customer services team in the usual manner.
+> If your problem is to do with signing-in or not seeing your correct platforms in Target Manager (even after signing-out and in again), or our helpdesk guides at [help.gamemaker.io](), then please continue to contact our customer services team in the usual manner.
 > 
 > If your issue is anything to do with console support, then the consoles have their own dedicated bug databases, so do not report things here - either use the IDE to send your report or open the correct repositiory using the information you were provided.
 > 
@@ -22,11 +22,11 @@ Below we will quickly cover the essentials, but for all the detailed info on all
 
 ## 1. Update GameMaker If Required, Check Your Logs!
 
-If you're not on the current monthly release (at least - remember Betas are available also), then **do not** report something until you have updated GameMaker first and ensured the problem is not fixed already.
-
-**This includes LTS users - please check the current Monthly/Beta first!**
+If you're not on the current LTS 2026 release (at least - remember Betas are available also), then **do not** report something until you have installed the latest GameMaker release and ensured the problem is not fixed already.
 
 Also, always check your logs for GameMaker to see if they tell you this is a machine setup issue, tools mismatch, or even user-error. [More on how to do this can be found here.](https://github.com/YoYoGames/GameMaker-Bugs/wiki/Bugs-Overview#review-gamemakers-log-files)
+
+**LTS 2022 / 2024.14 users:** Your GameMaker version is now well behind the current release and so is not supported - do not report bugs from these old releases. You should follow the advice above instead.
 
 <br />
 
@@ -56,9 +56,9 @@ Whether you're using the website or the IDE to report your issue, please strongl
 
 ## Feature Request Process 
 
-All new GameMaker Feature Requests are regularly reviewed by a multidisciplinary team here at Gamemaker, with all aspects taken into consideration. We curate requests carefully and will evaluate your request in terms of its possibility, difficulty, usability, and value to GameMaker. Once a request has been reviewed it will either be rejected with a reason why or it will be added to the backlog, where anyone can vote on features by leaving a thumbs up or thumbs down. Votes will be periodically reviewed and, when it fits with our schedule, popular and useful features will be added to GameMaker.
+All new GameMaker Feature Requests are regularly reviewed by a multidisciplinary team here at Gamemaker, with all aspects taken into consideration. We curate requests carefully and will evaluate your request in terms of its possibility, difficulty, usability, and value to GameMaker. Once a request has been reviewed it will either be rejected with a reason why or it will be added to the backlog, where anyone can vote on features by leaving a thumbs up or thumbs down. Votes will be periodically reviewed and, when it fits with our schedule, popular and useful features will be added to GameMaker - _please note that you may not have advanced notification of your request being worked on, but it will be closed once it has been added to GameMaker._
 
-_Please note that you may not have advanced notification of your request being worked on, but it will be closed once it has been added to GameMaker._
+**Ensure that any feature requests you add only talk about 1 specific change at a time and that they contain plenty of detail about what you want from the change, otherwise they will simply be rejected immediately.**
 
 We thank you for your feedback!
 
