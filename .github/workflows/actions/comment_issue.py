@@ -74,17 +74,21 @@ project_label_id = next((l["id"] for l in all_labels if l["name"] == "project"),
 if not project_label_id:
     sys.exit("❌ 'project' label not found in repository")
 
-update_labels_mutation = gql(
+add_label_mutation = gql(
     """
     mutation ($issueId: ID!, $labelIds: [ID!]!) {
-      updateIssue(input: {id: $issueId, labelIds: $labelIds}) {
-        issue { id }
+      addLabelsToLabelable(input: {labelableId: $issueId, labelIds: $labelIds}) {
+        labelable {
+          ... on Issue {
+            id
+          }
+        }
       }
     }
     """,
     {"issueId": issue_node_id, "labelIds": [project_label_id]},
 )
-print(f"✅ Updated labels for issue #{ISSUE_NUMBER}: ['project']")
+print(f"Updated labels for issue #{ISSUE_NUMBER}: added 'project'")
 
 project_data = gql(
     """
