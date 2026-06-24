@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Generate App token to publish CI check
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3.2.0
         id: generate-token
         with:
             app-id: ${{ secrets.AUTOMATON_APP_ID }}
