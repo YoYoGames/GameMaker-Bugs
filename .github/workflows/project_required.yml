@@ -87,6 +87,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           NUMBER: ${{ github.event.issue.number }}
-          LABEL: ${{ github.event.label.name }}
         run: |
-          gh issue edit "$NUMBER" --remove-label "$LABEL"
+          gh api \
+            --method DELETE \
+            "repos/${{ github.repository }}/issues/$NUMBER/labels/project_required"
