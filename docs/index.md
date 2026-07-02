@@ -38,7 +38,7 @@ Most up-to-date version and released very frequently, so you can get the newest 
 
 We only recommend using the latest series of Betas (shown below) - if you need to stay on older Betas for some reason, then we would suggest just using the applicable Monthly instead of your Beta install.
 
-#### [2024.1400.5](\release-notes\2026\1400_5) - April 2026 onwards (became LTS 2026.0)
+#### [2026.100](\release-notes\2026\100) - July 2026 onwards
 
 <br/>
 
