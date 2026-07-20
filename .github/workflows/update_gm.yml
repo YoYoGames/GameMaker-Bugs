@@ -1,0 +1,32 @@
+name: Update GameMaker Required Label
+
+on:
+  issues:
+    types:
+      - labeled
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  update-gm:
+    if: github.event.label.name == 'update_gm'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Generate App token
+        uses: actions/create-github-app-token@v3.2.0
+        id: generate-token
+        with:
+          client-id: ${{ secrets.AUTOMATON_APP_ID }}
+          private-key: ${{ secrets.AUTOMATON_PRIVATE_KEY }}
+
+      - name: Comment and close as Not Planned
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PROJECT_NUMBER: "17"
+        run: python .github/workflows/actions/update_gm_issue.py
