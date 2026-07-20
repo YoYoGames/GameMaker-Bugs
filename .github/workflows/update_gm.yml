@@ -38,6 +38,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PROJECT_AUTOMATION_TIMEOUT_SECONDS: "60"
           PROJECT_NUMBER: "17"
           UPDATE_GM_PHASE: finalise
         run: python .github/workflows/actions/update_gm_issue.py
