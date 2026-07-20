@@ -4,6 +4,7 @@
 import json
 import os
 import sys
+import time
 from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
@@ -221,6 +222,41 @@ def set_project_status(token, project_id, item_id, field_id, option_id):
     print("Set project Status to Not Planned")
 
 
+def get_project_status(token, item_id):
+    query = """
+    query($item: ID!) {
+      node(id: $item) {
+        ... on ProjectV2Item {
+          fieldValueByName(name: "Status") {
+            ... on ProjectV2ItemFieldSingleSelectValue { name }
+          }
+        }
+      }
+    }
+    """
+    data = graphql(token, query, {"item": item_id})
+    item = data.get("node")
+    if not item:
+        raise RuntimeError(f"Project item {item_id} was not found")
+    status = item.get("fieldValueByName")
+    return status.get("name") if status else None
+
+
+def wait_for_project_status(token, item_id, target_status, timeout_seconds=60):
+    """Wait for GitHub's asynchronous Project automation to finish its update."""
+    deadline = time.monotonic() + timeout_seconds
+    while True:
+        current_status = get_project_status(token, item_id)
+        print(f"Current project Status: {current_status or '(unset)'}")
+        if (current_status or "").casefold() == target_status.casefold():
+            return True
+
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            return False
+        time.sleep(min(5, remaining))
+
+
 def close_as_not_planned(token, repository, issue_number):
     issue_url = f"{API_URL}/repos/{repository}/issues/{issue_number}"
 
@@ -264,8 +300,11 @@ def main():
     repository = os.getenv("GITHUB_REPOSITORY", "YoYoGames/GameMaker-Bugs")
     issue_number_text = os.getenv("ISSUE_NUMBER")
     project_number_text = os.getenv("PROJECT_NUMBER", "17")
+    phase = os.getenv("UPDATE_GM_PHASE", "all")
     if not token or not issue_number_text:
         sys.exit("Missing GH_TOKEN or ISSUE_NUMBER")
+    if phase not in {"all", "close", "finalise"}:
+        sys.exit(f"Invalid UPDATE_GM_PHASE: {phase}")
 
     try:
         owner, repository_name = repository.split("/", 1)
@@ -274,17 +313,23 @@ def main():
     except ValueError as error:
         sys.exit(f"Invalid repository, issue number, or project number: {error}")
 
-    if not comment_exists(token, repository, issue_number):
-        request(
-            token,
-            "POST",
-            f"{API_URL}/repos/{repository}/issues/{issue_number}/comments",
-            {"body": COMMENT_BODY},
-            expected=(201,),
-        )
-        print("Added update_gm comment")
-    else:
-        print("The update_gm comment already exists; skipping duplicate")
+    if phase in {"all", "close"}:
+        if not comment_exists(token, repository, issue_number):
+            request(
+                token,
+                "POST",
+                f"{API_URL}/repos/{repository}/issues/{issue_number}/comments",
+                {"body": COMMENT_BODY},
+                expected=(201,),
+            )
+            print("Added update_gm comment")
+        else:
+            print("The update_gm comment already exists; skipping duplicate")
+
+        close_as_not_planned(token, repository, issue_number)
+
+    if phase == "close":
+        return
 
     issue, project = get_issue_and_project(
         token, owner, repository_name, issue_number, project_number
@@ -292,8 +337,24 @@ def main():
     field_id, option_id = find_status_configuration(project)
     item_id = get_or_add_project_item(token, issue, project)
 
-    close_as_not_planned(token, repository, issue_number)
+    timeout_seconds = int(os.getenv("PROJECT_AUTOMATION_TIMEOUT_SECONDS", "60"))
+    if not wait_for_project_status(
+        token, item_id, "Done", timeout_seconds=timeout_seconds
+    ):
+        print(
+            "GitHub Project automation did not set Status to Done before the "
+            "timeout; applying the final status anyway"
+        )
+
     set_project_status(token, project["id"], item_id, field_id, option_id)
+
+    final_status = get_project_status(token, item_id)
+    if (final_status or "").casefold() != "not planned":
+        raise RuntimeError(
+            f"Project Status verification failed: expected Not Planned, got "
+            f"{final_status or '(unset)'}"
+        )
+    print("Verified final project Status is Not Planned")
 
     _, status = request(
         token,
