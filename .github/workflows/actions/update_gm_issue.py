@@ -221,24 +221,28 @@ def set_project_status(token, project_id, item_id, field_id, option_id):
     print("Set project Status to Not Planned")
 
 
-def close_as_not_planned(token, repository, issue_number, current_state, current_reason):
+def close_as_not_planned(token, repository, issue_number):
     issue_url = f"{API_URL}/repos/{repository}/issues/{issue_number}"
 
-    # Clearing the milestone separately makes the close-reason update unambiguous.
+    # Read the live state from this response so an issue already closed as
+    # completed is corrected before the final Project status update.
     issue, _ = request(token, "PATCH", issue_url, {"milestone": None})
     print("Cleared milestone")
 
-    if current_state == "CLOSED" and current_reason != "NOT_PLANNED":
+    current_state = issue.get("state")
+    current_reason = issue.get("state_reason")
+
+    if current_state == "closed" and current_reason != "not_planned":
         request(
             token,
             "PATCH",
             issue_url,
             {"state": "open", "state_reason": "reopened"},
         )
-        current_state = "OPEN"
+        current_state = "open"
         print("Reopened issue so its close reason can be corrected")
 
-    if current_state != "CLOSED":
+    if current_state != "closed":
         issue, _ = request(
             token,
             "PATCH",
@@ -287,15 +291,9 @@ def main():
     )
     field_id, option_id = find_status_configuration(project)
     item_id = get_or_add_project_item(token, issue, project)
-    set_project_status(token, project["id"], item_id, field_id, option_id)
 
-    close_as_not_planned(
-        token,
-        repository,
-        issue_number,
-        issue["state"],
-        issue.get("stateReason"),
-    )
+    close_as_not_planned(token, repository, issue_number)
+    set_project_status(token, project["id"], item_id, field_id, option_id)
 
     _, status = request(
         token,
