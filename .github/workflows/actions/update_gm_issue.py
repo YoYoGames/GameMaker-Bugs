@@ -264,8 +264,11 @@ def main():
     repository = os.getenv("GITHUB_REPOSITORY", "YoYoGames/GameMaker-Bugs")
     issue_number_text = os.getenv("ISSUE_NUMBER")
     project_number_text = os.getenv("PROJECT_NUMBER", "17")
+    phase = os.getenv("UPDATE_GM_PHASE", "all")
     if not token or not issue_number_text:
         sys.exit("Missing GH_TOKEN or ISSUE_NUMBER")
+    if phase not in {"all", "close", "finalise"}:
+        sys.exit(f"Invalid UPDATE_GM_PHASE: {phase}")
 
     try:
         owner, repository_name = repository.split("/", 1)
@@ -274,25 +277,29 @@ def main():
     except ValueError as error:
         sys.exit(f"Invalid repository, issue number, or project number: {error}")
 
-    if not comment_exists(token, repository, issue_number):
-        request(
-            token,
-            "POST",
-            f"{API_URL}/repos/{repository}/issues/{issue_number}/comments",
-            {"body": COMMENT_BODY},
-            expected=(201,),
-        )
-        print("Added update_gm comment")
-    else:
-        print("The update_gm comment already exists; skipping duplicate")
+    if phase in {"all", "close"}:
+        if not comment_exists(token, repository, issue_number):
+            request(
+                token,
+                "POST",
+                f"{API_URL}/repos/{repository}/issues/{issue_number}/comments",
+                {"body": COMMENT_BODY},
+                expected=(201,),
+            )
+            print("Added update_gm comment")
+        else:
+            print("The update_gm comment already exists; skipping duplicate")
+
+        close_as_not_planned(token, repository, issue_number)
+
+    if phase == "close":
+        return
 
     issue, project = get_issue_and_project(
         token, owner, repository_name, issue_number, project_number
     )
     field_id, option_id = find_status_configuration(project)
     item_id = get_or_add_project_item(token, issue, project)
-
-    close_as_not_planned(token, repository, issue_number)
     set_project_status(token, project["id"], item_id, field_id, option_id)
 
     _, status = request(
