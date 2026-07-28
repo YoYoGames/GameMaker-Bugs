@@ -13,7 +13,7 @@ GMRT is incomplete, lots of work is still to be done but we are very keen to get
 ### New GMRT Features Added
 
 - **ImGUI suite based on ImGM**
-    - You can get a sample project that shows the functions and usage, as well as the documentation from [here](https://github.com/YoYoGames/ImGUI-Sample_
+    - You can get a sample project that shows the functions and usage, as well as the documentation from [here](https://github.com/YoYoGames/ImGUI-Sample)
 	- Some highlights:
 		- Dockable windows
 		- Trees
