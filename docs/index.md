@@ -39,7 +39,7 @@ Always use the latest version of GMRT only (shown below) in conjunction with the
 
 These releases have all now been replaced by the LTS2026.0 version linked above already, so if you are using one of these old release please do install the newer LTS 2026 version instead. 
 
-#### [2024.14.4](\release-notes\2024\14_4) - 2024.14 releases are October 2025 onwards
+#### [2024.14.4](\release-notes\2024\14_4) - 2024.14 releases were October 2025 onwards
 #### [2024.13.1](\release-notes\2024\13) - April 2025
 #### [2022.0.3](\release-notes\2022\0) - November 2024
 #### [2024.11.0](\release-notes\2024\11) - November 2024
