@@ -24,6 +24,7 @@ GMRT is incomplete, lots of work is still to be done but we are very keen to get
 - **Shadowmapping**
 	- You can get a sample that shows the functions and usage, as well as the documentation from [here](https://github.com/YoYoGames/GM3D-Samples/tree/develop)
 		- Stable directional shadows for GM3D scenes, including support for static, skinned, and instanced meshes.
+	- Currently there is no in-IDE syntax help, so the functions will not be present in autocomplete and there will be no parameter help or syntax highlighting
 <br>
 
 
