@@ -5,29 +5,31 @@ layout: home
 
 [Setup and installation guide](https://github.com/YoYoGames/GMRT-Beta/blob/main/docs/introduction/GMRT-intro-and-setup-instructions.md)
 
-This version of GMRT brings with it some fixes, 3D Physics and shadowmapping. We strongly encourage you to upgrade to this version and try out any previously non-functioning projects you may have, as well as checking out some of the new features that have been included.
+This version of GMRT brings with it some fixes, 3D Physics and shadowmapping.
 
-GMRT is incomplete, lots of work is still to be done but we are very keen to get your opinions early to make sure things are on the right track as we go forward. Please report issues and improvements you would like to see on new features (or old)
+We strongly encourage you to upgrade to this version and try out any previously non-functioning projects you may have, as well as checking out some of the new features that have been included.
+
+GMRT is incomplete and lots of work is still to be done, but we are very keen to get your opinions early to make sure things are on the right track as we go forward - please report issues and suggest improvements you would like to see for the new features (and the old ones).
+
 <hr>
 
 ### New GMRT Features Added
 
 - **3D Physics**
-    - You can get a sample that shows the functions and usage, as well as the documentation from [here](https://github.com/YoYoGames/GM3D-Samples/tree/develop)
-	- This utilises [JoltPhysics](https://github.com/jrouwe/joltphysics)
+    - This utilises [JoltPhysics](https://github.com/jrouwe/joltphysics) and brings support for:
 		- Collisions
 		- Trigger shapes
 		- Rigid Bodies
-		- Vehicles		
+		- Vehicles
+    - You can get a sample that shows the functions and usage, as well as the documentation from [here](https://github.com/YoYoGames/GM3D-Samples/tree/develop)
     - Currently there is no in-IDE syntax help, so the functions will not be present in autocomplete and there will be no parameter help or syntax highlighting
     
 - **Shadowmapping**
+    - Stable directional shadows for GM3D scenes, including support for static, skinned, and instanced meshes.
 	- You can get a sample that shows the functions and usage, as well as the documentation from [here](https://github.com/YoYoGames/GM3D-Samples/tree/develop)
-		- Stable directional shadows for GM3D scenes, including support for static, skinned, and instanced meshes.
-	- Currently there is no in-IDE syntax help, so the functions will not be present in autocomplete and there will be no parameter help or syntax highlighting
+    - Currently there is no in-IDE syntax help, so the functions will not be present in autocomplete and there will be no parameter help or syntax highlighting
+
 <br>
-
-
 
 ### Known Incompatibilities with GMS2 runtimes
 
@@ -38,12 +40,12 @@ GMRT is incomplete, lots of work is still to be done but we are very keen to get
 - vertex_buffer_exists() / vertex_format_exists()
 - application_surface_is_draw_enabled()
 
-
 <br>
 
 ### Bugs Fixed
 
 Public Milestone Changelog is [HERE](https://github.com/YoYoGames/GameMaker-Bugs/issues?q=is%3Aissue%20milestone%3A%22GMRT%200.22.0%22) for the complete list.
+
 Some issues are detailed below:
 - [Android] Exiting an app from an Android device does not stop sound and no longer crashes afterwards [#15389](https://github.com/YoYoGames/GameMaker-Bugs/issues/15389)
 - Building Projects: [Android GMRT] is now able to run from Mac IDE when using v0.22.x [#15832](https://github.com/YoYoGames/GameMaker-Bugs/issues/15832)
