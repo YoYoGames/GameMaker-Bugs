@@ -11,6 +11,7 @@ LTS2026 is the version that we recommend everyone should use nowadays.
 
 Long Term Support means very few new features are ever added and it only gets critical bug fixes each time there is an update (which is very infrequent - if you want frequent updates, install the Beta also).
 
+#### [2026.1.0](\release-notes\2026\1) - Nov 2026
 #### [2026.0.0](\release-notes\2026\0) - May 2026
 
 <br/>
