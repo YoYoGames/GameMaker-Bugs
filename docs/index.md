@@ -11,8 +11,7 @@ LTS2026 is the version that we recommend everyone should use nowadays.
 
 Long Term Support means very few new features are ever added and it only gets critical bug fixes each time there is an update (which is very infrequent - if you want frequent updates, install the Beta also).
 
-#### [2026.1.0](\release-notes\2026\1) - Nov 2026
-#### [2026.0.0](\release-notes\2026\0) - May 2026
+#### [2026.1.1](\release-notes\2026\1) - Nov 2026
 
 <br/>
 
@@ -38,8 +37,9 @@ Always use the latest version of GMRT only (shown below) in conjunction with the
 
 ## Old Monthly And LTS 2022 Releases
 
-These releases have all now been replaced by the LTS2026.0 version linked above already, so if you are using one of these old release please do install the newer LTS 2026 version instead. 
+These releases have all now been replaced by the LTS2026.1 version linked above already, so if you are using one of these old releases please do remove it and install the current LTS 2026 version instead. 
 
+#### [2026.0.0](\release-notes\2026\0) - May 2026
 #### [2024.14.4](\release-notes\2024\14_4) - 2024.14 releases were October 2025 onwards
 #### [2024.13.1](\release-notes\2024\13) - April 2025
 #### [2022.0.3](\release-notes\2022\0) - November 2024
